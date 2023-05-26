@@ -15,11 +15,11 @@ class _SplashpageState extends State<Splashpage> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Login(),
+            builder: (context) => const Login(),
           ));
     });
   }
