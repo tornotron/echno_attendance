@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/logo/2.png
     - assets/logo/3.png
+    - assets/logo/footer.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -80,17 +81,24 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: TT Chocolates
+      fonts:
+        - asset: assets/fonts/TT Chocolates Bold Italic.otf
+        - asset: assets/fonts/TT Chocolates Bold.otf
+        - asset: assets/fonts/TT Chocolates DemiBold Italic.otf
+        - asset: assets/fonts/TT Chocolates DemiBold.otf
+        - asset: assets/fonts/TT Chocolates ExtraBold Italic.otf
+        - asset: assets/fonts/TT Chocolates ExtraBold.otf
+        - asset: assets/fonts/TT Chocolates ExtraLight Italic.otf
+        - asset: assets/fonts/TT Chocolates ExtraLight.otf
+        - asset: assets/fonts/TT Chocolates Italic.otf
+        - asset: assets/fonts/TT Chocolates Light Italic.otf
+        - asset: assets/fonts/TT Chocolates Light.otf
+        - asset: assets/fonts/TT Chocolates Medium Italic.otf
+        - asset: assets/fonts/TT Chocolates Medium.otf
+        - asset: assets/fonts/TT Chocolates Regular.otf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
