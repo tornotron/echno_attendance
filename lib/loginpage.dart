@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:echno_attendance/reusable widgets/login_field.dart';
+import 'package:echno_attendance/reusable widgets/elevated_button.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -58,6 +59,15 @@ class Login extends StatelessWidget {
                       height: 30,
                     ),
                     const LoginField(hint: 'Password'),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const LoginButton(
+                      buttonName: 'Login',
+                    ),
+                    const SizedBox(
+                      height: 110,
+                    )
                   ],
                 ),
               ),
