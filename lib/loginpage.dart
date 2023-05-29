@@ -64,6 +64,7 @@ class Login extends StatelessWidget {
                     ),
                     const LoginButton(
                       buttonName: 'Login',
+                      buttonRadius: 15,
                     ),
                     const SizedBox(
                       height: 110,
