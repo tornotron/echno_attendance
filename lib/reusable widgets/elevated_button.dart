@@ -2,23 +2,34 @@ import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
   final String buttonName;
-  const LoginButton({super.key, required this.buttonName});
+  final double buttonWidth;
+  final double buttonRadius;
+
+  const LoginButton({
+    super.key,
+    required this.buttonName,
+    this.buttonWidth = 300,
+    required this.buttonRadius,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(300, 50),
-        backgroundColor: Color(0xFF004AAD),
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
+    return SizedBox(
+      width: buttonWidth,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(300, 50),
+          backgroundColor: const Color(0xFF004AAD),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(buttonRadius),
+            ),
           ),
         ),
+        onPressed: () {},
+        child: Text(buttonName),
       ),
-      onPressed: () {},
-      child: Text(buttonName),
     );
   }
 }
