@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatelessWidget {
   final String appbarUserName;
@@ -10,6 +11,8 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarColor: Color(0xFF004AAD)),
           leading: const Icon(
             Icons.account_circle_rounded,
             size: 35,
