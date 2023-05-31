@@ -24,6 +24,9 @@ class HomePage extends StatelessWidget {
                     fontWeight: FontWeight.w700),
               ),
             ),
+            SizedBox(
+              width: 10,
+            )
           ],
           backgroundColor: const Color(0xFF004AAD),
         ),
