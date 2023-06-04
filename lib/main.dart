@@ -1,7 +1,8 @@
+import 'package:echno_attendance/echno.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const EchnoApp());
 }
 
 class MyApp extends StatelessWidget {
