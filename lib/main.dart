@@ -2,6 +2,8 @@ import 'package:echno_attendance/echno.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // Initialize Firebase and the Flutter app.
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const EchnoApp());
 }
 
