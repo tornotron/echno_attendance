@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "735079555774",
+    "project_id": "echno-attendance-project",
+    "storage_bucket": "echno-attendance-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735079555774:android:9fa1f1d3c6ca6dfe0a34ef",
+        "android_client_info": {
+          "package_name": "com.example.echno_attendance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735079555774-urj3vvbh25utkjp1mniqs2qn54hj1mjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF6u0IujY_YgQIXiiguV1wTTLyePYgeYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735079555774-urj3vvbh25utkjp1mniqs2qn54hj1mjm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "735079555774-1t2kleba7tb7ah3evl8q3l9vkjcar0kc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.echnoAttendance"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
