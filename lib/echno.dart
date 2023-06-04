@@ -51,42 +51,46 @@ class _EchnoHomePageState extends State<EchnoHomePage> {
       appBar: AppBar(
         title: const Text('Echno'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _emailController,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-            ),
-          ),
-          TextField(
-            controller: _passwordController,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-            ),
-          ),
-          TextButton(
-            onPressed: () async {
-              await Firebase.initializeApp(
-                options: DefaultFirebaseOptions.currentPlatform,
-              );
-              final email = _emailController.text;
-              final password = _passwordController.text;
-              final userCredential =
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: email,
-                password: password,
-              );
-              print(userCredential);
-            },
-            child: const Text('Register'),
-          ),
-        ],
+      body: FutureBuilder(
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              TextField(
+                controller: _emailController,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                ),
+              ),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final email = _emailController.text;
+                  final password = _passwordController.text;
+                  final userCredential = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                  );
+                  print(userCredential);
+                },
+                child: const Text('Register'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
