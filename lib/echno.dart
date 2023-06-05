@@ -1,3 +1,5 @@
+import 'package:echno_attendance/screens/verify_email_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +43,13 @@ class _EchnoHomePageState extends State<EchnoHomePage> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
+              final user = FirebaseAuth.instance.currentUser;
+              if (user?.emailVerified ?? false) {
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (builder) => const VerifyEmailView(),
+                ));
+              }
               return const Center(
                 child: Text('Welcome to Echno!'),
               );
