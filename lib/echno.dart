@@ -1,3 +1,5 @@
+import 'package:echno_attendance/screens/login_screen.dart';
+import 'package:echno_attendance/screens/register_screen.dart';
 import 'package:echno_attendance/screens/verify_email_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +20,11 @@ class EchnoApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const EchnoHomePage(),
+      routes: {
+        '/login/': (context) => const LoginView(),
+        '/register/': (context) => const RegisterView(),
+        '/verify_email/': (context) => const VerifyEmailView(),
+      },
     );
   }
 }
