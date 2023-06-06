@@ -52,10 +52,15 @@ class _EchnoHomePageState extends State<EchnoHomePage> {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
               if (user?.emailVerified ?? false) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/login/',
+                  (route) => false,
+                );
               } else {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (builder) => const VerifyEmailView(),
-                ));
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/verify_email/',
+                  (route) => false,
+                );
               }
               return const Center(
                 child: Text('Welcome to Echno!'),
