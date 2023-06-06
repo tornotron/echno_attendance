@@ -39,39 +39,25 @@ class EchnoHomePage extends StatefulWidget {
 class _EchnoHomePageState extends State<EchnoHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Echno'),
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              if (user?.emailVerified ?? false) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/login/',
-                  (route) => false,
-                );
-              } else {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/verify_email/',
-                  (route) => false,
-                );
-              }
-              return const Center(
-                child: Text('Welcome to Echno!'),
-              );
-            default:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-          }
-        },
-      ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            if (user?.emailVerified ?? false) {
+              return const LoginView();
+            } else {
+              return const VerifyEmailView();
+            }
+          default:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+        }
+      },
     );
   }
 }
