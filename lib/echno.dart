@@ -47,10 +47,14 @@ class _EchnoHomePageState extends State<EchnoHomePage> {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
             final user = FirebaseAuth.instance.currentUser;
-            if (user?.emailVerified ?? false) {
-              return const LoginView();
+            if (user != null) {
+              if (user.emailVerified) {
+                return const LoginView();
+              } else {
+                return const VerifyEmailView();
+              }
             } else {
-              return const VerifyEmailView();
+              return const Text("Welcome to Echno!");
             }
           default:
             return const Center(
