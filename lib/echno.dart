@@ -1,3 +1,4 @@
+import 'package:echno_attendance/screens/homepage_screen.dart';
 import 'package:echno_attendance/screens/login_screen.dart';
 import 'package:echno_attendance/screens/register_screen.dart';
 import 'package:echno_attendance/screens/verify_email_screen.dart';
@@ -49,12 +50,12 @@ class _EchnoHomePageState extends State<EchnoHomePage> {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               if (user.emailVerified) {
-                return const LoginView();
+                return const HomePageView();
               } else {
                 return const VerifyEmailView();
               }
             } else {
-              return const Text("Welcome to Echno!");
+              return const LoginView();
             }
           default:
             return const Center(
