@@ -1,3 +1,4 @@
+import 'package:echno_attendance/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/login/',
+                  loginRoute,
                   (route) => false,
                 );
               },
