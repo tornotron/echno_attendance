@@ -25,6 +25,7 @@ class EchnoApp extends StatelessWidget {
         '/login/': (context) => const LoginView(),
         '/register/': (context) => const RegisterView(),
         '/verify_email/': (context) => const VerifyEmailView(),
+        '/home/': (context) => const HomePageView(),
       },
     );
   }
