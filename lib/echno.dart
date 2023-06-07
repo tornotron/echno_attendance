@@ -1,3 +1,4 @@
+import 'package:echno_attendance/routes.dart';
 import 'package:echno_attendance/screens/homepage_screen.dart';
 import 'package:echno_attendance/screens/login_screen.dart';
 import 'package:echno_attendance/screens/register_screen.dart';
@@ -22,10 +23,10 @@ class EchnoApp extends StatelessWidget {
       ),
       home: const EchnoHomePage(),
       routes: {
-        '/login/': (context) => const LoginView(),
-        '/register/': (context) => const RegisterView(),
-        '/verify_email/': (context) => const VerifyEmailView(),
-        '/home/': (context) => const HomePageView(),
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
+        homeRoute: (context) => const HomePageView(),
       },
     );
   }
