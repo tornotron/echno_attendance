@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
@@ -18,8 +19,22 @@ class _HomePageViewState extends State<HomePageView> {
         title: const Text("Echno"),
         actions: [
           PopupMenuButton<MenuActions>(
-            onSelected: (value) {
-              devtools.log('Logged out!');
+            onSelected: (value) async {
+              switch (value) {
+                case MenuActions.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  if (shouldLogout) {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login/',
+                      (_) => false,
+                    );
+                    devtools.log('Logged out!');
+                  }
+                  break;
+                default:
+                  throw Exception("Unknown menu action: $value");
+              }
             },
             itemBuilder: (context) {
               return const [
@@ -37,4 +52,30 @@ class _HomePageViewState extends State<HomePageView> {
       ),
     );
   }
+}
+
+Future<bool> showLogOutDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Log out?"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text("Log out"),
+          ),
+        ],
+      );
+    },
+  ).then((value) => value ?? false);
 }
