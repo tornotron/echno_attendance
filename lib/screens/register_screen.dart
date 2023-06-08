@@ -68,12 +68,16 @@ class _RegisterViewState extends State<RegisterView> {
                       final email = _emailController.text;
                       final password = _passwordController.text;
                       try {
-                        final userCredential = await FirebaseAuth.instance
+                        await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                           email: email,
                           password: password,
                         );
-                        devtools.log(userCredential.toString());
+                        Navigator.of(context).pushNamed(
+                          verifyEmailRoute,
+                        );
+                        final user = FirebaseAuth.instance.currentUser;
+                        await user?.sendEmailVerification();
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           devtools.log('The password provided is too weak.');

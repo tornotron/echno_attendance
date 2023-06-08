@@ -20,7 +20,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Please verify your email address'),
+            const Text(
+                'We have send a verification email, please check your inbox'),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
