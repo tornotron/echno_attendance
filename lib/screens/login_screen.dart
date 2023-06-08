@@ -1,5 +1,6 @@
 import 'package:echno_attendance/firebase_options.dart';
 import 'package:echno_attendance/routes.dart';
+import 'package:echno_attendance/utilities/show_error_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -79,13 +80,30 @@ class _LoginViewState extends State<LoginView> {
                         devtools.log(userCredential.toString());
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
+                          await showErrorDialog(
+                            context,
+                            'User not found',
+                          );
                           devtools.log('No user found for that email.');
                         } else if (e.code == 'wrong-password') {
+                          await showErrorDialog(
+                            context,
+                            'Wrong credentials',
+                          );
                           devtools
                               .log('Wrong password provided for that user.');
+                        } else {
+                          await showErrorDialog(
+                            context,
+                            'Error: ${e.code}',
+                          );
                         }
                       } catch (e) {
                         devtools.log(e.runtimeType.toString());
+                        await showErrorDialog(
+                          context,
+                          'Error: ${e.toString()}',
+                        );
                       }
                     },
                     child: const Text('Login'),
