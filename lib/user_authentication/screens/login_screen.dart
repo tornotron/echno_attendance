@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/user_authentication/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -43,6 +44,43 @@ class LoginScreen extends StatelessWidget {
                       ),
 
                       /*---------- Login Header End ----------*/
+
+                      /*---------- Login Form Start ----------*/
+
+                      const SizedBox(height: 50.0),
+                      Form(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFormField(
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                maxLines: 1,
+                                decoration: InputDecoration(
+                                  // filled: true,
+                                  // fillColor:
+                                  // const Color.fromARGB(255, 214, 214, 214),
+                                  prefixIcon:
+                                      const Icon(Icons.person_outline_outlined),
+                                  labelText: 'Email ID',
+                                  hintText: 'E-Mail',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 15.0),
+                              const PasswordTextField(
+                                labelText: 'Password',
+                                hintText: 'Password',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
