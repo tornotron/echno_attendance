@@ -29,4 +29,28 @@ class EchnoCustomTheme {
     outlinedButtonTheme: EchnoOutlinedButtonTheme.lightOutlinedButtonTheme,
     elevatedButtonTheme: EchnoElevatedButtonTheme.lightElevatedButtonTheme,
   );
+
+  /*-- Dark Theme Data --*/
+
+  static ThemeData darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    primarySwatch: const MaterialColor(
+      0xFF38B6FF,
+      <int, Color>{
+        50: Color(0xFFE4EFF8),
+        100: Color(0xFFC9E7FA),
+        200: Color(0xFFB4E3F6),
+        300: Color(0xFF9FE0F2),
+        400: Color(0xFF8ADEF8),
+        500: Color(0xFF77D9F4),
+        600: Color(0xFF63D5F0),
+        700: Color(0xFF4FD1ED),
+        800: Color(0xFF3BDDE9),
+        900: Color(0xFF29C9E5),
+      },
+    ),
+    textTheme: EchnoTextTheme.darkTextTheme,
+    outlinedButtonTheme: EchnoOutlinedButtonTheme.darkOutlinedButtonTheme,
+    elevatedButtonTheme: EchnoElevatedButtonTheme.darkElevatedButtonTheme,
+  );
 }
