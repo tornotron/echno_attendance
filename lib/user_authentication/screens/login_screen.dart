@@ -77,6 +77,40 @@ class LoginScreen extends StatelessWidget {
                                 labelText: 'Password',
                                 hintText: 'Password',
                               ),
+
+                              /*---------- Login Form End ----------*/
+
+                              /*---------- Login Form Buttons Start ----------*/
+
+                              const SizedBox(height: 10.0),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'Forgot Password ?',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontFamily: 'TT Chocolates',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'LOGIN',
+                                    style: TextStyle(
+                                        fontSize: 17.0,
+                                        fontFamily: 'TT Chocolates'),
+                                  ),
+                                ),
+                              ),
+
+                              /*---------- Login Form Buttons End ----------*/
                             ],
                           ),
                         ),
