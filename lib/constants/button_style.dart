@@ -28,3 +28,33 @@ class EchnoOutlinedButtonTheme {
     ),
   );
 }
+
+class EchnoElevatedButtonTheme {
+  EchnoElevatedButtonTheme._();
+
+//Light
+  static final lightElevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      elevation: 0,
+      minimumSize: const Size(300, 50),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      foregroundColor: whiteColor,
+      side: const BorderSide(color: echnoLogoColor),
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+    ),
+  );
+
+  static final darkElevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      elevation: 0,
+      minimumSize: const Size(300, 50),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      foregroundColor: whiteColor,
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+    ),
+  );
+}
