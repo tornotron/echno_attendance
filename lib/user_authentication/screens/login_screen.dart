@@ -115,6 +115,51 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+
+                      /*---------- Login Screen Footer Start ----------*/
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text('OR'),
+                          const SizedBox(height: 10.0),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                                icon: SvgPicture.asset(
+                                  'assets/icons/google.svg',
+                                  width: 20.0,
+                                ),
+                                onPressed: () {},
+                                label: const Text(
+                                  'Sign-In with Google',
+                                  style: TextStyle(
+                                      fontSize: 17.0,
+                                      fontFamily: 'TT Chocolates'),
+                                )),
+                          ),
+                          const SizedBox(height: 10.0),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Don\'t have an account ? ',
+                                style: Theme.of(context).textTheme.titleMedium,
+                                children: const [
+                                  TextSpan(
+                                    text: 'Register',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      /*---------- Login Screen Footer End ----------*/
                     ],
                   ),
                 ],
