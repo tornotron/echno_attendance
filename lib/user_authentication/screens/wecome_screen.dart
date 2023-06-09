@@ -42,6 +42,35 @@ class WelcomeScreen extends StatelessWidget {
                   ),
 
                   /*-----------------Welcome Header End -----------------*/
+
+                  /*-----------------Welcome Button Start -----------------*/
+
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'LOGIN',
+                        style: TextStyle(
+                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'REGISTER',
+                        style: TextStyle(
+                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
+                      ),
+                    ),
+                  ),
+
+                  /*-----------------Welcome Button End -----------------*/
                 ],
               ),
             ),
