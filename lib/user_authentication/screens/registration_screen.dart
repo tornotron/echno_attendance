@@ -45,6 +45,46 @@ class RegistrationScreen extends StatelessWidget {
                   ),
 
                   /*---------- Register Screen Header End ----------*/
+
+                  /*---------- Register Screen Form Start ----------*/
+
+                  const SizedBox(height: 15.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person_outline_outlined),
+                          labelText: 'Full Name',
+                          hintText: 'Full Name',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                              (15.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      TextFormField(
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        keyboardType: TextInputType.emailAddress,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          // filled: true,
+                          // fillColor:
+                          // const Color.fromARGB(255, 214, 214, 214),
+                          prefixIcon: const Icon(Icons.person_outline_outlined),
+                          labelText: 'Email ID',
+                          hintText: 'E-Mail',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
