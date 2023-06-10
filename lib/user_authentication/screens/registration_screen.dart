@@ -83,6 +83,18 @@ class RegistrationScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 10.0),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.phone_android_outlined),
+                          labelText: 'Phone Number',
+                          hintText: '+1-1234567890',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                        ),
+                      ),
                     ],
                   ),
                 ],
