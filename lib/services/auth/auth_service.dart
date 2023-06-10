@@ -1,9 +1,14 @@
 import 'package:echno_attendance/services/auth/auth_provider.dart';
 import 'package:echno_attendance/services/auth/auth_user.dart';
+import 'package:echno_attendance/services/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider _provider;
   const AuthService(this._provider);
+
+  factory AuthService.firebase() {
+    return AuthService(FirebaseAuthProvider());
+  }
 
   @override
   Future<AuthUser> createUser(
