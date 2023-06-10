@@ -1,3 +1,4 @@
+import 'package:echno_attendance/enums/menu_action.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
@@ -8,8 +9,6 @@ class HomePageView extends StatefulWidget {
   @override
   State<HomePageView> createState() => _HomePageViewState();
 }
-
-enum MenuActions { logout }
 
 class _HomePageViewState extends State<HomePageView> {
   @override
