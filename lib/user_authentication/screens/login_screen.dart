@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                             width: double.infinity,
                             child: OutlinedButton.icon(
                                 icon: SvgPicture.asset(
-                                  'assets/icons/google.svg',
+                                  googleIcon,
                                   width: 20.0,
                                 ),
                                 onPressed: () {},

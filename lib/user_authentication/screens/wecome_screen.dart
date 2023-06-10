@@ -1,5 +1,4 @@
 import 'package:echno_attendance/constants/image_string.dart';
-import 'package:echno_attendance/constants/routes.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,9 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, loginRoute);
-                      },
+                      onPressed: () {},
                       child: const Text(
                         'LOGIN',
                         style: TextStyle(

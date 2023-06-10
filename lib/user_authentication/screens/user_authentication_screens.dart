@@ -2,8 +2,6 @@ import 'package:echno_attendance/constants/custom_theme.dart';
 import 'package:echno_attendance/user_authentication/screens/wecome_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'login_screen.dart';
-
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
@@ -14,9 +12,6 @@ class App extends StatelessWidget {
       theme: EchnoCustomTheme.lightTheme,
       darkTheme: EchnoCustomTheme.darkTheme,
       themeMode: ThemeMode.system,
-      routes: {
-        '/login/': (context) => const LoginScreen(),
-      },
     );
   }
 }
