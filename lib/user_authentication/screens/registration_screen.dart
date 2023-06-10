@@ -130,6 +130,50 @@ class RegistrationScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  /*---------- Register Screen Footer Start ----------*/
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('OR'),
+                      const SizedBox(height: 10.0),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                            icon: SvgPicture.asset(
+                              googleIcon,
+                              width: 20.0,
+                            ),
+                            onPressed: () {},
+                            label: const Text(
+                              'Sign-In with Google',
+                              style: TextStyle(
+                                  fontSize: 17.0, fontFamily: 'TT Chocolates'),
+                            )),
+                      ),
+                      const SizedBox(height: 10.0),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text.rich(
+                          TextSpan(
+                            text: 'Already have an account ? ',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            children: const [
+                              TextSpan(
+                                text: 'Login',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  /*---------- Register Screen Footer End ----------*/
                 ],
               ),
             ),
