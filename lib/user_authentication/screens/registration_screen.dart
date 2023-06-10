@@ -106,6 +106,18 @@ class RegistrationScreen extends StatelessWidget {
                         labelText: 'Re-Enter Password',
                         hintText: 'Re-Enter Password',
                       ),
+                      const SizedBox(height: 30.0),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'REGISTER',
+                            style: TextStyle(
+                                fontSize: 17.0, fontFamily: 'TT Chocolates'),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
