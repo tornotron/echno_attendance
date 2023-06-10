@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/user_authentication/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -94,6 +95,16 @@ class RegistrationScreen extends StatelessWidget {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0)),
                         ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      const PasswordTextField(
+                        labelText: 'Password',
+                        hintText: 'Password',
+                      ),
+                      const SizedBox(height: 10.0),
+                      const PasswordTextField(
+                        labelText: 'Re-Enter Password',
+                        hintText: 'Re-Enter Password',
                       ),
                     ],
                   ),
