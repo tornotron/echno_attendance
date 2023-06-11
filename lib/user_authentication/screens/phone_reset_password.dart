@@ -63,7 +63,11 @@ class PhonePasswordResetScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: const Text('Next'),
+                      child: const Text(
+                        'Next',
+                        style: TextStyle(
+                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
+                      ),
                     ),
                   ),
                 ],
