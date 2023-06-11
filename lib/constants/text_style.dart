@@ -18,9 +18,21 @@ class EchnoTextTheme {
       fontWeight: FontWeight.w500,
       color: echnoLightColor,
     ),
+    titleLarge: TextStyle(
+      fontFamily: 'TT Chocolates',
+      fontSize: 22,
+      fontWeight: FontWeight.bold,
+      color: echnoLightColor,
+    ),
     titleMedium: TextStyle(
       fontFamily: 'TT Chocolates',
       fontSize: 17,
+      color: echnoLightColor,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: 'TT Chocolates',
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
       color: echnoLightColor,
     ),
   );
@@ -40,9 +52,21 @@ class EchnoTextTheme {
       fontWeight: FontWeight.w500,
       color: whiteColor,
     ),
+    titleLarge: TextStyle(
+      fontFamily: 'TT Chocolates',
+      fontSize: 22,
+      fontWeight: FontWeight.bold,
+      color: whiteColor,
+    ),
     titleMedium: TextStyle(
       fontFamily: 'TT Chocolates',
       fontSize: 17,
+      color: whiteColor,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: 'TT Chocolates',
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
       color: whiteColor,
     ),
   );
