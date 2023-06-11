@@ -1,5 +1,5 @@
 import 'package:echno_attendance/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:echno_attendance/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -25,8 +25,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification();
+                AuthService.firebase().sendEmailVerification();
               },
               child: const Text('Resend Verification Email'),
             ),
