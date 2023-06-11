@@ -1,5 +1,5 @@
 import 'package:echno_attendance/enums/menu_action.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:echno_attendance/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
@@ -23,7 +23,7 @@ class _HomePageViewState extends State<HomePageView> {
                 case MenuActions.logout:
                   final shouldLogout = await showLogOutDialog(context);
                   if (shouldLogout) {
-                    await FirebaseAuth.instance.signOut();
+                    await AuthService.firebase().logOut();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       '/login/',
                       (_) => false,

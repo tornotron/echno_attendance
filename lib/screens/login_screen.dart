@@ -1,8 +1,7 @@
-import 'package:echno_attendance/firebase_options.dart';
 import 'package:echno_attendance/routes.dart';
+import 'package:echno_attendance/services/auth/auth_exceptions.dart';
+import 'package:echno_attendance/services/auth/auth_service.dart';
 import 'package:echno_attendance/utilities/show_error_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
@@ -38,9 +37,7 @@ class _LoginViewState extends State<LoginView> {
         title: const Text('Echno'),
       ),
       body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
+        future: AuthService.firebase().initialize(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
@@ -68,13 +65,13 @@ class _LoginViewState extends State<LoginView> {
                       final email = _emailController.text;
                       final password = _passwordController.text;
                       try {
-                        final userCredential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
+                        final userCredential =
+                            await AuthService.firebase().logIn(
                           email: email,
                           password: password,
                         );
-                        final user = FirebaseAuth.instance.currentUser;
-                        if (user?.emailVerified ?? false) {
+                        final user = AuthService.firebase().currentUser;
+                        if (user?.isemailVerified ?? false) {
                           if (context.mounted) {
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               homeRoute,
@@ -82,7 +79,7 @@ class _LoginViewState extends State<LoginView> {
                             );
                           }
                         } else {
-                          await user?.sendEmailVerification();
+                          await AuthService.firebase().sendEmailVerification();
                           if (context.mounted) {
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               verifyEmailRoute,
@@ -91,31 +88,22 @@ class _LoginViewState extends State<LoginView> {
                           }
                         }
                         devtools.log(userCredential.toString());
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          await showErrorDialog(
-                            context,
-                            'User not found',
-                          );
-                          devtools.log('No user found for that email.');
-                        } else if (e.code == 'wrong-password') {
-                          await showErrorDialog(
-                            context,
-                            'Wrong credentials',
-                          );
-                          devtools
-                              .log('Wrong password provided for that user.');
-                        } else {
-                          await showErrorDialog(
-                            context,
-                            'Error: ${e.code}',
-                          );
-                        }
-                      } catch (e) {
-                        devtools.log(e.runtimeType.toString());
+                      } on UserNotFoundAuthException {
                         await showErrorDialog(
                           context,
-                          'Error: ${e.toString()}',
+                          'User not found',
+                        );
+                        devtools.log('No user found for that email.');
+                      } on WrongPasswordAuthException {
+                        await showErrorDialog(
+                          context,
+                          'Wrong credentials',
+                        );
+                        devtools.log('Wrong password provided for that user.');
+                      } on GenericAuthException catch (e) {
+                        await showErrorDialog(
+                          context,
+                          'Error: $e',
                         );
                       }
                     },
