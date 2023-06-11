@@ -86,7 +86,43 @@ class LoginScreen extends StatelessWidget {
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    /*---------- Forgot Password BottomSheet Start ----------*/
+
+                                    showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0)),
+                                      context: context,
+                                      builder: (context) => Container(
+                                        padding: const EdgeInsets.all(30.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Reset Password!',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .displayMedium,
+                                            ),
+                                            Text(
+                                              'Choose an option to reset your password...',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
+                                            const SizedBox(
+                                              height: 30.0,
+                                            ),
+                                            // Email Password Reset
+                                            const SizedBox(height: 20.0),
+                                            // Phone Password Reset
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   child: const Text(
                                     'Forgot Password ?',
                                     style: TextStyle(
