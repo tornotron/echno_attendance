@@ -10,5 +10,6 @@ const String echnoOTP = 'assets/images/otp.svg';
 const String echnoWelcome = 'assets/images/welcome.svg';
 const String echnoRegister = 'assets/images/register.svg';
 const String echnoSignIn = 'assets/images/signin.svg';
+const String echnoEmailVerification = 'assets/images/email-verification.svg';
 
 const String googleIcon = 'assets/icons/google.svg';
