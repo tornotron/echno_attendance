@@ -1,3 +1,4 @@
+import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/user_authentication/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,53 @@ class LoginScreen extends StatelessWidget {
                                               height: 30.0,
                                             ),
                                             // Email Password Reset
+
+                                            GestureDetector(
+                                              onTap: () {},
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(20.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                  color: echnoGreyColor,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons
+                                                          .mail_outline_outlined,
+                                                      size: 60.0,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10.0,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'E-Mail',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .titleLarge,
+                                                        ),
+                                                        Text(
+                                                          'Reset via E-Mail Verification',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyLarge,
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                             const SizedBox(height: 20.0),
                                             // Phone Password Reset
                                           ],
