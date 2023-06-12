@@ -24,11 +24,13 @@ class _HomePageViewState extends State<HomePageView> {
                   final shouldLogout = await showLogOutDialog(context);
                   if (shouldLogout) {
                     await AuthService.firebase().logOut();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login/',
-                      (_) => false,
-                    );
-                    devtools.log('Logged out!');
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/login/',
+                        (_) => false,
+                      );
+                      devtools.log('Logged out!');
+                    }
                   }
                   break;
                 default:
