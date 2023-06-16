@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:echno_attendance/services/crud/crud_exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' show Database, openDatabase;
@@ -29,6 +30,17 @@ const createAttendanceTableQuery = '''
 
 class AttendanceService {
   Database? _db;
+
+  List<DatabaseAttendance> _attendance = [];
+
+  final _attendanceStreamController =
+      StreamController<List<DatabaseAttendance>>.broadcast();
+
+  Future<void> _cacheAttendance(email) async {
+    final allAttendance = await getAttendance(email: email);
+    _attendance = allAttendance;
+    _attendanceStreamController.add(_attendance);
+  }
 
   Future<void> open() async {
     if (_db != null) throw DatabaseAlreadyOpenException();
