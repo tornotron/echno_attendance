@@ -36,6 +36,16 @@ class AttendanceService {
   final _attendanceStreamController =
       StreamController<List<DatabaseAttendance>>.broadcast();
 
+  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+    try {
+      return await getUser(email: email);
+    } on UserNotFoundException {
+      return await createUser(email: email);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> _cacheAttendance(email) async {
     final allAttendance = await getAttendance(email: email);
     _attendance = allAttendance;
