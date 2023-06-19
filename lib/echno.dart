@@ -1,9 +1,9 @@
-import 'package:echno_attendance/routes.dart';
-import 'package:echno_attendance/screens/homepage_screen.dart';
-import 'package:echno_attendance/screens/login_screen.dart';
-import 'package:echno_attendance/screens/register_screen.dart';
-import 'package:echno_attendance/screens/verify_email_screen.dart';
-import 'package:echno_attendance/services/auth/auth_service.dart';
+import 'package:echno_attendance/utilities/routes.dart';
+import 'package:echno_attendance/user/views/homepage_screen.dart';
+import 'package:echno_attendance/auth/views/login_screen.dart';
+import 'package:echno_attendance/auth/views/register_screen.dart';
+import 'package:echno_attendance/auth/views/verify_email_screen.dart';
+import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class EchnoApp extends StatelessWidget {

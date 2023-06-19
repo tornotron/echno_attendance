@@ -1,5 +1,5 @@
-import 'package:echno_attendance/enums/menu_action.dart';
-import 'package:echno_attendance/services/auth/auth_service.dart';
+import 'package:echno_attendance/user/enums/menu_action.dart';
+import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 

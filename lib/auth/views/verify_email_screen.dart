@@ -1,5 +1,5 @@
-import 'package:echno_attendance/routes.dart';
-import 'package:echno_attendance/services/auth/auth_service.dart';
+import 'package:echno_attendance/utilities/routes.dart';
+import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class VerifyEmailView extends StatefulWidget {

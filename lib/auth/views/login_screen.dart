@@ -1,6 +1,6 @@
-import 'package:echno_attendance/routes.dart';
-import 'package:echno_attendance/services/auth/auth_exceptions.dart';
-import 'package:echno_attendance/services/auth/auth_service.dart';
+import 'package:echno_attendance/utilities/routes.dart';
+import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
+import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:echno_attendance/utilities/show_error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
