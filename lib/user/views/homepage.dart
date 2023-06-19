@@ -1,8 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:echno_attendance/reusable%20widgets/texts.dart';
+import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:echno_attendance/reusable widgets/rounded_card.dart';
+import 'package:echno_attendance/user/widgets/rounded_card.dart';
 
 class HomePage extends StatelessWidget {
   final String appbarUserName;
@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
           items: [
             SizedBox(
               child: Image.asset(
-                'assets/icons/5.png',
+                'assets/icons/Calendar.png',
                 scale: 50,
               ),
             ),

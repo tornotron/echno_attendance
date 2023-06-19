@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:echno_attendance/loginpage.dart';
+import 'package:echno_attendance/auth/views/loginpage.dart';
 
 class Splashpage extends StatefulWidget {
   const Splashpage({super.key});

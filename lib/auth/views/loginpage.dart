@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:echno_attendance/reusable widgets/login_field.dart';
-import 'package:echno_attendance/reusable widgets/elevated_button.dart';
+import 'package:echno_attendance/user/widgets/login_field.dart';
+import 'package:echno_attendance/user/widgets/elevated_button.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
