@@ -1,6 +1,6 @@
-import 'package:echno_attendance/services/auth/auth_provider.dart';
-import 'package:echno_attendance/services/auth/auth_user.dart';
-import 'package:echno_attendance/services/auth/firebase_auth_provider.dart';
+import 'package:echno_attendance/auth/services/auth_provider.dart';
+import 'package:echno_attendance/auth/services/auth_user.dart';
+import 'package:echno_attendance/auth/services/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider _provider;

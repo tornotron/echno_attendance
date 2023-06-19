@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:echno_attendance/services/crud/crud_exceptions.dart';
+import 'package:echno_attendance/attendance/utilities/crud_exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' show Database, openDatabase;
 import 'package:path/path.dart' show join;

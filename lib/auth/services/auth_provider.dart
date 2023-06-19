@@ -1,4 +1,4 @@
-import 'package:echno_attendance/services/auth/auth_user.dart';
+import 'package:echno_attendance/auth/services/auth_user.dart';
 
 abstract class AuthProvider {
   AuthUser? get currentUser;
