@@ -87,25 +87,28 @@ class HomePage extends StatelessWidget {
             const SliverToBoxAdapter(
               child: SizedBox(height: 25),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return const Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 5,
-                          right: 5,
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 70),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return const Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 5,
+                            right: 5,
+                          ),
+                          child: RoundedCard(),
                         ),
-                        child: RoundedCard(),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      )
-                    ],
-                  );
-                },
-                childCount: 9,
+                        SizedBox(
+                          height: 5,
+                        )
+                      ],
+                    );
+                  },
+                  childCount: 9,
+                ),
               ),
             )
           ],
