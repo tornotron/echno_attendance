@@ -123,25 +123,25 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(
               child: Image.asset(
-                'assets/icons/7.png',
+                'assets/icons/Checkmark.png',
                 scale: 50,
               ),
             ),
             SizedBox(
               child: Image.asset(
-                'assets/icons/10.png',
+                'assets/icons/Home.png',
                 scale: 50,
               ),
             ),
             SizedBox(
               child: Image.asset(
-                'assets/icons/11.png',
+                'assets/icons/Uparrow.png',
                 scale: 50,
               ),
             ),
             SizedBox(
               child: Image.asset(
-                'assets/icons/13.png',
+                'assets/icons/Profile.png',
                 scale: 50,
               ),
             ),

@@ -71,15 +71,15 @@ flutter:
     - assets/logo/3.png
     - assets/logo/footer.png
     - assets/icons/Calendar.png
-    - assets/icons/6.png
-    - assets/icons/7.png
-    - assets/icons/8.png
-    - assets/icons/9.png
-    - assets/icons/10.png
-    - assets/icons/11.png
-    - assets/icons/12.png
-    - assets/icons/13.png
-    - assets/icons/14.png
+    - assets/icons/Calendar_red.png
+    - assets/icons/Checkmark.png
+    - assets/icons/Checkmark_red.png
+    - assets/icons/Home_red.png
+    - assets/icons/Home.png
+    - assets/icons/Uparrow.png
+    - assets/icons/Uparrow_red.png
+    - assets/icons/Profile.png
+    - assets/icons/Profile_red.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
