@@ -10,7 +10,7 @@ class Login extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
-        body: Container(
+        body: SizedBox(
           width: double.infinity,
           height: size.height,
           child: Stack(
