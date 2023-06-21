@@ -10,7 +10,7 @@ class RoundedCard extends StatelessWidget {
     final screenSize = mediaQuery.size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    return Container(
+    return SizedBox(
       height: screenHeight / 4,
       width: screenWidth,
       child: Card(
