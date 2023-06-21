@@ -42,6 +42,8 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.0.15
   curved_navigation_bar: ^1.0.3
+  flutter_svg: ^2.0.6
+  flutter_otp_text_field: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,9 @@ flutter:
     - assets/icons/Uparrow_red.png
     - assets/icons/Profile.png
     - assets/icons/Profile_red.png
+    - assets/images/
+    - assets/logo/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
