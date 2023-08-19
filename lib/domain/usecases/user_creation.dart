@@ -1,22 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class IUserCreation {
+class InterfaceUserCreation {
   Future<User?> registerEmailPassword(
       {required String name,
       required String email,
       required String password}) async {
-    User? user;
-    return user;
-  }
-}
-
-class EmUserCreation implements IUserCreation {
-  @override
-  Future<User?> registerEmailPassword(
-      {required String name,
-      required String email,
-      required String password}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
+        FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -37,33 +26,44 @@ class EmUserCreation implements IUserCreation {
       print(e);
     }
     return user;
+    
   }
 }
 
-// class HrUserCreation implements IUserCreation{
+class EmUserCreation implements InterfaceUserCreation {
+  @override
+  Future<User?> registerEmailPassword(
+      {required String name,
+      required String email,
+      required String password}) async {
+  
+  }
+}
+
+// class HrUserCreation implements InterfaceUserCreation{
 
 //   @override
 //   void createUser(){}
 // }
 
-// class PmUserCreation implements IUserCreation{
+// class PmUserCreation implements InterfaceUserCreation{
 //    @override
 //   String createUser(){
 //     return "Hello from pmusercreation_createuser";
 //   }
 // }
 
-// class TcUserCreation implements IUserCreation{
+// class TcUserCreation implements InterfaceUserCreation{
 //   @override
 //   void createUser(){}
 // }
 
-// class SeUserCreation implements IUserCreation{
+// class SeUserCreation implements InterfaceUserCreation{
 //   @override
 //   void createUser(){}
 // }
 
-// class SpUserCreation implements IUserCreation{
+// class SpUserCreation implements InterfaceUserCreation{
 //   @override
 //   void createUser(){}
 // }
