@@ -2,7 +2,8 @@ import 'package:echno_attendance/domain/usecases/user_creation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class InterfaceHr {
-  void createProfile() {}
+  void createProfile(InterfaceUserCreation objUsercreation, String emName,
+      String emEmail, String emPassword) {}
 
   // void updateProfile() {}
 
@@ -12,15 +13,11 @@ class InterfaceHr {
 }
 
 class HrClass implements InterfaceHr {
-  IUserCreation objUsercreation;
-
-  HrClass(this.objUsercreation);
-
   @override
-  void createProfile() {
+  void createProfile(InterfaceUserCreation objUsercreation, String emName,
+      String emEmail, String emPassword) {
     Future<User?> empUser = objUsercreation.registerEmailPassword(
-        name: "jacob", email: "jacob@gmail.com", password: "123456");
-
+        name: emName, email: emEmail, password: emPassword);
   }
 
   // @override
@@ -33,9 +30,15 @@ class HrClass implements InterfaceHr {
   // void deleteProfile() {}
 }
 
-// void main()
-// {
-//   final hrClassWithEmUserCreation = HrClass(EmUserCreation());
-//   final hrClassWithPmUserCreation = HrClass(PmUserCreation());
-//   final hrClassWithTcUserCreation = HrClass(TcUserCreation());
-// }
+void main()                                                                                                 //for testing
+{
+  final hrUserHandling = HrClass().createProfile(EmUserCreation(), "jacob", "jacob@gmail.com", "1234");
+ 
+
+  // hrClassWithEmUserHandling.updateProfile();
+  // hrClassWithEmUserHandling.readProfile();
+  // hrClassWithEmUserHandling.deleteProfile();
+
+  // final hrClassWithPmUserCreation = HrClass(PmUserCreation());
+  // final hrClassWithTcUserCreation = HrClass(TcUserCreation());
+}
