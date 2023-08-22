@@ -1,4 +1,28 @@
+import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' show join;
+
+class DatabaseUserService {
+  Database? _database;
+
+  Future<void> open() async {
+    if (_database == null) {
+      throw DatabaseAlreadyOpenException();
+    }
+    try {
+      final docsPath = await getApplicationDocumentsDirectory();
+      final dbPath = join(docsPath.path, dbName);
+      final database = await openDatabase(dbPath);
+      _database = database;
+
+      await database.execute(createUserTable); // Database 'user' table creation
+    } on MissingPlatformDirectoryException {
+      throw Unabletogetdocumentsdirectory();
+    }
+  }
+}
 
 @immutable
 class DBUser {
@@ -49,3 +73,23 @@ const nameColumn = 'name';
 const phoneNumberColumn = 'phone_number';
 const employeeRoleColumn = 'employee_role';
 const isActiveEmployeeColumn = 'is_active_employee';
+
+// General Database constants
+
+const dbName = 'echno_attendance.db';
+const userTable = 'user';
+
+// Database 'user' table creation
+
+const createUserTable = ''' CREATE TABLE IF NOT EXISTS "user" (
+              "id"	INTEGER NOT NULL,
+              "email"	TEXT NOT NULL UNIQUE,
+              "name"	TEXT NOT NULL,
+              "phone_number"	NUMERIC NOT NULL UNIQUE,
+              "employee_id"	TEXT NOT NULL UNIQUE,
+              "employee_role"	TEXT NOT NULL,
+              "is_active_employee"	INTEGER NOT NULL DEFAULT 1,
+              PRIMARY KEY("id" AUTOINCREMENT),
+              FOREIGN KEY("employee_role") REFERENCES "roles"("role_name")
+            );
+            ''';
