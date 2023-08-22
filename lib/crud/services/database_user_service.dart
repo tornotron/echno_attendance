@@ -41,6 +41,46 @@ class DatabaseUserService {
       _database = null;
     }
   }
+
+  Future<DBUser> createUser({
+    required int id,
+    required String name,
+    required String email,
+    required int phoneNumber,
+    required String employeeID,
+    required String employeeRole,
+    required bool isActiveEmployee,
+  }) async {
+    final database = _getDatabase();
+    final results = await database.query(
+      userTable,
+      limit: 1,
+      where: '$emailColumn = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (results.isNotEmpty) {
+      throw UserAlreadyExists();
+    }
+
+    final userId = await database.insert(userTable, {
+      emailColumn: email.toLowerCase(),
+      nameColumn: name,
+      phoneNumberColumn: phoneNumber,
+      employeeIdColumn: employeeID,
+      employeeRoleColumn: employeeRole,
+      isActiveEmployeeColumn: isActiveEmployee ? 1 : 0,
+    });
+
+    return DBUser(
+      id: userId,
+      name: name,
+      email: email,
+      phoneNumber: phoneNumber,
+      employeeID: employeeID,
+      employeeRole: employeeRole,
+      isActiveEmployee: isActiveEmployee,
+    );
+  }
 }
 
 @immutable
