@@ -93,6 +93,21 @@ class DatabaseUserService {
       throw CouldNotDeleteUser();
     }
   }
+
+  Future<DBUser> getUser({required String email}) async {
+    final database = _getDatabase();
+    final results = await database.query(
+      userTable,
+      limit: 1,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (results.isEmpty) {
+      throw CouldNotFindUser();
+    } else {
+      return DBUser.fromRow(results.first);
+    }
+  }
 }
 
 @immutable
