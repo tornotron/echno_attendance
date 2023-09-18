@@ -5,7 +5,18 @@ class InterfaceUserCreation {
       {required String name,
       required String email,
       required String password}) async {
-        FirebaseAuth auth = FirebaseAuth.instance;
+        User? user;
+        return user;
+      }
+}
+
+class EmUserCreation implements InterfaceUserCreation {
+  @override
+  Future<User?> registerEmailPassword(
+      {required String name,
+      required String email,
+      required String password}) async {
+         FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -26,16 +37,6 @@ class InterfaceUserCreation {
       print(e);
     }
     return user;
-    
-  }
-}
-
-class EmUserCreation implements InterfaceUserCreation {
-  @override
-  Future<User?> registerEmailPassword(
-      {required String name,
-      required String email,
-      required String password}) async {
   
   }
 }
