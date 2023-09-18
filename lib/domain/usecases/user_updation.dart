@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class InterfaceUserUpdation {
-  Future userProfileUpdation(
-      {required String name, required String email}) async {
+  Future userProfileUpdation({String? name, String? email}) async {
     User? user;
     return user;
   }
@@ -10,13 +9,28 @@ class InterfaceUserUpdation {
 
 class EmUserUpdation implements InterfaceUserUpdation {
   @override
-  Future userProfileUpdation(
-      {required String name, required String email}) async {
+  Future userProfileUpdation({String? name, String? email}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User user = auth.currentUser!;
     try {
-      await user.updateDisplayName(name);
-      await user.updateEmail(email);
+      if (name != null) {
+        await user.updateDisplayName(name);
+      }
+      if (email != null) {
+        await user.updateEmail(email);
+      }
+
+      if (name == null && email == null) {
+        // Code for the case when both name and email are null
+      } else {
+        if (name == null) {
+          // Code for the case when only name is null
+        }
+
+        if (email == null) {
+          // Code for the case when only email is null
+        }
+      }
     } catch (e) {
       print(e);
     }
