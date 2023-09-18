@@ -8,10 +8,10 @@ class InterfaceHr {
   void createProfile(InterfaceUserCreation objUserCreation, String creationName,
       String creationEmail, String creationPassword) {}
 
-  void updateProfile(InterfaceUserUpdation objUserUpdation, String updationName,
-      String updationEmail) {}
+  void updateProfile(InterfaceUserUpdation objUserUpdation,
+      String? updationName, String? updationEmail) {}
 
-  // void readProfile() {}
+  void readProfile() {}
 
   // void deleteProfile() {}
 }
@@ -27,14 +27,14 @@ class HrClass implements InterfaceHr {
   }
 
   @override
-  void updateProfile(InterfaceUserUpdation objUserUpdation, String updationName,
-      String updationEmail) {
+  void updateProfile(InterfaceUserUpdation objUserUpdation,
+      String? updationName, String? updationEmail) {
     objUserUpdation.userProfileUpdation(
         name: updationName, email: updationEmail);
   }
 
-  // @override
-  // void readProfile() {}
+  @override
+  void readProfile() {}
 
   // @override
   // void deleteProfile() {}
@@ -42,8 +42,6 @@ class HrClass implements InterfaceHr {
 
 void main() //for testing
 {
-  final hruser = HrClass().updateProfile(EmUserUpdation(), "HELLP", "huh");
-
   // hrClassWithEmUserHandling.updateProfile();
   // hrClassWithEmUserHandling.readProfile();
   // hrClassWithEmUserHandling.deleteProfile();
