@@ -1,22 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+//----------------------Interface---------------------
 class InterfaceUserCreation {
   Future<User?> registerEmailPassword(
       {required String name,
       required String email,
       required String password}) async {
-        User? user;
-        return user;
-      }
+    User? user;
+    return user;
+  }
 }
 
-class EmUserCreation implements InterfaceUserCreation {
-  @override
+//-----------------------mixin--------------------------
+mixin registrationReuse {
   Future<User?> registerEmailPassword(
       {required String name,
       required String email,
       required String password}) async {
-         FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -37,36 +38,19 @@ class EmUserCreation implements InterfaceUserCreation {
       print(e);
     }
     return user;
-  
   }
 }
 
-// class HrUserCreation implements InterfaceUserCreation{
+//--------------------------class----------------------------------
 
-//   @override
-//   void createUser(){}
-// }
+class EmUserCreation with registrationReuse implements InterfaceUserCreation {}
 
-// class PmUserCreation implements InterfaceUserCreation{
-//    @override
-//   String createUser(){
-//     return "Hello from pmusercreation_createuser";
-//   }
-// }
+class HrUserCreation with registrationReuse implements InterfaceUserCreation {}
 
-// class TcUserCreation implements InterfaceUserCreation{
-//   @override
-//   void createUser(){}
-// }
+class PmUserCreation with registrationReuse implements InterfaceUserCreation {}
 
-// class SeUserCreation implements InterfaceUserCreation{
-//   @override
-//   void createUser(){}
-// }
+class TcUserCreation with registrationReuse implements InterfaceUserCreation {}
 
-// class SpUserCreation implements InterfaceUserCreation{
-//   @override
-//   void createUser(){}
-// }
+class SeUserCreation with registrationReuse implements InterfaceUserCreation {}
 
-
+class SpUserCreation with registrationReuse implements InterfaceUserCreation {}
