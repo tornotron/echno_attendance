@@ -4,8 +4,7 @@ class InterfaceUserDeletion {
   Future userProfileDeletion() async {}
 }
 
-class EmUserDeletion implements InterfaceUserDeletion {
-  @override
+mixin deletionReuse {
   Future userProfileDeletion() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User user = auth.currentUser!;
@@ -16,3 +15,15 @@ class EmUserDeletion implements InterfaceUserDeletion {
     }
   }
 }
+
+class EmUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+
+class HrUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+
+class PmUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+
+class TcUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+
+class SeUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+
+class SpUserUpdation with deletionReuse implements InterfaceUserDeletion {}

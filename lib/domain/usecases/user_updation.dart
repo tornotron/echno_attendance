@@ -4,8 +4,7 @@ class InterfaceUserUpdation {
   Future userProfileUpdation({String? name, String? email}) async {}
 }
 
-class EmUserUpdation implements InterfaceUserUpdation {
-  @override
+mixin updationReuse {
   Future userProfileUpdation({String? name, String? email}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User user = auth.currentUser!;
@@ -33,3 +32,15 @@ class EmUserUpdation implements InterfaceUserUpdation {
     }
   }
 }
+
+class EmUserUpdation with updationReuse implements InterfaceUserUpdation {}
+
+class HrUserUpdation with updationReuse implements InterfaceUserUpdation {}
+
+class PmUserUpdation with updationReuse implements InterfaceUserUpdation {}
+
+class TcUserUpdation with updationReuse implements InterfaceUserUpdation {}
+
+class SeUserUpdation with updationReuse implements InterfaceUserUpdation {}
+
+class SpUserUpdation with updationReuse implements InterfaceUserUpdation {}

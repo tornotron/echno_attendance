@@ -4,8 +4,7 @@ class InterfaceUserReading {
   Future userProfileReading({bool? name, bool? email}) async {}
 }
 
-class EmUserReading implements InterfaceUserReading {
-  @override
+mixin readingReuse {
   Future userProfileReading({bool? name, bool? email}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User user = auth.currentUser!;
@@ -25,3 +24,15 @@ class EmUserReading implements InterfaceUserReading {
     }
   }
 }
+
+class EmUserUpdation with readingReuse implements InterfaceUserReading {}
+
+class HrUserUpdation with readingReuse implements InterfaceUserReading {}
+
+class PmUserUpdation with readingReuse implements InterfaceUserReading {}
+
+class TcUserUpdation with readingReuse implements InterfaceUserReading {}
+
+class SeUserUpdation with readingReuse implements InterfaceUserReading {}
+
+class SpUserUpdation with readingReuse implements InterfaceUserReading {}
