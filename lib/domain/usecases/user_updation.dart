@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class InterfaceUserUpdation {
-  Future userProfileUpdation({String? name, String? email}) async {
-    User? user;
-    return user;
-  }
+  Future userProfileUpdation({String? name, String? email}) async {}
 }
 
 class EmUserUpdation implements InterfaceUserUpdation {
