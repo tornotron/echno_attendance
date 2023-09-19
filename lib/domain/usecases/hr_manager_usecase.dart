@@ -1,6 +1,7 @@
 import 'package:echno_attendance/domain/usecases/user_creation.dart';
+import 'package:echno_attendance/domain/usecases/user_deletion.dart';
+import 'package:echno_attendance/domain/usecases/user_reading.dart';
 import 'package:echno_attendance/domain/usecases/user_updation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // ------------------INTERFACE-----------------------------
 
@@ -11,9 +12,10 @@ class InterfaceHr {
   void updateProfile(InterfaceUserUpdation objUserUpdation,
       String? updationName, String? updationEmail) {}
 
-  void readProfile() {}
+  void readProfile(InterfaceUserReading objUserReading, bool? nameStatus,
+      bool? emailStatus) {}
 
-  // void deleteProfile() {}
+  void deleteProfile(InterfaceUserDeletion objUserDeletion) {}
 }
 
 //--------------------------CLASS-----------------------------------
@@ -34,18 +36,13 @@ class HrClass implements InterfaceHr {
   }
 
   @override
-  void readProfile() {}
+  void readProfile(InterfaceUserReading objUserReading, bool? nameStatus,
+      bool? emailStatus) {
+    objUserReading.userProfileReading(name: nameStatus, email: emailStatus);
+  }
 
-  // @override
-  // void deleteProfile() {}
-}
-
-void main() //for testing
-{
-  // hrClassWithEmUserHandling.updateProfile();
-  // hrClassWithEmUserHandling.readProfile();
-  // hrClassWithEmUserHandling.deleteProfile();
-
-  // final hrClassWithPmUserCreation = HrClass(PmUserCreation());
-  // final hrClassWithTcUserCreation = HrClass(TcUserCreation());
+  @override
+  void deleteProfile(InterfaceUserDeletion objUserDeletion) {
+    objUserDeletion.userProfileDeletion();
+  }
 }
