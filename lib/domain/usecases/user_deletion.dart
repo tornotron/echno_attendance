@@ -16,14 +16,14 @@ mixin deletionReuse {
   }
 }
 
-class EmUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+class EmUserDeletion with deletionReuse implements InterfaceUserDeletion {}
 
-class HrUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+class HrUserDeletion with deletionReuse implements InterfaceUserDeletion {}
 
-class PmUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+class PmUserDeletion with deletionReuse implements InterfaceUserDeletion {}
 
-class TcUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+class TcUserDeletion with deletionReuse implements InterfaceUserDeletion {}
 
-class SeUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+class SeUserDeletion with deletionReuse implements InterfaceUserDeletion {}
 
-class SpUserUpdation with deletionReuse implements InterfaceUserDeletion {}
+class SpUserDeletion with deletionReuse implements InterfaceUserDeletion {}
