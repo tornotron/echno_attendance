@@ -25,14 +25,14 @@ mixin readingReuse {
   }
 }
 
-class EmUserUpdation with readingReuse implements InterfaceUserReading {}
+class EmUserReading with readingReuse implements InterfaceUserReading {}
 
-class HrUserUpdation with readingReuse implements InterfaceUserReading {}
+class HrUserReading with readingReuse implements InterfaceUserReading {}
 
-class PmUserUpdation with readingReuse implements InterfaceUserReading {}
+class PmUserReading with readingReuse implements InterfaceUserReading {}
 
-class TcUserUpdation with readingReuse implements InterfaceUserReading {}
+class TcUserReading with readingReuse implements InterfaceUserReading {}
 
-class SeUserUpdation with readingReuse implements InterfaceUserReading {}
+class SeUserReading with readingReuse implements InterfaceUserReading {}
 
-class SpUserUpdation with readingReuse implements InterfaceUserReading {}
+class SpUserReading with readingReuse implements InterfaceUserReading {}
