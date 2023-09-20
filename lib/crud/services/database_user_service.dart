@@ -1,5 +1,4 @@
 import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
@@ -82,6 +81,29 @@ class DatabaseUserService {
     );
   }
 
+  Future<DBUser> updateUser(
+    DBUser user,
+    String? employeeID,
+    String? employeeRole,
+    bool? isActiveEmployee,
+  ) async {
+    // Simulate a network delay
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (user.employeeID == employeeID) {
+      // Update the user using the copyWith method
+      DBUser updatedUser = user.copyWith(
+        employeeRole: employeeRole,
+        isActiveEmployee: isActiveEmployee,
+      );
+
+      return updatedUser;
+    } else {
+      // If the provided employeeID doesn't match, return the original user
+      return user;
+    }
+  }
+
   Future<void> deleteUser({required String email}) async {
     final database = _getDatabase();
     final deleteStatus = await database.delete(
@@ -110,7 +132,6 @@ class DatabaseUserService {
   }
 }
 
-@immutable
 class DBUser {
   final int id;
   final String name;
@@ -138,6 +159,51 @@ class DBUser {
         employeeID = map[employeeIdColumn] as String,
         employeeRole = map[employeeRoleColumn] as String,
         isActiveEmployee = (map[isActiveEmployeeColumn] as int) == 1;
+
+  DBUser copyWith({
+    String? name,
+    String? email,
+    int? phoneNumber,
+    String? employeeRole,
+    bool? isActiveEmployee,
+  }) {
+    return DBUser(
+      id: id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      employeeID: employeeID,
+      employeeRole: employeeRole ?? this.employeeRole,
+      isActiveEmployee: isActiveEmployee ?? this.isActiveEmployee,
+    );
+  }
+
+  DBUser updateUser({
+    String? employeeID,
+    bool? isActiveEmployee,
+    String? employeeRole,
+  }) {
+    if (employeeID == null) {
+      // If no employeeID is provided, return the current instance unchanged
+      return this;
+    }
+
+    // Check if the provided employeeID matches the current instance's employeeID
+    if (this.employeeID == employeeID) {
+      return DBUser(
+        id: id,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        employeeID: this.employeeID,
+        employeeRole: employeeRole ?? this.employeeRole,
+        isActiveEmployee: isActiveEmployee ?? this.isActiveEmployee,
+      );
+    } else {
+      // If employeeID doesn't match, return the current instance unchanged
+      return this;
+    }
+  }
 
   @override
   String toString() =>
