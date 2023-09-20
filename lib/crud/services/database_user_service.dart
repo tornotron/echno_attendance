@@ -83,24 +83,23 @@ class DatabaseUserService {
 
   Future<DBUser> updateUser(
     DBUser user,
-    String? employeeID,
+    String employeeID,
     String? employeeRole,
     bool? isActiveEmployee,
   ) async {
-    // Simulate a network delay
-    await Future.delayed(const Duration(seconds: 2));
+    final db = _getDatabase();
+    await getUser(employeeID: employeeID);
 
-    if (user.employeeID == employeeID) {
-      // Update the user using the copyWith method
-      DBUser updatedUser = user.copyWith(
-        employeeRole: employeeRole,
-        isActiveEmployee: isActiveEmployee,
-      );
-
-      return updatedUser;
+    final updatesCount = await db.update(userTable, {
+      employeeIdColumn: employeeID,
+      if (employeeRole != null) employeeRoleColumn: employeeRole,
+      if (isActiveEmployee != null)
+        isActiveEmployeeColumn: isActiveEmployee ? 1 : 0,
+    });
+    if (updatesCount == 0) {
+      throw CouldNotUpdateUser();
     } else {
-      // If the provided employeeID doesn't match, return the original user
-      return user;
+      return await getUser(employeeID: employeeID);
     }
   }
 
@@ -116,13 +115,13 @@ class DatabaseUserService {
     }
   }
 
-  Future<DBUser> getUser({required String email}) async {
+  Future<DBUser> getUser({required String employeeID}) async {
     final database = _getDatabase();
     final results = await database.query(
       userTable,
       limit: 1,
-      where: 'email = ?',
-      whereArgs: [email.toLowerCase()],
+      where: 'employeeId = ?',
+      whereArgs: [employeeID],
     );
     if (results.isEmpty) {
       throw CouldNotFindUser();
@@ -159,51 +158,6 @@ class DBUser {
         employeeID = map[employeeIdColumn] as String,
         employeeRole = map[employeeRoleColumn] as String,
         isActiveEmployee = (map[isActiveEmployeeColumn] as int) == 1;
-
-  DBUser copyWith({
-    String? name,
-    String? email,
-    int? phoneNumber,
-    String? employeeRole,
-    bool? isActiveEmployee,
-  }) {
-    return DBUser(
-      id: id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      employeeID: employeeID,
-      employeeRole: employeeRole ?? this.employeeRole,
-      isActiveEmployee: isActiveEmployee ?? this.isActiveEmployee,
-    );
-  }
-
-  DBUser updateUser({
-    String? employeeID,
-    bool? isActiveEmployee,
-    String? employeeRole,
-  }) {
-    if (employeeID == null) {
-      // If no employeeID is provided, return the current instance unchanged
-      return this;
-    }
-
-    // Check if the provided employeeID matches the current instance's employeeID
-    if (this.employeeID == employeeID) {
-      return DBUser(
-        id: id,
-        name: name,
-        email: email,
-        phoneNumber: phoneNumber,
-        employeeID: this.employeeID,
-        employeeRole: employeeRole ?? this.employeeRole,
-        isActiveEmployee: isActiveEmployee ?? this.isActiveEmployee,
-      );
-    } else {
-      // If employeeID doesn't match, return the current instance unchanged
-      return this;
-    }
-  }
 
   @override
   String toString() =>
