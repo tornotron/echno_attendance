@@ -1,3 +1,4 @@
+import 'package:echno_attendance/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
@@ -28,7 +29,10 @@ class LoginButton extends StatelessWidget {
           ),
         ),
         onPressed: () {},
-        child: Text(buttonName),
+        child: Text(
+          buttonName,
+          style: EchnoTextTheme.darkTextTheme.titleLarge,
+        ),
       ),
     );
   }
