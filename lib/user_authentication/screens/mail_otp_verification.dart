@@ -1,6 +1,5 @@
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MailOTPVerification extends StatelessWidget {
@@ -12,6 +11,7 @@ class MailOTPVerification extends StatelessWidget {
   Widget build(context) {
     final mediaQuery = MediaQuery.of(context);
     final height = mediaQuery.size.height;
+    final TextEditingController otpController = TextEditingController();
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -26,7 +26,7 @@ class MailOTPVerification extends StatelessWidget {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               SvgPicture.asset(
                 echnoOTP,
-                height: height * 0.5,
+                height: height * 0.3,
               ),
               Column(
                 children: [
@@ -42,13 +42,29 @@ class MailOTPVerification extends StatelessWidget {
               const SizedBox(height: 10.0),
               Column(
                 children: [
-                  OtpTextField(
-                    numberOfFields: 6,
-                    borderColor: Theme.of(context).primaryColor,
-                    showFieldAsBox: true,
-                    onCodeChanged: (String code) {},
-                    onSubmit: (String verificationCode) {},
+                  TextFormField(
+                    controller: otpController,
+                    maxLength: 6,
+                    keyboardType: TextInputType.number,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.timer_rounded),
+                      labelText: '6-Digit OTP',
+                      hintText: '6-Digit OTP',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          (15.0),
+                        ),
+                      ),
+                    ),
                   ),
+                  // OtpTextField(
+                  //   numberOfFields: 6,
+                  //   borderColor: Theme.of(context).primaryColor,
+                  //   showFieldAsBox: true,
+                  //   onCodeChanged: (String code) {},
+                  //   onSubmit: (String verificationCode) {},
+                  // ),
                   const SizedBox(height: 20.0),
                   SizedBox(
                     width: double.infinity,
