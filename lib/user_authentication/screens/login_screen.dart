@@ -269,6 +269,20 @@ class LoginScreen extends StatelessWidget {
                                       fontFamily: 'TT Chocolates'),
                                 )),
                           ),
+                          const SizedBox(height: 15.0),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                                icon:
+                                    const Icon(Icons.mobile_friendly_outlined),
+                                onPressed: () {},
+                                label: const Text(
+                                  'Sign-In with Phone',
+                                  style: TextStyle(
+                                      fontSize: 17.0,
+                                      fontFamily: 'TT Chocolates'),
+                                )),
+                          ),
                           const SizedBox(height: 10.0),
                           TextButton(
                             onPressed: () {},
