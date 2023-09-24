@@ -1,17 +1,42 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/user_authentication/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
   @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  final TextEditingController phoneController = TextEditingController();
+
+  Country selectedCountry = Country(
+    phoneCode: "91",
+    countryCode: "IN",
+    e164Sc: 0,
+    geographic: true,
+    level: 1,
+    name: "India",
+    example: "India",
+    displayName: "India",
+    displayNameNoCountryCode: "IN",
+    e164Key: "",
+  );
+  @override
   Widget build(context) {
     final mediaQuery = MediaQuery.of(context);
     final height = mediaQuery.size.height;
+    phoneController.selection = TextSelection.fromPosition(
+      TextPosition(
+        offset: phoneController.text.length,
+      ),
+    );
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -21,7 +46,7 @@ class RegistrationScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: height,
-              padding: containerPadding,
+              padding: RegistrationScreen.containerPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,15 +115,62 @@ class RegistrationScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 10.0),
                           TextFormField(
+                            controller: phoneController,
+                            onChanged: (value) {
+                              setState(() {
+                                phoneController.text = value;
+                              });
+                            },
+                            enableSuggestions: false,
+                            autocorrect: false,
                             keyboardType: TextInputType.number,
                             maxLines: 1,
                             decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.phone_android_outlined),
-                              labelText: 'Phone Number',
-                              hintText: '+1-1234567890',
+                              labelText: 'Mobile Number',
+                              hintText: '1234 567 890',
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0)),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              prefixIcon: Container(
+                                padding: const EdgeInsets.all(13.5),
+                                child: InkWell(
+                                  onTap: () {
+                                    showCountryPicker(
+                                      context: context,
+                                      countryListTheme:
+                                          const CountryListThemeData(
+                                        bottomSheetHeight: 550,
+                                      ),
+                                      onSelect: (value) {
+                                        setState(() {
+                                          selectedCountry = value;
+                                        });
+                                      },
+                                    );
+                                  },
+                                  child: Text(
+                                    "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ),
+                              ),
+                              suffixIcon: phoneController.text.length > 9
+                                  ? Container(
+                                      height: 30,
+                                      width: 30,
+                                      margin: const EdgeInsets.all(10.0),
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.green,
+                                      ),
+                                      child: const Icon(
+                                        Icons.done,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    )
+                                  : null,
                             ),
                           ),
                           const SizedBox(height: 10.0),
