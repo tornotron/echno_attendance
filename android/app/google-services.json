@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "735079555774-1t2kleba7tb7ah3evl8q3l9vkjcar0kc.apps.googleusercontent.com",
+              "client_id": "735079555774-0vlt4atk8pjs806sbo686f1qgo8r412n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.echnoAttendance"
+                "bundle_id": "com.example.echnoAttendance.RunnerTests"
               }
             }
           ]
