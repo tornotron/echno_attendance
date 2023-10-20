@@ -30,6 +30,16 @@ class DatabaseUserService {
       throw Unabletogetdocumentsdirectory();
     }
   }
+
+  Future<void> close() async {
+    final database = _database;
+    if (database == null) {
+      throw DatabaseNotOpen();
+    } else {
+      await database.close();
+      _database = null;
+    }
+  }
 }
 
 class DBUser {
