@@ -6,6 +6,15 @@ import 'package:path/path.dart' show join;
 class DatabaseUserService {
   Database? _database;
 
+  Database _getDatabase() {
+    final database = _database;
+    if (database == null) {
+      throw DatabaseNotOpen();
+    } else {
+      return database;
+    }
+  }
+
   Future<void> open() async {
     if (_database == null) {
       throw DatabaseAlreadyOpenException();
