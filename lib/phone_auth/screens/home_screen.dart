@@ -1,4 +1,8 @@
+import 'package:echno_attendance/phone_auth/screens/phone_login.dart';
+import 'package:echno_attendance/phone_auth/services/auth_cubits.dart';
+import 'package:echno_attendance/phone_auth/services/auth_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,14 +52,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'LOG OUT',
-                    ),
-                  ),
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthLoggedOutState) {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PhoneLoginScreen()));
+                    }
+                  },
+                  builder: (context, state) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          BlocProvider.of<AuthCubit>(context).logOut();
+                        },
+                        child: const Text(
+                          'LOG OUT',
+                        ),
+                      ),
+                    );
+                  },
                 ),
 
                 /*-----------------Welcome Button End -----------------*/
