@@ -1,5 +1,9 @@
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/phone_auth/screens/home_screen.dart';
+import 'package:echno_attendance/phone_auth/services/auth_cubits.dart';
+import 'package:echno_attendance/phone_auth/services/auth_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PhoneOTPVerification extends StatelessWidget {
@@ -66,14 +70,39 @@ class PhoneOTPVerification extends StatelessWidget {
                   //   onSubmit: (String verificationCode) {},
                   // ),
                   const SizedBox(height: 20.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Confirm',
-                      ),
-                    ),
+                  BlocConsumer<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      if (state is AuthLoggedInState) {
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
+                      } else if (state is AuthErrorState) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(state.errorMessage),
+                          duration: const Duration(milliseconds: 600),
+                        ));
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is AuthLoadingState) {
+                        return const CircularProgressIndicator();
+                      }
+                      return SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<AuthCubit>(context)
+                                .verifyOTP(otpController.text);
+                          },
+                          child: const Text(
+                            'Confirm',
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
