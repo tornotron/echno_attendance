@@ -107,6 +107,28 @@ class DatabaseUserService {
       return DBUser.fromRow(results.first);
     }
   }
+
+  Future<DBUser> updateUser(
+    DBUser user,
+    String employeeID,
+    String? employeeRole,
+    bool? isActiveEmployee,
+  ) async {
+    final db = _getDatabase();
+    await getUser(employeeID: employeeID);
+
+    final updatesCount = await db.update(userTable, {
+      employeeIdColumn: employeeID,
+      if (employeeRole != null) employeeRoleColumn: employeeRole,
+      if (isActiveEmployee != null)
+        isActiveEmployeeColumn: isActiveEmployee ? 1 : 0,
+    });
+    if (updatesCount == 0) {
+      throw CouldNotUpdateUser();
+    } else {
+      return await getUser(employeeID: employeeID);
+    }
+  }
 }
 
 class DBUser {
