@@ -35,5 +35,24 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  void signInWithPhone(phoneAuthCredential) {}
+  void verifyOTP(String otp) async {
+    emit(AuthLoadingState());
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: _verificationId!, smsCode: otp);
+    signInWithPhone(credential);
+  }
+
+  void signInWithPhone(PhoneAuthCredential credential) async {
+    try {
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+      if (userCredential.user != null) {
+        emit(AuthLoggedInState(userCredential.user!));
+      } else {
+        emit(AuthErrorState("Error validating OTP, try again"));
+      }
+    } on FirebaseAuthException catch (e) {
+      emit(AuthErrorState(e.message.toString()));
+    }
+  }
 }
