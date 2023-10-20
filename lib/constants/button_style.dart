@@ -14,6 +14,10 @@ class EchnoOutlinedButtonTheme {
       foregroundColor: echnoLogoColor,
       side: const BorderSide(color: echnoLogoColor),
       padding: const EdgeInsets.symmetric(vertical: 15.0),
+      textStyle: const TextStyle(
+        fontSize: 17.0,
+        fontFamily: 'TT Chocolates',
+      ),
     ),
   );
   static final darkOutlinedButtonTheme = OutlinedButtonThemeData(
@@ -25,6 +29,10 @@ class EchnoOutlinedButtonTheme {
       foregroundColor: whiteColor,
       side: const BorderSide(color: whiteColor),
       padding: const EdgeInsets.symmetric(vertical: 15.0),
+      textStyle: const TextStyle(
+        fontSize: 17.0,
+        fontFamily: 'TT Chocolates',
+      ),
     ),
   );
 }
@@ -43,6 +51,10 @@ class EchnoElevatedButtonTheme {
       foregroundColor: whiteColor,
       side: const BorderSide(color: echnoLogoColor),
       padding: const EdgeInsets.symmetric(vertical: 15.0),
+      textStyle: const TextStyle(
+        fontSize: 17.0,
+        fontFamily: 'TT Chocolates',
+      ),
     ),
   );
 
@@ -55,6 +67,10 @@ class EchnoElevatedButtonTheme {
       ),
       foregroundColor: whiteColor,
       padding: const EdgeInsets.symmetric(vertical: 15.0),
+      textStyle: const TextStyle(
+        fontSize: 17.0,
+        fontFamily: 'TT Chocolates',
+      ),
     ),
   );
 }
