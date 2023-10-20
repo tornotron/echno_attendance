@@ -55,4 +55,9 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthErrorState(e.message.toString()));
     }
   }
+
+  void logOut() async {
+    await _firebaseAuth.signOut();
+    emit(AuthLoggedOutState());
+  }
 }
