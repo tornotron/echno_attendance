@@ -12,4 +12,28 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthLoggedOutState());
     }
   }
+
+  String? _verificationId;
+
+  void sendOTP(String phoneNumber) async {
+    emit(AuthLoadingState());
+    await _firebaseAuth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      codeSent: ((verificationId, forceResendingToken) {
+        _verificationId = verificationId;
+        emit(AuthCodeSentState());
+      }),
+      verificationCompleted: (phoneAuthCredential) {
+        signInWithPhone(phoneAuthCredential);
+      },
+      verificationFailed: (error) {
+        emit(AuthErrorState(error.message.toString()));
+      },
+      codeAutoRetrievalTimeout: ((verificationId) {
+        _verificationId = verificationId;
+      }),
+    );
+  }
+
+  void signInWithPhone(phoneAuthCredential) {}
 }
