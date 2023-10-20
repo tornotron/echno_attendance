@@ -80,6 +80,18 @@ class DatabaseUserService {
       isActiveEmployee: isActiveEmployee,
     );
   }
+
+  Future<void> deleteUser({required String email}) async {
+    final database = _getDatabase();
+    final deleteStatus = await database.delete(
+      userTable,
+      where: '$emailColumn = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (deleteStatus != 1) {
+      throw CouldNotDeleteUser();
+    }
+  }
 }
 
 class DBUser {
