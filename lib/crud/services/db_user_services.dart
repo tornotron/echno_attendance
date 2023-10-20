@@ -92,6 +92,21 @@ class DatabaseUserService {
       throw CouldNotDeleteUser();
     }
   }
+
+  Future<DBUser> getUser({required String employeeID}) async {
+    final database = _getDatabase();
+    final results = await database.query(
+      userTable,
+      limit: 1,
+      where: 'employeeId = ?',
+      whereArgs: [employeeID],
+    );
+    if (results.isEmpty) {
+      throw CouldNotFindUser();
+    } else {
+      return DBUser.fromRow(results.first);
+    }
+  }
 }
 
 class DBUser {
