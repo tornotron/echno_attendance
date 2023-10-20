@@ -1,6 +1,10 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/phone_auth/screens/phone_otp_verification.dart';
+import 'package:echno_attendance/phone_auth/services/auth_cubits.dart';
+import 'package:echno_attendance/phone_auth/services/auth_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PhoneLoginScreen extends StatefulWidget {
@@ -143,14 +147,40 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
                             /*---------- Login Form Buttons Start ----------*/
                             const SizedBox(height: 20.0),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'LOGIN',
-                                ),
-                              ),
+                            BlocConsumer<AuthCubit, AuthState>(
+                              listener: (context, state) {
+                                if (state is AuthCodeSentState) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PhoneOTPVerification()));
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is AuthLoadingState) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                return SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      String phoneNumber =
+                                          "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
+                                      BlocProvider.of<AuthCubit>(context)
+                                          .sendOTP(phoneNumber);
+                                    },
+                                    child: const Text(
+                                      'LOGIN',
+                                      style: TextStyle(
+                                          fontSize: 17.0,
+                                          fontFamily: 'TT Chocolates'),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
 
                             /*---------- Login Form Buttons End ----------*/
