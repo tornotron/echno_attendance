@@ -52,8 +52,6 @@ class EmailVerification extends StatelessWidget {
                       onPressed: () {},
                       child: const Text(
                         'Resent Verification Mail',
-                        style: TextStyle(
-                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
                       ),
                     ),
                   ),

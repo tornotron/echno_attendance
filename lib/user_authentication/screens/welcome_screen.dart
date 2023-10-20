@@ -52,8 +52,6 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () {},
                       child: const Text(
                         'LOGIN',
-                        style: TextStyle(
-                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
                       ),
                     ),
                   ),
@@ -64,8 +62,6 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () {},
                       child: const Text(
                         'REGISTER',
-                        style: TextStyle(
-                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
                       ),
                     ),
                   ),

@@ -65,8 +65,6 @@ class MailPasswordResetScreen extends StatelessWidget {
                       onPressed: () {},
                       child: const Text(
                         'Next',
-                        style: TextStyle(
-                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
                       ),
                     ),
                   ),

@@ -72,8 +72,6 @@ class PhoneOTPVerification extends StatelessWidget {
                       onPressed: () {},
                       child: const Text(
                         'Confirm',
-                        style: TextStyle(
-                            fontSize: 17.0, fontFamily: 'TT Chocolates'),
                       ),
                     ),
                   ),

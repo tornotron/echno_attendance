@@ -234,9 +234,6 @@ class LoginScreen extends StatelessWidget {
                                   onPressed: () {},
                                   child: const Text(
                                     'LOGIN',
-                                    style: TextStyle(
-                                        fontSize: 17.0,
-                                        fontFamily: 'TT Chocolates'),
                                   ),
                                 ),
                               ),
@@ -264,9 +261,6 @@ class LoginScreen extends StatelessWidget {
                                 onPressed: () {},
                                 label: const Text(
                                   'Sign-In with Google',
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      fontFamily: 'TT Chocolates'),
                                 )),
                           ),
                           const SizedBox(height: 15.0),
@@ -278,9 +272,6 @@ class LoginScreen extends StatelessWidget {
                                 onPressed: () {},
                                 label: const Text(
                                   'Sign-In with Phone',
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      fontFamily: 'TT Chocolates'),
                                 )),
                           ),
                           const SizedBox(height: 10.0),
