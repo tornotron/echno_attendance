@@ -21,7 +21,7 @@ class HrClass {
 
       DocumentSnapshot useridCheck = await userCollection.doc(userId).get();
 
-      if (useridCheck.exists) {
+      if (!useridCheck.exists) {
         await FirebaseFirestore.instance.collection('users').doc(userId).set({
           'employee-id': userId,
           'full-name': name,
