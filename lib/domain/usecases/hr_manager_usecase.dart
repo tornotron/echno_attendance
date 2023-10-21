@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:echno_attendance/attendance/index.dart';
 import 'package:echno_attendance/domain/usecases/pm_manager_usecase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer';
 
 class HrClass {
   // final FirebaseFirestore firestore;
@@ -14,18 +16,27 @@ class HrClass {
       required String userRole,
       required bool isActiveUser}) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        'employee-id': userId,
-        'full-name': name,
-        'email-id': email,
-        'phone': phoneNumber,
-        'employee-role': userRole,
-        'employee-status': isActiveUser,
-      });
+      CollectionReference userCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      DocumentSnapshot useridCheck = await userCollection.doc(userId).get();
+
+      if (useridCheck.exists) {
+        await FirebaseFirestore.instance.collection('users').doc(userId).set({
+          'employee-id': userId,
+          'full-name': name,
+          'email-id': email,
+          'phone': phoneNumber,
+          'employee-role': userRole,
+          'employee-status': isActiveUser,
+        });
+      } else {
+        log("user already exists");
+      }
     } on FirebaseException catch (error) {
-      print('Firebase Exception: ${error.message}');
+      log('Firebase Exception: ${error.message}');
     } catch (e) {
-      print('Other Exception: $e');
+      log('Other Exception: $e');
     }
   }
 
@@ -63,9 +74,9 @@ class HrClass {
 
       await docRef.update(updateData);
     } on FirebaseException catch (error) {
-      print('Firebase Exception: ${error.message}');
+      log('Firebase Exception: ${error.message}');
     } catch (e) {
-      print('Other Exception: $e');
+      log('Other Exception: $e');
     }
   }
 
@@ -73,9 +84,9 @@ class HrClass {
     try {
       await FirebaseFirestore.instance.collection('users').doc(userId).delete();
     } on FirebaseException catch (error) {
-      print('Firebase Exception: ${error.message}');
+      log('Firebase Exception: ${error.message}');
     } catch (e) {
-      print('Other Exception: $e');
+      log('Other Exception: $e');
     }
   }
 
@@ -100,12 +111,12 @@ class HrClass {
         userRole = employeeData['employee-role'];
         isActiveUser = employeeData['employee-status'];
       } else {
-        print("employee doesn't exist");
+        log("employee doesn't exist");
       }
     } on FirebaseException catch (error) {
-      print('Firebase Exception: ${error.message}');
+      log('Firebase Exception: ${error.message}');
     } catch (e) {
-      print('Other Exception: $e');
+      log('Other Exception: $e');
     }
     return {
       'name': name,
@@ -115,13 +126,4 @@ class HrClass {
       'isActiveUser': isActiveUser,
     };
   }
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  Map<String, dynamic> myMap = await PmClass().readUser(userId: '1000');
-  myMap.forEach((key, value) {
-    print('$key: $value');
-  });
 }
