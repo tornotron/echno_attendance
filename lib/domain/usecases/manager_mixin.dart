@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:developer';
 
 mixin ManagerMixin {
   Future<Map<String, dynamic>> readUser({
@@ -22,12 +23,12 @@ mixin ManagerMixin {
         userRole = employeeData['employee-role'];
         isActiveUser = employeeData['employee-status'];
       } else {
-        print("employee doesn't exist");
+        log("employee doesn't exist");
       }
     } on FirebaseException catch (error) {
-      print('Firebase Exception: ${error.message}');
+      log('Firebase Exception: ${error.message}');
     } catch (e) {
-      print('Other Exception: $e');
+      log('Other Exception: $e');
     }
     return {
       'name': name,
