@@ -81,12 +81,12 @@ class DatabaseUserService {
     );
   }
 
-  Future<void> deleteUser({required String email}) async {
+  Future<void> deleteUser({required String employeeID}) async {
     final database = _getDatabase();
     final deleteStatus = await database.delete(
       userTable,
-      where: '$emailColumn = ?',
-      whereArgs: [email.toLowerCase()],
+      where: '$employeeIdColumn = ?',
+      whereArgs: [employeeID],
     );
     if (deleteStatus != 1) {
       throw CouldNotDeleteUser();
@@ -132,15 +132,15 @@ class DatabaseUserService {
 }
 
 class DBUser {
-  final int id;
-  final String name;
-  final String email;
-  final int phoneNumber;
-  final String employeeID;
-  final String employeeRole;
-  final bool isActiveEmployee;
+  int id;
+  String name;
+  String email;
+  int phoneNumber;
+  String employeeID;
+  String employeeRole;
+  bool isActiveEmployee;
 
-  const DBUser({
+  DBUser({
     required this.id,
     required this.name,
     required this.email,
