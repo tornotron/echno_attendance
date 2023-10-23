@@ -3,7 +3,104 @@ import 'dart:io';
 import 'package:echno_attendance/attendance/utilities/crud_exceptions.dart';
 import 'package:echno_attendance/crud/services/db_user_services.dart';
 import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:path_provider/path_provider.dart';
+
+void main() {
+  // Create a mock database user service
+  final mockDatabaseUserService = MockDatabaseUserService();
+
+  // Test the open() method
+  test(
+      'open() should throw DatabaseAlreadyOpenException if database is already open',
+      () async {
+    // Open the database
+    await mockDatabaseUserService.open();
+
+    // Try to open the database again
+    expect(() async => await mockDatabaseUserService.open(),
+        throwsA(const TypeMatcher<DatabaseAlreadyOpenException>()));
+  });
+
+  // Test the close() method
+  test('close() should throw DatabaseNotOpenException if database is not open',
+      () async {
+    // Try to close the database without opening it first
+    expect(() async => mockDatabaseUserService.close(),
+        throwsA(const TypeMatcher<DatabaseNotOpenException>()));
+  });
+
+  // Test the createUser() method
+  test(
+      'createUser() should throw UserAlreadyExists exception if user already exists',
+      () async {
+    // Create a user
+    await mockDatabaseUserService.createUser(
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phoneNumber: 1234567890,
+      employeeID: '1234567890',
+      employeeRole: 'Software Engineer',
+      isActiveEmployee: true,
+    );
+
+    // Try to create the same user again
+    expect(
+        () async => await mockDatabaseUserService.createUser(
+              id: 1,
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              phoneNumber: 1234567890,
+              employeeID: '1234567890',
+              employeeRole: 'Software Engineer',
+              isActiveEmployee: true,
+            ),
+        throwsA(const TypeMatcher<UserAlreadyExists>()));
+  });
+
+  // Test the deleteUser() method
+  test(
+      'deleteUser() should throw CouldNotDeleteUser exception if user does not exist',
+      () async {
+    expect(
+        () async => await mockDatabaseUserService.deleteUser(
+            employeeID: 'non-existent-employee-id'),
+        throwsA(const TypeMatcher<CouldNotDeleteUser>()));
+  });
+
+  // Test the getUser() method
+  test(
+      'getUser() should throw CouldNotFindUser exception if user does not exist',
+      () async {
+    expect(
+        () async => await mockDatabaseUserService.getUser(
+            employeeID: 'non-existent-employee-id'),
+        throwsA(const TypeMatcher<CouldNotFindUser>()));
+  });
+
+  // Test the updateUser() method
+  // test(
+  //     'updateUser() should throw CouldNotUpdateUser exception if user does not exist',
+  //     () async {
+  //   expect(
+  //       () async => await mockDatabaseUserService.updateUser(
+  //             user: DBUser(
+  //               id: 1,
+  //               name: 'John Doe',
+  //               email: 'john.doe@example.com',
+  //               phoneNumber: 1234567890,
+  //               employeeID: '1234567890',
+  //               employeeRole: 'Site Engineer',
+  //               isActiveEmployee: true,
+  //             ),
+  //             employeeID: 'non-existent-employee-id',
+  //             employeeRole: 'Project Engineer',
+  //             isActiveEmployee: false,
+  //           ),
+  //       throwsA(const TypeMatcher<CouldNotUpdateUser>()));
+  // });
+}
 
 class DatabaseAlreadyOpenException implements Exception {}
 
