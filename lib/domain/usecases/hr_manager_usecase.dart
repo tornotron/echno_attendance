@@ -1,129 +1,59 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:echno_attendance/attendance/index.dart';
-import 'package:echno_attendance/domain/usecases/pm_manager_usecase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
-class HrClass {
-  // final FirebaseFirestore firestore;
-  // HrClass({required this.firestore});
+import 'package:echno_attendance/domain/usecases/manager_abstract.dart';
+import 'package:echno_attendance/domain/usecases/userhandling_implementation.dart';
+
+class HrClass implements Amanager {
+  final Amanager firestoreUserImplementation = FirestoreUserImplementation();
+
+  @override
   Future createUser(
       {required String userId,
       required String name,
       required String email,
       required String phoneNumber,
       required String userRole,
-      required bool isActiveUser}) async {
-    try {
-      CollectionReference userCollection =
-          FirebaseFirestore.instance.collection('users');
-
-      DocumentSnapshot useridCheck = await userCollection.doc(userId).get();
-
-      if (!useridCheck.exists) {
-        await FirebaseFirestore.instance.collection('users').doc(userId).set({
-          'employee-id': userId,
-          'full-name': name,
-          'email-id': email,
-          'phone': phoneNumber,
-          'employee-role': userRole,
-          'employee-status': isActiveUser,
-        });
-      } else {
-        log("user already exists");
-      }
-    } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
-    } catch (e) {
-      log('Other Exception: $e');
-    }
+      required bool isActiveUser}) {
+    return firestoreUserImplementation.createUser(
+        userId: userId,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        userRole: userRole,
+        isActiveUser: isActiveUser);
   }
 
+  @override
   Future updateUser(
       {required String? userId,
       String? name,
       String? email,
       String? phoneNumber,
       String? userRole,
-      bool? isActiveUser}) async {
-    try {
-      final docRef = FirebaseFirestore.instance.collection('users').doc(userId);
-
-      final updateData = <String, dynamic>{};
-
-      if (name != null) {
-        updateData['full-name'] = name;
-      }
-
-      if (email != null) {
-        updateData['email-id'] = email;
-      }
-
-      if (phoneNumber != null) {
-        updateData['phone'] = phoneNumber;
-      }
-
-      if (userRole != null) {
-        updateData['employee-role'] = userRole;
-      }
-
-      if (isActiveUser != null) {
-        updateData['employee-status'] = isActiveUser;
-      }
-
-      await docRef.update(updateData);
-    } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
-    } catch (e) {
-      log('Other Exception: $e');
-    }
+      bool? isActiveUser}) {
+    return firestoreUserImplementation.updateUser(userId: userId);
   }
 
-  Future deleteUser({required String userId}) async {
-    try {
-      await FirebaseFirestore.instance.collection('users').doc(userId).delete();
-    } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
-    } catch (e) {
-      log('Other Exception: $e');
-    }
+  @override
+  Future deleteUser({required String userId}) {
+    return firestoreUserImplementation.updateUser(userId: userId);
   }
 
-  Future<Map<String, dynamic>> readUser({
-    required String userId,
-  }) async {
-    String? name, email, phoneNumber, userRole;
-    bool? isActiveUser;
-    try {
-      CollectionReference employeesCollection =
-          FirebaseFirestore.instance.collection('users');
-
-      DocumentSnapshot employeeDocument =
-          await employeesCollection.doc(userId).get();
-
-      if (employeeDocument.exists) {
-        Map<String, dynamic> employeeData =
-            employeeDocument.data() as Map<String, dynamic>;
-        name = employeeData['full-name'];
-        email = employeeData['email-id'];
-        phoneNumber = employeeData['phone'];
-        userRole = employeeData['employee-role'];
-        isActiveUser = employeeData['employee-status'];
-      } else {
-        log("employee doesn't exist");
-      }
-    } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
-    } catch (e) {
-      log('Other Exception: $e');
-    }
-    return {
-      'name': name,
-      'email': email,
-      'phoneNumber': phoneNumber,
-      'userRole': userRole,
-      'isActiveUser': isActiveUser,
-    };
+  @override
+  Future<Map<String, dynamic>> readUser({required String userId}) {
+    return firestoreUserImplementation.readUser(userId: userId);
   }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  HrClass().createUser(
+      userId: '5000',
+      name: 'justin',
+      email: 'justin@gmail.com',
+      phoneNumber: '98875764',
+      userRole: 'manager',
+      isActiveUser: true);
 }
