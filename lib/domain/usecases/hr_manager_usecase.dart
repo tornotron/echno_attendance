@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:echno_attendance/domain/usecases/manager_abstract.dart';
 import 'package:echno_attendance/domain/usecases/userhandling_implementation.dart';
 
-class HrClass implements Amanager {
-  final Amanager firestoreUserImplementation = FirestoreUserImplementation();
+class HrClass implements FirestoreUserHandleProvider {
+  final FirestoreUserHandleProvider firestoreUserImplementation =
+      FirestoreUserServices();
 
   @override
   Future createUser(

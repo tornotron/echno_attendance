@@ -2,7 +2,7 @@ import 'package:echno_attendance/domain/usecases/manager_abstract.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer';
 
-class FirestoreUserImplementation implements Amanager {
+class FirestoreUserServices implements FirestoreUserHandleProvider {
   @override
   Future createUser(
       {required String userId,
