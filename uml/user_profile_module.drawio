@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-25T21:22:26.101Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="4u1N9gaKOaGHLGXDqiIJ" version="22.0.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-25T21:26:42.247Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="yzwbDcblC9ASBVsdcIRX" version="22.0.8" type="github">
   <diagram name="Page-1" id="aKVJBbErF9cnreuuS-tb">
     <mxGraphModel dx="3134" dy="1895" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -563,7 +563,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Cq_V5JU9MuFkt45j4jxh-18" value="Classname" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="Cq_V5JU9MuFkt45j4jxh-18" value="HrClass" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1435" y="772" width="500" height="168" as="geometry" />
         </mxCell>
         <mxCell id="Cq_V5JU9MuFkt45j4jxh-19" value="+&amp;nbsp;final FirestoreUserHandleProvider firestoreUserImplementation = FirestoreUserServices();" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Cq_V5JU9MuFkt45j4jxh-18">
