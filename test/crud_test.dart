@@ -7,6 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
+  // Ensure that the Flutter binding is initialized for testing
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+  });
+
   // Create a mock database user service
   final mockDatabaseUserService = MockDatabaseUserService();
 
@@ -80,26 +85,26 @@ void main() {
   });
 
   // Test the updateUser() method
-  // test(
-  //     'updateUser() should throw CouldNotUpdateUser exception if user does not exist',
-  //     () async {
-  //   expect(
-  //       () async => await mockDatabaseUserService.updateUser(
-  //             user: DBUser(
-  //               id: 1,
-  //               name: 'John Doe',
-  //               email: 'john.doe@example.com',
-  //               phoneNumber: 1234567890,
-  //               employeeID: '1234567890',
-  //               employeeRole: 'Site Engineer',
-  //               isActiveEmployee: true,
-  //             ),
-  //             employeeID: 'non-existent-employee-id',
-  //             employeeRole: 'Project Engineer',
-  //             isActiveEmployee: false,
-  //           ),
-  //       throwsA(const TypeMatcher<CouldNotUpdateUser>()));
-  // });
+  test(
+      'updateUser() should throw CouldNotUpdateUser exception if user does not exist',
+      () async {
+    expect(
+        () async => await mockDatabaseUserService.updateUser(
+              DBUser(
+                id: 1,
+                name: 'John Doe',
+                email: 'john.doe@example.com',
+                phoneNumber: 1234567890,
+                employeeID: '1234567890',
+                employeeRole: 'Site Engineer',
+                isActiveEmployee: true,
+              ),
+              'non-existent-employee-id',
+              'Project Engineer',
+              false,
+            ),
+        throwsA(const TypeMatcher<CouldNotUpdateUser>()));
+  });
 }
 
 class DatabaseAlreadyOpenException implements Exception {}
@@ -176,51 +181,70 @@ class MockDatabaseUserService implements DatabaseUserService {
     return user;
   }
 
-  // @override
-  // Future<void> updateUser({
-  //   required DBUser user,
-  //   required String employeeID,
-  //   required String employeeRole,
-  //   required bool? isActiveEmployee,
-  // }) async {
-  //   if (!_isOpen) {
-  //     throw DatabaseNotOpenException();
-  //   }
-
-  //   // Find the user by employee ID
-  //   final originalUser = _employeeIDToUserMap[employeeID];
-
-  //   // If the user does not exist, throw an exception
-  //   if (originalUser == null) {
-  //     throw CouldNotUpdateUser();
-  //   }
-
-  //   // Update the user's information
-  //   originalUser.employeeRole = employeeRole;
-  //   if (isActiveEmployee != null) {
-  //     originalUser.isActiveEmployee = isActiveEmployee;
-  //   }
-
-  //   // Update the map of employee IDs to user objects
-  //   _employeeIDToUserMap[employeeID] = originalUser;
-  // }
-
   @override
-  Future<DBUser> getUser({required String employeeID}) {
-    // TODO: implement getUser
-    throw UnimplementedError();
+  Future<DBUser> updateUser(
+    DBUser user,
+    String employeeID,
+    String? employeeRole,
+    bool? isActiveEmployee,
+  ) async {
+    if (!_isOpen) {
+      throw DatabaseNotOpenException();
+    }
+
+    // Find the user by employee ID
+    final originalUser = _employeeIDToUserMap[employeeID];
+
+    // If the user does not exist, throw an exception
+    if (originalUser == null) {
+      throw CouldNotUpdateUser();
+    }
+
+    // Update the user's information
+    originalUser.employeeRole = employeeRole ?? originalUser.employeeRole;
+    if (isActiveEmployee != null) {
+      originalUser.isActiveEmployee = isActiveEmployee;
+    }
+
+    // Update the map of employee IDs to user objects
+    _employeeIDToUserMap[employeeID] = originalUser;
+
+    return originalUser;
   }
 
   @override
-  Future<DBUser> updateUser(DBUser user, String employeeID,
-      String? employeeRole, bool? isActiveEmployee) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  Future<DBUser> getUser({required String employeeID}) async {
+    if (!_isOpen) {
+      throw DatabaseNotOpenException();
+    }
+
+    // Find the user by employee ID
+    final user = _employeeIDToUserMap[employeeID];
+    if (user == null) {
+      throw CouldNotFindUser();
+    }
+
+    return user;
   }
 
   @override
-  Future<void> deleteUser({required String employeeID}) {
-    // TODO: implement deleteUser
-    throw UnimplementedError();
+  Future<void> deleteUser({required String employeeID}) async {
+    if (!_isOpen) {
+      throw DatabaseNotOpenException();
+    }
+
+    // Find the user by employee ID
+    final user = _employeeIDToUserMap[employeeID];
+
+    // If the user does not exist, throw an exception
+    if (user == null) {
+      throw CouldNotDeleteUser();
+    }
+
+    // Remove the user from the list of users
+    _users.remove(user);
+
+    // Remove the user from the map of employee IDs to user objects
+    _employeeIDToUserMap.remove(employeeID);
   }
 }
