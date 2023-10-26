@@ -20,7 +20,6 @@ class PhoneOTPVerification extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -30,8 +29,11 @@ class PhoneOTPVerification extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text('OTP Verification',
-                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'OTP Verification',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
                   Text(
                     'Please enter the OTP you\'ve received via your phone...',
                     style: Theme.of(context).textTheme.titleMedium,

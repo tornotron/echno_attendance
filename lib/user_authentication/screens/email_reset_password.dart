@@ -19,18 +19,20 @@ class MailPasswordResetScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               SvgPicture.asset(
                 echnoPassword,
-                height: height * 0.5,
+                height: height * 0.4,
               ),
               Column(
                 children: [
-                  Text('Forgot Password!',
-                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'Forgot Password!',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
                   Text(
                     'Please confirm your email address to reset your password...',
                     style: Theme.of(context).textTheme.titleMedium,

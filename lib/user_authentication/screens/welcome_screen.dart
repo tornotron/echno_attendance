@@ -10,64 +10,66 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height;
+    // final mediaQuery = MediaQuery.of(context);
+    // final height = mediaQuery.size.height;
 
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
         body: SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: height,
-            padding: containerPadding,
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  /*-----------------Welcome Header Start -----------------*/
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              padding: containerPadding,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    /*-----------------Welcome Header Start -----------------*/
 
-                  SvgPicture.asset(
-                    echnoLogo,
-                  ),
-                  Text(
-                    'Welcome to Echno!',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    'Unlock the potential of effective attendance tracking and progress monitoring!',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    textAlign: TextAlign.center,
-                  ),
+                    SvgPicture.asset(
+                      echnoLogo,
+                    ),
+                    Text(
+                      'Welcome to Echno!',
+                      style: Theme.of(context).textTheme.displayMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Unlock the potential of effective attendance tracking and progress monitoring!',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
 
-                  /*-----------------Welcome Header End -----------------*/
+                    /*-----------------Welcome Header End -----------------*/
 
-                  /*-----------------Welcome Button Start -----------------*/
+                    /*-----------------Welcome Button Start -----------------*/
 
-                  const SizedBox(height: 15),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'LOGIN',
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'LOGIN',
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'REGISTER',
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'REGISTER',
+                        ),
                       ),
                     ),
-                  ),
 
-                  /*-----------------Welcome Button End -----------------*/
-                ],
+                    /*-----------------Welcome Button End -----------------*/
+                  ],
+                ),
               ),
             ),
           ),
