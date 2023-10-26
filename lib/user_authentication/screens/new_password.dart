@@ -8,8 +8,8 @@ class NewPassword extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height;
+    // final mediaQuery = MediaQuery.of(context);
+    // final height = mediaQuery.size.height;
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -18,14 +18,16 @@ class NewPassword extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Column(
                 children: [
-                  Text('Reset Password',
-                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'Reset Password',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
                   Text(
                     'Please enter a new password...',
                     style: Theme.of(context).textTheme.titleMedium,

@@ -19,7 +19,6 @@ class PhonePasswordResetScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -29,8 +28,11 @@ class PhonePasswordResetScreen extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text('Forgot Password!',
-                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'Forgot Password!',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
                   Text(
                     'Please confirm your phone number to reset your password...',
                     style: Theme.of(context).textTheme.titleMedium,

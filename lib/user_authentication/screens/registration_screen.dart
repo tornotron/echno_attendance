@@ -45,7 +45,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              height: height,
               padding: RegistrationScreen.containerPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -19,7 +19,6 @@ class EmailVerification extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -33,8 +32,11 @@ class EmailVerification extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text('Email Verification',
-                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'Email Verification',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
                   Text(
                     'Please click on the link you\'ve received via your email...',
                     style: Theme.of(context).textTheme.titleMedium,

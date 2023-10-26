@@ -20,7 +20,6 @@ class MailOTPVerification extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -30,8 +29,11 @@ class MailOTPVerification extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text('OTP Verification',
-                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'OTP Verification',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
                   Text(
                     'Please enter the OTP you\'ve received via your email...',
                     style: Theme.of(context).textTheme.titleMedium,
