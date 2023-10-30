@@ -49,7 +49,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
           child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              height: height,
               padding: PhoneLoginScreen.containerPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

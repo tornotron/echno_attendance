@@ -16,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(context) {
-    final mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height;
+    // final mediaQuery = MediaQuery.of(context);
+    // final height = mediaQuery.size.height;
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: HomeScreen.containerPadding,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -75,6 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'LINK PHONE',
+                    ),
+                  ),
                 ),
 
                 /*-----------------Welcome Button End -----------------*/

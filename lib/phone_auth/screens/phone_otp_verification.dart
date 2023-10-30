@@ -24,7 +24,6 @@ class PhoneOTPVerification extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            height: height,
             padding: containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
