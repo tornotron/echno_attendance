@@ -84,17 +84,17 @@ P4-down[hidden]-P3
 P3-down[hidden]-P2
 
 "AuthUser" ..> "User" : Uses to create instance
-"AuthService" --> "AuthProvider": Delegates to
-"AuthProvider" <|.. "FirebaseAuthProvider": Implements
-"AuthService" --> "FirebaseAuthProvider": Uses in factory method
-"AuthProvider" --> "AuthUser": Uses
+"AuthService" ..> "AuthProvider": Delegates to
+"AuthProvider" <|-- "FirebaseAuthProvider": Implements
+"AuthService" ..> "FirebaseAuthProvider": Uses in factory method
+"AuthProvider" ..> "AuthUser": Uses
 
-FirebaseAuthProvider --> AuthUser : uses
-FirebaseAuthProvider --> FirebaseAuth : uses
-FirebaseAuthProvider --> FirebaseAuthException : catches
-FirebaseAuthProvider --> Firebase : uses
-FirebaseAuthProvider --> AuthExceptions : throws
-FirebaseAuthProvider --> FirebaseOptions : uses
+FirebaseAuthProvider ..> AuthUser : uses
+FirebaseAuthProvider ..> FirebaseAuth : uses
+FirebaseAuthProvider ..> FirebaseAuthException : catches
+FirebaseAuthProvider ..> Firebase : uses
+FirebaseAuthProvider ..> AuthExceptions : throws
+FirebaseAuthProvider ..> FirebaseOptions : uses
 
 
 @enduml
