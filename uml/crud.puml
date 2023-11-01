@@ -1,0 +1,56 @@
+@startuml
+
+title CRUD
+
+package "echno_attendance.crud.utilities" {
+  class crud_exceptions
+}
+
+package "path_provider" {
+    class path_provider
+}
+
+package "sqflite" {
+  class sqflite
+}
+
+package "path" {
+  class join
+}
+
+package "echno_attendance.crud.services" {
+
+    class DatabaseUserService {
+      -Database? _database
+      +Database _getDatabase()
+      +Future<void> open()
+      +Future<void> close()
+      +Future<DBUser> createUser(...)
+      +Future<void> deleteUser({required String employeeID})
+      +Future<DBUser> getUser({required String employeeID})
+      +Future<DBUser> updateUser(...)
+    }
+
+    class DBUser {
+      -int id
+      -String name
+      -String email
+      -int phoneNumber
+      -String employeeID
+      -String employeeRole
+      -bool isActiveEmployee
+      +DBUser(...)
+      +DBUser.fromRow(Map<String, Object?> map)
+      +String toString()
+      +bool operator ==(covariant DBUser other)
+      +int get hashCode
+    }
+
+}
+
+DatabaseUserService ..> sqflite : uses
+DatabaseUserService ..> path_provider : uses
+DatabaseUserService ..> join : uses
+DatabaseUserService ..> crud_exceptions : uses
+
+@enduml
