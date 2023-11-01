@@ -1,0 +1,100 @@
+@startuml
+
+package "echno_attendance.auth.services" as P1 {
+
+  class "AuthUser" {
+    - bool isemailVerified
+    + {static} AuthUser.fromFirebaseUser(User user)
+    + const AuthUser({required this.isemailVerified})
+  }
+  
+'   abstract class "AuthProvider" {
+'     + AuthUser? currentUser
+'     + {abstract} Future<void> initialize()
+'     + {abstract} Future<AuthUser> logIn({required String email, required String password})
+'     + {abstract} Future<AuthUser> createUser({required String email, required String password})
+'     + {abstract} Future<void> logOut()
+'     + {abstract} Future<void> sendEmailVerification()
+'   }
+
+together {
+
+    interface "AuthProvider" {
+    + {abstract} AuthUser? currentUser
+    + {abstract} Future<void> initialize()
+    + {abstract} Future<AuthUser> logIn({required String email, required String password})
+    + {abstract} Future<AuthUser> createUser({required String email, required String password})
+    + {abstract} Future<void> logOut()
+    + {abstract} Future<void> sendEmailVerification()
+  }
+
+    class FirebaseAuthProvider {
+        - currentUser(): AuthUser?
+        + createUser(email: String, password: String): Future<AuthUser>
+        + logIn(email: String, password: String): Future<AuthUser>
+        + logOut(): Future<void>
+        + sendEmailVerification(): Future<void>
+        + initialize(): Future<void>
+    }
+
+}
+
+  class "AuthService" {
+    - AuthProvider _provider
+    + {static} AuthService.firebase()
+    + Future<AuthUser> createUser({required String email, required String password})
+    + AuthUser? currentUser
+    + Future<AuthUser> logIn({required String email, required String password})
+    + Future<void> logOut()
+    + Future<void> sendEmailVerification()
+    + Future<void> initialize()
+  }
+  
+
+}
+
+
+class "User" {
+  + bool emailVerified
+  ' ... other attributes and methods of User ...
+}
+
+top to bottom direction
+
+package "echno_attendance.auth.utilities" as P2 {
+    class AuthExceptions
+}
+
+package "echno_attendance.utilities" as P3 {
+    class FirebaseOptions
+}
+
+package "firebase_auth" as P4 {
+    class FirebaseAuth
+    class User
+    class FirebaseAuthException
+}
+
+package "firebase_core" as P5 {
+    class Firebase
+}
+
+P5-down[hidden]-P4
+P4-down[hidden]-P3
+P3-down[hidden]-P2
+
+"AuthUser" ..> "User" : Uses to create instance
+"AuthService" --> "AuthProvider": Delegates to
+"AuthProvider" <|.. "FirebaseAuthProvider": Implements
+"AuthService" --> "FirebaseAuthProvider": Uses in factory method
+"AuthProvider" --> "AuthUser": Uses
+
+FirebaseAuthProvider --> AuthUser : uses
+FirebaseAuthProvider --> FirebaseAuth : uses
+FirebaseAuthProvider --> FirebaseAuthException : catches
+FirebaseAuthProvider --> Firebase : uses
+FirebaseAuthProvider --> AuthExceptions : throws
+FirebaseAuthProvider --> FirebaseOptions : uses
+
+
+@enduml

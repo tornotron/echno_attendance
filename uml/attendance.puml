@@ -1,0 +1,84 @@
+@startuml
+title Attendance Module
+
+    ' class DatabaseNotOpenException {}
+    ' class DatabaseAlreadyOpenException {}
+    ' class UnabletoGetApplicationDocumentsDirectory {}
+    ' class CouldNotDeleteUserException {}
+    ' class UserAlreadyExistException {}
+    ' class UserNotFoundException {}
+
+
+    ' DatabaseNotOpenException --|> Exception
+    ' DatabaseAlreadyOpenException --|> Exception
+    ' UnabletoGetApplicationDocumentsDirectory --|> Exception
+    ' CouldNotDeleteUserException --|> Exception
+    ' UserAlreadyExistException --|> Exception
+    ' UserNotFoundException --|> Exception
+
+
+    package "Dart Libraries" {
+  class "dart:async" {
+    + StreamController
+  }
+  class "sqflite" {
+    + Database
+    + openDatabase
+  }
+  class "path" {
+    + join
+  }
+  class "path_provider" {
+    + getApplicationDocumentsDirectory
+    + MissingPlatformDirectoryException
+  }
+}
+
+class "AttendanceService" {
+  - Database? _db
+  - List<DatabaseAttendance> _attendance
+  - _attendanceStreamController
+  --
+  + Future<DatabaseUser> getOrCreateUser({required String email})
+  + Future<void> open()
+  + Future<void> close()
+  + Future<DatabaseUser> createUser({required String email})
+  + Future<DatabaseUser> getUser({required String email})
+  + Future<DatabaseAttendance> registerAttendance({
+    required String email,
+    required String date,
+  })
+  + Future<List<DatabaseAttendance>> getAttendance({required String email})
+}
+
+class "DatabaseUser" {
+  + final int id
+  + final String email
+  --
+  + DatabaseUser.fromRow(Map<String, Object?> map)
+  + String toString()
+  + bool operator ==(covariant DatabaseUser other)
+  + int get hashCode
+}
+
+class "DatabaseAttendance" {
+  + final int id
+  + final int userId
+  + final String date
+  + final bool isSyncedWithCloud
+  --
+  + DatabaseAttendance.fromRow(Map<String, Object?> map)
+  + String toString()
+  + bool operator ==(covariant DatabaseAttendance other)
+  + int get hashCode
+}
+
+"AttendanceService" --> "DatabaseUser": Uses
+"AttendanceService" --> "DatabaseAttendance": Uses
+"AttendanceService" ..> "sqflite": Uses
+"AttendanceService" ..> "path_provider": Uses
+"AttendanceService" ..> "path": Uses
+    
+
+@enduml
+

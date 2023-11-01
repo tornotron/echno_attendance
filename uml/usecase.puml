@@ -1,0 +1,38 @@
+@startuml
+
+class IManager {
+    + readUser({required String userId}) : Future
+}
+
+package "package:echno_attendance.domain.usecases"  {
+    class ManagerMixin {
+        + readUser({required String userId}) : Future<Map<String, dynamic>>
+    }
+}
+
+note left of ManagerMixin
+    This is a mixin named
+    ManagerMixin that provides 
+    functionalities related to 
+    user management that are
+    common to all types of users.
+end note
+
+class PmClass {
+}
+
+class SeClass{
+}
+
+class SpClass{
+}
+
+class TcClass{
+}
+
+PmClass --|> ManagerMixin: with
+SeClass --|> ManagerMixin: with
+SpClass --|> ManagerMixin: with
+TcClass --|> ManagerMixin: with
+
+@enduml
