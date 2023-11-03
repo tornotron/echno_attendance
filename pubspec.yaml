@@ -46,6 +46,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   country_picker: ^2.0.21
   mocktail: ^1.0.0
+  logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:
