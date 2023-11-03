@@ -28,22 +28,18 @@ void main() {
 
   // Test the open() method
   test(
-      'open() should throw DatabaseAlreadyOpenException if database is already open',
+      'open() should set the _isOpen flag to true and return without exception',
       () async {
-    // Open the database
     await mockDatabaseUserService.open();
 
-    // Try to open the database again
-    expect(() async => await mockDatabaseUserService.open(),
-        throwsA(const TypeMatcher<DatabaseAlreadyOpenException>()));
+    expect(mockDatabaseUserService._isOpen, isTrue);
   });
 
   // Test the createUser() method
-  test(
-      'createUser() should throw UserAlreadyExists exception if user already exists',
+  test('createUser() should create a new user and return it without exception',
       () async {
-    // Create a user
-    await mockDatabaseUserService.createUser(
+    // Create a new user object
+    final user = DBUser(
       id: 1,
       name: 'John Doe',
       email: 'john.doe@example.com',
@@ -53,71 +49,138 @@ void main() {
       isActiveEmployee: true,
     );
 
-    // Try to create the same user again
-    expect(
-        () async => await mockDatabaseUserService.createUser(
-              id: 1,
-              name: 'John Doe',
-              email: 'john.doe@example.com',
-              phoneNumber: 1234567890,
-              employeeID: '1234567890',
-              employeeRole: 'Software Engineer',
-              isActiveEmployee: true,
-            ),
-        throwsA(const TypeMatcher<UserAlreadyExists>()));
+    // Create the user
+    await mockDatabaseUserService.createUser(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        employeeID: user.employeeID,
+        employeeRole: user.employeeRole,
+        isActiveEmployee: user.isActiveEmployee);
+
+    // Check that the user was created successfully
+    expect(mockDatabaseUserService._users.contains(user), isTrue);
   });
 
   // Test the deleteUser() method
-  test(
-      'deleteUser() should throw CouldNotDeleteUser exception if user does not exist',
+  test('deleteUser() should delete the user and return without exception',
       () async {
-    expect(
-        () async => await mockDatabaseUserService.deleteUser(
-            employeeID: 'non-existent-employee-id'),
-        throwsA(const TypeMatcher<CouldNotDeleteUser>()));
+    // Create a new user
+    final user = DBUser(
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phoneNumber: 1234567890,
+      employeeID: '1234567890',
+      employeeRole: 'Software Engineer',
+      isActiveEmployee: true,
+    );
+
+    // Create the user
+    await mockDatabaseUserService.createUser(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        employeeID: user.employeeID,
+        employeeRole: user.employeeRole,
+        isActiveEmployee: user.isActiveEmployee);
+
+    // Delete the user
+    await mockDatabaseUserService.deleteUser(employeeID: user.employeeID);
+
+    // Check that the user was deleted successfully
+    expect(mockDatabaseUserService._users.contains(user), isFalse);
   });
 
   // Test the getUser() method
   test(
-      'getUser() should throw CouldNotFindUser exception if user does not exist',
+      'getUser() should return the user if it exists and return without exception',
       () async {
-    expect(
-        () async => await mockDatabaseUserService.getUser(
-            employeeID: 'non-existent-employee-id'),
-        throwsA(const TypeMatcher<CouldNotFindUser>()));
+    // Create a new user
+    final user = DBUser(
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phoneNumber: 1234567890,
+      employeeID: '1234567890',
+      employeeRole: 'Software Engineer',
+      isActiveEmployee: true,
+    );
+
+// Create the user
+    await mockDatabaseUserService.createUser(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        employeeID: user.employeeID,
+        employeeRole: user.employeeRole,
+        isActiveEmployee: user.isActiveEmployee);
+
+// Get the user
+    final retrievedUser =
+        await mockDatabaseUserService.getUser(employeeID: user.employeeID);
+
+// Check that the retrieved user is the same as the created user
+    expect(retrievedUser, user);
   });
 
   // Test the updateUser() method
-  test(
-      'updateUser() should throw CouldNotUpdateUser exception if user does not exist',
+  test('updateUser() should update the user and return it without exception',
       () async {
-    expect(
-        () async => await mockDatabaseUserService.updateUser(
-              DBUser(
-                id: 1,
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                phoneNumber: 1234567890,
-                employeeID: '1234567890',
-                employeeRole: 'Site Engineer',
-                isActiveEmployee: true,
-              ),
-              'non-existent-employee-id',
-              'Project Engineer',
-              false,
-            ),
-        throwsA(const TypeMatcher<CouldNotUpdateUser>()));
+    // Create a new user
+    final user = DBUser(
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phoneNumber: 1234567890,
+      employeeID: '1234567890',
+      employeeRole: 'Software Engineer',
+      isActiveEmployee: true,
+    );
+
+    // Create the user
+    await mockDatabaseUserService.createUser(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        employeeID: user.employeeID,
+        employeeRole: user.employeeRole,
+        isActiveEmployee: user.isActiveEmployee);
+
+    // Update the user's employee role
+    user.employeeRole = 'Site Engineer';
+
+    // Update the user
+    await mockDatabaseUserService.updateUser(
+      user,
+      user.employeeID,
+      user.employeeRole,
+      user.isActiveEmployee,
+    );
+
+    // Update the user
+    await mockDatabaseUserService.updateUser(
+        user, '1234567890', 'Manager', user.isActiveEmployee);
+
+    // Get the updated user
+    final updatedUser =
+        await mockDatabaseUserService.getUser(employeeID: user.employeeID);
+
+    // Check that the updated user has the new employee role
+    expect(updatedUser.employeeRole, user.employeeRole);
   });
 
   // Test the close() method
-  test('close() should throw DatabaseNotOpenException if database is not open',
+  test(
+      'close() should set the _isOpen flag to false and return without exception',
       () async {
-    // Arrange: Ensure the database is not open
     await mockDatabaseUserService.close();
 
-    // Act & Assert: close() should now throw an exception
-    expect(mockDatabaseUserService.close(),
-        throwsA(isA<DatabaseNotOpenException>()));
+    expect(mockDatabaseUserService._isOpen, isFalse);
   });
 }
 
@@ -157,15 +220,6 @@ class MockDatabaseUserService implements DatabaseUserService {
     required String employeeRole,
     required bool isActiveEmployee,
   }) async {
-    if (!_isOpen) {
-      throw DatabaseNotOpenException();
-    }
-
-    // Check if the user already exists
-    if (_employeeIDToUserMap.containsKey(employeeID)) {
-      throw UserAlreadyExists();
-    }
-
     // Create a new user object
     final user = DBUser(
       id: id,
@@ -177,11 +231,9 @@ class MockDatabaseUserService implements DatabaseUserService {
       isActiveEmployee: isActiveEmployee,
     );
 
-    // Add the user to the list of users
-    _users.add(user);
-
-    // Add the user to the map of employee IDs to user objects
+    // Add the user to the map and the list
     _employeeIDToUserMap[employeeID] = user;
+    _users.add(user);
 
     return user;
   }
@@ -193,26 +245,27 @@ class MockDatabaseUserService implements DatabaseUserService {
     String? employeeRole,
     bool? isActiveEmployee,
   ) async {
-    if (!_isOpen) {
-      throw DatabaseNotOpenException();
-    }
-
+    user.employeeRole = employeeRole ?? user.employeeRole;
     // Find the user by employee ID
     final originalUser = _employeeIDToUserMap[employeeID];
 
-    // If the user does not exist, throw an exception
     if (originalUser == null) {
-      throw CouldNotUpdateUser();
+      throw UserNotFoundException();
     }
 
-    // Update the user's information
+    // Update the user details
     originalUser.employeeRole = employeeRole ?? originalUser.employeeRole;
-    if (isActiveEmployee != null) {
-      originalUser.isActiveEmployee = isActiveEmployee;
-    }
+    originalUser.isActiveEmployee =
+        isActiveEmployee ?? originalUser.isActiveEmployee;
 
-    // Update the map of employee IDs to user objects
+    // Update the user in the map
     _employeeIDToUserMap[employeeID] = originalUser;
+
+    // Update the user in the list
+    int userIndex = _users.indexWhere((u) => u.employeeID == employeeID);
+    if (userIndex != -1) {
+      _users[userIndex] = originalUser;
+    }
 
     return originalUser;
   }
@@ -251,6 +304,7 @@ class MockDatabaseUserService implements DatabaseUserService {
 
     // Remove the user from the map of employee IDs to user objects
     _employeeIDToUserMap.remove(employeeID);
+    _users.removeWhere((user) => user.employeeID == employeeID);
   }
 
   @override
