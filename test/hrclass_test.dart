@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:echno_attendance/domain/usecases/hr_manager_usecase.dart';
+import 'package:echno_attendance/domain/usecases/hr_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MockFirestore extends Mock implements FirebaseFirestore {}
