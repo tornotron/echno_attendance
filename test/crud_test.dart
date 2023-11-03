@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:echno_attendance/attendance/utilities/crud_exceptions.dart';
 import 'package:echno_attendance/crud/services/db_user_services.dart';
 import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,6 +11,16 @@ void main() {
   // Ensure that the Flutter binding is initialized for testing
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async {
+        if (methodCall.method == 'getApplicationDocumentsDirectory') {
+          return '.';
+        }
+        return null;
+      },
+    );
   });
 
   // Create a mock database user service
@@ -25,14 +36,6 @@ void main() {
     // Try to open the database again
     expect(() async => await mockDatabaseUserService.open(),
         throwsA(const TypeMatcher<DatabaseAlreadyOpenException>()));
-  });
-
-  // Test the close() method
-  test('close() should throw DatabaseNotOpenException if database is not open',
-      () async {
-    // Try to close the database without opening it first
-    expect(() async => mockDatabaseUserService.close(),
-        throwsA(const TypeMatcher<DatabaseNotOpenException>()));
   });
 
   // Test the createUser() method
@@ -105,6 +108,17 @@ void main() {
             ),
         throwsA(const TypeMatcher<CouldNotUpdateUser>()));
   });
+
+  // Test the close() method
+  test('close() should throw DatabaseNotOpenException if database is not open',
+      () async {
+    // Arrange: Ensure the database is not open
+    await mockDatabaseUserService.close();
+
+    // Act & Assert: close() should now throw an exception
+    expect(mockDatabaseUserService.close(),
+        throwsA(isA<DatabaseNotOpenException>()));
+  });
 }
 
 class DatabaseAlreadyOpenException implements Exception {}
@@ -131,15 +145,6 @@ class MockDatabaseUserService implements DatabaseUserService {
     await databaseFile.create(recursive: true);
 
     _isOpen = true;
-  }
-
-  @override
-  Future<void> close() async {
-    if (!_isOpen) {
-      throw DatabaseNotOpenException();
-    }
-
-    _isOpen = false;
   }
 
   @override
@@ -246,5 +251,14 @@ class MockDatabaseUserService implements DatabaseUserService {
 
     // Remove the user from the map of employee IDs to user objects
     _employeeIDToUserMap.remove(employeeID);
+  }
+
+  @override
+  Future<void> close() async {
+    if (!_isOpen) {
+      throw DatabaseNotOpenException();
+    }
+
+    _isOpen = false;
   }
 }
