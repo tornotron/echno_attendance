@@ -1,318 +1,150 @@
-import 'dart:io';
-
-import 'package:echno_attendance/attendance/utilities/crud_exceptions.dart';
 import 'package:echno_attendance/crud/services/db_user_services.dart';
 import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
-  // Ensure that the Flutter binding is initialized for testing
-  setUpAll(() async {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/path_provider'),
-      (MethodCall methodCall) async {
-        if (methodCall.method == 'getApplicationDocumentsDirectory') {
-          return '.';
-        }
-        return null;
-      },
-    );
-  });
+  group('Database Service Tests', () {
+    // Ensure that the Flutter binding is initialized for testing
+    setUpAll(() async {
+      // Initialize the FFI
+      sqfliteFfiInit();
+      // Change the default factory for unit testing calls for SQFlite
+      databaseFactory = databaseFactoryFfi;
 
-  // Create a mock database user service
-  final mockDatabaseUserService = MockDatabaseUserService();
+      TestWidgetsFlutterBinding.ensureInitialized();
 
-  // Test the open() method
-  test(
-      'open() should set the _isOpen flag to true and return without exception',
-      () async {
-    await mockDatabaseUserService.open();
+      // Mock the path provider
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+        const MethodChannel('plugins.flutter.io/path_provider'),
+        (MethodCall methodCall) async {
+          if (methodCall.method == 'getApplicationDocumentsDirectory') {
+            return '.';
+          }
+          return null;
+        },
+      );
+    });
 
-    expect(mockDatabaseUserService._isOpen, isTrue);
-  });
+    // Create a mock database user service
+    final mockDatabaseUserService = MockDatabaseUserService();
 
-  // Test the createUser() method
-  test('createUser() should create a new user and return it without exception',
-      () async {
-    // Create a new user object
-    final user = DBUser(
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: 1234567890,
-      employeeID: '1234567890',
-      employeeRole: 'Software Engineer',
-      isActiveEmployee: true,
-    );
+    // Test the open() method
+    test(
+        'throw DatabaseNotOpen exception if the open() method is not called before any other method',
+        () async {
+      expect(() => mockDatabaseUserService.getDatabase(),
+          throwsA(const TypeMatcher<DatabaseNotOpen>()));
+    });
 
-    // Create the user
-    await mockDatabaseUserService.createUser(
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        employeeID: user.employeeID,
-        employeeRole: user.employeeRole,
-        isActiveEmployee: user.isActiveEmployee);
+    test(
+        'open the Databae with open() method and check if Database is opened successfully',
+        () async {
+      await mockDatabaseUserService.open();
+      expect(
+          mockDatabaseUserService.getDatabase(), const TypeMatcher<Database>());
+      await mockDatabaseUserService.close();
+    });
 
-    // Check that the user was created successfully
-    expect(mockDatabaseUserService._users.contains(user), isTrue);
-  });
+    test('test create user and delete user from databsae', () async {
+      await mockDatabaseUserService.open();
+      // Create the user
+      DBUser mockUser = await mockDatabaseUserService.createUser(
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          phoneNumber: 1234567890,
+          employeeID: '1234567890',
+          employeeRole: 'Software Engineer',
+          isActiveEmployee: true);
 
-  // Test the deleteUser() method
-  test('deleteUser() should delete the user and return without exception',
-      () async {
-    // Create a new user
-    final user = DBUser(
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: 1234567890,
-      employeeID: '1234567890',
-      employeeRole: 'Software Engineer',
-      isActiveEmployee: true,
-    );
+      // Check that the user was created successfully
+      expect(mockUser.email == 'john.doe@example.com', true);
 
-    // Create the user
-    await mockDatabaseUserService.createUser(
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        employeeID: user.employeeID,
-        employeeRole: user.employeeRole,
-        isActiveEmployee: user.isActiveEmployee);
+      // Delete the user
+      final success =
+          await mockDatabaseUserService.deleteUser(employeeID: '1234567890');
 
-    // Delete the user
-    await mockDatabaseUserService.deleteUser(employeeID: user.employeeID);
+      // Check that the user was deleted successfully
+      expect(success, 1);
+      await mockDatabaseUserService.close();
+    });
 
-    // Check that the user was deleted successfully
-    expect(mockDatabaseUserService._users.contains(user), isFalse);
-  });
-
-  // Test the getUser() method
-  test(
-      'getUser() should return the user if it exists and return without exception',
-      () async {
-    // Create a new user
-    final user = DBUser(
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: 1234567890,
-      employeeID: '1234567890',
-      employeeRole: 'Software Engineer',
-      isActiveEmployee: true,
-    );
-
-// Create the user
-    await mockDatabaseUserService.createUser(
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        employeeID: user.employeeID,
-        employeeRole: user.employeeRole,
-        isActiveEmployee: user.isActiveEmployee);
+//   // Test the getUser() method
+    test(
+        'test the get user method by creating a user and then retrieving it from the database',
+        () async {
+      await mockDatabaseUserService.open();
+      // Create the user
+      DBUser mockUser = await mockDatabaseUserService.createUser(
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          phoneNumber: 1234567890,
+          employeeID: '1234567890',
+          employeeRole: 'Software Engineer',
+          isActiveEmployee: true);
 
 // Get the user
-    final retrievedUser =
-        await mockDatabaseUserService.getUser(employeeID: user.employeeID);
+      final DBUser retrievedUser =
+          await mockDatabaseUserService.getUser(employeeID: '1234567890');
+
+// Delete the user
+      await mockDatabaseUserService.deleteUser(employeeID: '1234567890');
 
 // Check that the retrieved user is the same as the created user
-    expect(retrievedUser, user);
-  });
+      expect(retrievedUser.id, mockUser.id);
+      await mockDatabaseUserService.close();
+    });
 
-  // Test the updateUser() method
-  test('updateUser() should update the user and return it without exception',
-      () async {
-    // Create a new user
-    final user = DBUser(
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: 1234567890,
-      employeeID: '1234567890',
-      employeeRole: 'Software Engineer',
-      isActiveEmployee: true,
-    );
+    // Test the updateUser() method
+    test('test update user method by creating a user and then updating it',
+        () async {
+      await mockDatabaseUserService.open();
+      // Create the user
+      DBUser mockUser = await mockDatabaseUserService.createUser(
+          name: 'John Doe II',
+          email: 'john.doe-2@example.com',
+          phoneNumber: 2345678901,
+          employeeID: '2345678901',
+          employeeRole: 'Software Engineer',
+          isActiveEmployee: true);
 
-    // Create the user
-    await mockDatabaseUserService.createUser(
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        employeeID: user.employeeID,
-        employeeRole: user.employeeRole,
-        isActiveEmployee: user.isActiveEmployee);
+      // Update the user
+      await mockDatabaseUserService.updateUser(
+        mockUser,
+        mockUser.employeeID,
+        'Site Engineer',
+        mockUser.isActiveEmployee,
+      );
 
-    // Update the user's employee role
-    user.employeeRole = 'Site Engineer';
+      // Get the updated user
+      final updatedUser = await mockDatabaseUserService.getUser(
+          employeeID: mockUser.employeeID);
 
-    // Update the user
-    await mockDatabaseUserService.updateUser(
-      user,
-      user.employeeID,
-      user.employeeRole,
-      user.isActiveEmployee,
-    );
+// Delete the user
+      await mockDatabaseUserService.deleteUser(employeeID: mockUser.employeeID);
+      // Check that the updated user has the new employee role
+      expect(updatedUser.employeeRole, 'Site Engineer');
+      await mockDatabaseUserService.close();
+    });
 
-    // Update the user
-    await mockDatabaseUserService.updateUser(
-        user, '1234567890', 'Manager', user.isActiveEmployee);
+    // Test the close() method
+    test(
+        'test close method by closing the database and then checking if the database is closed',
+        () async {
+      await mockDatabaseUserService.open();
+      final Database? db = await mockDatabaseUserService.close();
 
-    // Get the updated user
-    final updatedUser =
-        await mockDatabaseUserService.getUser(employeeID: user.employeeID);
-
-    // Check that the updated user has the new employee role
-    expect(updatedUser.employeeRole, user.employeeRole);
-  });
-
-  // Test the close() method
-  test(
-      'close() should set the _isOpen flag to false and return without exception',
-      () async {
-    await mockDatabaseUserService.close();
-
-    expect(mockDatabaseUserService._isOpen, isFalse);
+      expect(db, isNull);
+    });
   });
 }
 
-class DatabaseAlreadyOpenException implements Exception {}
-
-class MockDatabaseUserService implements DatabaseUserService {
-  // A flag to indicate whether the database is open
-  bool _isOpen = false;
-
-  // A list of users in the database
-  final List<DBUser> _users = [];
-
-  // A map of employee IDs to user objects
-  final Map<String, DBUser> _employeeIDToUserMap = {};
-
+class MockDatabaseUserService extends DatabaseUserService {
+  // A fuction to check if database is open or not
   @override
-  Future<void> open() async {
-    if (_isOpen) throw DatabaseAlreadyOpenException();
-
-    // Get the documents directory
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-
-    // Create the database file if it doesn't exist
-    final databaseFile = File('${documentsDirectory.path}/echno_attendance.db');
-    await databaseFile.create(recursive: true);
-
-    _isOpen = true;
-  }
-
-  @override
-  Future<DBUser> createUser({
-    required int id,
-    required String name,
-    required String email,
-    required int phoneNumber,
-    required String employeeID,
-    required String employeeRole,
-    required bool isActiveEmployee,
-  }) async {
-    // Create a new user object
-    final user = DBUser(
-      id: id,
-      name: name,
-      email: email,
-      phoneNumber: phoneNumber,
-      employeeID: employeeID,
-      employeeRole: employeeRole,
-      isActiveEmployee: isActiveEmployee,
-    );
-
-    // Add the user to the map and the list
-    _employeeIDToUserMap[employeeID] = user;
-    _users.add(user);
-
-    return user;
-  }
-
-  @override
-  Future<DBUser> updateUser(
-    DBUser user,
-    String employeeID,
-    String? employeeRole,
-    bool? isActiveEmployee,
-  ) async {
-    user.employeeRole = employeeRole ?? user.employeeRole;
-    // Find the user by employee ID
-    final originalUser = _employeeIDToUserMap[employeeID];
-
-    if (originalUser == null) {
-      throw UserNotFoundException();
-    }
-
-    // Update the user details
-    originalUser.employeeRole = employeeRole ?? originalUser.employeeRole;
-    originalUser.isActiveEmployee =
-        isActiveEmployee ?? originalUser.isActiveEmployee;
-
-    // Update the user in the map
-    _employeeIDToUserMap[employeeID] = originalUser;
-
-    // Update the user in the list
-    int userIndex = _users.indexWhere((u) => u.employeeID == employeeID);
-    if (userIndex != -1) {
-      _users[userIndex] = originalUser;
-    }
-
-    return originalUser;
-  }
-
-  @override
-  Future<DBUser> getUser({required String employeeID}) async {
-    if (!_isOpen) {
-      throw DatabaseNotOpenException();
-    }
-
-    // Find the user by employee ID
-    final user = _employeeIDToUserMap[employeeID];
-    if (user == null) {
-      throw CouldNotFindUser();
-    }
-
-    return user;
-  }
-
-  @override
-  Future<void> deleteUser({required String employeeID}) async {
-    if (!_isOpen) {
-      throw DatabaseNotOpenException();
-    }
-
-    // Find the user by employee ID
-    final user = _employeeIDToUserMap[employeeID];
-
-    // If the user does not exist, throw an exception
-    if (user == null) {
-      throw CouldNotDeleteUser();
-    }
-
-    // Remove the user from the list of users
-    _users.remove(user);
-
-    // Remove the user from the map of employee IDs to user objects
-    _employeeIDToUserMap.remove(employeeID);
-    _users.removeWhere((user) => user.employeeID == employeeID);
-  }
-
-  @override
-  Future<void> close() async {
-    if (!_isOpen) {
-      throw DatabaseNotOpenException();
-    }
-
-    _isOpen = false;
+  Database getDatabase() {
+    return super.getDatabase();
   }
 }
