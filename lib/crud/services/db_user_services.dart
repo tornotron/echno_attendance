@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
@@ -6,7 +9,8 @@ import 'package:path/path.dart' show join;
 class DatabaseUserService {
   Database? _database;
 
-  Database _getDatabase() {
+  @protected
+  Database getDatabase() {
     final database = _database;
     if (database == null) {
       throw DatabaseNotOpen();
@@ -16,13 +20,13 @@ class DatabaseUserService {
   }
 
   Future<void> open() async {
-    if (_database == null) {
+    if (_database != null) {
       throw DatabaseAlreadyOpenException();
     }
     try {
-      final docsPath = await getApplicationDocumentsDirectory();
-      final dbPath = join(docsPath.path, dbName);
-      final database = await openDatabase(dbPath);
+      final Directory docsPath = await getApplicationDocumentsDirectory();
+      final String dbPath = join(docsPath.path, dbName);
+      final Database database = await openDatabase(dbPath);
       _database = database;
 
       await database.execute(createUserTable); // Database 'user' table creation
@@ -31,7 +35,7 @@ class DatabaseUserService {
     }
   }
 
-  Future<void> close() async {
+  Future<Database?> close() async {
     final database = _database;
     if (database == null) {
       throw DatabaseNotOpen();
@@ -39,10 +43,10 @@ class DatabaseUserService {
       await database.close();
       _database = null;
     }
+    return _database;
   }
 
   Future<DBUser> createUser({
-    required int id,
     required String name,
     required String email,
     required int phoneNumber,
@@ -50,7 +54,7 @@ class DatabaseUserService {
     required String employeeRole,
     required bool isActiveEmployee,
   }) async {
-    final database = _getDatabase();
+    final database = getDatabase();
     final results = await database.query(
       userTable,
       limit: 1,
@@ -81,8 +85,8 @@ class DatabaseUserService {
     );
   }
 
-  Future<void> deleteUser({required String employeeID}) async {
-    final database = _getDatabase();
+  Future<int> deleteUser({required String employeeID}) async {
+    final database = getDatabase();
     final deleteStatus = await database.delete(
       userTable,
       where: '$employeeIdColumn = ?',
@@ -91,14 +95,15 @@ class DatabaseUserService {
     if (deleteStatus != 1) {
       throw CouldNotDeleteUser();
     }
+    return deleteStatus;
   }
 
   Future<DBUser> getUser({required String employeeID}) async {
-    final database = _getDatabase();
+    final database = getDatabase();
     final results = await database.query(
       userTable,
       limit: 1,
-      where: 'employeeId = ?',
+      where: '$employeeIdColumn = ?',
       whereArgs: [employeeID],
     );
     if (results.isEmpty) {
@@ -114,7 +119,7 @@ class DatabaseUserService {
     String? employeeRole,
     bool? isActiveEmployee,
   ) async {
-    final db = _getDatabase();
+    final db = getDatabase();
     await getUser(employeeID: employeeID);
 
     final updatesCount = await db.update(userTable, {
@@ -174,7 +179,7 @@ class DBUser {
 
 const idColumn = 'id';
 const emailColumn = 'email';
-const employeeIdColumn = 'employeeId';
+const employeeIdColumn = 'employee_id';
 const nameColumn = 'name';
 const phoneNumberColumn = 'phone_number';
 const employeeRoleColumn = 'employee_role';
