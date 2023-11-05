@@ -1,8 +1,10 @@
 import 'package:echno_attendance/domain/usecases/manager_abstract.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:developer';
+import 'package:echno_attendance/logger.dart';
+import 'package:logger/logger.dart';
 
 class FirestoreUserServices implements FirestoreUserHandleProvider {
+  final logs = logger(FirestoreUserServices, Level.info);
   @override
   Future createUser(
       {required String userId,
@@ -27,12 +29,12 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
           'employee-status': isActiveUser,
         });
       } else {
-        log("user already exists");
+        logs.i('user already exits');
       }
     } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
+      logs.i('Firebase Exception: ${error.message}');
     } catch (e) {
-      log('Other Exception: $e');
+      logs.i('Other Exception: $e');
     }
   }
 
@@ -71,9 +73,9 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
 
       await docRef.update(updateData);
     } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
+      logs.i('Firebase Exception: ${error.message}');
     } catch (e) {
-      log('Other Exception: $e');
+      logs.i('Other Exception: $e');
     }
   }
 
@@ -82,9 +84,9 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
     try {
       await FirebaseFirestore.instance.collection('users').doc(userId).delete();
     } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
+      logs.i('Firebase Exception: ${error.message}');
     } catch (e) {
-      log('Other Exception: $e');
+      logs.i('Other Exception: $e');
     }
   }
 
@@ -110,12 +112,12 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
         userRole = employeeData['employee-role'];
         isActiveUser = employeeData['employee-status'];
       } else {
-        log("employee doesn't exist");
+        logs.i("employee doesn't exist");
       }
     } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
+      logs.i('Firebase Exception: ${error.message}');
     } catch (e) {
-      log('Other Exception: $e');
+      logs.i('Other Exception: $e');
     }
     return {
       'name': name,
