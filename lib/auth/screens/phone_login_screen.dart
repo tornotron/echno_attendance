@@ -156,6 +156,58 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                           ],
                         ),
                       ),
+
+                      /*---------- Login Screen Footer Start ----------*/
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text('OR'),
+                          const SizedBox(height: 10.0),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                                icon: SvgPicture.asset(
+                                  googleIcon,
+                                  width: 20.0,
+                                ),
+                                onPressed: () {},
+                                label: const Text(
+                                  'Sign-In with Google',
+                                )),
+                          ),
+                          const SizedBox(height: 10.0),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                                icon: const Icon(Icons.email_rounded),
+                                onPressed: () {},
+                                label: const Text(
+                                  'Login with Email',
+                                )),
+                          ),
+                          const SizedBox(height: 10.0),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Don\'t have an account ? ',
+                                style: Theme.of(context).textTheme.titleMedium,
+                                children: const [
+                                  TextSpan(
+                                    text: 'Register',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      /*---------- Login Screen Footer End ----------*/
                     ],
                   ),
                 ],
