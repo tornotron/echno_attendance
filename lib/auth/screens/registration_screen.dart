@@ -1,8 +1,12 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/auth/widgets/password_form_field.dart';
+import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'dart:developer' as devtools show log;
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -15,6 +19,22 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController phoneController = TextEditingController();
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   Country selectedCountry = Country(
     phoneCode: "91",
@@ -98,6 +118,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                           // Email TextField
                           TextFormField(
+                            controller: _emailController,
                             enableSuggestions: false,
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
@@ -180,7 +201,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           // const SizedBox(height: 10.0),
 
                           // Password TextField
-                          const PasswordTextField(
+                          PasswordTextField(
+                            controller: _passwordController,
                             labelText: 'Password',
                             hintText: 'Password',
                           ),
@@ -197,7 +219,41 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                final email = _emailController.text;
+                                final password = _passwordController.text;
+                                String errorMessage = '';
+                                try {
+                                  await AuthService.firebase().createUser(
+                                    email: email,
+                                    password: password,
+                                  );
+                                  if (context.mounted) {
+                                    Navigator.of(context).pushNamed(
+                                      verifyEmailRoute,
+                                    );
+                                  }
+                                  await AuthService.firebase()
+                                      .sendEmailVerification();
+                                } on WeakPasswordAuthException {
+                                  devtools.log(
+                                      'The password provided is too weak.');
+                                  errorMessage = 'Weak Password';
+                                } on EmailAlreadyInUseAuthException {
+                                  devtools.log(
+                                      'The account already exists for that email.');
+                                  errorMessage = 'Email Already in Use';
+                                } on InvalidEmailAuthException {
+                                  devtools
+                                      .log('The email address is not valid.');
+                                  errorMessage = 'Invalid Email';
+                                } on GenericAuthException catch (e) {
+                                  errorMessage = 'Error: $e';
+                                }
+                                if (errorMessage.isNotEmpty) {
+                                  await showErrorDialog(context, errorMessage);
+                                }
+                              },
                               child: const Text(
                                 'REGISTER',
                               ),
@@ -231,7 +287,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            loginRoute,
+                            (route) => false,
+                          );
+                        },
                         child: Text.rich(
                           TextSpan(
                             text: 'Already have an account ? ',
