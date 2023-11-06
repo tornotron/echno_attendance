@@ -1,4 +1,6 @@
+import 'package:echno_attendance/auth/services/index.dart';
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -51,9 +53,27 @@ class EmailVerification extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        AuthService.firebase().sendEmailVerification();
+                      },
                       child: const Text(
                         'Resent Verification Mail',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        loginRoute,
+                        (route) => false,
+                      );
+                    },
+                    child: const Text(
+                      'Back to Login',
+                      style: TextStyle(
+                        fontFamily: 'TT Chocolates',
+                        fontSize: 20.0,
                       ),
                     ),
                   ),
