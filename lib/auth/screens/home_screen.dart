@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+  static const EdgeInsetsGeometry containerPadding =
+      EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(context) {
+    final mediaQuery = MediaQuery.of(context);
+    final height = mediaQuery.size.height;
+
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
+        body: SafeArea(
+          child: Container(
+            width: double.infinity,
+            height: height,
+            padding: HomeScreen.containerPadding,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /*-----------------Welcome Header Start -----------------*/
+
+                Text(
+                  'Home Screen',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+
+                /*-----------------Welcome Header End -----------------*/
+
+                /*-----------------Welcome Button Start -----------------*/
+
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'PROFILE',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'LOG OUT',
+                    ),
+                  ),
+                ),
+
+                /*-----------------Welcome Button End -----------------*/
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
