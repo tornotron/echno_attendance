@@ -1,13 +1,39 @@
+import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/auth/widgets/password_form_field.dart';
+import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'dart:developer' as devtools show log;
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(context) {
@@ -21,7 +47,7 @@ class LoginScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              padding: containerPadding,
+              padding: LoginScreen.containerPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,6 +81,7 @@ class LoginScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextFormField(
+                                controller: _emailController,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 keyboardType: TextInputType.emailAddress,
@@ -73,7 +100,8 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 15.0),
-                              const PasswordTextField(
+                              PasswordTextField(
+                                controller: _passwordController,
                                 labelText: 'Password',
                                 hintText: 'Password',
                               ),
@@ -233,7 +261,54 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    final email = _emailController.text;
+                                    final password = _passwordController.text;
+                                    String errorMessage = '';
+                                    try {
+                                      final userCredential =
+                                          await AuthService.firebase().logIn(
+                                        email: email,
+                                        password: password,
+                                      );
+                                      final user =
+                                          AuthService.firebase().currentUser;
+                                      if (user?.isemailVerified ?? false) {
+                                        if (context.mounted) {
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                            homeRoute,
+                                            (route) => false,
+                                          );
+                                        }
+                                      } else {
+                                        await AuthService.firebase()
+                                            .sendEmailVerification();
+                                        if (context.mounted) {
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                            verifyEmailRoute,
+                                            (route) => false,
+                                          );
+                                        }
+                                      }
+                                      devtools.log(userCredential.toString());
+                                    } on UserNotFoundAuthException {
+                                      errorMessage = 'User Not Found';
+                                      devtools
+                                          .log('No user found for that email.');
+                                    } on WrongPasswordAuthException {
+                                      errorMessage = 'Wrong Credentials';
+                                      devtools.log(
+                                          'Wrong password provided for that user.');
+                                    } on GenericAuthException catch (e) {
+                                      errorMessage = 'Error: $e';
+                                    }
+                                    if (errorMessage.isNotEmpty) {
+                                      await showErrorDialog(
+                                          context, errorMessage);
+                                    }
+                                  },
                                   child: const Text(
                                     'LOGIN',
                                   ),
@@ -278,7 +353,12 @@ class LoginScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 10.0),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                registerRoute,
+                                (route) => false,
+                              );
+                            },
                             child: Text.rich(
                               TextSpan(
                                 text: 'Don\'t have an account ? ',
