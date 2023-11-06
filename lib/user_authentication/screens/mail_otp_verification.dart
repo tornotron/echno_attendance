@@ -25,7 +25,7 @@ class MailOTPVerification extends StatelessWidget {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               SvgPicture.asset(
                 echnoOTP,
-                height: height * 0.3,
+                height: height * 0.4,
               ),
               Column(
                 children: [
