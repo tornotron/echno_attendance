@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-final logger = (Type type, Level level) => Logger(
+logger(Type type, Level level) => Logger(
       printer: CustomPrinter(type.toString()),
       level: level,
     );
@@ -16,6 +16,6 @@ class CustomPrinter extends LogPrinter {
     final emoji = PrettyPrinter.defaultLevelEmojis[event.level];
     final message = event.message;
 
-    return [color!('$emoji $className: $message')];
+    return [color!('echno $emoji $className: $message')];
   }
 }
