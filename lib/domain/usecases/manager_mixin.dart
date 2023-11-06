@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:developer';
+
+import 'package:echno_attendance/logger.dart';
+import 'package:logger/logger.dart';
 
 mixin ManagerMixin {
+  final logs = logger(ManagerMixin, Level.info);
   Future<Map<String, dynamic>> readUser({
     required String userId,
   }) async {
@@ -23,12 +26,12 @@ mixin ManagerMixin {
         userRole = employeeData['employee-role'];
         isActiveUser = employeeData['employee-status'];
       } else {
-        log("employee doesn't exist");
+        logs.i("employee doesn't exist");
       }
     } on FirebaseException catch (error) {
-      log('Firebase Exception: ${error.message}');
+      logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
-      log('Other Exception: $e');
+      logs.e('Other Exception: $e');
     }
     return {
       'name': name,

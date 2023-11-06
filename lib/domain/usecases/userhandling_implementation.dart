@@ -32,9 +32,9 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
         logs.i('user already exits');
       }
     } on FirebaseException catch (error) {
-      logs.i('Firebase Exception: ${error.message}');
+      logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
-      logs.i('Other Exception: $e');
+      logs.e('Other Exception: $e');
     }
   }
 
@@ -73,9 +73,9 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
 
       await docRef.update(updateData);
     } on FirebaseException catch (error) {
-      logs.i('Firebase Exception: ${error.message}');
+      logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
-      logs.i('Other Exception: $e');
+      logs.e('Other Exception: $e');
     }
   }
 
@@ -84,9 +84,9 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
     try {
       await FirebaseFirestore.instance.collection('users').doc(userId).delete();
     } on FirebaseException catch (error) {
-      logs.i('Firebase Exception: ${error.message}');
+      logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
-      logs.i('Other Exception: $e');
+      logs.e('Other Exception: $e');
     }
   }
 
@@ -115,9 +115,9 @@ class FirestoreUserServices implements FirestoreUserHandleProvider {
         logs.i("employee doesn't exist");
       }
     } on FirebaseException catch (error) {
-      logs.i('Firebase Exception: ${error.message}');
+      logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
-      logs.i('Other Exception: $e');
+      logs.e('Other Exception: $e');
     }
     return {
       'name': name,
