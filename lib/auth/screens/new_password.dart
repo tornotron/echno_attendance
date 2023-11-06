@@ -1,4 +1,4 @@
-import 'package:echno_attendance/user_authentication/widgets/password_form_field.dart';
+import 'package:echno_attendance/auth/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
 
 class NewPassword extends StatelessWidget {
