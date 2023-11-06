@@ -1,3 +1,4 @@
+import 'package:echno_attendance/auth/widgets/link_auth_user.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -59,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 /*-----------------Welcome Button End -----------------*/
+                const SizedBox(height: 15),
+                /*-----------------Toggle for Link & Unlink Auth Providers -----------------*/
+                const LinkSwitchButton(),
               ],
             ),
           ),
