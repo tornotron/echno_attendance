@@ -94,125 +94,128 @@ class LoginScreen extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20.0)),
                                       context: context,
-                                      builder: (context) => Container(
-                                        padding: const EdgeInsets.all(30.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Reset Password!',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .displayMedium,
-                                            ),
-                                            Text(
-                                              'Choose an option to reset your password...',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium,
-                                            ),
-                                            const SizedBox(
-                                              height: 30.0,
-                                            ),
-                                            // Email Password Reset
+                                      builder: (context) =>
+                                          SingleChildScrollView(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(30.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Reset Password!',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayMedium,
+                                              ),
+                                              Text(
+                                                'Choose an option to reset your password...',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                              const SizedBox(
+                                                height: 30.0,
+                                              ),
+                                              // Email Password Reset
 
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(20.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                  color: echnoGreyColor,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons
-                                                          .mail_outline_outlined,
-                                                      size: 60.0,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10.0,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'E-Mail',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .titleLarge,
-                                                        ),
-                                                        Text(
-                                                          'Reset via E-Mail Verification',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge,
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(
+                                                      20.0),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                    color: echnoGreyColor,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .mail_outline_outlined,
+                                                        size: 60.0,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10.0,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'E-Mail',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .titleLarge,
+                                                          ),
+                                                          Text(
+                                                            'Reset via E-Mail Verification',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .titleSmall,
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 20.0),
-                                            // Phone Password Reset
+                                              const SizedBox(height: 20.0),
+                                              // Phone Password Reset
 
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(20.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                  color: echnoGreyColor,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons
-                                                          .mobile_friendly_rounded,
-                                                      size: 60.0,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10.0,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Phone Number',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .titleLarge,
-                                                        ),
-                                                        Text(
-                                                          'Reset via Phone Verification',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge,
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(
+                                                      20.0),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                    color: echnoGreyColor,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .mobile_friendly_rounded,
+                                                        size: 60.0,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10.0,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Phone Number',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .titleLarge,
+                                                          ),
+                                                          Text(
+                                                            'Reset via Phone Verification',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .titleSmall,
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     );
