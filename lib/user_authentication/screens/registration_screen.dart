@@ -79,21 +79,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextFormField(
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.person_outline_outlined),
-                              labelText: 'Full Name',
-                              hintText: 'Full Name',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                  (15.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
+                          // // Full Name TextField
+                          // TextFormField(
+                          //   maxLines: 1,
+                          //   decoration: InputDecoration(
+                          //     prefixIcon:
+                          //         const Icon(Icons.person_outline_outlined),
+                          //     labelText: 'Full Name',
+                          //     hintText: 'Full Name',
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(
+                          //         (15.0),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 10.0),
+
+                          // Email TextField
                           TextFormField(
                             enableSuggestions: false,
                             autocorrect: false,
@@ -113,76 +116,84 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          TextFormField(
-                            controller: phoneController,
-                            onChanged: (value) {
-                              setState(() {
-                                phoneController.text = value;
-                              });
-                            },
-                            enableSuggestions: false,
-                            autocorrect: false,
-                            keyboardType: TextInputType.number,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              labelText: 'Mobile Number',
-                              hintText: '1234 567 890',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              prefixIcon: Container(
-                                padding: const EdgeInsets.all(13.5),
-                                child: InkWell(
-                                  onTap: () {
-                                    showCountryPicker(
-                                      context: context,
-                                      countryListTheme:
-                                          const CountryListThemeData(
-                                        bottomSheetHeight: 550,
-                                      ),
-                                      onSelect: (value) {
-                                        setState(() {
-                                          selectedCountry = value;
-                                        });
-                                      },
-                                    );
-                                  },
-                                  child: Text(
-                                    "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                              ),
-                              suffixIcon: phoneController.text.length > 9
-                                  ? Container(
-                                      height: 30,
-                                      width: 30,
-                                      margin: const EdgeInsets.all(10.0),
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.green,
-                                      ),
-                                      child: const Icon(
-                                        Icons.done,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    )
-                                  : null,
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
+
+                          // // Mobile Number TextField
+                          // TextFormField(
+                          //   controller: phoneController,
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       phoneController.text = value;
+                          //     });
+                          //   },
+                          //   enableSuggestions: false,
+                          //   autocorrect: false,
+                          //   keyboardType: TextInputType.number,
+                          //   maxLines: 1,
+                          //   decoration: InputDecoration(
+                          //     labelText: 'Mobile Number',
+                          //     hintText: '1234 567 890',
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(15.0),
+                          //     ),
+                          //     prefixIcon: Container(
+                          //       padding: const EdgeInsets.all(13.5),
+                          //       child: InkWell(
+                          //         onTap: () {
+                          //           showCountryPicker(
+                          //             context: context,
+                          //             countryListTheme:
+                          //                 const CountryListThemeData(
+                          //               bottomSheetHeight: 550,
+                          //             ),
+                          //             onSelect: (value) {
+                          //               setState(() {
+                          //                 selectedCountry = value;
+                          //               });
+                          //             },
+                          //           );
+                          //         },
+                          //         child: Text(
+                          //           "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
+                          //           style:
+                          //               Theme.of(context).textTheme.titleMedium,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     suffixIcon: phoneController.text.length > 9
+                          //         ? Container(
+                          //             height: 30,
+                          //             width: 30,
+                          //             margin: const EdgeInsets.all(10.0),
+                          //             decoration: const BoxDecoration(
+                          //               shape: BoxShape.circle,
+                          //               color: Colors.green,
+                          //             ),
+                          //             child: const Icon(
+                          //               Icons.done,
+                          //               color: Colors.white,
+                          //               size: 20,
+                          //             ),
+                          //           )
+                          //         : null,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 10.0),
+
+                          // Password TextField
                           const PasswordTextField(
                             labelText: 'Password',
                             hintText: 'Password',
                           ),
                           const SizedBox(height: 10.0),
-                          const PasswordTextField(
-                            labelText: 'Re-Enter Password',
-                            hintText: 'Re-Enter Password',
-                          ),
-                          const SizedBox(height: 30.0),
+
+                          // // Re-Enter Password TextField
+                          // const PasswordTextField(
+                          //   labelText: 'Re-Enter Password',
+                          //   hintText: 'Re-Enter Password',
+                          // ),
+                          // const SizedBox(height: 30.0),
+
+                          // Register Button
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
