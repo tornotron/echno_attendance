@@ -1,4 +1,5 @@
 import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class EmailVerification extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async {
                         AuthService.firebase().sendEmailVerification();
+                        verificationMailAltert(context);
                       },
                       child: const Text(
                         'Resent Verification Mail',
