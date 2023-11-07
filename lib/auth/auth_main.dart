@@ -1,3 +1,4 @@
+import 'package:echno_attendance/auth/screens/email_reset_password.dart';
 import 'package:echno_attendance/auth/screens/email_verification_screen.dart';
 import 'package:echno_attendance/auth/screens/home_screen.dart';
 import 'package:echno_attendance/auth/screens/login_screen.dart';
@@ -31,6 +32,7 @@ class EchnoTestApp extends StatelessWidget {
         registerRoute: (context) => const RegistrationScreen(),
         verifyEmailRoute: (context) => const EmailVerification(),
         homeRoute: (context) => const HomeScreen(),
+        resetPasswordRoute: (context) => const MailPasswordResetScreen(),
       },
     );
   }
