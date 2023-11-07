@@ -250,7 +250,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   errorMessage = 'Invalid Email';
                                 } on GenericAuthException catch (e) {
                                   devtools.log(e.message);
-                                  errorMessage = 'Error: $e';
+                                  errorMessage = 'Something Went Wrong..!';
                                 }
                                 if (errorMessage.isNotEmpty) {
                                   await showErrorDialog(context, errorMessage);
