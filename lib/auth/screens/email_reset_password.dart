@@ -1,11 +1,35 @@
+import 'package:echno_attendance/auth/services/auth_service.dart';
+import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:developer' as devtools show log;
 
-class MailPasswordResetScreen extends StatelessWidget {
+class MailPasswordResetScreen extends StatefulWidget {
   const MailPasswordResetScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
+
+  @override
+  State<MailPasswordResetScreen> createState() =>
+      _MailPasswordResetScreenState();
+}
+
+class _MailPasswordResetScreenState extends State<MailPasswordResetScreen> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(context) {
@@ -19,7 +43,7 @@ class MailPasswordResetScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            padding: containerPadding,
+            padding: MailPasswordResetScreen.containerPadding,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               SvgPicture.asset(
@@ -44,6 +68,7 @@ class MailPasswordResetScreen extends StatelessWidget {
               Column(
                 children: [
                   TextFormField(
+                    controller: _controller,
                     enableSuggestions: false,
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
@@ -64,9 +89,46 @@ class MailPasswordResetScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final email = _controller.text.trim();
+                        String errorMessage = '';
+                        try {
+                          await AuthService.firebase()
+                              .resetPassword(toEmail: email);
+                        } on GenericAuthException catch (e) {
+                          if (e.message == 'user-not-found') {
+                            errorMessage = 'No User Found!';
+                            devtools.log('No user found for that email.');
+                          } else if (e.message == 'invalid-email') {
+                            errorMessage = 'Invalid Email!';
+                            devtools.log('The email address is not valid.');
+                          } else {
+                            errorMessage = 'Something Went Wrong!';
+                            devtools.log(e.message);
+                          }
+                        }
+                        if (errorMessage.isNotEmpty) {
+                          await showErrorDialog(context, errorMessage);
+                        }
+                      },
                       child: const Text(
-                        'Next',
+                        'Reset Password',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        loginRoute,
+                        (route) => false,
+                      );
+                    },
+                    child: const Text(
+                      'Back to Login',
+                      style: TextStyle(
+                        fontFamily: 'TT Chocolates',
+                        fontSize: 20.0,
                       ),
                     ),
                   ),
