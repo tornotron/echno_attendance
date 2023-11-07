@@ -148,7 +148,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                               // Email Password Reset
 
                                               GestureDetector(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                    resetPasswordRoute,
+                                                  );
+                                                },
                                                 child: Container(
                                                   padding: const EdgeInsets.all(
                                                       20.0),
