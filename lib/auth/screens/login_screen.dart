@@ -306,8 +306,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       errorMessage = 'Wrong Credentials';
                                       devtools.log(
                                           'Wrong password provided for that user.');
+                                    } on InvalidEmailAuthException {
+                                      devtools.log(
+                                          'The email address is not valid.');
+                                      errorMessage = 'Invalid Email';
                                     } on GenericAuthException catch (e) {
-                                      errorMessage = 'Error: $e';
+                                      errorMessage = 'Something Went Wrong..!';
+                                      devtools.log(e.message);
                                     }
                                     if (errorMessage.isNotEmpty) {
                                       await showErrorDialog(
