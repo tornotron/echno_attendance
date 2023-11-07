@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/auth/widgets/password_form_field.dart';
@@ -248,10 +249,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       .log('The email address is not valid.');
                                   errorMessage = 'Invalid Email';
                                 } on GenericAuthException catch (e) {
+                                  devtools.log(e.message);
                                   errorMessage = 'Error: $e';
                                 }
                                 if (errorMessage.isNotEmpty) {
                                   await showErrorDialog(context, errorMessage);
+                                } else {
+                                  verificationMailAltert(context);
+                                  devtools.log(
+                                      'User Created Successfully! And Verification Mail Sent...');
                                 }
                               },
                               child: const Text(

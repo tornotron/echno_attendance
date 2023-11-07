@@ -1,4 +1,5 @@
 import 'package:echno_attendance/auth/services/auth_service.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/utilities/index.dart';
@@ -109,6 +110,8 @@ class _MailPasswordResetScreenState extends State<MailPasswordResetScreen> {
                         }
                         if (errorMessage.isNotEmpty) {
                           await showErrorDialog(context, errorMessage);
+                        } else {
+                          resetPasswordAlert(context);
                         }
                       },
                       child: const Text(
