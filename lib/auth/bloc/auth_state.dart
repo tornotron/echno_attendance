@@ -20,7 +20,8 @@ class AuthEmailNotVerifiedState extends AuthState {
 }
 
 class AuthLoggedOutState extends AuthState {
-  const AuthLoggedOutState();
+  final Exception? exception;
+  const AuthLoggedOutState(this.exception);
 }
 
 class AuthErrorState extends AuthState {

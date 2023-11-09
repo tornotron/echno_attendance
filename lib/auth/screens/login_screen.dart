@@ -1,5 +1,6 @@
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
+import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
@@ -267,41 +268,44 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SizedBox(
                                 width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    final email = _emailController.text;
-                                    final password = _passwordController.text;
-                                    String errorMessage = '';
-                                    try {
+                                child: BlocListener<AuthBloc, AuthState>(
+                                  listener: (context, state) async {
+                                    if (state is AuthLoggedOutState) {
+                                      if (state.exception
+                                          is UserNotFoundAuthException) {
+                                        devtools.log(
+                                            'No user found for that email.');
+                                        await showErrorDialog(
+                                            context, 'User Not Found');
+                                      } else if (state.exception
+                                          is WrongPasswordAuthException) {
+                                        devtools.log(
+                                            'Wrong password provided for that user.');
+                                        await showErrorDialog(
+                                            context, 'Wrong Credentials');
+                                      } else if (state.exception
+                                          is GenericAuthException) {
+                                        devtools
+                                            .log(state.exception.toString());
+                                        await showErrorDialog(
+                                            context, 'Authentication Error');
+                                      }
+                                    }
+                                  },
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      final email = _emailController.text;
+                                      final password = _passwordController.text;
                                       context.read<AuthBloc>().add(
                                             AuthLogInEvent(
                                               email: email,
                                               password: password,
                                             ),
                                           );
-                                    } on UserNotFoundAuthException {
-                                      errorMessage = 'User Not Found';
-                                      devtools
-                                          .log('No user found for that email.');
-                                    } on WrongPasswordAuthException {
-                                      errorMessage = 'Wrong Credentials';
-                                      devtools.log(
-                                          'Wrong password provided for that user.');
-                                    } on InvalidEmailAuthException {
-                                      devtools.log(
-                                          'The email address is not valid.');
-                                      errorMessage = 'Invalid Email';
-                                    } on GenericAuthException catch (e) {
-                                      errorMessage = 'Something Went Wrong..!';
-                                      devtools.log(e.message);
-                                    }
-                                    if (errorMessage.isNotEmpty) {
-                                      await showErrorDialog(
-                                          context, errorMessage);
-                                    }
-                                  },
-                                  child: const Text(
-                                    'LOGIN',
+                                    },
+                                    child: const Text(
+                                      'LOGIN',
+                                    ),
                                   ),
                                 ),
                               ),
