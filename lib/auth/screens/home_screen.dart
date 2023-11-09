@@ -1,8 +1,9 @@
-import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/widgets/link_auth_user.dart';
-import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,13 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () async {
+                      final authBloc = context.read<AuthBloc>();
                       final shouldLogout = await showLogOutDialog(context);
                       if (shouldLogout) {
-                        await AuthService.firebase().logOut();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          loginRoute,
-                          (_) => false,
-                        );
+                        authBloc.add(const AuthLogOutEvent());
                       }
                     },
                     child: const Text(

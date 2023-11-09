@@ -1,10 +1,12 @@
-import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/auth/widgets/password_form_field.dart';
 import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:developer' as devtools show log;
 
@@ -271,33 +273,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     final password = _passwordController.text;
                                     String errorMessage = '';
                                     try {
-                                      final userCredential =
-                                          await AuthService.firebase().logIn(
-                                        email: email,
-                                        password: password,
-                                      );
-                                      final user =
-                                          AuthService.firebase().currentUser;
-                                      if (user?.isemailVerified ?? false) {
-                                        if (context.mounted) {
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(
-                                            homeRoute,
-                                            (route) => false,
+                                      context.read<AuthBloc>().add(
+                                            AuthLogInEvent(
+                                              email: email,
+                                              password: password,
+                                            ),
                                           );
-                                        }
-                                      } else {
-                                        await AuthService.firebase()
-                                            .sendEmailVerification();
-                                        if (context.mounted) {
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(
-                                            verifyEmailRoute,
-                                            (route) => false,
-                                          );
-                                        }
-                                      }
-                                      devtools.log(userCredential.toString());
                                     } on UserNotFoundAuthException {
                                       errorMessage = 'User Not Found';
                                       devtools
