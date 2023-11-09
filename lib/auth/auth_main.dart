@@ -1,8 +1,4 @@
-import 'package:echno_attendance/auth/screens/email_reset_password.dart';
-import 'package:echno_attendance/auth/screens/email_verification_screen.dart';
-import 'package:echno_attendance/auth/screens/home_screen.dart';
-import 'package:echno_attendance/auth/screens/login_screen.dart';
-import 'package:echno_attendance/auth/screens/registration_screen.dart';
+import 'package:echno_attendance/auth/screens/index.dart';
 import 'package:echno_attendance/constants/custom_theme.dart';
 import 'package:echno_attendance/utilities/routes.dart';
 import 'package:echno_attendance/auth/services/auth_service.dart';
