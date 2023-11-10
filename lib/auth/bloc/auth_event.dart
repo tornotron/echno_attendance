@@ -22,6 +22,10 @@ class AuthRegistrationEvent extends AuthEvent {
   });
 }
 
+class AuthVerifyEmailEvent extends AuthEvent {
+  const AuthVerifyEmailEvent();
+}
+
 class AuthLogInEvent extends AuthEvent {
   final String email;
   final String password;
