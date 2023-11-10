@@ -1,9 +1,10 @@
-import 'package:echno_attendance/auth/services/index.dart';
-import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/constants/image_string.dart';
-import 'package:echno_attendance/utilities/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:developer' as devtools show log;
 
 class EmailVerification extends StatelessWidget {
   const EmailVerification({super.key});
@@ -55,8 +56,10 @@ class EmailVerification extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                        AuthService.firebase().sendEmailVerification();
-                        verificationMailAltert(context);
+                        devtools.log('Verification Mail Sent...!');
+                        context.read<AuthBloc>().add(
+                              const AuthVerifyEmailEvent(),
+                            );
                       },
                       child: const Text(
                         'Resent Verification Mail',
@@ -66,10 +69,9 @@ class EmailVerification extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        loginRoute,
-                        (route) => false,
-                      );
+                      context.read<AuthBloc>().add(
+                            const AuthLogOutEvent(),
+                          );
                     },
                     child: const Text(
                       'Back to Login',
