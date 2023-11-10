@@ -87,5 +87,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         )); // user logout failed or some error
       }
     });
+    // Navigate to Registration Screen from Login Screen
+    on<AuthNeedToRegisterEvent>((event, emit) async {
+      emit(const AuthRegistrationState(null));
+    });
   }
 }
