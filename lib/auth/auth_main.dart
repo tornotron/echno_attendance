@@ -5,7 +5,6 @@ import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:echno_attendance/auth/services/index.dart';
 import 'package:echno_attendance/auth/screens/index.dart';
 import 'package:echno_attendance/constants/custom_theme.dart';
-import 'package:echno_attendance/utilities/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -30,13 +29,6 @@ class EchnoTestApp extends StatelessWidget {
       theme: EchnoCustomTheme.lightTheme,
       darkTheme: EchnoCustomTheme.darkTheme,
       themeMode: ThemeMode.system,
-      routes: {
-        loginRoute: (context) => const LoginScreen(),
-        registerRoute: (context) => const RegistrationScreen(),
-        verifyEmailRoute: (context) => const EmailVerification(),
-        homeRoute: (context) => const HomeScreen(),
-        resetPasswordRoute: (context) => const MailPasswordResetScreen(),
-      },
     );
   }
 }
@@ -59,6 +51,8 @@ class _NewEchnoHomePageState extends State<NewEchnoHomePage> {
         return const EmailVerification();
       } else if (state is AuthLoggedOutState) {
         return const LoginScreen();
+      } else if (state is AuthRegistrationState) {
+        return const RegistrationScreen();
       } else {
         return const Scaffold(
           body: Center(

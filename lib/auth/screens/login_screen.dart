@@ -353,10 +353,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: 10.0),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  registerRoute,
-                                  (route) => false,
-                                );
+                                context.read<AuthBloc>().add(
+                                      const AuthNeedToRegisterEvent(),
+                                    );
                               },
                               child: Text.rich(
                                 TextSpan(
