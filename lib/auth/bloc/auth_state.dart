@@ -1,4 +1,5 @@
 import 'package:echno_attendance/auth/services/index.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
@@ -6,8 +7,8 @@ abstract class AuthState {
   const AuthState();
 }
 
-class AuthLoadingState extends AuthState {
-  const AuthLoadingState();
+class AuthNotInitializedState extends AuthState {
+  const AuthNotInitializedState();
 }
 
 class AuthLoggedInState extends AuthState {
@@ -19,12 +20,14 @@ class AuthEmailNotVerifiedState extends AuthState {
   const AuthEmailNotVerifiedState();
 }
 
-class AuthLoggedOutState extends AuthState {
+class AuthLoggedOutState extends AuthState with EquatableMixin {
   final Exception? exception;
-  const AuthLoggedOutState(this.exception);
-}
+  final bool isLoading;
+  const AuthLoggedOutState({
+    required this.exception,
+    required this.isLoading,
+  });
 
-class AuthErrorState extends AuthState {
-  final Exception exception;
-  const AuthErrorState(this.exception);
+  @override
+  List<Object?> get props => [exception, isLoading];
 }
