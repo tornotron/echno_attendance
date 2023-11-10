@@ -11,6 +11,11 @@ class AuthNotInitializedState extends AuthState {
   const AuthNotInitializedState();
 }
 
+class AuthRegistrationState extends AuthState {
+  final Exception? exception;
+  const AuthRegistrationState(this.exception);
+}
+
 class AuthLoggedInState extends AuthState {
   final AuthUser user;
   const AuthLoggedInState(this.user);

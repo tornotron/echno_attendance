@@ -9,6 +9,19 @@ class AuthInitializeEvent extends AuthEvent {
   const AuthInitializeEvent();
 }
 
+class AuthNeedToRegisterEvent extends AuthEvent {
+  const AuthNeedToRegisterEvent();
+}
+
+class AuthRegistrationEvent extends AuthEvent {
+  final String email;
+  final String password;
+  const AuthRegistrationEvent({
+    required this.email,
+    required this.password,
+  });
+}
+
 class AuthLogInEvent extends AuthEvent {
   final String email;
   final String password;
