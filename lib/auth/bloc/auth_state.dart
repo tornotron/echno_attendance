@@ -25,6 +25,15 @@ class AuthEmailNotVerifiedState extends AuthState {
   const AuthEmailNotVerifiedState();
 }
 
+class AuthForgotPasswordState extends AuthState {
+  final Exception? exception;
+  final bool hasSentEmail;
+  const AuthForgotPasswordState({
+    required this.exception,
+    required this.hasSentEmail,
+  });
+}
+
 class AuthLoggedOutState extends AuthState with EquatableMixin {
   final Exception? exception;
   final bool isLoading;
