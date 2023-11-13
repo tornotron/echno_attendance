@@ -51,6 +51,8 @@ class _NewEchnoHomePageState extends State<NewEchnoHomePage> {
         return const EmailVerification();
       } else if (state is AuthLoggedOutState) {
         return const LoginScreen();
+      } else if (state is AuthForgotPasswordState) {
+        return const MailPasswordResetScreen();
       } else if (state is AuthRegistrationState) {
         return const RegistrationScreen();
       } else {
