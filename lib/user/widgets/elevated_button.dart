@@ -1,4 +1,4 @@
-import 'package:echno_attendance/constants/text_style.dart';
+import 'package:echno_attendance/global_theme/text_style.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
