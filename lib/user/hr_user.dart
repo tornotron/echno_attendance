@@ -1,8 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 
-import 'package:echno_attendance/domain/usecases/manager_abstract.dart';
-import 'package:echno_attendance/domain/usecases/userhandling_implementation.dart';
+import 'package:echno_attendance/domain/firestore/manager_abstract.dart';
+import 'package:echno_attendance/domain/firestore/userhandling_implementation.dart';
 
 class HrClass implements FirestoreUserHandleProvider {
   final FirestoreUserHandleProvider firestoreUserImplementation =
@@ -47,14 +45,3 @@ class HrClass implements FirestoreUserHandleProvider {
   }
 }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  HrClass().createUser(
-      userId: '5000',
-      name: 'justin',
-      email: 'justin@gmail.com',
-      phoneNumber: '98875764',
-      userRole: 'manager',
-      isActiveUser: true);
-}
