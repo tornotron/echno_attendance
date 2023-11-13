@@ -30,12 +30,18 @@ class HrClass implements UserHandleProvider {
       String? phoneNumber,
       String? userRole,
       bool? isActiveUser}) {
-    return firestoreUserImplementation.updateUser(userId: userId);
+    return firestoreUserImplementation.updateUser(
+        userId: userId,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        userRole: userRole,
+        isActiveUser: isActiveUser);
   }
 
   @override
   Future deleteUser({required String userId}) {
-    return firestoreUserImplementation.updateUser(userId: userId);
+    return firestoreUserImplementation.deleteUser(userId: userId);
   }
 
   @override
