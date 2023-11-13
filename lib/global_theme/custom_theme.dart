@@ -1,5 +1,5 @@
-import 'package:echno_attendance/constants/button_style.dart';
-import 'package:echno_attendance/constants/text_style.dart';
+import 'package:echno_attendance/global_theme/button_style.dart';
+import 'package:echno_attendance/global_theme/text_style.dart';
 import 'package:flutter/material.dart';
 
 /* -- Theme Custom Classes -- */

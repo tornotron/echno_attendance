@@ -1,5 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/constants/text_style.dart';
+import 'package:echno_attendance/global_theme/text_style.dart';
 import 'package:echno_attendance/user/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
