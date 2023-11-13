@@ -180,10 +180,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.of(context)
-                                                        .pushNamed(
-                                                      resetPasswordRoute,
-                                                    );
+                                                    context
+                                                        .read<AuthBloc>()
+                                                        .add(
+                                                          const AuthForgotPasswordEvent(),
+                                                        );
                                                   },
                                                   child: Container(
                                                     padding:
