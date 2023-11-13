@@ -1,4 +1,4 @@
-abstract class FirestoreUserHandleProvider {
+abstract class UserHandleProvider {
   Future createUser(
       {required String userId,
       required String name,

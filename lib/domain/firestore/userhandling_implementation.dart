@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
 
-class FirestoreUserServices implements FirestoreUserHandleProvider {
+class FirestoreUserServices implements UserHandleProvider {
   final logs = logger(FirestoreUserServices, Level.info);
   @override
   Future createUser(

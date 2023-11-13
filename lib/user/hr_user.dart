@@ -1,9 +1,8 @@
-
 import 'package:echno_attendance/domain/firestore/manager_abstract.dart';
 import 'package:echno_attendance/domain/firestore/userhandling_implementation.dart';
 
-class HrClass implements FirestoreUserHandleProvider {
-  final FirestoreUserHandleProvider firestoreUserImplementation =
+class HrClass implements UserHandleProvider {
+  final UserHandleProvider firestoreUserImplementation =
       FirestoreUserServices();
 
   @override
@@ -44,4 +43,3 @@ class HrClass implements FirestoreUserHandleProvider {
     return firestoreUserImplementation.readUser(userId: userId);
   }
 }
-
