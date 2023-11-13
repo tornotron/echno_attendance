@@ -1,4 +1,4 @@
-import 'package:echno_attendance/constants/custom_theme.dart';
+import 'package:echno_attendance/global_theme/custom_theme.dart';
 import 'package:echno_attendance/user_authentication/screens/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
