@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(20.0)),
                                         context: context,
-                                        builder: (context) =>
+                                        builder: (builderContext) =>
                                             SingleChildScrollView(
                                           child: Container(
                                             padding: const EdgeInsets.all(30.0),
@@ -185,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         .add(
                                                           const AuthForgotPasswordEvent(),
                                                         );
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Container(
                                                     padding:
