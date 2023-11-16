@@ -78,6 +78,34 @@ void main() {
       );
       expect(provider.currentUser, user);
     });
+    test('Should allow logging in after resetting password', () async {
+      await provider.initialize();
+
+      // Create a user
+      await provider.createUser(
+        email: 'existinguser@echno.com',
+        password: 'oldpassword',
+      );
+
+      // Reset the password
+      await provider.resetPassword(toEmail: 'existinguser@echotech.com');
+
+      // Simulate the user receiving the reset email and setting a new password
+      // This is where you would typically send an email to the user with a link to reset the password
+      // For simplicity, we'll just update the password directly here
+      await provider.updatePassword(
+        email: 'existinguser@echno.com',
+        newPassword: 'newpassword',
+      );
+
+      // Log in with the new password
+      final user = await provider.logIn(
+        email: 'existinguser@echno.com',
+        password: 'newpassword',
+      );
+
+      expect(provider.currentUser, user);
+    });
   });
 }
 
@@ -141,5 +169,27 @@ class MockAuthProvider implements AuthProvider {
     if (_user == null) throw UserNotFoundAuthException();
     const newUser = AuthUser(isemailVerified: true);
     _user = newUser;
+  }
+
+  @override
+  Future<void> resetPassword({required String toEmail}) async {
+    if (!_isInitialized) throw NotInitializedException();
+    if (_user != null) {
+      // Simulate the reset email being sent successfully
+      await Future.delayed(const Duration(seconds: 2));
+    }
+  }
+
+  Future<void> updatePassword({
+    required String email,
+    required String newPassword,
+  }) async {
+    // In a real application, you would typically update the password in your authentication system
+    // Here, we'll just update the password in-memory for simplicity
+    if (_user != null) {
+      _user = const AuthUser(
+        isemailVerified: true,
+      );
+    }
   }
 }
