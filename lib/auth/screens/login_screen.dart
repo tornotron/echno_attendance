@@ -2,7 +2,6 @@ import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
-import 'package:echno_attendance/auth/utilities/loading_dialog.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/auth/widgets/password_form_field.dart';
@@ -24,7 +23,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
-  CloseDialog? _closeDialogHandler;
 
   @override
   void initState() {
@@ -50,17 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) async {
           if (state is AuthLoggedOutState) {
-            final closeDialog = _closeDialogHandler;
-            if (!state.isLoading && closeDialog != null) {
-              closeDialog();
-              _closeDialogHandler = null;
-            } else if (state.isLoading && closeDialog == null) {
-              _closeDialogHandler = showLoadingDialog(
-                context: context,
-                text: 'Loading...',
-              );
-            }
-
             if (state.exception is UserNotFoundAuthException) {
               devtools.log('No user found for that email.');
               await showErrorDialog(context, 'User Not Found');

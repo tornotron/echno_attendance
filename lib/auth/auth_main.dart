@@ -1,3 +1,4 @@
+import 'package:echno_attendance/common_widgets/loading_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
@@ -44,7 +45,15 @@ class _NewEchnoHomePageState extends State<NewEchnoHomePage> {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthInitializeEvent());
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+    return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+      if (state.isLoading) {
+        LoadingScreen().show(
+            context: context,
+            text: state.loadingMessage ?? 'Please wait a while...');
+      } else {
+        LoadingScreen().hide();
+      }
+    }, builder: (context, state) {
       if (state is AuthLoggedInState) {
         return const HomeScreen();
       } else if (state is AuthEmailNotVerifiedState) {
