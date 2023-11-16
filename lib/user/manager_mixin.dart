@@ -1,5 +1,5 @@
-import 'package:echno_attendance/domain/firestore/manager_abstract.dart';
-import 'package:echno_attendance/domain/firestore/userhandling_implementation.dart';
+import 'package:echno_attendance/user/firestore/manager_abstract.dart';
+import 'package:echno_attendance/user/firestore/userhandling_implementation.dart';
 
 mixin ManagerMixin {
   final UserHandleProvider firestoreUserImplementation =
