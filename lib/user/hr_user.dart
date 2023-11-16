@@ -1,5 +1,5 @@
-import 'package:echno_attendance/user/firestore/manager_abstract.dart';
-import 'package:echno_attendance/user/firestore/userhandling_implementation.dart';
+import 'package:echno_attendance/user/domain/firestore/manager_abstract.dart';
+import 'package:echno_attendance/user/domain/firestore/userhandling_implementation.dart';
 
 class HrClass implements UserHandleProvider {
   final UserHandleProvider firestoreUserImplementation =
