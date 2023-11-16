@@ -4,7 +4,8 @@ import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:bloc/bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(AuthProvider provider) : super(const AuthNotInitializedState()) {
+  AuthBloc(AuthProvider provider)
+      : super(const AuthNotInitializedState(isLoading: true)) {
     // Initial State of App
     on<AuthInitializeEvent>((event, emit) async {
       await provider.initialize();
@@ -16,10 +17,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isLoading: false,
         )); // user is not logged in
       } else if (!user.isemailVerified) {
-        emit(
-            const AuthEmailNotVerifiedState()); // user is logged in but not verified
+        emit(const AuthEmailNotVerifiedState(
+            isLoading: false)); // user is logged in but not verified
       } else {
-        emit(AuthLoggedInState(user)); // user is logged in and verified
+        emit(AuthLoggedInState(
+          user: user,
+          isLoading: false,
+        )); // user is logged in and verified
       }
     });
     // User Registration
@@ -33,9 +37,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             password: password,
           );
           await provider.sendEmailVerification();
-          emit(const AuthNotInitializedState()); // user registration completed
+          emit(const AuthNotInitializedState(
+              isLoading: false)); // user registration completed
         } on Exception catch (e) {
-          emit(AuthRegistrationState(e)); // user registration failed
+          emit(AuthRegistrationState(
+            exception: e,
+            isLoading: false,
+          )); // user registration failed
         }
       },
     );
@@ -48,9 +56,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // User Login
     on<AuthLogInEvent>((event, emit) async {
       emit(const AuthLoggedOutState(
-        exception: null,
-        isLoading: true,
-      )); // user login started
+          exception: null,
+          isLoading: true,
+          loadingMessage: 'Logging In...')); // user login started
       final email = event.email;
       final password = event.password;
       try {
@@ -63,13 +71,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             exception: null,
             isLoading: false,
           )); // user login completed but not verified
-          emit(const AuthEmailNotVerifiedState());
+          emit(const AuthEmailNotVerifiedState(isLoading: false));
         } else {
           emit(const AuthLoggedOutState(
             exception: null,
             isLoading: false,
           ));
-          emit(AuthLoggedInState(user)); // user successfully logged in
+          emit(AuthLoggedInState(
+            user: user,
+            isLoading: false,
+          )); // user successfully logged in
         }
       } on Exception catch (e) {
         emit(AuthLoggedOutState(
@@ -84,6 +95,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthForgotPasswordState(
         exception: null,
         hasSentEmail: false,
+        isLoading: false,
       ));
       final email = event.email;
       if (email == null) {
@@ -92,7 +104,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // User Request for Password Reset
       emit(const AuthForgotPasswordState(
         exception: null,
-        hasSentEmail: true,
+        hasSentEmail: false,
+        isLoading: true,
       ));
 
       bool didSendEmail;
@@ -109,6 +122,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthForgotPasswordState(
         exception: exception,
         hasSentEmail: didSendEmail,
+        isLoading: false,
       ));
     });
     // User Logout
@@ -128,7 +142,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     // Navigate to Registration Screen from Login Screen
     on<AuthNeedToRegisterEvent>((event, emit) async {
-      emit(const AuthRegistrationState(null));
+      emit(const AuthRegistrationState(
+        exception: null,
+        isLoading: false,
+      ));
     });
   }
 }
