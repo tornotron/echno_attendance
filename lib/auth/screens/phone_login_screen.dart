@@ -1,6 +1,9 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PhoneLoginScreen extends StatefulWidget {
@@ -181,14 +184,22 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             width: double.infinity,
                             child: OutlinedButton.icon(
                                 icon: const Icon(Icons.email_rounded),
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.read<AuthBloc>().add(
+                                        const AuthLogOutEvent(),
+                                      );
+                                },
                                 label: const Text(
                                   'Login with Email',
                                 )),
                           ),
                           const SizedBox(height: 10.0),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<AuthBloc>().add(
+                                    const AuthNeedToRegisterEvent(),
+                                  );
+                            },
                             child: Text.rich(
                               TextSpan(
                                 text: 'Don\'t have an account ? ',

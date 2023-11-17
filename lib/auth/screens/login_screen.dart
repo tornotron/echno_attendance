@@ -334,7 +334,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: OutlinedButton.icon(
                                   icon: const Icon(
                                       Icons.mobile_friendly_outlined),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.read<AuthBloc>().add(
+                                          const AuthPhoneLogInInitiatedEvent(),
+                                        );
+                                  },
                                   label: const Text(
                                     'Sign-In with Phone',
                                   )),
