@@ -85,3 +85,33 @@ Future<bool> showLogOutDialog(BuildContext context) {
     },
   ).then((value) => value ?? false);
 }
+
+Future<void> genericAlertDialog(
+  BuildContext context,
+  String message,
+) async {
+  return showDialog<void>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Row(
+        children: [
+          Icon(
+            Icons.warning_rounded,
+            color: Colors.yellow.shade600,
+          ),
+          const SizedBox(width: 10),
+          const Text('Error!'),
+        ],
+      ),
+      content: Text(message),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('OK'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
+  );
+}

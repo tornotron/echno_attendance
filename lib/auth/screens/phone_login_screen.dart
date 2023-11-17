@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -148,7 +149,10 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await genericAlertDialog(context,
+                                      'Sorry this feature is currently disabled...');
+                                },
                                 child: const Text(
                                   'LOGIN',
                                 ),
@@ -174,7 +178,10 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                                   googleIcon,
                                   width: 20.0,
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await genericAlertDialog(context,
+                                      'Sorry this feature is currently disabled...');
+                                },
                                 label: const Text(
                                   'Sign-In with Google',
                                 )),

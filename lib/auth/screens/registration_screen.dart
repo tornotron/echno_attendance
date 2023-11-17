@@ -279,7 +279,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 googleIcon,
                                 width: 20.0,
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                await genericAlertDialog(context,
+                                    'Sorry this feature is currently disabled...');
+                              },
                               label: const Text(
                                 'Sign-In with Google',
                               )),
