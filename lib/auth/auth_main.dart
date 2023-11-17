@@ -64,6 +64,8 @@ class _NewEchnoHomePageState extends State<NewEchnoHomePage> {
         return const MailPasswordResetScreen();
       } else if (state is AuthRegistrationState) {
         return const RegistrationScreen();
+      } else if (state is AuthPhoneLogInInitiatedState) {
+        return const PhoneLoginScreen();
       } else {
         return const Scaffold(
           body: Center(

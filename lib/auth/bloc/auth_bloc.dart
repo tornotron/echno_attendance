@@ -147,5 +147,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         isLoading: false,
       ));
     });
+    // Navigate to Phone Login Screen
+    on<AuthPhoneLogInInitiatedEvent>(
+      (event, emit) {
+        emit(const AuthPhoneLogInInitiatedState(isLoading: false));
+      },
+    );
   }
 }

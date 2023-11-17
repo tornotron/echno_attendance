@@ -45,3 +45,7 @@ class AuthForgotPasswordEvent extends AuthEvent {
 class AuthLogOutEvent extends AuthEvent {
   const AuthLogOutEvent();
 }
+
+class AuthPhoneLogInInitiatedEvent extends AuthEvent {
+  const AuthPhoneLogInInitiatedEvent();
+}
