@@ -1,6 +1,7 @@
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/bloc/auth_state.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
@@ -323,7 +324,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     googleIcon,
                                     width: 20.0,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await genericAlertDialog(context,
+                                        'Sorry this feature is currently disabled...');
+                                  },
                                   label: const Text(
                                     'Sign-In with Google',
                                   )),
