@@ -12,9 +12,13 @@ class AddNewEmployee extends StatefulWidget {
 }
 
 class _AddNewEmployeeState extends State<AddNewEmployee> {
-  bool isActive = true; // employee account status
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
-  final TextEditingController phoneController = TextEditingController();
+  late final TextEditingController _idController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _roleController;
+  bool isActive = true; // employee account status
 
   Country selectedCountry = Country(
     phoneCode: "91",
@@ -28,11 +32,34 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
     displayNameNoCountryCode: "IN",
     e164Key: "",
   );
+
+  @override
+  void initState() {
+    _idController = TextEditingController();
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _phoneController = TextEditingController();
+    _roleController = TextEditingController();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _idController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _roleController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(context) {
-    phoneController.selection = TextSelection.fromPosition(
+    _phoneController.selection = TextSelection.fromPosition(
       TextPosition(
-        offset: phoneController.text.length,
+        offset: _phoneController.text.length,
       ),
     );
 
@@ -79,8 +106,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           TextFormField(
                             maxLines: 1,
                             decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.person_outline_outlined),
+                              prefixIcon: const Icon(Icons.tag_rounded),
                               labelText: 'Employee-ID',
                               hintText: 'EMP-1234',
                               border: OutlineInputBorder(
@@ -115,8 +141,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                               // filled: true,
                               // fillColor:
                               // const Color.fromARGB(255, 214, 214, 214),
-                              prefixIcon:
-                                  const Icon(Icons.person_outline_outlined),
+                              prefixIcon: const Icon(Icons.alternate_email),
                               labelText: 'Email ID',
                               hintText: 'E-Mail',
                               border: OutlineInputBorder(
@@ -126,10 +151,10 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           ),
                           const SizedBox(height: 10.0),
                           TextFormField(
-                            controller: phoneController,
+                            controller: _phoneController,
                             onChanged: (value) {
                               setState(() {
-                                phoneController.text = value;
+                                _phoneController.text = value;
                               });
                             },
                             enableSuggestions: false,
@@ -166,7 +191,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                   ),
                                 ),
                               ),
-                              suffixIcon: phoneController.text.length > 9
+                              suffixIcon: _phoneController.text.length > 9
                                   ? Container(
                                       height: 30,
                                       width: 30,
@@ -182,6 +207,20 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                       ),
                                     )
                                   : null,
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          TextFormField(
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.cases_rounded),
+                              labelText: 'Employee Role',
+                              hintText: 'Employee Role',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  (15.0),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10.0),
@@ -214,7 +253,10 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // String phoneNumber =
+                                // "+${selectedCountry.phoneCode}${_phoneController.text.trim()}";
+                              },
                               child: const Text(
                                 'Add Employee',
                               ),
