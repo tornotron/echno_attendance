@@ -11,7 +11,7 @@ class AttendanceDatabaseServices {
       final db = await openDatabase(path);
       // await db.execute('''DROP TABLE attendance;''');
       await db.execute(
-          '''CREATE TABLE IF NOT EXISTS attendance(employee_id INTEGER,attendance_date TEXT,attendance_status INTEGER);''');
+          '''CREATE TABLE IF NOT EXISTS attendance(employee_id INTEGER,employee_name TEXT,attendance_date TEXT,attendance_time TEXT,attendance_status INTEGER);''');
     } catch (e) {
       logs.e('Error creating database');
     }
@@ -19,32 +19,22 @@ class AttendanceDatabaseServices {
 
   Future<void> insertIntoDatabase(
       {required int employeeId,
+      required String employeeName,
       required String attendanceDate,
+      required String attendanceTime,
       required int attendanceStatus}) async {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
       await db.insert('attendance', {
         'employee_id': employeeId,
+        'employee_name': employeeName,
         'attendance_date': attendanceDate,
+        'attendance_time': attendanceTime,
         'attendance_status': attendanceStatus
       });
     } catch (e) {
       logs.e('Error inserting');
-    }
-  }
-
-  Future<void> displayDatabaseContents() async {
-    final path = await getAttendanceDatabasePath();
-    final database = await openDatabase(path, version: 1);
-
-    final results = await database.query('attendance');
-    if (results.isNotEmpty) {
-      results.forEach((row) {
-        print(row);
-      });
-    } else {
-      print('No data in the database');
     }
   }
 }
