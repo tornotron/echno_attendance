@@ -47,6 +47,7 @@ dependencies:
   country_picker: ^2.0.21
   mocktail: ^1.0.0
   logger: ^2.0.2+1
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
