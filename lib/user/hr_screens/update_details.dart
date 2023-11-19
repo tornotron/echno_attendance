@@ -1,23 +1,6 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/user/hr_user.dart';
 import 'package:flutter/material.dart';
-
-class Employee {
-  String? id;
-  String? name;
-  String? email;
-  String? phoneNumber;
-  String? userRole;
-  bool? isActiveUser;
-
-  Employee({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phoneNumber,
-    required this.userRole,
-    required this.isActiveUser,
-  });
-}
 
 class UpdateEmployeeDetails extends StatefulWidget {
   const UpdateEmployeeDetails({Key? key}) : super(key: key);
@@ -31,42 +14,17 @@ class UpdateEmployeeDetails extends StatefulWidget {
 class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _employeeIdController = TextEditingController();
-  Employee? _foundEmployee;
 
-  void _searchEmployee() {
-    // Replace this with your logic to fetch employee details from a database or API
-    // For simplicity, I'm using a hardcoded list of employees
-    List<Employee?> employees = [
-      Employee(
-        id: '1',
-        name: 'Sam Smith',
-        email: 'samsmith@echno.com',
-        phoneNumber: '1234567890',
-        userRole: 'Software Engineer',
-        isActiveUser: true,
-      ),
-      Employee(
-        id: '2',
-        name: 'Jane Doe',
-        email: 'janedoe@echno.com',
-        phoneNumber: '1234567890',
-        userRole: 'Product Manager',
-        isActiveUser: true,
-      ),
-    ];
+  Map<String, dynamic>? _employeeData;
 
-    // Find the employee with the given ID
-    String searchId = _employeeIdController.text;
-    Employee? foundEmployee = employees.firstWhere(
-        (Employee? employee) => employee?.id == searchId,
-        orElse: () => null);
-
+  void _searchEmployee(String employeeId) async {
+    final employeeData = await HrClass().readUser(userId: employeeId);
     setState(() {
-      _foundEmployee = foundEmployee;
+      _employeeData = employeeData;
     });
 
     // Show error dialog if employee not found
-    if (foundEmployee == null) {
+    if (employeeData.isEmpty) {
       _showErrorDialog();
     }
   }
@@ -141,18 +99,20 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _searchEmployee,
+                    onPressed: () {
+                      _searchEmployee(_employeeIdController.text);
+                    },
                     child: const Text('Search'),
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Divider(height: 2.0),
                 const SizedBox(height: 10.0),
-                if (_foundEmployee != null)
+                if (_employeeData != null && _employeeData!.isNotEmpty)
                   Column(
                     children: [
                       TextFormField(
-                        initialValue: _foundEmployee!.name,
+                        initialValue: _employeeData!['name'],
                         decoration: InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(
@@ -163,13 +123,13 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _foundEmployee!.name = value;
+                            _employeeData!['name'] = value;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
                       TextFormField(
-                        initialValue: _foundEmployee!.email,
+                        initialValue: _employeeData!['email'],
                         decoration: InputDecoration(
                           labelText: 'Email-ID',
                           border: OutlineInputBorder(
@@ -180,13 +140,13 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _foundEmployee!.email = value;
+                            _employeeData!['email'] = value;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
                       TextFormField(
-                        initialValue: _foundEmployee!.phoneNumber,
+                        initialValue: _employeeData!['phoneNumber'],
                         decoration: InputDecoration(
                           labelText: 'Mobie Number',
                           border: OutlineInputBorder(
@@ -197,13 +157,13 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _foundEmployee!.phoneNumber = value;
+                            _employeeData!['phoneNumber'] = value;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
                       TextFormField(
-                        initialValue: _foundEmployee!.userRole,
+                        initialValue: _employeeData!['userRole'],
                         decoration: InputDecoration(
                           labelText: 'Role',
                           border: OutlineInputBorder(
@@ -214,7 +174,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _foundEmployee!.userRole = value;
+                            _employeeData!['userRole'] = value;
                           });
                         },
                       ),
@@ -235,10 +195,10 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           trailing: Switch(
-                            value: _foundEmployee!.isActiveUser!,
+                            value: _employeeData!['isActiveUser'],
                             onChanged: (value) {
                               setState(() {
-                                _foundEmployee!.isActiveUser = value;
+                                _employeeData!['isActiveUser'] = value;
                               });
                             },
                           ),
@@ -248,7 +208,16 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await HrClass().updateUser(
+                              userId: _employeeIdController.text,
+                              name: _employeeData!['name'],
+                              email: _employeeData!['email'],
+                              phoneNumber: _employeeData!['phoneNumber'],
+                              userRole: _employeeData!['userRole'],
+                              isActiveUser: _employeeData!['isActiveUser'],
+                            );
+                          },
                           child: const Text('Update Details'),
                         ),
                       ),
