@@ -53,6 +53,7 @@ dependencies:
   equatable: ^2.0.5
   dropdown_search: ^5.0.6
   date_picker_timeline: ^1.2.5
+  slide_to_act: ^2.0.2
 
 dev_dependencies:
   flutter_test:
