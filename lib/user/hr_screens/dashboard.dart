@@ -1,5 +1,6 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/user/hr_screens/add_employee.dart';
+import 'package:echno_attendance/user/hr_screens/update_details.dart';
 import 'package:flutter/material.dart';
 
 class HRDashboardScreen extends StatefulWidget {
@@ -30,7 +31,9 @@ class _HRDashboardScreenState extends State<HRDashboardScreen> {
         icon: Icons.checklist_rtl_rounded,
         text: 'Update Details',
         onTap: () {
-          // Update details logic
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const UpdateEmployeeDetails();
+          }));
         },
       ),
       DashboardItem(
