@@ -1,5 +1,6 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/user/hr_screens/add_employee.dart';
+import 'package:echno_attendance/user/hr_screens/employee_register.dart';
 import 'package:echno_attendance/user/hr_screens/update_details.dart';
 import 'package:flutter/material.dart';
 
@@ -38,8 +39,12 @@ class _HRDashboardScreenState extends State<HRDashboardScreen> {
       ),
       DashboardItem(
         icon: Icons.person_search_rounded,
-        text: 'Employee List',
-        onTap: () {},
+        text: 'Employee Register',
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const EmployeeRegisterScreen();
+          }));
+        },
       ),
       DashboardItem(
         icon: Icons.location_history_rounded,
