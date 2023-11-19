@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/user/hr_user.dart';
 import 'package:flutter/material.dart';
 
 class AddNewEmployee extends StatefulWidget {
@@ -106,6 +107,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextFormField(
+                            controller: _idController,
                             maxLines: 1,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.tag_rounded),
@@ -120,6 +122,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           ),
                           const SizedBox(height: 10.0),
                           TextFormField(
+                            controller: _nameController,
                             maxLines: 1,
                             decoration: InputDecoration(
                               prefixIcon:
@@ -135,6 +138,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           ),
                           const SizedBox(height: 10.0),
                           TextFormField(
+                            controller: _emailController,
                             enableSuggestions: false,
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
@@ -213,6 +217,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           ),
                           const SizedBox(height: 10.0),
                           TextFormField(
+                            controller: _roleController,
                             maxLines: 1,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.cases_rounded),
@@ -255,9 +260,17 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () {
-                                // String phoneNumber =
-                                // "+${selectedCountry.phoneCode}${_phoneController.text.trim()}";
+                              onPressed: () async {
+                                String phoneNumber =
+                                    "+${selectedCountry.phoneCode}${_phoneController.text.trim()}";
+
+                                await HrClass().createUser(
+                                    userId: _idController.text.trim(),
+                                    name: _nameController.text.trim(),
+                                    email: _emailController.text.trim(),
+                                    phoneNumber: phoneNumber,
+                                    userRole: _roleController.text.trim(),
+                                    isActiveUser: isActive);
                               },
                               child: const Text(
                                 'Add Employee',
