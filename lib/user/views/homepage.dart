@@ -3,6 +3,7 @@ import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:echno_attendance/user/widgets/rounded_card.dart';
+import 'package:slide_to_act/slide_to_act.dart';
 
 class HomePage extends StatelessWidget {
   final String appbarUserName;
@@ -38,79 +39,103 @@ class HomePage extends StatelessWidget {
           ],
           backgroundColor: const Color(0xFF004AAD),
         ),
-        body: CustomScrollView(
-          slivers: [
-            const SliverAppBar(
-                backgroundColor: Color(0xFF38B6FF),
-                expandedHeight: 200,
-                floating: true,
-                pinned: true,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20, top: 20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Texts(
-                            textData: "Welcome",
-                            textFontSize: 28,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Texts(
-                            textData: "Site Name",
-                            textFontSize: 20,
-                          ),
-                          SizedBox(
-                            height: 2.5,
-                          ),
-                          Texts(
-                            textData: "Site Location",
-                            textFontSize: 20,
-                          )
-                        ],
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                const SliverAppBar(
+                    backgroundColor: Color(0xFF38B6FF),
+                    expandedHeight: 200,
+                    floating: true,
+                    pinned: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
                       ),
                     ),
-                  ),
-                )),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 25),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 70),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return const Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 5,
-                            right: 5,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20, top: 20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Texts(
+                                textData: "Welcome",
+                                textFontSize: 28,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Texts(
+                                textData: "Site Name",
+                                textFontSize: 20,
+                              ),
+                              SizedBox(
+                                height: 2.5,
+                              ),
+                              Texts(
+                                textData: "Site Location",
+                                textFontSize: 20,
+                              )
+                            ],
                           ),
-                          child: RoundedCard(),
                         ),
-                        SizedBox(
-                          height: 5,
-                        )
-                      ],
-                    );
-                  },
-                  childCount: 9,
+                      ),
+                    )),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 25),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(bottom: 70),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return const Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 5,
+                                right: 5,
+                              ),
+                              child: RoundedCard(),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            )
+                          ],
+                        );
+                      },
+                      childCount: 9,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 0, 15.0, 85),
+                child: SlideAction(
+                  elevation: 0,
+                  outerColor: const Color(0xFF004AAD),
+                  text: 'Slide to mark attendance',
+                  textStyle: const TextStyle(
+                      fontFamily: 'TT Chocolates',
+                      fontSize: 20,
+                      color: Colors.white),
+                  sliderRotate: false,
+                  borderRadius: 20,
+                  onSubmit: () {},
                 ),
               ),
-            )
+            ),
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
