@@ -1,15 +1,20 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:echno_attendance/camera/camera_provider.dart';
+import 'package:echno_attendance/camera/camera_screen.dart';
 import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:echno_attendance/user/widgets/rounded_card.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final String appbarUserName;
-
   const HomePage({super.key, required this.appbarUserName});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(context) {
     return MaterialApp(
@@ -26,7 +31,7 @@ class HomePage extends StatelessWidget {
           actions: [
             Center(
               child: Text(
-                appbarUserName,
+                widget.appbarUserName,
                 style: const TextStyle(
                     fontFamily: 'TT Chocolates',
                     fontSize: 25,
@@ -132,7 +137,19 @@ class HomePage extends StatelessWidget {
                       color: Colors.white),
                   sliderRotate: false,
                   borderRadius: 20,
-                  onSubmit: () {},
+                  sliderButtonIcon: const Icon(
+                    Icons.camera_alt,
+                    color: Color(0xFF004AAD),
+                  ),
+                  onSubmit: () async {
+                    final frontCamera = await cameraObjectProvider();
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TakePictureScreen(camera: frontCamera),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
