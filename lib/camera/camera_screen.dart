@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
@@ -25,7 +27,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     _controller = CameraController(
       widget.camera,
-      ResolutionPreset.medium,
+      ResolutionPreset.ultraHigh,
     );
 
     _initializeControllerFuture = _controller.initialize();
@@ -40,7 +42,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture')),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.black),
+        title: const Texts(textData: "Take a picture"),
+        backgroundColor: Colors.black,
+      ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -52,6 +60,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         onPressed: () async {
           try {
             await _initializeControllerFuture;
