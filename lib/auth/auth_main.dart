@@ -1,11 +1,11 @@
 import 'package:echno_attendance/common_widgets/loading_screen.dart';
+import 'package:echno_attendance/global_theme/custom_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:echno_attendance/auth/services/index.dart';
 import 'package:echno_attendance/auth/screens/index.dart';
-import 'package:echno_attendance/constants/custom_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
