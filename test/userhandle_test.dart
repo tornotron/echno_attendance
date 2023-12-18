@@ -10,7 +10,7 @@ void main() {
     });
 
     test('Create user should add a new user to Firestore', () async {
-      const userId = 'testUserId';
+      const employeeId = 'testUserId';
       const name = 'Test User';
       const email = 'test@example.com';
       const phoneNumber = '1234567890';
@@ -18,7 +18,7 @@ void main() {
       const isActiveUser = true;
 
       await firestoreUserServices.createUser(
-        userId: userId,
+        employeeId: employeeId,
         name: name,
         email: email,
         phoneNumber: phoneNumber,
@@ -26,7 +26,8 @@ void main() {
         isActiveUser: isActiveUser,
       );
 
-      final userData = await firestoreUserServices.readUser(userId: userId);
+      final userData =
+          await firestoreUserServices.readUser(employeeId: employeeId);
 
       expect(userData['name'], equals(name));
       expect(userData['email'], equals(email));
@@ -36,24 +37,25 @@ void main() {
     });
 
     test('Update user should modify user data in Firestore', () async {
-      const userId = 'testUserId';
+      const employeeId = 'testUserId';
       const newName = 'Updated User Name';
 
-      await firestoreUserServices.updateUser(userId: userId, name: newName);
+      await firestoreUserServices.updateUser(
+          employeeId: employeeId, name: newName);
 
       final updatedUserData =
-          await firestoreUserServices.readUser(userId: userId);
+          await firestoreUserServices.readUser(employeeId: employeeId);
 
       expect(updatedUserData['name'], equals(newName));
     });
 
     test('Delete user should remove user data from Firestore', () async {
-      const userId = 'testUserId';
+      const employeeId = 'testUserId';
 
-      await firestoreUserServices.deleteUser(userId: userId);
+      await firestoreUserServices.deleteUser(employeeId: employeeId);
 
       final deletedUserData =
-          await firestoreUserServices.readUser(userId: userId);
+          await firestoreUserServices.readUser(employeeId: employeeId);
 
       expect(deletedUserData['name'], isNull);
       expect(deletedUserData['email'], isNull);
