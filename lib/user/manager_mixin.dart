@@ -6,6 +6,6 @@ mixin ManagerMixin {
       FirestoreUserServices();
 
   Future<Map<String, dynamic>> readUser({required String userId}) {
-    return firestoreUserImplementation.readUser(userId: userId);
+    return firestoreUserImplementation.readUser(employeeId: userId);
   }
 }
