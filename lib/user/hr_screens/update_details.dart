@@ -14,6 +14,10 @@ class UpdateEmployeeDetails extends StatefulWidget {
 class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _employeeIdController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _roleController = TextEditingController();
 
   Map<String, dynamic>? _employeeData;
 
@@ -21,6 +25,13 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
     final employeeData = await HrClass().readUser(userId: employeeId);
     setState(() {
       _employeeData = employeeData;
+
+      if (employeeData.isNotEmpty) {
+        _nameController.text = employeeData['name'] ?? '';
+        _emailController.text = employeeData['email'] ?? '';
+        _phoneController.text = employeeData['phoneNumber'] ?? '';
+        _roleController.text = employeeData['userRole'] ?? '';
+      }
     });
 
     // Show error dialog if employee not found
@@ -47,6 +58,16 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _employeeIdController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _roleController.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,7 +133,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                   Column(
                     children: [
                       TextFormField(
-                        initialValue: _employeeData!['name'],
+                        controller: _nameController,
                         decoration: InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(
@@ -123,13 +144,13 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['name'] = value;
+                            _employeeData!['name'] = _nameController.text;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
                       TextFormField(
-                        initialValue: _employeeData!['email'],
+                        controller: _emailController,
                         decoration: InputDecoration(
                           labelText: 'Email-ID',
                           border: OutlineInputBorder(
@@ -140,13 +161,13 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['email'] = value;
+                            _employeeData!['email'] = _emailController.text;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
                       TextFormField(
-                        initialValue: _employeeData!['phoneNumber'],
+                        controller: _phoneController,
                         decoration: InputDecoration(
                           labelText: 'Mobie Number',
                           border: OutlineInputBorder(
@@ -157,13 +178,14 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['phoneNumber'] = value;
+                            _employeeData!['phoneNumber'] =
+                                _phoneController.text;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
                       TextFormField(
-                        initialValue: _employeeData!['userRole'],
+                        controller: _roleController,
                         decoration: InputDecoration(
                           labelText: 'Role',
                           border: OutlineInputBorder(
@@ -174,7 +196,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['userRole'] = value;
+                            _employeeData!['userRole'] = _roleController.text;
                           });
                         },
                       ),
@@ -229,6 +251,10 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                               setState(() {
                                 _employeeData = null;
                                 _employeeIdController.clear();
+                                _nameController.clear();
+                                _emailController.clear();
+                                _phoneController.clear();
+                                _roleController.clear();
                               });
                             }
                           },
