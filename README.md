@@ -118,6 +118,10 @@ This is an example of how to list things you need to use the software and how to
 * If not, follow the [Flutter installation guide](https://flutter.dev/docs/get-started/install) for your operating system.
 * Ensure Github SSH is set up on your system.
 * If not, follow the [GitHub SSH setup guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) for your operating system.
+* install sqflite dependency for linux 
+```sh
+sudo apt-get -y install libsqlite3-0 libsqlite3-dev
+```
 
 ### Installation
 
