@@ -217,6 +217,20 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                               userRole: _employeeData!['userRole'],
                               isActiveUser: _employeeData!['isActiveUser'],
                             );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.green.shade600,
+                                  content: const Text(
+                                      'Details updated successfully!'),
+                                ),
+                              );
+                              // Clear the fields once the details are updated successfully
+                              setState(() {
+                                _employeeData = null;
+                                _employeeIdController.clear();
+                              });
+                            }
                           },
                           child: const Text('Update Details'),
                         ),
