@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class AttendanceService {
   final logs = logger(AttendanceService, Level.info);
   Future<void> attendanceTrigger(
-      {required int employeeId,
+      {required String employeeId,
       required String employeeName,
       required int attendanceStatus}) async {
     DateTime now = DateTime.now();
