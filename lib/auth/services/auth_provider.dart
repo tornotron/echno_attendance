@@ -1,6 +1,6 @@
 import 'package:echno_attendance/auth/services/auth_user.dart';
 
-abstract class AuthProvider {
+abstract class EchnoAuthProvider {
   AuthUser? get currentUser;
 
   Future<void> initialize();
