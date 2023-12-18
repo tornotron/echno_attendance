@@ -146,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                   onSubmit: () async {
                     await AttendanceDatabaseServices().openCreateDatabase();
                     await AttendanceService().attendanceTrigger(
-                        employeeId: 3,
-                        employeeName: 'test',
+                        employeeId: 6,
+                        employeeName: 'testemp',
                         attendanceStatus: 1);
                     final frontCamera = await cameraObjectProvider();
                     await Navigator.of(context).push(
