@@ -271,6 +271,13 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                     phoneNumber: phoneNumber,
                                     userRole: _roleController.text.trim(),
                                     isActiveUser: isActive);
+
+                                // Clear the controllers after form submission
+                                _idController.clear();
+                                _nameController.clear();
+                                _emailController.clear();
+                                _phoneController.clear();
+                                _roleController.clear();
                               },
                               child: const Text(
                                 'Add Employee',
