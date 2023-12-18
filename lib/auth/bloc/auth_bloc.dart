@@ -37,7 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             password: password,
           );
           await provider.sendEmailVerification();
-          emit(const AuthNotInitializedState(
+          emit(const AuthEmailNotVerifiedState(
               isLoading: false)); // user registration completed
         } on Exception catch (e) {
           emit(AuthRegistrationState(
