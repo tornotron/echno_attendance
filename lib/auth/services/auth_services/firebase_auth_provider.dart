@@ -6,7 +6,7 @@ import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class FirebaseAuthProvider implements AuthProvider {
+class FirebaseAuthProvider implements EchnoAuthProvider {
   @override
   Future<AuthUser> createUser(
       {required String email, required String password}) async {
