@@ -7,7 +7,7 @@ class FirestoreUserServices implements UserHandleProvider {
   final logs = logger(FirestoreUserServices, Level.info);
   @override
   Future createUser(
-      {required String userId,
+      {required String employeeId,
       required String name,
       required String email,
       required String phoneNumber,
@@ -17,11 +17,11 @@ class FirestoreUserServices implements UserHandleProvider {
       CollectionReference userCollection =
           FirebaseFirestore.instance.collection('users');
 
-      DocumentSnapshot useridCheck = await userCollection.doc(userId).get();
+      DocumentSnapshot useridCheck = await userCollection.doc(employeeId).get();
 
       if (!useridCheck.exists) {
-        await FirebaseFirestore.instance.collection('users').doc(userId).set({
-          'employee-id': userId,
+        await FirebaseFirestore.instance.collection('users').doc(employeeId).set({
+          'employee-id': employeeId,
           'full-name': name,
           'email-id': email,
           'phone': phoneNumber,
@@ -40,14 +40,14 @@ class FirestoreUserServices implements UserHandleProvider {
 
   @override
   Future updateUser(
-      {required String? userId,
+      {required String? employeeId,
       String? name,
       String? email,
       String? phoneNumber,
       String? userRole,
       bool? isActiveUser}) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('users').doc(userId);
+      final docRef = FirebaseFirestore.instance.collection('users').doc(employeeId);
 
       final updateData = <String, dynamic>{};
 
@@ -80,9 +80,9 @@ class FirestoreUserServices implements UserHandleProvider {
   }
 
   @override
-  Future deleteUser({required String userId}) async {
+  Future deleteUser({required String employeeId}) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+      await FirebaseFirestore.instance.collection('users').doc(employeeId).delete();
     } on FirebaseException catch (error) {
       logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
@@ -92,7 +92,7 @@ class FirestoreUserServices implements UserHandleProvider {
 
   @override
   Future<Map<String, dynamic>> readUser({
-    required String userId,
+    required String employeeId,
   }) async {
     String? name, email, phoneNumber, userRole;
     bool? isActiveUser;
@@ -101,7 +101,7 @@ class FirestoreUserServices implements UserHandleProvider {
           FirebaseFirestore.instance.collection('users');
 
       DocumentSnapshot employeeDocument =
-          await employeesCollection.doc(userId).get();
+          await employeesCollection.doc(employeeId).get();
 
       if (employeeDocument.exists) {
         Map<String, dynamic> employeeData =
