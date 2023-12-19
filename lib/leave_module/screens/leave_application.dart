@@ -1,4 +1,6 @@
+import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:flutter/material.dart';
 
 class LeaveApplicationScreen extends StatefulWidget {
@@ -13,6 +15,10 @@ class LeaveApplicationScreen extends StatefulWidget {
 class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _remarksController = TextEditingController();
+  final currentUserId =
+      AuthService.firebase().currentUser?.uid; // Current user uid
+  final leaveProvider = LeaveService.firestoreLeave(); // Leave related services
+  Map<String, dynamic>? employeeData; // Variable to store current user data
 
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
@@ -295,7 +301,41 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (currentUserId != null) {
+                        employeeData = await leaveProvider.searchEmployeeByUID(
+                            uid: currentUserId!);
+                      }
+                      await leaveProvider.applyForLeave(
+                        uid: currentUserId!,
+                        employeeID: employeeData!['employee-id'],
+                        employeeName: employeeData!['full-name'],
+                        appliedDate:
+                            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+                        fromDate:
+                            "${startDate!.day}-${startDate!.month}-${startDate!.year}",
+                        toDate:
+                            "${endDate!.day}-${endDate!.month}-${endDate!.year}",
+                        leaveType: selectedLeaveType,
+                        remarks: _remarksController.text,
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.green.shade600,
+                            content: const Text('Leave application submitted'),
+                          ),
+                        );
+                      }
+
+                      // Clear the fields on successful submission of leave
+                      setState(() {
+                        _remarksController.clear();
+                        startDate = null;
+                        endDate = null;
+                        selectedLeaveType = null;
+                      });
+                    },
                     child: const Text(
                       'APPLY FOR LEAVE',
                     ),
