@@ -3,6 +3,7 @@ import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/widgets/link_auth_user.dart';
 import 'package:echno_attendance/leave_module/screens/leave_application.dart';
+import 'package:echno_attendance/leave_module/screens/leave_status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -85,6 +86,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: const Text(
                       'Leave Application',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const LeaveStatusScreen();
+                      }));
+                    },
+                    child: const Text(
+                      'Leave Status',
                     ),
                   ),
                 ),
