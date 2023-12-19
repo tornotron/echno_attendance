@@ -16,3 +16,7 @@ const echnoDarkSwatchColor = Color(0xFF5EE7E2);
 const echnoBlueLightColor = Color(0xFFC3E7FD);
 const whiteColor = Colors.white;
 const echnoLogoColor = Color(0xFF0A3774);
+
+const leaveStatusRedColor = Color(0xFFE53935);
+const leaveStatusYellowColor = Color(0xFFFDD835);
+const leaveStatusOrangeColor = Color(0xFFFB8C00);
