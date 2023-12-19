@@ -16,6 +16,17 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
 
+  String?
+      selectedLeaveType; // Variable to store selected leave type using radio buttons
+
+  // List of leave types to be displayed in radio buttons
+  List<String> leaveType = [
+    "Casual Leave",
+    "Medical Leave",
+    "Maternity Leave",
+    "Annual Leave",
+  ];
+
   @override
   Widget build(context) {
     return Directionality(
@@ -138,7 +149,42 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 10.0),
-                // Leave Type
+
+                // Radio Buttons to select Leave Type
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: echnoGreyColor,
+                      width: 1.50,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'Leave Type',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 5.0),
+                      Column(
+                        children: leaveType.map((type) {
+                          return RadioListTile<String>(
+                            title: Text(type),
+                            value: type,
+                            groupValue: selectedLeaveType,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedLeaveType = value;
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 10.0),
 
                 // Text field to enter remarks
