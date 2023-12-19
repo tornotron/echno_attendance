@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/leave_module/screens/leave_approval_screen.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,14 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
         ],
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LeaveApprovalScreen(leaveData: leaveData),
+            ),
+          );
+        },
         child: Container(
           margin: const EdgeInsets.only(top: 16.0, left: 40.0),
           constraints: const BoxConstraints.expand(),
