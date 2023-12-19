@@ -3,7 +3,7 @@ import 'dart:developer' as devtools show log;
 
 import 'package:echno_attendance/leave_module/services/leave_provider.dart';
 
-class FirestoreLeaveService implements LeaveProvider {
+class FirestoreLeaveProvider implements LeaveProvider {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String initialLeaveStatus = 'pending';
 
