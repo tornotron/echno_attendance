@@ -49,6 +49,25 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
     }
   }
 
+  // Function selects the end date of leave
+  Future<void> _selectEndDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: startDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && startDate != null) {
+      if (picked.isBefore(startDate!)) {
+        _showErrorDialog('End date cannot be before the start date');
+      } else {
+        setState(() {
+          endDate = picked;
+        });
+      }
+    }
+  }
+
   // Function to show error dialog
   void _showErrorDialog(String message) {
     showDialog(
@@ -189,7 +208,9 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       border: const OutlineInputBorder(),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    _selectEndDate(context);
+                  },
                 ),
                 const SizedBox(height: 10.0),
 
