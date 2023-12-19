@@ -27,6 +27,54 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
     "Annual Leave",
   ];
 
+  // Function selects the start date of leave
+  Future<void> _selectStartDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      if (picked.isBefore(DateTime.now())) {
+        // Show error dialog for start date before current date
+        _showErrorDialog('Start date cannot be before the current date');
+      } else {
+        setState(() {
+          startDate = picked;
+          endDate = null; // Reset end date when start date changes
+        });
+      }
+    }
+  }
+
+  // Function to show error dialog
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.error, color: Colors.red),
+              Text('Error'),
+            ],
+          ),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(context) {
     return Directionality(
@@ -117,7 +165,9 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       border: const OutlineInputBorder(),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    _selectStartDate(context);
+                  },
                 ),
                 const SizedBox(height: 10.0),
 
