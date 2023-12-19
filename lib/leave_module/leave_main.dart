@@ -1,5 +1,5 @@
 import 'package:echno_attendance/global_theme/custom_theme.dart';
-import 'package:echno_attendance/leave_module/screens/leave_application.dart';
+import 'package:echno_attendance/leave_module/screens/leave_register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class EchnoTestApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LeaveApplicationScreen(),
+      home: const LeaveRegisterScreen(),
       theme: EchnoCustomTheme.lightTheme,
       darkTheme: EchnoCustomTheme.darkTheme,
       themeMode: ThemeMode.system,
