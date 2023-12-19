@@ -12,6 +12,7 @@ class LeaveApplicationScreen extends StatefulWidget {
 
 class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
+  final TextEditingController _remarksController = TextEditingController();
 
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
@@ -68,6 +69,15 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
     }
   }
 
+  // Function to calculate the number of days on leave
+  String? calculateLeaveDays() {
+    if (startDate != null && endDate != null) {
+      return (endDate!.difference(startDate!).inDays + 1).toString();
+    } else {
+      return '-';
+    }
+  }
+
   // Function to show error dialog
   void _showErrorDialog(String message) {
     showDialog(
@@ -92,6 +102,12 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _remarksController.dispose();
+    super.dispose();
   }
 
   @override
@@ -216,7 +232,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // Number of days on leave calculated from start and end date
                 Text(
-                  'Nuber of days on leave :  ',
+                  'Nuber of days on leave :  ${calculateLeaveDays()}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 10.0),
@@ -264,10 +280,11 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
-                const TextField(
+                TextField(
+                  controller: _remarksController,
                   minLines: 5,
                   maxLines: null, // Allows for an adjustable number of lines
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Enter Remarks...',
                     border: OutlineInputBorder(),
                   ),
