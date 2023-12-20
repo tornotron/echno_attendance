@@ -1,0 +1,146 @@
+@startuml
+set namespaceSeparator ::
+
+class "echno_attendance::leave_module::screens::leave_status_screen.dart::LeaveStatusScreen" {
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<LeaveStatusScreen> createState()
+}
+
+"echno_attendance::leave_module::screens::leave_status_screen.dart::LeaveStatusScreen" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::leave_module::screens::leave_status_screen.dart::LeaveStatusScreen"
+
+class "echno_attendance::leave_module::screens::leave_status_screen.dart::LeaveStatusScreenState" {
+  +String? currentUserId
+  -LeaveService _leaveProvider
+  +dynamic isDarkMode
+  +Widget build()
+  +Widget leaveRow()
+}
+
+"echno_attendance::leave_module::screens::leave_status_screen.dart::LeaveStatusScreenState" o-- "echno_attendance::leave_module::services::leave_services.dart::LeaveService"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::leave_module::screens::leave_status_screen.dart::LeaveStatusScreenState"
+
+class "echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreen" {
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<LeaveRegisterScreen> createState()
+}
+
+"echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreen" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreen"
+
+class "echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreenState" {
+  -TextEditingController _searchController
+  -LeaveService _leaveProvider
+  +dynamic isDarkMode
+  +Widget build()
+  +Widget leaveRow()
+}
+
+"echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreenState" o-- "echno_attendance::leave_module::services::leave_services.dart::LeaveService"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::leave_module::screens::leave_register.dart::LeaveRegisterScreenState"
+
+class "echno_attendance::leave_module::screens::leave_application.dart::LeaveApplicationScreen" {
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<LeaveApplicationScreen> createState()
+}
+
+"echno_attendance::leave_module::screens::leave_application.dart::LeaveApplicationScreen" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::leave_module::screens::leave_application.dart::LeaveApplicationScreen"
+
+class "echno_attendance::leave_module::screens::leave_application.dart::_LeaveApplicationScreenState" {
+  -TextEditingController _remarksController
+  +String? currentUserId
+  +LeaveService leaveProvider
+  +Map<String, dynamic>? employeeData
+  +DateTime? startDate
+  +DateTime? endDate
+  +String? selectedLeaveType
+  +List<String> leaveType
+  +dynamic isDarkMode
+  -dynamic _selectStartDate()
+  -dynamic _selectEndDate()
+  +String? calculateLeaveDays()
+  -void _showErrorDialog()
+  +void dispose()
+  +Widget build()
+}
+
+"echno_attendance::leave_module::screens::leave_application.dart::_LeaveApplicationScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"echno_attendance::leave_module::screens::leave_application.dart::_LeaveApplicationScreenState" o-- "echno_attendance::leave_module::services::leave_services.dart::LeaveService"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::leave_module::screens::leave_application.dart::_LeaveApplicationScreenState"
+
+class "echno_attendance::leave_module::screens::leave_approval_screen.dart::LeaveApprovalScreen" {
+  +Map<String, dynamic> leaveData
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<LeaveApprovalScreen> createState()
+}
+
+"echno_attendance::leave_module::screens::leave_approval_screen.dart::LeaveApprovalScreen" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::leave_module::screens::leave_approval_screen.dart::LeaveApprovalScreen"
+
+class "echno_attendance::leave_module::screens::leave_approval_screen.dart::_LeaveApprovalScreenState" {
+  -LeaveService _leaveProvider
+  +String? selectedLeaveStatus
+  +dynamic isDarkMode
+  +Map<String, dynamic> leaveData
+  +void initState()
+  +Widget build()
+}
+
+"echno_attendance::leave_module::screens::leave_approval_screen.dart::_LeaveApprovalScreenState" o-- "echno_attendance::leave_module::services::leave_services.dart::LeaveService"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::leave_module::screens::leave_approval_screen.dart::_LeaveApprovalScreenState"
+
+class "echno_attendance::leave_module::services::leave_services.dart::LeaveService" {
+  -LeaveProvider _leaveProvider
+  +dynamic applyForLeave()
+  +dynamic cancelLeave()
+  +Stream<List<Map<String, dynamic>>> fetchLeaves()
+  +dynamic searchEmployeeByUID()
+  +Stream<List<Map<String, dynamic>>> streamLeaveHistory()
+  +dynamic updateLeaveStatus()
+}
+
+"echno_attendance::leave_module::services::leave_services.dart::LeaveService" o-- "echno_attendance::leave_module::services::leave_provider.dart::LeaveProvider"
+"echno_attendance::leave_module::services::leave_provider.dart::LeaveProvider" <|-- "echno_attendance::leave_module::services::leave_services.dart::LeaveService"
+
+abstract class "echno_attendance::leave_module::services::leave_provider.dart::LeaveProvider" {
+  +dynamic applyForLeave()
+  +dynamic searchEmployeeByUID()
+  +Stream<List<Map<String, dynamic>>> streamLeaveHistory()
+  +dynamic cancelLeave()
+  +Stream<List<Map<String, dynamic>>> fetchLeaves()
+  +dynamic updateLeaveStatus()
+}
+
+class "echno_attendance::leave_module::services::employee_wrapper.dart::EmployeeRegistrationWrapper" {
+  -CollectionReference<Object?> _userCollection
+  +dynamic registerEmployee()
+  +dynamic registerUser()
+  +dynamic handleAuthError()
+}
+
+"echno_attendance::leave_module::services::employee_wrapper.dart::EmployeeRegistrationWrapper" o-- "cloud_firestore::cloud_firestore.dart::CollectionReference<Object>"
+
+class "echno_attendance::leave_module::services::cloud_leave_provider.dart::FirestoreLeaveProvider" {
+  -FirebaseFirestore _firestore
+  +String initialLeaveStatus
+  +dynamic applyForLeave()
+  +dynamic searchEmployeeByUID()
+  +Stream<List<Map<String, dynamic>>> streamLeaveHistory()
+  +dynamic cancelLeave()
+  +Stream<List<Map<String, dynamic>>> fetchLeaves()
+  +dynamic updateLeaveStatus()
+}
+
+"echno_attendance::leave_module::services::cloud_leave_provider.dart::FirestoreLeaveProvider" o-- "cloud_firestore::cloud_firestore.dart::FirebaseFirestore"
+"echno_attendance::leave_module::services::leave_provider.dart::LeaveProvider" <|-- "echno_attendance::leave_module::services::cloud_leave_provider.dart::FirestoreLeaveProvider"
+
+class "echno_attendance::leave_module::leave_main.dart::EchnoTestApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::leave_module::leave_main.dart::EchnoTestApp"
+
+
+@enduml
