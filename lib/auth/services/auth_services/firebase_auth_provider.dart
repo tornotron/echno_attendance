@@ -1,3 +1,4 @@
+import 'package:echno_attendance/auth/services/employee.dart';
 import 'package:echno_attendance/utilities/firebase_options.dart';
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 import 'package:echno_attendance/auth/services/auth_services/auth_provider.dart';
@@ -67,6 +68,19 @@ class FirebaseAuthProvider implements AuthProvider {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       return AuthUser.fromFirebaseUser(user);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<Employee?> get currentEmployee async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      Employee employee =
+          Employee.fromFirebaseUser(AuthUser.fromFirebaseUser(user));
+      await employee.fetchAndUpdateEmployeeDetails();
+      return employee;
     } else {
       return null;
     }
