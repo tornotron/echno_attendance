@@ -20,3 +20,7 @@ const echnoLogoColor = Color(0xFF0A3774);
 const leaveStatusRedColor = Color(0xFFE53935);
 const leaveStatusYellowColor = Color(0xFFFDD835);
 const leaveStatusOrangeColor = Color(0xFFFB8C00);
+
+const errorRedColor = Color(0xFFC5032B);
+const successGreenColor = Color(0xFF3AA76D);
+const warningYellowColor = Color(0xFFCC9900);

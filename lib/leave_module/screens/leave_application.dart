@@ -1,5 +1,6 @@
 import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
     if (picked != null) {
       if (picked.isBefore(DateTime.now())) {
         // Show error dialog for start date before current date
-        _showErrorDialog('Start date cannot be before the current date');
+        _showErrorDialog(startDateErrorMessage);
       } else {
         setState(() {
           startDate = picked;
@@ -63,7 +64,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
     );
     if (picked != null && startDate != null) {
       if (picked.isBefore(startDate!)) {
-        _showErrorDialog('End date cannot be before the start date');
+        _showErrorDialog(endDateErrorMessage);
       } else {
         setState(() {
           endDate = picked;
@@ -89,7 +90,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
         return AlertDialog(
           title: const Row(
             children: [
-              Icon(Icons.error, color: Colors.red),
+              Icon(Icons.error, color: errorRedColor),
               Text('Error'),
             ],
           ),
@@ -120,7 +121,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
-          title: const Text('Leave Application'),
+          title: const Text(leaveApplicationAppBarTitle),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
@@ -136,12 +137,12 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Leave Application...',
+                  leaveApplicationScreenTitle,
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  'Application to request leave...',
+                  leaveApplicationSubtitle,
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.left,
                 ),
@@ -151,7 +152,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // The immediate supervisor of the employee
                 Text(
-                  'Site Co-Ordinator',
+                  coordinatorFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
@@ -169,7 +170,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // Current Date
                 Text(
-                  "Today's Date",
+                  currentDateFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
@@ -187,7 +188,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // Selection field the start date of leave
                 Text(
-                  'Leave From',
+                  startDateFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
@@ -197,7 +198,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     enabled: false,
                     decoration: InputDecoration(
                       labelText: startDate == null
-                          ? 'Select Start Date'
+                          ? startDateFieldHint
                           : "${startDate!.day}-${startDate!.month}-${startDate!.year}",
                       labelStyle: Theme.of(context).textTheme.titleMedium,
                       border: const OutlineInputBorder(),
@@ -211,7 +212,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // Selection field the end date of leave
                 Text(
-                  'Leave Till',
+                  endDateFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
@@ -221,7 +222,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     enabled: false,
                     decoration: InputDecoration(
                       labelText: endDate == null
-                          ? 'Select End Date'
+                          ? endDateFieldHint
                           : "${endDate!.day}-${endDate!.month}-${endDate!.year}",
                       labelStyle: Theme.of(context).textTheme.titleMedium,
                       border: const OutlineInputBorder(),
@@ -235,7 +236,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // Number of days on leave calculated from start and end date
                 Text(
-                  'Nuber of days on leave :  ${calculateLeaveDays()}',
+                  "$calculateDaysFieldLabel ${calculateLeaveDays()}",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 10.0),
@@ -254,7 +255,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        'Leave Type',
+                        leaveTypeFieldLabel,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 5.0),
@@ -279,7 +280,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
                 // Text field to enter remarks
                 Text(
-                  'Remarks',
+                  remarksFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
@@ -288,7 +289,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   minLines: 5,
                   maxLines: null, // Allows for an adjustable number of lines
                   decoration: const InputDecoration(
-                    hintText: 'Enter Remarks...',
+                    hintText: remarksFieldHint,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -317,9 +318,9 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       );
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.green.shade600,
-                            content: const Text('Leave application submitted'),
+                          const SnackBar(
+                            backgroundColor: successGreenColor,
+                            content: Text(leaveApplicationSuccessMessage),
                           ),
                         );
                       }
@@ -333,7 +334,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       });
                     },
                     child: const Text(
-                      'APPLY FOR LEAVE',
+                      submitButtonLabel,
                     ),
                   ),
                 ),
