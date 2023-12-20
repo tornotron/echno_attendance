@@ -1,4 +1,4 @@
-import 'package:echno_attendance/leave_module/services/cloud_leave_provider.dart';
+import 'package:echno_attendance/leave_module/services/firestore_leave_provider.dart';
 import 'package:echno_attendance/leave_module/services/leave_provider.dart';
 
 class LeaveService implements LeaveProvider {
