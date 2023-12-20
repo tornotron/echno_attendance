@@ -15,10 +15,7 @@ class LeaveApplicationScreen extends StatefulWidget {
 class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _remarksController = TextEditingController();
-  final currentUserId =
-      AuthService.firebase().currentUser?.uid; // Current user uid
   final leaveProvider = LeaveService.firestoreLeave(); // Leave related services
-  Map<String, dynamic>? employeeData; // Variable to store current user data
 
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
@@ -302,14 +299,13 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (currentUserId != null) {
-                        employeeData = await leaveProvider.searchEmployeeByUID(
-                            uid: currentUserId!);
-                      }
+                      final currentUser =
+                          await AuthService.firebase().currentEmployee;
+
                       await leaveProvider.applyForLeave(
-                        uid: currentUserId!,
-                        employeeID: employeeData!['employee-id'],
-                        employeeName: employeeData!['full-name'],
+                        uid: currentUser!.uid!,
+                        employeeID: currentUser.employeeID!,
+                        employeeName: currentUser.employeeName!,
                         appliedDate:
                             '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
                         fromDate:
