@@ -10,8 +10,6 @@ abstract class LeaveProvider {
     required String remarks,
   });
 
-  Future<Map<String, dynamic>> searchEmployeeByUID({required String uid});
-
   Stream<List<Map<String, dynamic>>> streamLeaveHistory({
     required String? uid,
   });

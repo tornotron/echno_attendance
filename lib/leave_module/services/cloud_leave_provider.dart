@@ -39,34 +39,6 @@ class FirestoreLeaveProvider implements LeaveProvider {
     }
   }
 
-  // Search for an employee in DB by their firebase-uid
-  @override
-  Future<Map<String, dynamic>> searchEmployeeByUID(
-      {required String uid}) async {
-    try {
-      // Search user with reference to the uid in firestore
-      QuerySnapshot querySnapshot = await _firestore
-          .collection('users')
-          .where('uid', isEqualTo: uid)
-          .get();
-
-      // Check if any documents match the query
-      if (querySnapshot.docs.isNotEmpty) {
-        // Get the first document
-        Map<String, dynamic> user =
-            querySnapshot.docs.first.data() as Map<String, dynamic>;
-        devtools.log('User found');
-        return user;
-      } else {
-        devtools.log('User not found');
-        return {}; // Return an empty map if no user is found
-      }
-    } catch (e) {
-      devtools.log('Error searching for user: $e');
-      return {}; // Return an empty map if an error occurs
-    }
-  }
-
   // Get this leave history of the currently logged in user
   @override
   Stream<List<Map<String, dynamic>>> streamLeaveHistory({

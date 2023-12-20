@@ -43,11 +43,6 @@ class LeaveService implements LeaveProvider {
   }
 
   @override
-  Future<Map<String, dynamic>> searchEmployeeByUID({required String uid}) {
-    return _leaveProvider.searchEmployeeByUID(uid: uid);
-  }
-
-  @override
   Stream<List<Map<String, dynamic>>> streamLeaveHistory(
       {required String? uid}) {
     return _leaveProvider.streamLeaveHistory(uid: uid);
