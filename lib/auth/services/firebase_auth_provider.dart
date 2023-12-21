@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/utilities/firebase_options.dart';
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 import 'package:echno_attendance/auth/services/auth_services/auth_provider.dart';
-import 'package:echno_attendance/auth/services/auth_user.dart';
+import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
