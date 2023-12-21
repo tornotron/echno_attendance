@@ -140,7 +140,12 @@ class FirebaseAuthProvider implements AuthProvider {
         isActiveUser = employeeData['employee-status'];
       }
     } on FirebaseException catch (error) {
-      throw GenericAuthException('Firestore Exception: ${error.message}');
+      switch (error.code) {
+        case 'not-found':
+          throw NotAnEmployeeException();
+        default:
+          throw GenericAuthException('Firestore Exception: ${error.message}');
+      }
     } catch (e) {
       throw GenericAuthException('Other Exception: $e');
     }
@@ -171,7 +176,12 @@ class FirebaseAuthProvider implements AuthProvider {
         });
       }
     } on FirebaseException catch (error) {
-      throw GenericAuthException('Firestore Exception: ${error.message}');
+      switch (error.code) {
+        case 'not-found':
+          throw NotAnEmployeeException();
+        default:
+          throw GenericAuthException('Firestore Exception: ${error.message}');
+      }
     } catch (e) {
       throw GenericAuthException('Other Exception: $e');
     }

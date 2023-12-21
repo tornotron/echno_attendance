@@ -33,3 +33,8 @@ class GenericAuthException implements Exception {
 class UserNotLoggedInAuthException implements Exception {
   final String message = 'User not logged in';
 }
+
+// Auth Related Firestore Exceptions
+class NotAnEmployeeException implements Exception {
+  final String message = 'Not an employee';
+}
