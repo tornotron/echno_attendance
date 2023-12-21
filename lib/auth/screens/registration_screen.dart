@@ -23,11 +23,13 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController phoneController = TextEditingController();
+  late final TextEditingController _employeeIdController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
   @override
   void initState() {
+    _employeeIdController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     super.initState();
@@ -35,6 +37,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
+    _employeeIdController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -121,6 +124,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Employee ID TextField
+                            TextFormField(
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                prefixIcon:
+                                    const Icon(Icons.person_outline_outlined),
+                                labelText: 'Employee ID',
+                                hintText: 'EMP-000001',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    (15.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
                             // // Full Name TextField
                             // TextFormField(
                             //   maxLines: 1,
@@ -242,6 +261,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
+                                  // final employeeID = _employeeIdController.text;
                                   final email = _emailController.text;
                                   final password = _passwordController.text;
 
