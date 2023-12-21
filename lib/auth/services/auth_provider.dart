@@ -16,4 +16,10 @@ abstract class AuthProvider {
   Future<void> logOut();
   Future<void> sendEmailVerification();
   Future<void> resetPassword({required String toEmail});
+
+  Future<Map<String, dynamic>> searchForEmployeeInFirestore(
+      {required String employeeID});
+
+  Future<void> updateUserUIDToFirestore(
+      {required String employeeID, required String? uid});
 }
