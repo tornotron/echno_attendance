@@ -1,5 +1,6 @@
 import 'package:echno_attendance/auth/services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_cancel_dialog.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
@@ -24,7 +25,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
-        title: const Text('Leave Status'),
+        title: const Text(leaveStatusAppBarTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
@@ -41,12 +42,12 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Leave Status...',
+                  leaveStatusScreenTitle,
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  'List of all the leaves applied by you...',
+                  leaveStatusSubtitle,
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.left,
                 ),
@@ -66,7 +67,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                         const Center(child: LinearProgressIndicator()),
                         const SizedBox(height: 10),
                         Text(
-                          'Loading...',
+                          leaveStatusLoadingText,
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -78,7 +79,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
                     child: Text(
-                      'No matching leave data found.',
+                      leaveStatusNoLeaveData,
                       style: Theme.of(context).textTheme.titleMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -211,7 +212,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.purple.shade200,
+                            color: leaveCancelButtonColor,
                           ),
                           child: const Column(
                             children: <Widget>[
@@ -221,7 +222,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                                 color: echnoDarkColor,
                               ),
                               Text(
-                                'Cancel',
+                                leaveStatusCancelButtonLabel,
                                 style: TextStyle(
                                   color: echnoDarkColor,
                                   fontFamily: 'TT Chocolates Bold',
@@ -237,7 +238,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
             ),
             const SizedBox(height: 5.0),
             Text(
-              "Applied On: ${employeeLeaveData['appliedDate']}",
+              "$leaveAppliedOnFieldLabel ${employeeLeaveData['appliedDate']}",
               style: const TextStyle(
                 color: echnoDarkColor,
                 fontFamily: 'TT Chocolates Bold',
