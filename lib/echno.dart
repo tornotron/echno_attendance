@@ -1,9 +1,11 @@
-import 'package:echno_attendance/utilities/routes.dart';
-import 'package:echno_attendance/user/views/homepage_screen.dart';
-import 'package:echno_attendance/auth/views/login_screen.dart';
-import 'package:echno_attendance/auth/views/register_screen.dart';
-import 'package:echno_attendance/auth/views/verify_email_screen.dart';
-import 'package:echno_attendance/auth/services/auth_service.dart';
+import 'package:echno_attendance/common_widgets/loading_screen.dart';
+import 'package:echno_attendance/global_theme/custom_theme.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
+import 'package:echno_attendance/auth/bloc/auth_state.dart';
+import 'package:echno_attendance/auth/services/index.dart';
+import 'package:echno_attendance/auth/screens/index.dart';
 import 'package:flutter/material.dart';
 
 class EchnoApp extends StatelessWidget {
@@ -13,18 +15,14 @@ class EchnoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      debugShowCheckedModeBanner: false,
+      home: BlocProvider<AuthBloc>(
+        create: (context) => AuthBloc(FirebaseAuthProvider()),
+        child: const EchnoHomePage(),
       ),
-      home: const EchnoHomePage(),
-      routes: {
-        loginRoute: (context) => const LoginView(),
-        registerRoute: (context) => const RegisterView(),
-        verifyEmailRoute: (context) => const VerifyEmailView(),
-        homeRoute: (context) => const HomePageView(),
-      },
+      theme: EchnoCustomTheme.lightTheme,
+      darkTheme: EchnoCustomTheme.darkTheme,
+      themeMode: ThemeMode.system,
     );
   }
 }
@@ -39,27 +37,35 @@ class EchnoHomePage extends StatefulWidget {
 class _EchnoHomePageState extends State<EchnoHomePage> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: AuthService.firebase().initialize(),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            final user = AuthService.firebase().currentUser;
-            if (user != null) {
-              if (user.isemailVerified) {
-                return const HomePageView();
-              } else {
-                return const VerifyEmailView();
-              }
-            } else {
-              return const LoginView();
-            }
-          default:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-        }
-      },
-    );
+    context.read<AuthBloc>().add(const AuthInitializeEvent());
+    return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+      if (state.isLoading) {
+        LoadingScreen().show(
+            context: context,
+            text: state.loadingMessage ?? 'Please wait a while...');
+      } else {
+        LoadingScreen().hide();
+      }
+    }, builder: (context, state) {
+      if (state is AuthLoggedInState) {
+        return const HomeScreen();
+      } else if (state is AuthEmailNotVerifiedState) {
+        return const EmailVerification();
+      } else if (state is AuthLoggedOutState) {
+        return const LoginScreen();
+      } else if (state is AuthForgotPasswordState) {
+        return const MailPasswordResetScreen();
+      } else if (state is AuthRegistrationState) {
+        return const RegistrationScreen();
+      } else if (state is AuthPhoneLogInInitiatedState) {
+        return const PhoneLoginScreen();
+      } else {
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+    });
   }
 }
