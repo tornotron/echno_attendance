@@ -33,3 +33,18 @@ const String leaveStatusLoadingText = 'Loading Leave History...';
 const String leaveStatusNoLeaveData = 'No Leave History Yet...';
 const String leaveStatusCancelButtonLabel = 'Cancel';
 const String leaveAppliedOnFieldLabel = 'Applied On: ';
+
+/*---------- Leave Register Screen ----------*/
+
+const String leaveRegisterAppBarTitle = 'Leave Register';
+const String leaveRegisterScreenTitle = 'Employee Leave Register...';
+const String leaveRegisterSubtitle =
+    'List of all the leaves applied by the employees...';
+const String leaveRegisterFilterFieldLabel = 'Filter';
+const String leaveRegisterFilterFieldHint = 'Start Typing...';
+const String leaveRegisterLoadingText = 'Loading Leave Data...';
+const String leaveRegisterNoLeaveData = 'No Leave Data Found...';
+const String leaveRegisterDurationFieldLabel = 'Duration : ';
+const String leaveRegisterStatusFieldLabel = 'Status : ';
+const String leaveRegisterCancelledStatus = 'Cancelled';
+const String leaveRegisterAppliedFieldLabel = 'Applied On: ';
