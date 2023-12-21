@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/screens/leave_approval_screen.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
@@ -23,7 +24,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
-        title: const Text('Leave Register'),
+        title: const Text(leaveRegisterAppBarTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
@@ -40,12 +41,12 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Employee Leave Register',
+                  leaveRegisterScreenTitle,
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  'List of all the leaves applied by the employees...',
+                  leaveRegisterSubtitle,
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.left,
                 ),
@@ -56,8 +57,8 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    labelText: 'Filter',
-                    hintText: 'Start Typing...',
+                    labelText: leaveRegisterFilterFieldLabel,
+                    hintText: leaveRegisterFilterFieldHint,
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
@@ -108,7 +109,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
                         const Center(child: LinearProgressIndicator()),
                         const SizedBox(height: 10),
                         Text(
-                          'Loading...',
+                          leaveRegisterLoadingText,
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -120,7 +121,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
                 } else if (filteredLeaves.isEmpty) {
                   return Center(
                     child: Text(
-                      'No matching leave data found.',
+                      leaveRegisterNoLeaveData,
                       style: Theme.of(context).textTheme.titleMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -196,7 +197,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               ),
               const SizedBox(height: 5.0),
               Text(
-                'Duration : ${leaveData['fromDate']}  -  ${leaveData['toDate']}',
+                '$leaveRegisterDurationFieldLabel ${leaveData['fromDate']}  -  ${leaveData['toDate']}',
                 style: const TextStyle(
                   color: echnoDarkColor,
                   fontFamily: 'TT Chocolates Bold',
@@ -208,7 +209,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  const Text('Status : ',
+                  const Text(leaveRegisterStatusFieldLabel,
                       style: TextStyle(
                         color: echnoDarkColor,
                         fontFamily: 'TT Chocolates Bold',
@@ -226,7 +227,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
                   Text(
                     leaveData['isCancelled'] == false
                         ? getStatus(leaveData['leaveStatus'])
-                        : 'Cancelled',
+                        : leaveRegisterCancelledStatus,
                     style: const TextStyle(
                       color: echnoDarkColor,
                       fontFamily: 'TT Chocolates Bold',
@@ -238,7 +239,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               ),
               const SizedBox(height: 10.0),
               Text(
-                "Applied On: ${leaveData['appliedDate']}",
+                "$leaveRegisterAppliedFieldLabel ${leaveData['appliedDate']}",
                 style: const TextStyle(
                   color: echnoDarkColor,
                   fontFamily: 'TT Chocolates Bold',
