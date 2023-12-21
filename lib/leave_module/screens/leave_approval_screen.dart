@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
-          title: const Text('Leave Sanction'),
+          title: const Text(leaveApprovalAppBarTitle),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
@@ -48,12 +49,12 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Leave Sanction',
+                  leaveApprovalScreenTitle,
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  'Update the status of the applied leave here...',
+                  leaveApprovalSubtitle,
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.left,
                 ),
@@ -61,7 +62,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 const Divider(height: 5.0),
                 const SizedBox(height: 5.0),
                 Text(
-                  'Employee Name',
+                  employeeNameFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 3.0),
@@ -76,7 +77,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  'Employee ID',
+                  employeeIdFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 3.0),
@@ -91,7 +92,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  'Leave From',
+                  leaveApprovalStartDateFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 3.0),
@@ -106,7 +107,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  'Leave To',
+                  leaveApprovalEndDateFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 3.0),
@@ -121,7 +122,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  'Leave Type',
+                  leaveApprovalLeaveTypeFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 3.0),
@@ -136,7 +137,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  'Leave Status',
+                  leaveApprovalStatusFieldLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
@@ -152,7 +153,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: const Text('Approved'),
+                        title: const Text(leaveApprovalApprovedRadioButton),
                         leading: Radio(
                           value: 'approved',
                           groupValue: selectedLeaveStatus,
@@ -164,7 +165,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                         ),
                       ),
                       ListTile(
-                        title: const Text('Pending'),
+                        title: const Text(leaveApprovalPendingRadioButton),
                         leading: Radio(
                           value: 'pending',
                           groupValue: selectedLeaveStatus,
@@ -176,7 +177,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                         ),
                       ),
                       ListTile(
-                        title: const Text('Rejected'),
+                        title: const Text(leaveApprovalRejectedRadioButton),
                         leading: Radio(
                           value: 'rejected',
                           groupValue: selectedLeaveStatus,
@@ -188,7 +189,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                         ),
                       ),
                       ListTile(
-                        title: const Text('Unclassified'),
+                        title: const Text(leaveApprovalUnclassifiedRadioButton),
                         leading: Radio(
                           value: 'unclassified',
                           groupValue: selectedLeaveStatus,
@@ -212,16 +213,16 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                           newStatus: selectedLeaveStatus!);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.green.shade600,
-                            content: const Text('Leave Status Updated!'),
+                          const SnackBar(
+                            backgroundColor: successGreenColor,
+                            content: Text(leaveApprovalSuccessMessage),
                           ),
                         );
                         Navigator.pop(context);
                       }
                     },
                     child: const Text(
-                      'Update Leave Status',
+                      leaveApprovalButtonLabel,
                     ),
                   ),
                 ),
