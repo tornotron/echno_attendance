@@ -1,6 +1,6 @@
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 import 'package:echno_attendance/auth/services/auth_services/auth_provider.dart';
-import 'package:echno_attendance/auth/services/auth_user.dart';
+import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
 import 'package:test/test.dart';
 
 void main() {
