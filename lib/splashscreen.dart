@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:echno_attendance/auth/screens/index.dart';
 import 'package:flutter/material.dart';
-import 'package:echno_attendance/auth/views/loginpage.dart';
 
 class Splashpage extends StatefulWidget {
   const Splashpage({super.key});
@@ -19,7 +19,7 @@ class _SplashpageState extends State<Splashpage> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const Login(),
+            builder: (context) => const LoginScreen(),
           ));
     });
   }
