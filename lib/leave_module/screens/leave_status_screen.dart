@@ -5,6 +5,7 @@ import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_cancel_dialog.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LeaveStatusScreen extends StatefulWidget {
   const LeaveStatusScreen({Key? key}) : super(key: key);
@@ -24,7 +25,9 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor),
+        backgroundColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
         title: const Text(leaveStatusAppBarTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
@@ -130,7 +133,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
       height: 200,
       margin: const EdgeInsets.only(left: 45.0, right: 20.0),
       decoration: BoxDecoration(
-        color: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
+        color: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: <BoxShadow>[

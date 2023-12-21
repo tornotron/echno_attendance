@@ -2,6 +2,7 @@ import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LeaveApprovalScreen extends StatefulWidget {
   final Map<String, dynamic> leaveData;
@@ -32,7 +33,10 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
       textDirection: TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor:
+                  isDarkMode ? echnoLightBlueColor : echnoBlueColor),
+          backgroundColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
           title: const Text(leaveApprovalAppBarTitle),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
