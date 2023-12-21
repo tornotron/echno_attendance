@@ -48,3 +48,25 @@ const String leaveRegisterDurationFieldLabel = 'Duration : ';
 const String leaveRegisterStatusFieldLabel = 'Status : ';
 const String leaveRegisterCancelledStatus = 'Cancelled';
 const String leaveRegisterAppliedFieldLabel = 'Applied On: ';
+
+/*---------- Leave Approval Screen ----------*/
+const String leaveApprovalAppBarTitle = 'Leave Sanction';
+const String leaveApprovalScreenTitle = 'Leave Sanction Form...';
+const String leaveApprovalSubtitle =
+    'Update the status of the applied leave here...';
+const String employeeNameFieldLabel = 'Employee Name';
+const String employeeIdFieldLabel = 'Employee ID';
+const String leaveApprovalStartDateFieldLabel = 'Leave From';
+const String leaveApprovalEndDateFieldLabel = 'Leave To';
+const String leaveApprovalLeaveTypeFieldLabel = 'Leave Type';
+const String leaveApprovalStatusFieldLabel = 'Leave Status';
+const String leaveApprovalButtonLabel = 'Update Leave Status';
+
+// Radio Buttons
+const String leaveApprovalApprovedRadioButton = 'Approved';
+const String leaveApprovalPendingRadioButton = 'Pending';
+const String leaveApprovalRejectedRadioButton = 'Rejected';
+const String leaveApprovalUnclassifiedRadioButton = 'Unclassified';
+
+// Error & Success Messages
+const String leaveApprovalSuccessMessage = 'Leave Status Updated!';
