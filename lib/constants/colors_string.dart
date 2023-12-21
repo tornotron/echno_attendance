@@ -24,3 +24,5 @@ const leaveStatusOrangeColor = Color(0xFFFB8C00);
 const errorRedColor = Color(0xFFC5032B);
 const successGreenColor = Color(0xFF3AA76D);
 const warningYellowColor = Color(0xFFCC9900);
+
+const leaveCancelButtonColor = Color(0xFFAB47BC);

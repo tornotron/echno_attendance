@@ -23,3 +23,13 @@ const String startDateErrorMessage =
     'Start date cannot be earlier than the current date';
 const String endDateErrorMessage =
     'End date cannot be earlier than the start date';
+
+/*---------- Leave Status Screen ----------*/
+
+const String leaveStatusAppBarTitle = 'Leave Status';
+const String leaveStatusScreenTitle = 'Leave Status...';
+const String leaveStatusSubtitle = 'List of all the leaves applied by you...';
+const String leaveStatusLoadingText = 'Loading Leave History...';
+const String leaveStatusNoLeaveData = 'No Leave History Yet...';
+const String leaveStatusCancelButtonLabel = 'Cancel';
+const String leaveAppliedOnFieldLabel = 'Applied On: ';
