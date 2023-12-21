@@ -45,4 +45,21 @@ class AuthService implements AuthProvider {
   Future<void> initialize() {
     return _provider.initialize();
   }
+
+  @override
+  Future<Map<String, dynamic>> searchForEmployeeInFirestore(
+      {required String employeeID}) {
+    return _provider.searchForEmployeeInFirestore(employeeID: employeeID);
+  }
+
+  @override
+  Future<void> updateUserUIDToFirestore({
+    required String employeeID,
+    required String? uid,
+  }) {
+    return _provider.updateUserUIDToFirestore(
+      employeeID: employeeID,
+      uid: uid,
+    );
+  }
 }
