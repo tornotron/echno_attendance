@@ -3,6 +3,7 @@ import 'package:echno_attendance/user/hr_screens/add_employee.dart';
 import 'package:echno_attendance/user/hr_screens/employee_register.dart';
 import 'package:echno_attendance/user/hr_screens/update_details.dart';
 import 'package:flutter/material.dart';
+import 'package:echno_attendance/user/hr_screens/attendance_report/employee_attendancereport.dart';
 
 class HRDashboardScreen extends StatefulWidget {
   const HRDashboardScreen({Key? key}) : super(key: key);
@@ -49,7 +50,11 @@ class _HRDashboardScreenState extends State<HRDashboardScreen> {
       DashboardItem(
         icon: Icons.location_history_rounded,
         text: 'Attendance Report',
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const AttendanceReportScreen();
+          }));
+        },
       ),
       DashboardItem(
         icon: Icons.app_registration_rounded,
