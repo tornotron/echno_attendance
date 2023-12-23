@@ -22,7 +22,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   Map<String, dynamic>? _employeeData;
 
   void _searchEmployee(String employeeId) async {
-    final employeeData = await HrClass().readUser(userId: employeeId);
+    final employeeData = await HrClass().readUser(employeeId: employeeId);
     setState(() {
       _employeeData = employeeData;
 
@@ -35,7 +35,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
     });
 
     // Show error dialog if employee not found
-    if (employeeData.isEmpty) {
+    if (employeeData['id'] == null) {
       _showErrorDialog();
     }
   }
@@ -51,6 +51,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                _employeeIdController.clear();
               },
               child: const Text('OK'),
             ),
@@ -129,7 +130,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                 const SizedBox(height: 10.0),
                 const Divider(height: 2.0),
                 const SizedBox(height: 10.0),
-                if (_employeeData != null && _employeeData!.isNotEmpty)
+                if (_employeeData?['id'] != null)
                   Column(
                     children: [
                       TextFormField(
@@ -144,7 +145,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['name'] = _nameController.text;
+                            _employeeData?['name'] = _nameController.text;
                           });
                         },
                       ),
@@ -161,7 +162,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['email'] = _emailController.text;
+                            _employeeData?['email'] = _emailController.text;
                           });
                         },
                       ),
@@ -178,7 +179,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['phoneNumber'] =
+                            _employeeData?['phoneNumber'] =
                                 _phoneController.text;
                           });
                         },
@@ -196,7 +197,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData!['userRole'] = _roleController.text;
+                            _employeeData?['userRole'] = _roleController.text;
                           });
                         },
                       ),
@@ -217,10 +218,10 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           trailing: Switch(
-                            value: _employeeData!['isActiveUser'],
+                            value: _employeeData?['isActiveUser'] ?? false,
                             onChanged: (value) {
                               setState(() {
-                                _employeeData!['isActiveUser'] = value;
+                                _employeeData?['isActiveUser'] = value;
                               });
                             },
                           ),
@@ -232,12 +233,12 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         child: ElevatedButton(
                           onPressed: () async {
                             await HrClass().updateUser(
-                              userId: _employeeIdController.text,
-                              name: _employeeData!['name'],
-                              email: _employeeData!['email'],
-                              phoneNumber: _employeeData!['phoneNumber'],
-                              userRole: _employeeData!['userRole'],
-                              isActiveUser: _employeeData!['isActiveUser'],
+                              employeeId: _employeeIdController.text,
+                              name: _employeeData?['name'],
+                              email: _employeeData?['email'],
+                              phoneNumber: _employeeData?['phoneNumber'],
+                              userRole: _employeeData?['userRole'],
+                              isActiveUser: _employeeData?['isActiveUser'],
                             );
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
