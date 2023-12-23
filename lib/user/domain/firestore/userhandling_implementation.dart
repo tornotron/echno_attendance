@@ -20,7 +20,10 @@ class FirestoreUserServices implements UserHandleProvider {
       DocumentSnapshot useridCheck = await userCollection.doc(employeeId).get();
 
       if (!useridCheck.exists) {
-        await FirebaseFirestore.instance.collection('users').doc(employeeId).set({
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(employeeId)
+            .set({
           'employee-id': employeeId,
           'full-name': name,
           'email-id': email,
@@ -47,7 +50,8 @@ class FirestoreUserServices implements UserHandleProvider {
       String? userRole,
       bool? isActiveUser}) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('users').doc(employeeId);
+      final docRef =
+          FirebaseFirestore.instance.collection('users').doc(employeeId);
 
       final updateData = <String, dynamic>{};
 
@@ -82,7 +86,10 @@ class FirestoreUserServices implements UserHandleProvider {
   @override
   Future deleteUser({required String employeeId}) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(employeeId).delete();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(employeeId)
+          .delete();
     } on FirebaseException catch (error) {
       logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
@@ -92,9 +99,9 @@ class FirestoreUserServices implements UserHandleProvider {
 
   @override
   Future<Map<String, dynamic>> readUser({
-    required String employeeId,
+    required String? employeeId,
   }) async {
-    String? name, email, phoneNumber, userRole;
+    String? name, email, phoneNumber, userRole, id;
     bool? isActiveUser;
     try {
       CollectionReference employeesCollection =
@@ -106,6 +113,7 @@ class FirestoreUserServices implements UserHandleProvider {
       if (employeeDocument.exists) {
         Map<String, dynamic> employeeData =
             employeeDocument.data() as Map<String, dynamic>;
+        id = employeeData['employee-id'];
         name = employeeData['full-name'];
         email = employeeData['email-id'];
         phoneNumber = employeeData['phone'];
@@ -120,6 +128,7 @@ class FirestoreUserServices implements UserHandleProvider {
       logs.e('Other Exception: $e');
     }
     return {
+      'id': id,
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
