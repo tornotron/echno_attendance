@@ -1,0 +1,42 @@
+@startuml
+set namespaceSeparator ::
+
+class "echno_attendance::user::hr_screens::attendance_report::employee_attendancereport.dart::AttendanceReportScreen" {
+  +State<AttendanceReportScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::user::hr_screens::attendance_report::employee_attendancereport.dart::AttendanceReportScreen"
+
+class "echno_attendance::user::hr_screens::attendance_report::employee_attendancereport.dart::_AttendanceReportScreenState" {
+  +TextEditingController searchControllerIdorName
+  +TextEditingController searchControllerDate
+  +TextEditingController searchControllerAttStatus
+  -dynamic _selectDate()
+  +Widget build()
+}
+
+"echno_attendance::user::hr_screens::attendance_report::employee_attendancereport.dart::_AttendanceReportScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::user::hr_screens::attendance_report::employee_attendancereport.dart::_AttendanceReportScreenState"
+
+class "echno_attendance::user::hr_screens::attendance_report::attendance_card.dart::AttCard" {
+  +String employeeIdFilter
+  +String? attendanceStatusFilter
+  +String? attendanceDateFilter
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::user::hr_screens::attendance_report::attendance_card.dart::AttCard"
+
+class "echno_attendance::user::hr_screens::attendance_report::attendance_card.dart::AttendanceStatusWidget" {
+  +bool colorSelect
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::user::hr_screens::attendance_report::attendance_card.dart::AttendanceStatusWidget"
+
+class "echno_attendance::user::hr_screens::attendance_report::attendancereport_data.dart::ReportData" {
+  +dynamic readData()
+}
+
+
+@enduml
