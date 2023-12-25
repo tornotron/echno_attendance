@@ -11,18 +11,19 @@ class AttendanceDatabaseServices {
       final db = await openDatabase(path);
       // await db.execute('''DROP TABLE attendance;''');
       await db.execute(
-          '''CREATE TABLE IF NOT EXISTS attendance(employee_id INTEGER,employee_name TEXT,attendance_date TEXT,attendance_time TEXT,attendance_status INTEGER);''');
+          '''CREATE TABLE IF NOT EXISTS attendance(employee_id TEXT,employee_name TEXT,attendance_date TEXT,attendance_month TEXT,attendance_time TEXT,attendance_status TEXT);''');
     } catch (e) {
       logs.e('Error creating database');
     }
   }
 
   Future<void> insertIntoDatabase(
-      {required int employeeId,
+      {required String employeeId,
       required String employeeName,
       required String attendanceDate,
+      required String? attendanceMonth,
       required String attendanceTime,
-      required int attendanceStatus}) async {
+      required String attendanceStatus}) async {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
@@ -30,11 +31,22 @@ class AttendanceDatabaseServices {
         'employee_id': employeeId,
         'employee_name': employeeName,
         'attendance_date': attendanceDate,
+        'attendance_month': attendanceMonth,
         'attendance_time': attendanceTime,
         'attendance_status': attendanceStatus
       });
     } catch (e) {
       logs.e('Error inserting');
+    }
+  }
+
+  Future<void> dropDatabase() async {
+    final path = await getAttendanceDatabasePath();
+    try {
+      final db = await openDatabase(path);
+      await db.execute('''DROP TABLE attendance;''');
+    } catch (e) {
+      logs.e('Error dropping database');
     }
   }
 }
