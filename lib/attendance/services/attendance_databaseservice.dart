@@ -40,6 +40,27 @@ class AttendanceDatabaseServices {
     }
   }
 
+  Future<List<Map<String, String>>> fetchFromDatabase(
+      {required String employeeId, required String attendanceMonth}) async {
+    final path = await getAttendanceDatabasePath();
+    try {
+      final db = await openDatabase(path);
+
+      List<Map<String, dynamic>> result = await db.rawQuery(
+        'SELECT * FROM attendance WHERE employee_id = ? AND attendance_month = ?',
+        [employeeId, attendanceMonth],
+      );
+      List<Map<String, String>> formattedResult = result
+          .map(
+              (row) => row.map((key, value) => MapEntry(key, value.toString())))
+          .toList();
+      return formattedResult;
+    } catch (e) {
+      logs.e('Error fetching from attendance database: $e');
+    }
+    return [];
+  }
+
   Future<void> dropDatabase() async {
     final path = await getAttendanceDatabasePath();
     try {
