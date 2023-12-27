@@ -41,14 +41,31 @@ class AttendanceDatabaseServices {
   }
 
   Future<List<Map<String, String>>> fetchFromDatabase(
-      {required String employeeId, required String attendanceMonth}) async {
+      {required String employeeId,
+      required String attendanceMonth,
+      required String attYear}) async {
+    final attYearint = int.parse(attYear);
+    final Map<String, int> monthdayMap = {
+      'January': 31,
+      'February': await daysInFebruary(attYearint),
+      'March': 31,
+      'April': 30,
+      'May': 31,
+      'June': 30,
+      'July': 31,
+      'August': 31,
+      'September': 30,
+      'October': 31,
+      'November': 30,
+      'December': 31,
+    };
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
 
       List<Map<String, dynamic>> result = await db.rawQuery(
-        'SELECT * FROM attendance WHERE employee_id = ? AND attendance_month = ?',
-        [employeeId, attendanceMonth],
+        'SELECT * FROM attendance WHERE employee_id = ? AND attendance_month = ? ORDER BY attendance_date DESC LIMIT ?',
+        [employeeId, attendanceMonth, monthdayMap[attendanceMonth]],
       );
       List<Map<String, String>> formattedResult = result
           .map(
@@ -61,6 +78,12 @@ class AttendanceDatabaseServices {
     return [];
   }
 
+  Future<int> daysInFebruary(int attYear) async {
+    return (attYear % 4 == 0 && (attYear % 100 != 0 || attYear % 400 == 0))
+        ? 29
+        : 28;
+  }
+
   Future<void> dropDatabase() async {
     final path = await getAttendanceDatabasePath();
     try {
@@ -68,6 +91,16 @@ class AttendanceDatabaseServices {
       await db.execute('''DROP TABLE attendance;''');
     } catch (e) {
       logs.e('Error dropping database');
+    }
+  }
+
+  Future<void> dropTable() async {
+    final path = await getAttendanceDatabasePath();
+    try {
+      final db = await openDatabase(path);
+      await db.execute('''DELETE FROM attendance''');
+    } catch (e) {
+      logs.e('Error deleting records');
     }
   }
 }
