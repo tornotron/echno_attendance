@@ -62,10 +62,10 @@ class AttendanceDatabaseServices {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
-
+      attYear = '%$attYear';
       List<Map<String, dynamic>> result = await db.rawQuery(
-        'SELECT * FROM attendance WHERE employee_id = ? AND attendance_month = ? ORDER BY attendance_date DESC LIMIT ?',
-        [employeeId, attendanceMonth, monthdayMap[attendanceMonth]],
+        'SELECT * FROM attendance WHERE employee_id = ? AND attendance_month = ? AND attendance_date LIKE ? ORDER BY attendance_date ASC LIMIT ?',
+        [employeeId, attendanceMonth, attYear, monthdayMap[attendanceMonth]],
       );
       List<Map<String, String>> formattedResult = result
           .map(
