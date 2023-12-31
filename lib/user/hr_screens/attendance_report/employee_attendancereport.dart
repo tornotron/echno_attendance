@@ -1,9 +1,9 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/global_theme/text_style.dart';
 import 'package:echno_attendance/user/hr_screens/attendance_report/attcard.dart';
 import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 class AttendanceReportScreen extends StatefulWidget {
   const AttendanceReportScreen({super.key});
@@ -15,22 +15,6 @@ class AttendanceReportScreen extends StatefulWidget {
 class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
   TextEditingController searchControllerempId = TextEditingController();
   TextEditingController searchControllerDate = TextEditingController();
-
-  Future<void> _selectDate() async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null) {
-      setState(() {
-        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-        searchControllerDate.text = formattedDate;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +28,28 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
           textFontSize: 23,
         ),
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios_new)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+          color: Colors.white,
+        ),
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 20,
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, top: 20),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Get Attendance Report',
+                    style: EchnoTextTheme.lightTextTheme.displaySmall)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 13.7),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Get Attendance Report',
+                    style: EchnoTextTheme.lightTextTheme.titleMedium)),
           ),
           Row(
             children: [
@@ -65,7 +62,8 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        labelText: 'Employee ID'),
+                        labelText: 'Employee ID',
+                        labelStyle: EchnoTextTheme.lightTextTheme.titleMedium),
                     onChanged: (value) {
                       setState(() {});
                     },
@@ -78,10 +76,12 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 child: TextFormField(
                   controller: searchControllerDate,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      labelText: 'Attendance month'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    labelText: 'Attendance month',
+                    labelStyle: EchnoTextTheme.lightTextTheme.titleMedium,
+                  ),
                   onChanged: (value) {
                     setState(() {});
                   },
