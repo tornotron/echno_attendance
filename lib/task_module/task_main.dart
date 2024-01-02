@@ -1,5 +1,5 @@
-import 'package:echno_attendance/auth/screens/welcome_screen.dart';
 import 'package:echno_attendance/global_theme/custom_theme.dart';
+import 'package:echno_attendance/task_module/screens/task_home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class EchnoTestApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+      home: const TaskHomeScreen(),
       theme: EchnoCustomTheme.lightTheme,
       darkTheme: EchnoCustomTheme.darkTheme,
       themeMode: ThemeMode.system,
