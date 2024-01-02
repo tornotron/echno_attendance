@@ -169,7 +169,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         title: const Text('Add Task'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(

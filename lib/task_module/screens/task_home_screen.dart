@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/task_module/screens/add_new_task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +56,14 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                 SizedBox(
                   width: 120.00,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddTaskScreen(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       '+ Add Task',
                     ),
