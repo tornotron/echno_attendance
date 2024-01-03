@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/global_theme/text_style.dart';
 import 'package:echno_attendance/user/hr_screens/attendance_report/attcard.dart';
@@ -13,8 +14,21 @@ class AttendanceReportScreen extends StatefulWidget {
 }
 
 class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
-  TextEditingController searchControllerempId = TextEditingController();
-  TextEditingController searchControllerDate = TextEditingController();
+  TextEditingController employeeIdController = TextEditingController();
+  TextEditingController monthController = TextEditingController();
+  TextEditingController yearController = TextEditingController();
+
+  String employeeIdfromUI = 'emp-100';
+  String attendanceMonthfromUI = 'January';
+  String attendanceYearfromUI = '2023';
+
+  @override
+  void dispose() {
+    employeeIdController.dispose();
+    monthController.dispose();
+    yearController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +51,9 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 12.0, top: 20),
             child: Align(
@@ -51,54 +68,123 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 child: Text('Get Attendance Report',
                     style: EchnoTextTheme.lightTextTheme.titleMedium)),
           ),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: searchControllerempId,
+                  child: TextField(
+                    controller: employeeIdController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        labelText: 'Employee ID',
+                        labelText: 'Emp ID',
                         labelStyle: EchnoTextTheme.lightTextTheme.titleMedium),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownSearch<String>(
+                    popupProps: const PopupProps.menu(
+                      showSelectedItems: true,
+                    ),
+                    items: const [
+                      "January",
+                      "February",
+                      "March",
+                      "April",
+                      "May",
+                      "June",
+                      "July",
+                      "August",
+                      "September",
+                      "October",
+                      "November",
+                      "December"
+                    ],
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownSearchDecoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        labelText: 'Month',
+                        labelStyle: EchnoTextTheme.lightTextTheme.titleMedium,
+                      ),
+                    ),
                     onChanged: (value) {
-                      setState(() {});
+                      if (value == null) {
+                      } else {
+                        attendanceMonthfromUI = value;
+                      }
                     },
                   ),
                 ),
               ),
               Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: searchControllerDate,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: yearController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      labelText: 'Year',
+                      labelStyle: EchnoTextTheme.lightTextTheme.titleMedium,
                     ),
-                    labelText: 'Attendance month',
-                    labelStyle: EchnoTextTheme.lightTextTheme.titleMedium,
                   ),
-                  onChanged: (value) {
-                    setState(() {});
-                  },
                 ),
-              )),
+              ),
             ],
           ),
           const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
             height: 50,
+            width: 250,
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  employeeIdfromUI = employeeIdController.text;
+                  attendanceMonthfromUI = attendanceMonthfromUI;
+                  attendanceYearfromUI = yearController.text;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: echnoBlueColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                textStyle:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              child: const Text(
+                'Submit',
+                style: TextStyle(
+                  fontFamily: 'TT Chocolates',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           AttendanceCard(
-            employeeId: searchControllerempId.text,
-            attendanceMonth: searchControllerDate.text,
-            attYear: '2023',
+            employeeId: employeeIdfromUI,
+            attendanceMonth: attendanceMonthfromUI,
+            attYear: attendanceYearfromUI,
           ),
         ],
       ),
+      backgroundColor: Colors.white,
     );
   }
 }
