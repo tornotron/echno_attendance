@@ -1,13 +1,12 @@
 import 'package:echno_attendance/attendance/services/attendance_databaseservice.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/user/hr_user.dart';
 import 'package:flutter/material.dart';
 
 class AttendanceCard extends StatefulWidget {
   final String employeeId;
   final String attendanceMonth;
   final String attYear;
-  AttendanceCard(
+  const AttendanceCard(
       {Key? key,
       required this.employeeId,
       required this.attendanceMonth,
@@ -69,16 +68,20 @@ class _AttendanceCardState extends State<AttendanceCard> {
               itemBuilder: (context, index) {
                 final Map<String, String> attendanceData =
                     attendanceMapList[index];
-                final String? varemployeeId = attendanceData['employee_id'];
-                final String? varemployeeName = attendanceData['employee_name'];
-                final String? varattendanceDate =
-                    attendanceData['attendance_date'];
-                final String? varattendanceMonth =
-                    attendanceData['attendance_month'];
-                final String? varattendanceTime =
-                    attendanceData['attendance_time'];
-                final String? varattendanceStatus =
-                    attendanceData['attendance_status'];
+                String varemployeeId = attendanceData['employee_id'].toString();
+                String varemployeeName =
+                    attendanceData['employee_name'].toString();
+                String varattendanceDate =
+                    attendanceData['attendance_date'].toString();
+                String varattendanceDay = varattendanceDate.substring(0, 2);
+
+                String varattendanceMonth =
+                    attendanceData['attendance_month'].toString();
+                String varattendanceTime =
+                    attendanceData['attendance_time'].toString();
+                varattendanceTime = varattendanceTime.substring(0, 5);
+                String varattendanceStatus =
+                    attendanceData['attendance_status'].toString();
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -86,7 +89,112 @@ class _AttendanceCardState extends State<AttendanceCard> {
                       color: echnoBlueColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    height: 100,
+                    height: 120,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            constraints: const BoxConstraints(
+                              maxHeight: 100,
+                              maxWidth: 105,
+                            ),
+                            width: 95,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: echnoBlueLightColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    varattendanceDay,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'TT Chocolates',
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    varattendanceMonth,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'TT Chocolates',
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              varemployeeName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'TT Chocolates',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    const Text(
+                                      "Check-In",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'TT Chocolates',
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                      varattendanceTime,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'TT Chocolates'),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Column(
+                                  children: [
+                                    Text(
+                                      "Check-out",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'TT Chocolates',
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                      "--:--",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'TT Chocolates'),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
