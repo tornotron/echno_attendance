@@ -16,7 +16,7 @@ class TaskHomeScreen extends StatefulWidget {
 class _TaskHomeScreenState extends State<TaskHomeScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
 
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
 
   @override
   Widget build(context) {
@@ -85,7 +85,6 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                         buildCategoryButton(1, 'Ongoing'),
                         buildCategoryButton(2, 'Upcoming'),
                         buildCategoryButton(3, 'Completed'),
-                        buildCategoryButton(4, 'Urgent'),
                       ],
                     ),
                   ),
@@ -142,8 +141,7 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
         return 'Upcoming';
       case 3:
         return 'Completed';
-      case 4:
-        return 'Urgent';
+
       default:
         return 'Unknown';
     }
