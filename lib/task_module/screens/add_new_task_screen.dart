@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/task_module/services/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,8 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
+
+  final _taskProvider = TaskService.firestoreTasks();
 
   // Variable for current date
   final String _currentDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
@@ -255,10 +258,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       return 'End Date is required';
                                     }
 
-                                    // Additional check for valid date format
-                                    if (DateTime.tryParse(value) == null) {
-                                      return 'Invalid date format';
-                                    }
                                     return null;
                                   },
                                 ),
@@ -432,7 +431,59 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () async {},
+                          onPressed: () async {
+                            if (_addTaskFormKey.currentState?.validate() ??
+                                false) {
+                              final title = _titleController.text;
+                              final description = _descriptionController.text;
+                              final createdAt =
+                                  DateFormat("dd-MM-yyyy").parse(_currentDate);
+                              final startDate = DateFormat("dd-MM-yyyy")
+                                  .parse(_startDateController.text);
+                              final endDate = DateFormat("dd-MM-yyyy")
+                                  .parse(_endDateController.text);
+                              const taskAuthor =
+                                  'Current Employee'; // From the currentEmployye function
+                              final taskType = _taskTypeController.text;
+                              final taskStatus = _statusController.text;
+                              final taskProgress = _taskProgress;
+                              final assignedEmployee =
+                                  _assignedEmployeeController.text;
+                              const siteOffice =
+                                  'Ernakulam'; // From the currentEmployye function
+                              await _taskProvider.addNewTask(
+                                title: title,
+                                description: description,
+                                createdAt: createdAt,
+                                startDate: startDate,
+                                endDate: endDate,
+                                taskAuthor: taskAuthor,
+                                taskType: taskType,
+                                taskStatus: taskStatus,
+                                taskProgress: taskProgress,
+                                assignedEmployee: assignedEmployee,
+                                siteOffice: siteOffice,
+                              );
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: echnoGreenColor,
+                                    content: Text('New Task Added..!'),
+                                  ),
+                                );
+                              }
+                              // Clear the controllers after form submission
+                              setState(() {
+                                _titleController.clear();
+                                _descriptionController.clear();
+                                _startDateController.clear();
+                                _endDateController.clear();
+                                _taskTypeController.clear();
+                                _assignedEmployeeController.clear();
+                                _statusController.clear();
+                              });
+                            }
+                          },
                           child: const Text('Create New Task'),
                         ),
                       ),

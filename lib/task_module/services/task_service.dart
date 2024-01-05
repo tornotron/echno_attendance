@@ -1,9 +1,14 @@
+import 'package:echno_attendance/task_module/services/firestore_task_provider.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_provider.dart';
 
 class TaskService implements TaskProvider {
   final TaskProvider _taskProvider;
   const TaskService(this._taskProvider);
+
+  factory TaskService.firestoreTasks() {
+    return TaskService(FirestoreTaskProvider());
+  }
 
   @override
   Future<Task> addNewTask({
