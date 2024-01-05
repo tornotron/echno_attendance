@@ -16,3 +16,9 @@ const echnoDarkSwatchColor = Color(0xFF5EE7E2);
 const echnoBlueLightColor = Color(0xFFC3E7FD);
 const whiteColor = Colors.white;
 const echnoLogoColor = Color(0xFF0A3774);
+
+const upcomingTaskColor = Color(0xFFF06292);
+const ongoingTaskColor = Color(0xFFBA68C8);
+const completedTaskColor = Color(0xFF81C784);
+const onholdTaskColor = Color(0xFFFFDAB9);
+const closedTaskColor = Color(0xFFDC143C);
