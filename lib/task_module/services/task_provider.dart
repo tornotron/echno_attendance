@@ -1,7 +1,7 @@
 import 'package:echno_attendance/task_module/services/task_model.dart';
 
 abstract class TaskProvider {
-  Future<void> addNewTask({
+  Future<Task> addNewTask({
     required String title,
     required String description,
     required DateTime createdAt,

@@ -6,7 +6,7 @@ class TaskService implements TaskProvider {
   const TaskService(this._taskProvider);
 
   @override
-  Future<void> addNewTask({
+  Future<Task> addNewTask({
     required String title,
     required String description,
     required DateTime createdAt,
