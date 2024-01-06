@@ -16,6 +16,34 @@ enum TaskStatus {
   completed,
 }
 
+// Convert a string to a TaskStatus enum
+TaskStatus _getStatus(String? status) {
+  switch (status) {
+    case 'todo':
+      return TaskStatus.todo;
+    case 'inProgress':
+      return TaskStatus.inProgress;
+    case 'onhold':
+      return TaskStatus.onhold;
+    case 'completed':
+      return TaskStatus.completed;
+    default:
+      return TaskStatus.todo;
+  }
+}
+
+// Covert a string to a TaskType enum
+TaskType _getType(String? taskType) {
+  switch (taskType) {
+    case 'open':
+      return TaskType.open;
+    case 'closed':
+      return TaskType.closed;
+    default:
+      return TaskType.closed;
+  }
+}
+
 class Task extends Equatable {
   final String id;
   final String title;
@@ -49,12 +77,12 @@ class Task extends Equatable {
       : id = snapshot.id,
         title = snapshot.data()['title'],
         description = snapshot.data()['description'],
-        createdAt = snapshot.data()['created-at'],
-        startDate = snapshot.data()['start-date'],
-        endDate = snapshot.data()['start-date'],
+        createdAt = (snapshot.data()['created-at'] as Timestamp).toDate(),
+        startDate = (snapshot.data()['start-date'] as Timestamp?)?.toDate(),
+        endDate = (snapshot.data()['end-date'] as Timestamp?)?.toDate(),
         taskAuthor = snapshot.data()['task-author'],
-        taskType = snapshot.data()['task-type'],
-        status = snapshot.data()['task-status'],
+        taskType = _getType(snapshot.data()['task-type']),
+        status = _getStatus(snapshot.data()['task-status']),
         taskProgress = snapshot.data()['task-progress'],
         assignedEmployee = snapshot.data()['assigned-employee'],
         siteOffice = snapshot.data()['site-office'];
@@ -70,8 +98,8 @@ class Task extends Equatable {
   //       startDate: _parseTimestamp(data['start-date']),
   //       endDate: _parseTimestamp(data['end-date']),
   //       taskAuthor: data['task-author'] ?? '',
-  //       taskType: _parseTaskType(data['task-type']),
-  //       status: _parseTaskStatus(data['task-status']),
+  //       taskType: _getType(data['task-type']),
+  //       status: _getStatus(data['task-status']),
   //       taskProgress: (data['task-progress'] ?? 0.0).toDouble(),
   //       assignedEmployee: data['assigned-employee'] ?? '',
   //       siteOffice: data['site-office'] ?? '',
@@ -91,37 +119,13 @@ class Task extends Equatable {
   //   }
   // }
 
-  // // Method to parse a timestamp from Firestore into a DateTime object
-  // static DateTime? _parseTimestamp(dynamic timestamp) {
-  //   if (timestamp is Timestamp) {
-  //     return timestamp.toDate();
-  //   }
-  //   return null;
-  // }
-
-  // // Method to parse task type from a string
-  // static TaskType? _parseTaskType(String? type) {
-  //   if (type == 'OPEN') {
-  //     return TaskType.open;
-  //   } else if (type == 'CLOSED') {
-  //     return TaskType.closed;
-  //   }
-  //   return null;
-  // }
-
-  // // Method to parse task status from a string
-  // static TaskStatus? _parseTaskStatus(String? status) {
-  //   if (status == 'TODO') {
-  //     return TaskStatus.todo;
-  //   } else if (status == 'IN_PROGRESS') {
-  //     return TaskStatus.inProgress;
-  //   } else if (status == 'ON_HOLD') {
-  //     return TaskStatus.onhold;
-  //   } else if (status == 'COMPLETED') {
-  //     return TaskStatus.completed;
-  //   }
-  //   return null;
-  // }
+  // Method to parse a timestamp from Firestore into a DateTime object
+  static DateTime? _parseTimestamp(dynamic timestamp) {
+    if (timestamp is Timestamp) {
+      return timestamp.toDate();
+    }
+    return null;
+  }
 
   //Specifying the properties used for equality comparison
   @override
@@ -134,7 +138,7 @@ class Task extends Equatable {
         status,
       ];
 
-  // // Convert the Task object into a JSON-compatible map
+  // Convert the Task object into a JSON-compatible map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
