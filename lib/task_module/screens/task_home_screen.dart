@@ -1,5 +1,8 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/task_module/screens/add_new_task_screen.dart';
+import 'package:echno_attendance/task_module/services/task_model.dart';
+import 'package:echno_attendance/task_module/services/task_service.dart';
+import 'package:echno_attendance/task_module/utilities/task_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +18,7 @@ class TaskHomeScreen extends StatefulWidget {
 
 class _TaskHomeScreenState extends State<TaskHomeScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
+  final _taskProvider = TaskService.firestoreTasks();
 
   int _selectedIndex = 1;
 
@@ -88,12 +92,69 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    'Selected Category: ${getSelectedCategory()}',
-                    style: const TextStyle(fontSize: 16.0),
-                  ),
                 ],
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Divider(height: 3.0, color: Colors.grey),
+            const SizedBox(height: 10.0),
+            Expanded(
+              child: StreamBuilder<List<Task>>(
+                stream: _taskProvider.streamTasksBySiteOffice(
+                    siteOffice: 'Ernakulam'),
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Loading Tasks...!',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No Task Found...!',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else {
+                    List<Task>? tasks = snapshot.data;
+                    TaskStatus selectedCategory =
+                        getSelectedCategory(_selectedIndex);
+                    tasks = tasks
+                        ?.where((task) => task.status == selectedCategory)
+                        .toList();
+                    if (tasks == null || tasks.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No Task With This Status...!',
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: tasks.length,
+                        itemExtent: 170.0,
+                        itemBuilder: (context, index) {
+                          final taskData = tasks?[index];
+                          return TaskTile(taskData);
+                        },
+                      );
+                    }
+                  }
+                },
               ),
             ),
           ],
@@ -131,19 +192,19 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
     );
   }
 
-  String getSelectedCategory() {
-    switch (_selectedIndex) {
+  TaskStatus getSelectedCategory(int selectedIndex) {
+    switch (selectedIndex) {
       case 0:
-        return 'On Hold';
+        return TaskStatus.onhold;
       case 1:
-        return 'Ongoing';
+        return TaskStatus.inProgress;
       case 2:
-        return 'Upcoming';
+        return TaskStatus.todo;
       case 3:
-        return 'Completed';
+        return TaskStatus.completed;
 
       default:
-        return 'Unknown';
+        return TaskStatus.todo;
     }
   }
 }
