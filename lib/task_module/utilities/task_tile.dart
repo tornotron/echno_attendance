@@ -110,7 +110,7 @@ class TaskTile extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10.0),
               height: 60.0,
-              width: 0.5,
+              width: 1.0,
               color: Colors.grey[200]!.withOpacity(0.7),
             ),
             RotatedBox(
@@ -121,7 +121,8 @@ class TaskTile extends StatelessWidget {
                     : _getTypeString(task?.taskType),
                 style: GoogleFonts.lato(
                   textStyle: const TextStyle(
-                      fontSize: 10.0,
+                      letterSpacing: 1.8,
+                      fontSize: 12.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),

@@ -105,17 +105,9 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                 builder:
                     (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: Column(
-                        children: [
-                          const CircularProgressIndicator(),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Loading Tasks...!',
-                            style: Theme.of(context).textTheme.titleMedium,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                    return const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
                       ),
                     );
                   } else if (snapshot.hasError) {
@@ -149,7 +141,13 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                         itemExtent: 170.0,
                         itemBuilder: (context, index) {
                           final taskData = tasks?[index];
-                          return TaskTile(taskData);
+                          return InkWell(
+                            child: TaskTile(taskData),
+                            onTap: () {
+                              _showTaskBottomSheet(
+                                  context, taskData!.id, taskData);
+                            },
+                          );
                         },
                       );
                     }
@@ -160,6 +158,61 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showTaskBottomSheet(
+    BuildContext context,
+    String taskId,
+    Task task,
+  ) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const SizedBox(height: 10.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                    child: const Text('View Task'),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                    child: const Text('Update Task'),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
