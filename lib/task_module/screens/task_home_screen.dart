@@ -1,5 +1,6 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/task_module/screens/add_new_task_screen.dart';
+import 'package:echno_attendance/task_module/screens/update_task_screen.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_service.dart';
 import 'package:echno_attendance/task_module/utilities/task_tile.dart';
@@ -98,45 +99,45 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
             const SizedBox(height: 10.0),
             const Divider(height: 3.0, color: Colors.grey),
             const SizedBox(height: 10.0),
-            Expanded(
-              child: StreamBuilder<List<Task>>(
-                stream: _taskProvider.streamTasksBySiteOffice(
-                    siteOffice: 'Ernakulam'),
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            StreamBuilder<List<Task>>(
+              stream: _taskProvider.streamTasksBySiteOffice(
+                  siteOffice: 'Ernakulam'),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No Task Found...!',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                } else {
+                  List<Task>? tasks = snapshot.data;
+                  TaskStatus selectedCategory =
+                      getSelectedCategory(_selectedIndex);
+                  tasks = tasks
+                      ?.where((task) => task.status == selectedCategory)
+                      .toList();
+                  if (tasks == null || tasks.isEmpty) {
                     return Center(
                       child: Text(
-                        'No Task Found...!',
+                        'No Task With This Status...!',
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.center,
                       ),
                     );
                   } else {
-                    List<Task>? tasks = snapshot.data;
-                    TaskStatus selectedCategory =
-                        getSelectedCategory(_selectedIndex);
-                    tasks = tasks
-                        ?.where((task) => task.status == selectedCategory)
-                        .toList();
-                    if (tasks == null || tasks.isEmpty) {
-                      return Center(
-                        child: Text(
-                          'No Task With This Status...!',
-                          style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    } else {
-                      return ListView.builder(
+                    return Expanded(
+                      child: ListView.builder(
                         itemCount: tasks.length,
                         itemExtent: 170.0,
                         itemBuilder: (context, index) {
@@ -144,75 +145,25 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                           return InkWell(
                             child: TaskTile(taskData),
                             onTap: () {
-                              _showTaskBottomSheet(
-                                  context, taskData!.id, taskData);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      UpdateTaskScreen(task: taskData),
+                                ),
+                              );
                             },
                           );
                         },
-                      );
-                    }
+                      ),
+                    );
                   }
-                },
-              ),
+                }
+              },
             ),
           ],
         ),
       ),
-    );
-  }
-
-  void _showTaskBottomSheet(
-    BuildContext context,
-    String taskId,
-    Task task,
-  ) {
-    showModalBottomSheet(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      context: context,
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(height: 10.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                    child: const Text('View Task'),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                    child: const Text('Update Task'),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 
