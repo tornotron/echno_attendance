@@ -1,6 +1,6 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/task_module/screens/add_new_task_screen.dart';
-import 'package:echno_attendance/task_module/screens/update_task_screen.dart';
+import 'package:echno_attendance/task_module/screens/task_details_screen.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_service.dart';
 import 'package:echno_attendance/task_module/utilities/task_tile.dart';
@@ -149,7 +149,7 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      UpdateTaskScreen(task: taskData),
+                                      TaskDetailsScreen(task: taskData),
                                 ),
                               );
                             },
