@@ -35,7 +35,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final TextEditingController _statusController = TextEditingController();
 
   // Controller for linear progress indicator
-  final TextEditingController _taskProgressController = TextEditingController();
+  final TextEditingController _taskProgressController =
+      TextEditingController(text: '0.0');
 
   // Form key for validation
   final _addTaskFormKey = GlobalKey<FormState>();

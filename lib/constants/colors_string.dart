@@ -17,8 +17,8 @@ const echnoBlueLightColor = Color(0xFFC3E7FD);
 const whiteColor = Colors.white;
 const echnoLogoColor = Color(0xFF0A3774);
 
-const upcomingTaskColor = Colors.blue;
-const ongoingTaskColor = Color.fromARGB(255, 178, 33, 204);
+const upcomingTaskColor = Color.fromARGB(255, 17, 53, 104);
+const ongoingTaskColor = Color.fromARGB(255, 104, 29, 118);
 const completedTaskColor = Color.fromARGB(255, 39, 160, 45);
-const onholdTaskColor = Colors.orange;
-const closedTaskColor = Colors.red;
+const onholdTaskColor = Color.fromARGB(255, 203, 122, 0);
+const closedTaskColor = Color.fromARGB(255, 192, 13, 0);
