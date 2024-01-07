@@ -1,6 +1,7 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_service.dart';
+import 'package:echno_attendance/task_module/utilities/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -49,13 +50,13 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
   void initState() {
     _titleController.text = task?.title ?? "";
     _descriptionController.text = task?.description ?? "";
-    _createdDateController.text = _formatDate(task?.createdAt);
+    _createdDateController.text = formatDate(task?.createdAt);
     _taskAuthorController.text = task?.taskAuthor ?? "";
-    _startDateController.text = _formatDate(task?.startDate);
-    _endDateController.text = _formatDate(task?.endDate);
-    _taskTypeController.text = _getTypeString(task?.taskType);
+    _startDateController.text = formatDate(task?.startDate);
+    _endDateController.text = formatDate(task?.endDate);
+    _taskTypeController.text = getTypeSmallString(task?.taskType);
     _assignedEmployeeController.text = task?.assignedEmployee ?? "";
-    _statusController.text = _getStatusString(task?.status);
+    _statusController.text = getStatusSmallString(task?.status);
     _taskProgressController.text = task?.taskProgress.toString() ?? "";
     taskProgress = task?.taskProgress != null ? task!.taskProgress / 100 : null;
     _updatedTaskProgress = task?.taskProgress ?? 0.0;
@@ -86,39 +87,6 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
         );
       },
     );
-  }
-
-  String _getStatusString(TaskStatus? status) {
-    switch (status) {
-      case TaskStatus.todo:
-        return 'todo';
-      case TaskStatus.inProgress:
-        return 'inProgress';
-      case TaskStatus.onhold:
-        return 'onHold';
-      case TaskStatus.completed:
-        return 'completed';
-      default:
-        return 'todo';
-    }
-  }
-
-  String _getTypeString(TaskType? taskType) {
-    switch (taskType) {
-      case TaskType.open:
-        return 'open';
-      case TaskType.closed:
-        return 'closed';
-      default:
-        return 'closed';
-    }
-  }
-
-  String _formatDate(DateTime? date) {
-    if (date == null) {
-      return ""; // Handle null date case
-    }
-    return "${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}";
   }
 
   @override
@@ -177,12 +145,30 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Task Details...',
-                  style: Theme.of(context).textTheme.displaySmall),
-              Text(
-                'Detailed information of the task selected...',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              if (_isEditable)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text('Task Details...',
+                        style: Theme.of(context).textTheme.displaySmall),
+                    Text(
+                      'Detailed information of the task selected...',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
+              if (!_isEditable)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text('Update Task...',
+                        style: Theme.of(context).textTheme.displaySmall),
+                    Text(
+                      'Update information of the task selected...',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
               const SizedBox(height: 15.0),
               const SizedBox(height: 5.0),
               TextFormField(
