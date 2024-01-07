@@ -132,7 +132,6 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 15.0),
-              const SizedBox(height: 5.0),
               TextFormField(
                 controller: _titleController,
                 decoration: const InputDecoration(
