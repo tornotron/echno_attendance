@@ -10,7 +10,7 @@ getTaskTileBGClr(TaskStatus? status, TaskType? type) {
       return upcomingTaskColor;
     case TaskStatus.inProgress:
       return ongoingTaskColor;
-    case TaskStatus.onhold:
+    case TaskStatus.onHold:
       return onholdTaskColor;
     case TaskStatus.completed:
       return completedTaskColor;
@@ -26,7 +26,7 @@ String getTaskTileStatusString(TaskStatus? status) {
       return 'TODO';
     case TaskStatus.inProgress:
       return 'IN PROGRESS';
-    case TaskStatus.onhold:
+    case TaskStatus.onHold:
       return 'ON HOLD';
     case TaskStatus.completed:
       return 'COMPLETED';
@@ -59,7 +59,7 @@ String getStatusSmallString(TaskStatus? status) {
       return 'todo';
     case TaskStatus.inProgress:
       return 'inProgress';
-    case TaskStatus.onhold:
+    case TaskStatus.onHold:
       return 'onHold';
     case TaskStatus.completed:
       return 'completed';

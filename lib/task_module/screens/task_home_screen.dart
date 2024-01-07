@@ -199,7 +199,7 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
   TaskStatus getSelectedCategory(int selectedIndex) {
     switch (selectedIndex) {
       case 0:
-        return TaskStatus.onhold;
+        return TaskStatus.onHold;
       case 1:
         return TaskStatus.inProgress;
       case 2:

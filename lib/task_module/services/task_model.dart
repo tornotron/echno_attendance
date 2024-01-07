@@ -12,7 +12,7 @@ enum TaskType {
 enum TaskStatus {
   todo,
   inProgress,
-  onhold,
+  onHold,
   completed,
 }
 
@@ -23,8 +23,8 @@ TaskStatus _getStatus(String? status) {
       return TaskStatus.todo;
     case 'inProgress':
       return TaskStatus.inProgress;
-    case 'onhold':
-      return TaskStatus.onhold;
+    case 'onHold':
+      return TaskStatus.onHold;
     case 'completed':
       return TaskStatus.completed;
     default:
