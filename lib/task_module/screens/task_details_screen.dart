@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/task_module/screens/update_task_screen.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/utilities/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,14 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateTaskScreen(task: task),
+                ),
+              );
+            },
             icon: const Icon(Icons.edit),
           ),
         ],
