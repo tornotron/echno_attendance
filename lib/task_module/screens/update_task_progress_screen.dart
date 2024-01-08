@@ -25,33 +25,22 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
 
   final _taskProvider = TaskService.firestoreTasks();
 
-  final TextEditingController _assignedEmployeeController =
-      TextEditingController();
-  final TextEditingController _statusController = TextEditingController();
-
-  // Controller for linear progress indicator
-  final TextEditingController _taskProgressController = TextEditingController();
-
-  double? taskProgress; // For Linear Progress Indicator
-  late double _updatedTaskProgress; // For Slider
-
-  late Map<String, dynamic> _updatedProgress; // For updating task data
+  late TextEditingController _progressController;
+  double? _progressSliderValue = 0.0;
+  String? _selectedStatus = '';
 
   @override
   void initState() {
-    _assignedEmployeeController.text = task?.assignedEmployee ?? "";
-    _statusController.text = getStatusSmallString(task?.status);
-    _taskProgressController.text = task?.taskProgress.toString() ?? "";
-    taskProgress = task?.taskProgress != null ? task!.taskProgress / 100 : null;
-    _updatedTaskProgress = task?.taskProgress ?? 0.0;
+    _progressController =
+        TextEditingController(text: widget.task?.taskProgress.toString());
+    _progressSliderValue = widget.task?.taskProgress;
+    _selectedStatus = getStatusSmallString(widget.task?.status);
     super.initState();
   }
 
   @override
   void dispose() {
-    _assignedEmployeeController.dispose();
-    _statusController.dispose();
-    _taskProgressController.dispose();
+    _progressController.dispose();
     super.dispose();
   }
 
@@ -85,13 +74,10 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
               ),
               const SizedBox(height: 15.0),
               DropdownButtonFormField<String>(
-                value: _statusController.text.isNotEmpty
-                    ? _statusController.text
-                    : null,
+                value: _selectedStatus!.isNotEmpty ? _selectedStatus : null,
                 onChanged: (String? value) {
                   setState(() {
-                    _statusController.text = value ?? '';
-                    _updatedProgress['task-status'] = value;
+                    _selectedStatus = value;
                   });
                 },
                 items: const [
@@ -128,11 +114,11 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
               ),
               const SizedBox(height: 10.0),
               TextFormField(
-                controller: _taskProgressController,
+                controller: _progressController,
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
-                    _updatedTaskProgress = double.tryParse(value) ?? 0.0;
+                    _progressSliderValue = double.tryParse(value) ?? 0.0;
                   });
                 },
                 decoration: const InputDecoration(
@@ -152,30 +138,27 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
               ),
               const SizedBox(height: 10.0),
               Slider(
-                value: _updatedTaskProgress,
+                value: _progressSliderValue!,
                 onChanged: (value) {
                   setState(() {
-                    _updatedTaskProgress = value;
-                    _taskProgressController.text = value.toStringAsFixed(2);
-                    _updatedProgress['task-progress'] = value;
+                    _progressSliderValue = value;
+                    _progressController.text = value.toStringAsFixed(2);
                   });
                 },
                 min: 0,
                 max: 100,
                 divisions: 100,
-                label: _updatedTaskProgress.round().toString(),
+                label: _progressSliderValue?.round().toString(),
               ),
               const SizedBox(height: 15.0),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    final taskId = task?.id;
-
                     await _taskProvider.updateTask(
-                      taskId: taskId!,
-                      newTaskStatus: _updatedProgress['task-status'],
-                      newTaskProgress: _updatedProgress['task-progress'],
+                      taskId: task!.id,
+                      newTaskStatus: _progressController.text,
+                      newTaskProgress: _progressSliderValue,
                     );
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -188,8 +171,7 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
                     }
                     // Clear the controllers after form submission
                     setState(() {
-                      _assignedEmployeeController.clear();
-                      _statusController.clear();
+                      _progressController.clear();
                     });
                   },
                   child: const Text('Update Task Progress'),
