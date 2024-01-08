@@ -9,7 +9,11 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class TaskHomeScreen extends StatefulWidget {
-  const TaskHomeScreen({Key? key}) : super(key: key);
+  final int? index;
+  const TaskHomeScreen({
+    this.index,
+    Key? key,
+  }) : super(key: key);
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
@@ -21,7 +25,12 @@ class _TaskHomeScreenState extends State<TaskHomeScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final _taskProvider = TaskService.firestoreTasks();
 
-  int _selectedIndex = 1;
+  late int _selectedIndex;
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.index ?? 1;
+  }
 
   @override
   Widget build(context) {

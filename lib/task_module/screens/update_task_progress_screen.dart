@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/task_module/screens/task_home_screen.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_service.dart';
 import 'package:echno_attendance/task_module/utilities/ui_helpers.dart';
@@ -74,7 +75,7 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
               ),
               const SizedBox(height: 15.0),
               DropdownButtonFormField<String>(
-                value: _selectedStatus!.isNotEmpty ? _selectedStatus : null,
+                value: _selectedStatus,
                 onChanged: (String? value) {
                   setState(() {
                     _selectedStatus = value;
@@ -125,16 +126,6 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
                   hintText: 'Task Progress (%)',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Task Progress is required';
-                  }
-                  double numericValue = double.tryParse(value) ?? -1;
-                  if (numericValue < 0 || numericValue > 100) {
-                    return 'Task Progress must be between 0 and 100';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 10.0),
               Slider(
@@ -155,9 +146,9 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await _taskProvider.updateTask(
+                    await _taskProvider.updateTaskProgress(
                       taskId: task!.id,
-                      newTaskStatus: _progressController.text,
+                      newTaskStatus: _selectedStatus.toString(),
                       newTaskProgress: _progressSliderValue,
                     );
                     if (context.mounted) {
@@ -167,7 +158,14 @@ class _UpdateTaskProgessScreenState extends State<UpdateTaskProgessScreen> {
                           content: Text('Task Updated..!'),
                         ),
                       );
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TaskHomeScreen(
+                              index:
+                                  getTaskHomeIndex(_selectedStatus.toString())),
+                        ),
+                      );
                     }
                     // Clear the controllers after form submission
                     setState(() {

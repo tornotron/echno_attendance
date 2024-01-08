@@ -78,3 +78,19 @@ String getTypeSmallString(TaskType? taskType) {
       return 'closed';
   }
 }
+
+int getTaskHomeIndex(String selectedStatus) {
+  switch (selectedStatus) {
+    case 'onHold':
+      return 0;
+    case 'inProgress':
+      return 1;
+    case 'todo':
+      return 2;
+    case 'completed':
+      return 3;
+
+    default:
+      return 1;
+  }
+}
