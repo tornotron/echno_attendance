@@ -4,7 +4,7 @@ import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 
 class FirestoreAuthProvider implements AuthDatabaseProvider {
   @override
-  Future<Map<String, dynamic>> searchForEmployeeInFirestore(
+  Future<Map<String, dynamic>> searchForEmployeeInDatabase(
       {required String employeeID}) async {
     String? name, email, phoneNumber, userRole;
     bool? isActiveUser;
@@ -44,7 +44,7 @@ class FirestoreAuthProvider implements AuthDatabaseProvider {
   }
 
   @override
-  Future<void> updateUserUIDToFirestore({
+  Future<void> updateUserUIDToDatabase({
     required String employeeID,
     required String? uid,
   }) async {
