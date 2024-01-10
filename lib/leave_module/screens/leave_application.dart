@@ -1,4 +1,4 @@
-import 'package:echno_attendance/auth/services/auth_service.dart';
+import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
