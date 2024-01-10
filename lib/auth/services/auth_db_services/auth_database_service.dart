@@ -10,17 +10,17 @@ class AuthDatabaseService implements AuthDatabaseProvider {
   }
 
   @override
-  Future<Map<String, dynamic>> searchForEmployeeInFirestore(
+  Future<Map<String, dynamic>> searchForEmployeeInDatabase(
       {required String employeeID}) {
-    return _provider.searchForEmployeeInFirestore(employeeID: employeeID);
+    return _provider.searchForEmployeeInDatabase(employeeID: employeeID);
   }
 
   @override
-  Future<void> updateUserUIDToFirestore({
+  Future<void> updateUserUIDToDatabase({
     required String employeeID,
     required String? uid,
   }) {
-    return _provider.updateUserUIDToFirestore(
+    return _provider.updateUserUIDToDatabase(
       employeeID: employeeID,
       uid: uid,
     );

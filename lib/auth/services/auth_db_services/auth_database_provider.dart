@@ -1,7 +1,7 @@
 abstract class AuthDatabaseProvider {
-  Future<Map<String, dynamic>> searchForEmployeeInFirestore(
+  Future<Map<String, dynamic>> searchForEmployeeInDatabase(
       {required String employeeID});
 
-  Future<void> updateUserUIDToFirestore(
+  Future<void> updateUserUIDToDatabase(
       {required String employeeID, required String? uid});
 }
