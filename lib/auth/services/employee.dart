@@ -1,4 +1,4 @@
-import 'auth_user.dart';
+import 'auth_services/auth_user.dart';
 
 class Employee {
   Employee({
