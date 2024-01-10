@@ -23,13 +23,11 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController phoneController = TextEditingController();
-  late final TextEditingController _employeeIdController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
   @override
   void initState() {
-    _employeeIdController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     super.initState();
@@ -37,7 +35,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
-    _employeeIdController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -261,7 +258,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  // final employeeID = _employeeIdController.text;
                                   final email = _emailController.text;
                                   final password = _passwordController.text;
 
