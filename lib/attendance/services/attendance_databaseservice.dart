@@ -1,5 +1,4 @@
 import 'package:echno_attendance/attendance/services/attendance_databasepath.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';

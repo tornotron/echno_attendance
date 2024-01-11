@@ -14,7 +14,7 @@ class EchnoTextTheme {
     ),
     displaySmall: TextStyle(
       fontFamily: 'TT Chocolates',
-      fontSize: 34,
+      fontSize: 30,
       fontWeight: FontWeight.w500,
       color: echnoLightColor,
     ),
