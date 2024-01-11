@@ -2,21 +2,21 @@ import 'package:echno_attendance/attendance/services/attendance_databaseservice.
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
-class AttendanceCard extends StatefulWidget {
+class AttendanceCardMonthly extends StatefulWidget {
   final String employeeId;
   final String attendanceMonth;
   final String attYear;
-  const AttendanceCard(
+  const AttendanceCardMonthly(
       {Key? key,
       required this.employeeId,
       required this.attendanceMonth,
       required this.attYear})
       : super(key: key);
   @override
-  State<AttendanceCard> createState() => _AttendanceCardState();
+  State<AttendanceCardMonthly> createState() => _AttendanceCardMonthlyState();
 }
 
-class _AttendanceCardState extends State<AttendanceCard> {
+class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
   Future<Map<String, dynamic>> getAttData(
       {required String employeeId,
       required String attendanceMonth,
