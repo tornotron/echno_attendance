@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/global_theme/text_style.dart';
-import 'package:echno_attendance/user/hr_screens/attendance_report/attcard.dart';
+import 'package:echno_attendance/user/hr_screens/attendance_report/attcard_monthly.dart';
 import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -112,8 +112,9 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Color(0xFF004AAD)),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF004AAD),
+        ),
         backgroundColor: echnoBlueColor,
         title: const Texts(
           textData: "Attendance Report",
@@ -136,16 +137,18 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, top: 20),
                   child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Monthly Attendance Report',
-                          style: EchnoTextTheme.lightTextTheme.displaySmall)),
+                    alignment: Alignment.centerLeft,
+                    child: Text('Monthly Attendance Report',
+                        style: EchnoTextTheme.lightTextTheme.displaySmall),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 13.7),
                   child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Get monthly attendance report',
-                          style: EchnoTextTheme.lightTextTheme.titleMedium)),
+                    alignment: Alignment.centerLeft,
+                    child: Text('Get monthly attendance report',
+                        style: EchnoTextTheme.lightTextTheme.titleMedium),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -263,37 +266,14 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                AttendanceCard(
+                AttendanceCardMonthly(
                   employeeId: employeeIdfromUI,
                   attendanceMonth: attendanceMonthfromUI,
                   attYear: attendanceYearfromUI,
                 ),
               ],
             )
-          : Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0, top: 20),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Daily Attendance Report',
-                          style: EchnoTextTheme.lightTextTheme.displaySmall)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 13.7),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Get daily attendance report',
-                          style: EchnoTextTheme.lightTextTheme.titleMedium)),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
+          : DailyReport(),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           _showBottomSheet(context);
@@ -314,6 +294,95 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
         ),
       ),
       backgroundColor: Colors.white,
+    );
+  }
+}
+
+class DailyReport extends StatefulWidget {
+  const DailyReport({
+    super.key,
+  });
+
+  @override
+  State<DailyReport> createState() => _DailyState();
+}
+
+class _DailyState extends State<DailyReport> {
+  TextEditingController siteController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 12.0, top: 20),
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Daily Attendance Report',
+                  style: EchnoTextTheme.lightTextTheme.displaySmall)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 13.7),
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Get daily attendance report',
+                  style: EchnoTextTheme.lightTextTheme.titleMedium)),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: siteController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      labelText: 'Enter Employee Site Name',
+                      labelStyle: EchnoTextTheme.lightTextTheme.titleMedium),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          height: 50,
+          width: 250,
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {});
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: echnoBlueColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              textStyle:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+            child: const Text(
+              'Submit',
+              style: TextStyle(
+                fontFamily: 'TT Chocolates',
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }
