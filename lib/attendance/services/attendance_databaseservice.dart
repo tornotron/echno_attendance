@@ -1,4 +1,6 @@
 import 'package:echno_attendance/attendance/services/attendance_databasepath.dart';
+import 'package:echno_attendance/attendance/services/attendance_service.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
@@ -23,7 +25,8 @@ class AttendanceDatabaseServices {
       required String attendanceDate,
       required String? attendanceMonth,
       required String attendanceTime,
-      required String attendanceStatus}) async {
+      required String attendanceStatus,
+      required String siteName}) async {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
@@ -33,7 +36,8 @@ class AttendanceDatabaseServices {
         'attendance_date': attendanceDate,
         'attendance_month': attendanceMonth,
         'attendance_time': attendanceTime,
-        'attendance_status': attendanceStatus
+        'attendance_status': attendanceStatus,
+        'site_name': siteName,
       });
     } catch (e) {
       logs.e('Error inserting');
@@ -78,6 +82,26 @@ class AttendanceDatabaseServices {
     return [];
   }
 
+  Future<List<Map<String, String>>> fetchFromDatabaseDaily(
+      {required String siteName}) async {
+    final path = await getAttendanceDatabasePath();
+    try {
+      final db = await openDatabase(path);
+      List<Map<String, dynamic>> result = await db.rawQuery(
+        'SELECT * FROM attendance WHERE site_name = ?',
+        [siteName],
+      );
+      List<Map<String, String>> formattedResult = result
+          .map(
+              (row) => row.map((key, value) => MapEntry(key, value.toString())))
+          .toList();
+      return formattedResult;
+    } catch (e) {
+      logs.e('Error fetching from attendance(daily) database: $e');
+    }
+    return [];
+  }
+
   Future<int> daysInFebruary(int attYear) async {
     return (attYear % 4 == 0 && (attYear % 100 != 0 || attYear % 400 == 0))
         ? 29
@@ -88,7 +112,7 @@ class AttendanceDatabaseServices {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
-      await db.execute('''DROP TABLE attendance;''');
+      await db.execute('''DROP TABLE attendance''');
     } catch (e) {
       logs.e('Error dropping database');
     }
@@ -98,9 +122,15 @@ class AttendanceDatabaseServices {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
-      await db.execute('''DELETE FROM attendance''');
+      await db.execute('''ALTER TABLE attendance ADD site_name TEXT''');
     } catch (e) {
       logs.e('Error deleting records');
     }
   }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  AttendanceService().attendanceTrigger(
+      employeeId: 'EMP-102', employeeName: 'Jacob stan', siteName: 'bangalore');
 }

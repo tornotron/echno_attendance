@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/global_theme/text_style.dart';
+import 'package:echno_attendance/user/hr_screens/attendance_report/attcard_daily.dart';
 import 'package:echno_attendance/user/hr_screens/attendance_report/attcard_monthly.dart';
 import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
@@ -310,6 +311,8 @@ class DailyReport extends StatefulWidget {
 class _DailyState extends State<DailyReport> {
   TextEditingController siteController = TextEditingController();
 
+  String siteNamefromUI = 'kochi';
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -360,7 +363,9 @@ class _DailyState extends State<DailyReport> {
           width: 250,
           child: ElevatedButton(
             onPressed: () {
-              setState(() {});
+              setState(() {
+                siteNamefromUI = siteController.text;
+              });
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: echnoBlueColor,
@@ -382,6 +387,7 @@ class _DailyState extends State<DailyReport> {
         const SizedBox(
           height: 10,
         ),
+        AttendanceCardDaily(siteName: siteNamefromUI),
       ],
     );
   }
