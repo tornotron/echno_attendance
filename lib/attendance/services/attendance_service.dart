@@ -21,7 +21,9 @@ class AttendanceService {
   };
 
   Future<void> attendanceTrigger(
-      {required String employeeId, required String employeeName}) async {
+      {required String employeeId,
+      required String employeeName,
+      required String siteName}) async {
     DateTime now = DateTime.now();
     String formattedTime = DateFormat('HH:mm:ss').format(now);
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
@@ -36,6 +38,7 @@ class AttendanceService {
         attendanceDate: formattedDate,
         attendanceMonth: Month,
         attendanceTime: formattedTime,
-        attendanceStatus: attendanceStatus);
+        attendanceStatus: attendanceStatus,
+        siteName: siteName);
   }
 }
