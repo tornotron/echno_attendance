@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/logger.dart';
+import 'package:echno_attendance/task_module/services/project_model.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_service.dart';
 import 'package:logger/logger.dart';
@@ -8,6 +9,8 @@ class FirestoreTaskProvider implements TaskService {
   final logs = logger(FirestoreTaskProvider, Level.info);
   final CollectionReference _firestoreTasks =
       FirebaseFirestore.instance.collection('tasks');
+  final CollectionReference _firestoreProjects =
+      FirebaseFirestore.instance.collection('projects');
 
   @override
   Future<Task> addNewTask(
@@ -164,6 +167,18 @@ class FirestoreTaskProvider implements TaskService {
         .map((QuerySnapshot<Object?> querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return Task.fromSnapshot(
+            doc as QueryDocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+    });
+  }
+
+  @override
+  Stream<List<Project>> streamProjectsList() {
+    return _firestoreProjects
+        .snapshots()
+        .map((QuerySnapshot<Object?> projectSnapshot) {
+      return projectSnapshot.docs.map((doc) {
+        return Project.fromSnapshot(
             doc as QueryDocumentSnapshot<Map<String, dynamic>>);
       }).toList();
     });

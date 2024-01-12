@@ -1,3 +1,4 @@
+import 'package:echno_attendance/task_module/services/project_model.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 
 abstract class TaskProvider {
@@ -45,4 +46,6 @@ abstract class TaskProvider {
   Stream<List<Task>> streamTasksBySiteOffice({
     required String? siteOffice,
   });
+
+  Stream<List<Project>> streamProjectsList();
 }

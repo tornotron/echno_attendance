@@ -1,4 +1,5 @@
 import 'package:echno_attendance/task_module/services/firestore_task_provider.dart';
+import 'package:echno_attendance/task_module/services/project_model.dart';
 import 'package:echno_attendance/task_module/services/task_model.dart';
 import 'package:echno_attendance/task_module/services/task_provider.dart';
 
@@ -83,5 +84,10 @@ class TaskService implements TaskProvider {
   @override
   Stream<List<Task>> streamTasksBySiteOffice({required String? siteOffice}) {
     return _taskProvider.streamTasksBySiteOffice(siteOffice: siteOffice);
+  }
+
+  @override
+  Stream<List<Project>> streamProjectsList() {
+    return _taskProvider.streamProjectsList();
   }
 }
