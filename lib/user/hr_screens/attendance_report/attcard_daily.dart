@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 
 class AttendanceCardDaily extends StatefulWidget {
   final String siteName;
-  const AttendanceCardDaily({
-    Key? key,
-    required this.siteName,
-  }) : super(key: key);
+  final String date;
+  const AttendanceCardDaily(
+      {Key? key, required this.siteName, required this.date})
+      : super(key: key);
   @override
   State<AttendanceCardDaily> createState() => _AttendanceCardDailyState();
 }
 
 class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
-  Future<Map<String, dynamic>> getAttData({required String siteName}) async {
+  Future<Map<String, dynamic>> getAttData(
+      {required String siteName, required String date}) async {
     // final emdtl = await HrClass().readUser(userId: employeeId);
     // if (emdtl.isEmpty) {
     //   return {};
     // }
 
     final attendanceData = await AttendanceDatabaseServices()
-        .fetchFromDatabaseDaily(siteName: siteName);
+        .fetchFromDatabaseDaily(siteName: siteName, date: date);
 
     if (attendanceData.isEmpty) {
       return {};
@@ -35,7 +36,7 @@ class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder(
-        future: getAttData(siteName: widget.siteName),
+        future: getAttData(siteName: widget.siteName, date: widget.date),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -56,7 +57,7 @@ class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
               itemBuilder: (context, index) {
                 final Map<String, String> attendanceData =
                     attendanceMapList[index];
-                
+
                 String varemployeeName =
                     attendanceData['employee_name'].toString();
                 String varattendanceDate =
@@ -68,8 +69,8 @@ class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
                 String varattendanceTime =
                     attendanceData['attendance_time'].toString();
                 varattendanceTime = varattendanceTime.substring(0, 5);
-                String varattendanceStatus =
-                    attendanceData['attendance_status'].toString();
+                // String varattendanceStatus =
+                //     attendanceData['attendance_status'].toString();
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(

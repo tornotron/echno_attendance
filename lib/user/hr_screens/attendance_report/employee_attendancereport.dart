@@ -1,3 +1,4 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/global_theme/text_style.dart';
@@ -6,6 +7,7 @@ import 'package:echno_attendance/user/hr_screens/attendance_report/attcard_month
 import 'package:echno_attendance/user/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class AttendanceReportScreen extends StatefulWidget {
   const AttendanceReportScreen({super.key});
@@ -133,7 +135,7 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
           ? Column(
               children: [
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, top: 20),
@@ -310,15 +312,21 @@ class DailyReport extends StatefulWidget {
 
 class _DailyState extends State<DailyReport> {
   TextEditingController siteController = TextEditingController();
+  DatePickerController datevisualController = DatePickerController();
+
+  void _scrolltoday() {
+    datevisualController.animateToDate(DateTime.now());
+  }
 
   String siteNamefromUI = 'kochi';
+  String dateFromUI = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 12.0, top: 20),
@@ -335,7 +343,7 @@ class _DailyState extends State<DailyReport> {
                   style: EchnoTextTheme.lightTextTheme.titleMedium)),
         ),
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         Row(
           children: [
@@ -356,6 +364,54 @@ class _DailyState extends State<DailyReport> {
           ],
         ),
         const SizedBox(
+          height: 5,
+        ),
+        Row(
+          children: [
+            SizedBox(
+              height: 90,
+              width: 300,
+              child: DatePicker(
+                DateTime.now().subtract(const Duration(days: 30)),
+                initialSelectedDate: DateTime.now(),
+                controller: datevisualController,
+                selectionColor: Colors.black,
+                selectedTextColor: Colors.white,
+                onDateChange: (selectedDate) {
+                  dateFromUI = DateFormat('dd-MM-yyyy').format(selectedDate);
+                },
+              ),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            SizedBox(
+              width: 90,
+              height: 40,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: echnoBlueColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  _scrolltoday();
+                },
+                child: const Text(
+                  "Reset",
+                  style: TextStyle(
+                    fontFamily: 'TT Chocolates',
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
           height: 10,
         ),
         SizedBox(
@@ -365,6 +421,7 @@ class _DailyState extends State<DailyReport> {
             onPressed: () {
               setState(() {
                 siteNamefromUI = siteController.text;
+                dateFromUI;
               });
             },
             style: ElevatedButton.styleFrom(
@@ -387,7 +444,7 @@ class _DailyState extends State<DailyReport> {
         const SizedBox(
           height: 10,
         ),
-        AttendanceCardDaily(siteName: siteNamefromUI),
+        AttendanceCardDaily(siteName: siteNamefromUI, date: dateFromUI),
       ],
     );
   }
