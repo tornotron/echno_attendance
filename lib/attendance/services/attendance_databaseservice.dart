@@ -83,13 +83,13 @@ class AttendanceDatabaseServices {
   }
 
   Future<List<Map<String, String>>> fetchFromDatabaseDaily(
-      {required String siteName}) async {
+      {required String siteName,required String date}) async {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
       List<Map<String, dynamic>> result = await db.rawQuery(
-        'SELECT * FROM attendance WHERE site_name = ?',
-        [siteName],
+        'SELECT * FROM attendance WHERE site_name = ? AND attendance_date = ?',
+        [siteName, date],
       );
       List<Map<String, String>> formattedResult = result
           .map(
