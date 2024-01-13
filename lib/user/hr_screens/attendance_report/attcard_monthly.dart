@@ -21,10 +21,6 @@ class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
       {required String employeeId,
       required String attendanceMonth,
       required String attYear}) async {
-    // final emdtl = await HrClass().readUser(userId: employeeId);
-    // if (emdtl.isEmpty) {
-    //   return {};
-    // }
 
     final attendanceData = await AttendanceDatabaseServices().fetchFromDatabase(
         employeeId: employeeId,
@@ -68,7 +64,6 @@ class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
               itemBuilder: (context, index) {
                 final Map<String, String> attendanceData =
                     attendanceMapList[index];
-                // String varemployeeId = attendanceData['employee_id'].toString();
                 String varemployeeName =
                     attendanceData['employee_name'].toString();
                 String varattendanceDate =
@@ -80,8 +75,6 @@ class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
                 String varattendanceTime =
                     attendanceData['attendance_time'].toString();
                 varattendanceTime = varattendanceTime.substring(0, 5);
-                // String varattendanceStatus =
-                    // attendanceData['attendance_status'].toString();
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(

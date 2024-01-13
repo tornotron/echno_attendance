@@ -1,6 +1,4 @@
 import 'package:echno_attendance/attendance/services/attendance_databasepath.dart';
-import 'package:echno_attendance/attendance/services/attendance_service.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
@@ -11,7 +9,6 @@ class AttendanceDatabaseServices {
     final path = await getAttendanceDatabasePath();
     try {
       final db = await openDatabase(path);
-      // await db.execute('''DROP TABLE attendance;''');
       await db.execute(
           '''CREATE TABLE IF NOT EXISTS attendance(employee_id TEXT,employee_name TEXT,attendance_date TEXT,attendance_month TEXT,attendance_time TEXT,attendance_status TEXT);''');
     } catch (e) {
@@ -127,10 +124,4 @@ class AttendanceDatabaseServices {
       logs.e('Error deleting records');
     }
   }
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  AttendanceService().attendanceTrigger(
-      employeeId: 'EMP-102', employeeName: 'Jacob stan', siteName: 'bangalore');
 }
