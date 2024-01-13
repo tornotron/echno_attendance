@@ -243,11 +243,17 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                   width: 250,
                   child: ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        employeeIdfromUI = employeeIdController.text;
-                        attendanceMonthfromUI = attendanceMonthfromUI;
-                        attendanceYearfromUI = yearController.text;
-                      });
+                      if (employeeIdController.text.isEmpty &&
+                          attendanceMonthfromUI.isEmpty &&
+                          yearController.text.isEmpty) {
+                        setState(() {
+                          employeeIdfromUI = employeeIdController.text;
+                          attendanceMonthfromUI = attendanceMonthfromUI;
+                          attendanceYearfromUI = yearController.text;
+                        });
+                      } else {
+                        setState(() {});
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: echnoBlueColor,
@@ -276,7 +282,7 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 ),
               ],
             )
-          : DailyReport(),
+          : const DailyReport(),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           _showBottomSheet(context);
