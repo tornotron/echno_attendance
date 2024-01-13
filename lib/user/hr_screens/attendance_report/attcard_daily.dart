@@ -15,10 +15,6 @@ class AttendanceCardDaily extends StatefulWidget {
 class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
   Future<Map<String, dynamic>> getAttData(
       {required String siteName, required String date}) async {
-    // final emdtl = await HrClass().readUser(userId: employeeId);
-    // if (emdtl.isEmpty) {
-    //   return {};
-    // }
 
     final attendanceData = await AttendanceDatabaseServices()
         .fetchFromDatabaseDaily(siteName: siteName, date: date);
@@ -69,8 +65,6 @@ class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
                 String varattendanceTime =
                     attendanceData['attendance_time'].toString();
                 varattendanceTime = varattendanceTime.substring(0, 5);
-                // String varattendanceStatus =
-                //     attendanceData['attendance_status'].toString();
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
