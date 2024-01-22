@@ -196,17 +196,14 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
-                GestureDetector(
-                  child: TextFormField(
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: startDate == null
-                          ? startDateFieldHint
-                          : "${startDate!.day}-${startDate!.month}-${startDate!.year}",
-                      labelStyle: Theme.of(context).textTheme.titleMedium,
-                      border: const OutlineInputBorder(),
-                    ),
+                TextFormField(
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    hintText: startDate == null
+                        ? startDateFieldHint
+                        : "${startDate!.day}-${startDate!.month}-${startDate!.year}",
+                    hintStyle: Theme.of(context).textTheme.titleMedium,
+                    border: const OutlineInputBorder(),
                   ),
                   onTap: () {
                     _selectStartDate(context);
@@ -220,17 +217,14 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
-                GestureDetector(
-                  child: TextFormField(
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: endDate == null
-                          ? endDateFieldHint
-                          : "${endDate!.day}-${endDate!.month}-${endDate!.year}",
-                      labelStyle: Theme.of(context).textTheme.titleMedium,
-                      border: const OutlineInputBorder(),
-                    ),
+                TextFormField(
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    hintText: endDate == null
+                        ? endDateFieldHint
+                        : "${endDate!.day}-${endDate!.month}-${endDate!.year}",
+                    hintStyle: Theme.of(context).textTheme.titleMedium,
+                    border: const OutlineInputBorder(),
                   ),
                   onTap: () {
                     _selectEndDate(context);
