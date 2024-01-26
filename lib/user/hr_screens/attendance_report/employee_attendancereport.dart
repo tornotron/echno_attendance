@@ -284,7 +284,9 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                           attendanceMonth: attendanceMonthfromUI,
                           attYear: attendanceYearfromUI,
                         )
-                      : const Text("Nothing"),
+                      : Container(
+                        color: Colors.white,
+                      ),
                 ),
               ],
             )
