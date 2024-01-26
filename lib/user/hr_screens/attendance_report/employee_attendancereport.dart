@@ -23,9 +23,9 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
   TextEditingController monthController = TextEditingController();
   TextEditingController yearController = TextEditingController();
 
-  String employeeIdfromUI = 'emp-100';
-  String attendanceMonthfromUI = 'January';
-  String attendanceYearfromUI = '2023';
+  String employeeIdfromUI = '';
+  String attendanceMonthfromUI = '';
+  String attendanceYearfromUI = '';
 
   @override
   void dispose() {
@@ -243,9 +243,9 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                   width: 250,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (employeeIdController.text.isEmpty &&
-                          attendanceMonthfromUI.isEmpty &&
-                          yearController.text.isEmpty) {
+                      if (employeeIdController.text.isNotEmpty &&
+                          attendanceMonthfromUI.isNotEmpty &&
+                          yearController.text.isNotEmpty) {
                         setState(() {
                           employeeIdfromUI = employeeIdController.text;
                           attendanceMonthfromUI = attendanceMonthfromUI;
@@ -275,10 +275,16 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                AttendanceCardMonthly(
-                  employeeId: employeeIdfromUI,
-                  attendanceMonth: attendanceMonthfromUI,
-                  attYear: attendanceYearfromUI,
+                Container(
+                  child: employeeIdfromUI.isNotEmpty &&
+                          attendanceMonthfromUI.isNotEmpty &&
+                          attendanceYearfromUI.isNotEmpty
+                      ? AttendanceCardMonthly(
+                          employeeId: employeeIdfromUI,
+                          attendanceMonth: attendanceMonthfromUI,
+                          attYear: attendanceYearfromUI,
+                        )
+                      : const Text("Nothing"),
                 ),
               ],
             )
@@ -324,8 +330,8 @@ class _DailyState extends State<DailyReport> {
     datevisualController.animateToDate(DateTime.now());
   }
 
-  String siteNamefromUI = 'kochi';
-  String dateFromUI = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  String siteNamefromUI = '';
+  String dateFromUI = '';
 
   @override
   Widget build(BuildContext context) {
