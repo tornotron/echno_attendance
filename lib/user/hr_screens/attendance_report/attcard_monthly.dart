@@ -1,4 +1,6 @@
-import 'package:echno_attendance/attendance/services/attendance_databaseservice.dart';
+import 'package:echno_attendance/attendance/services/attendance_abstarct.dart';
+import 'package:echno_attendance/attendance/services/attendance_Localdatabaseservice.dart';
+import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +19,12 @@ class AttendanceCardMonthly extends StatefulWidget {
 }
 
 class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
+  AttendanceHandleProvider attendanceProvider = AttendanceFirestoreService();
   Future<Map<String, dynamic>> getAttData(
       {required String employeeId,
       required String attendanceMonth,
       required String attYear}) async {
-
-    final attendanceData = await AttendanceDatabaseServices().fetchFromDatabase(
+    final attendanceData = await attendanceProvider.fetchFromDatabase(
         employeeId: employeeId,
         attendanceMonth: attendanceMonth,
         attYear: attYear);
@@ -68,7 +70,7 @@ class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
                     attendanceData['employee_name'].toString();
                 String varattendanceDate =
                     attendanceData['attendance_date'].toString();
-                String varattendanceDay = varattendanceDate.substring(0, 2);
+                String varattendanceDay = varattendanceDate.substring(8, 10);
 
                 String varattendanceMonth =
                     attendanceData['attendance_month'].toString();
