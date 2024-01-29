@@ -1,4 +1,4 @@
-import 'package:echno_attendance/attendance/services/attendance_databaseservice.dart';
+import 'package:echno_attendance/attendance/services/attendance_Localdatabaseservice.dart';
 import 'package:logger/logger.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +32,7 @@ class AttendanceService {
     String? Month = monthMap[monthNumber];
 
     String attendanceStatus = 'true';
-    await AttendanceDatabaseServices().insertIntoDatabase(
+    await AttendanceLocalServices().insertIntoDatabase(
         employeeId: employeeId,
         employeeName: employeeName,
         attendanceDate: formattedDate,
