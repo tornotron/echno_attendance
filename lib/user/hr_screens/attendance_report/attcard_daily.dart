@@ -1,5 +1,6 @@
 import 'package:echno_attendance/attendance/services/attendance_abstarct.dart';
 import 'package:echno_attendance/attendance/services/attendance_Localdatabaseservice.dart';
+import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class AttendanceCardDaily extends StatefulWidget {
 }
 
 class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
-  AttendanceHandleProvider attendanceProvider = AttendanceLocalServices();
+  AttendanceHandleProvider attendanceProvider = AttendanceFirestoreService();
   Future<Map<String, dynamic>> getAttData(
       {required String siteName, required String date}) async {
     final attendanceData = await attendanceProvider.fetchFromDatabaseDaily(
