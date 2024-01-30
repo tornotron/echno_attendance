@@ -151,11 +151,25 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
   @override
   Future<List<Map<String, String>>> fetchFromDatabaseDaily(
       {required String siteName, required String date}) async {
-
-
+    FirebaseFirestore firestoredaily = FirebaseFirestore.instance;
     try {
-      CollectionReference firestoreattendance =
-          FirebaseFirestore.instance.collection('attendance');
+      DateTime dateTimedaily = DateTime.parse(date);
+      Timestamp timestampdaily = Timestamp.fromDate(dateTimedaily);
+      List<Map<String, dynamic>> attendancedailyList = [];
+      QuerySnapshot querySnapshotDaily = await firestoredaily
+          .collectionGroup('attendancedate')
+          .where('site_name', isEqualTo: siteName)
+          .where('attendance_date', isEqualTo: timestampdaily)
+          .get();
+      querySnapshotDaily.docs.forEach((DocumentSnapshot document) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        attendancedailyList.add(data);
+      });
+      List<Map<String, String>> attendancedailyFormatted = attendancedailyList
+          .map(
+              (row) => row.map((key, value) => MapEntry(key, value.toString())))
+          .toList();
+      return attendancedailyFormatted;
     } on FirebaseException catch (error) {
       logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
