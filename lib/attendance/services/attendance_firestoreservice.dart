@@ -105,22 +105,28 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
           DateTime(attYearint, attMonthint, endMonthday!, 23, 59, 59);
 
       List<Map<String, dynamic>> attendanceList = [];
+      Map<String, dynamic> namedata = {};
       CollectionReference firestoreattendance =
           FirebaseFirestore.instance.collection('attendance');
       final snapshot = firestoreattendance.doc(employeeId);
       final dateData = snapshot.collection('attendancedate');
+      
       QuerySnapshot querySnapshot = await dateData
           .where('attendance_date', isGreaterThanOrEqualTo: startDate)
           .where('attendance_date', isLessThanOrEqualTo: endDate)
           .get();
-
+      QuerySnapshot querySnapshotname =await firestoreattendance.where('employee_id',isEqualTo: employeeId).get();
+      querySnapshotname.docs.forEach((DocumentSnapshot document) { 
+        namedata = document.data() as Map<String, dynamic>;
+      });
       querySnapshot.docs.forEach((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        Timestamp t =data['attendance_date'];
+        Timestamp t = data['attendance_date'];
         DateTime d = t.toDate();
         final dateString = d.toString();
         data['attendance_date'] = dateString;
-        attendanceList.add(data);
+        final combinedata = {...namedata,...data};
+        attendanceList.add(combinedata);
       });
       List<Map<String, String>> attendanceformattted = attendanceList
           .map(
@@ -163,7 +169,7 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final res = await AttendanceFirestoreService().fetchFromDatabase(
-      employeeId: "EMP-300", attendanceMonth: "January", attYear: "2024");
+  final res = await AttendanceFirestoreService()
+      .fetchFromDatabase(employeeId: "EMP-300", attendanceMonth: "February", attYear: "2024");
   print(res);
 }
