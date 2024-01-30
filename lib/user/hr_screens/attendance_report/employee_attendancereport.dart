@@ -392,7 +392,7 @@ class _DailyState extends State<DailyReport> {
                 selectionColor: Colors.black,
                 selectedTextColor: Colors.white,
                 onDateChange: (selectedDate) {
-                  dateFromUI = DateFormat('dd-MM-yyyy').format(selectedDate);
+                  dateFromUI = DateFormat('yyyy-MM-dd').format(selectedDate);
                 },
               ),
             ),
