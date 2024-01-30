@@ -1,5 +1,5 @@
-import 'package:echno_attendance/attendance/services/attendance_abstarct.dart';
 import 'package:echno_attendance/attendance/services/attendance_Localdatabaseservice.dart';
+import 'package:echno_attendance/attendance/services/attendance_controller.dart';
 import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +19,16 @@ class AttendanceCardMonthly extends StatefulWidget {
 }
 
 class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
-  AttendanceHandleProvider attendanceProvider = AttendanceFirestoreService();
   Future<Map<String, dynamic>> getAttData(
       {required String employeeId,
       required String attendanceMonth,
       required String attYear}) async {
-    final attendanceData = await attendanceProvider.fetchFromDatabase(
-        employeeId: employeeId,
-        attendanceMonth: attendanceMonth,
-        attYear: attYear);
+    final attendanceData =
+        await AttendanceController(AttendanceFirestoreService())
+            .fetchFromDatabase(
+                employeeId: employeeId,
+                attendanceMonth: attendanceMonth,
+                attYear: attYear);
 
     if (attendanceData.isEmpty) {
       return {};
