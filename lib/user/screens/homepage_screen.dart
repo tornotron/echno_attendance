@@ -10,8 +10,8 @@ import 'package:echno_attendance/user/widgets/rounded_card.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class HomePage extends StatefulWidget {
-  final String appbarUserName;
-  const HomePage({super.key, required this.appbarUserName});
+  final String appbarUserName = "";
+  const HomePage({super.key});
   @override
   State<HomePage> createState() => _HomePageState();
 }
