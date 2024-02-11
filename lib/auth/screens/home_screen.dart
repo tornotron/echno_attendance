@@ -1,3 +1,4 @@
+import 'package:echno_attendance/attendance/services/location_service.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
@@ -6,6 +7,7 @@ import 'package:echno_attendance/leave_module/screens/leave_application.dart';
 import 'package:echno_attendance/leave_module/screens/leave_status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer' as devtools show log;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,29 +80,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const LeaveApplicationScreen();
-                      }));
+                    onPressed: () async {
+                      final currentLocation =
+                          await LocationService().getCurrentLocation();
+                      // const targetLatitude = 23.8103;
+                      // const targetLongitude = 30.810;
+                      const targetLatitude = 10.065206;
+                      const targetLongitude = 76.629128;
+
+                      final bool isWithinSite =
+                          await LocationService().isEmployeeWithinSite(
+                        siteLattitude: targetLatitude,
+                        siteLongitude: targetLongitude,
+                        currentLattitude: currentLocation.latitude,
+                        currentLongitude: currentLocation.longitude,
+                      );
+                      if (isWithinSite) {
+                        devtools.log('You are in the range');
+                      } else {
+                        devtools.log('You are not in the range');
+                      }
                     },
                     child: const Text(
-                      'Leave Application',
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const LeaveStatusScreen();
-                      }));
-                    },
-                    child: const Text(
-                      'Leave Status',
+                      'Get Location',
                     ),
                   ),
                 ),
