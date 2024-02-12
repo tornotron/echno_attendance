@@ -110,13 +110,15 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
           FirebaseFirestore.instance.collection('attendance');
       final snapshot = firestoreattendance.doc(employeeId);
       final dateData = snapshot.collection('attendancedate');
-      
+
       QuerySnapshot querySnapshot = await dateData
           .where('attendance_date', isGreaterThanOrEqualTo: startDate)
           .where('attendance_date', isLessThanOrEqualTo: endDate)
           .get();
-      QuerySnapshot querySnapshotname =await firestoreattendance.where('employee_id',isEqualTo: employeeId).get();
-      querySnapshotname.docs.forEach((DocumentSnapshot document) { 
+      QuerySnapshot querySnapshotname = await firestoreattendance
+          .where('employee_id', isEqualTo: employeeId)
+          .get();
+      querySnapshotname.docs.forEach((DocumentSnapshot document) {
         namedata = document.data() as Map<String, dynamic>;
       });
       querySnapshot.docs.forEach((DocumentSnapshot document) {
@@ -125,7 +127,7 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
         DateTime d = t.toDate();
         final dateString = d.toString();
         data['attendance_date'] = dateString;
-        final combinedata = {...namedata,...data};
+        final combinedata = {...namedata, ...data};
         attendanceList.add(combinedata);
       });
       List<Map<String, String>> attendanceformattted = attendanceList
@@ -154,12 +156,14 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
     FirebaseFirestore firestoredaily = FirebaseFirestore.instance;
     try {
       DateTime dateTimedaily = DateTime.parse(date);
-      Timestamp timestampdaily = Timestamp.fromDate(dateTimedaily);
+      DateTime timestampStart = dateTimedaily;
+      DateTime timestampEnd = dateTimedaily.add(const Duration(days: 1));
       List<Map<String, dynamic>> attendancedailyList = [];
       QuerySnapshot querySnapshotDaily = await firestoredaily
           .collectionGroup('attendancedate')
           .where('site_name', isEqualTo: siteName)
-          .where('attendance_date', isEqualTo: timestampdaily)
+          .where('attendance_date', isGreaterThanOrEqualTo: timestampStart)
+          .where('attendance_date', isLessThanOrEqualTo: timestampEnd)
           .get();
       querySnapshotDaily.docs.forEach((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -178,12 +182,4 @@ class AttendanceFirestoreService implements AttendanceHandleProvider {
 
     return [];
   }
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  final res = await AttendanceFirestoreService()
-      .fetchFromDatabase(employeeId: "EMP-300", attendanceMonth: "February", attYear: "2024");
-  print(res);
 }
