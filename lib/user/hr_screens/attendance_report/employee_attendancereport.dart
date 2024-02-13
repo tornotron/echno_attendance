@@ -37,17 +37,24 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
 
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
+        isScrollControlled: true,
+        useSafeArea: true,
         backgroundColor: Colors.white,
         context: context,
         builder: (BuildContext context) {
-          return Container(
-            padding: const EdgeInsets.all(16.0),
+          return SizedBox(
+            height: 200,
+            width: double.infinity,
+            //padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                const SizedBox(
+                  height: 40,
+                ),
                 SizedBox(
                   height: 60,
-                  width: 200,
+                  width: 250,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
@@ -77,7 +84,7 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 ),
                 SizedBox(
                   height: 60,
-                  width: 200,
+                  width: 250,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
@@ -285,8 +292,8 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                           attYear: attendanceYearfromUI,
                         )
                       : Container(
-                        color: Colors.white,
-                      ),
+                          color: Colors.white,
+                        ),
                 ),
               ],
             )
