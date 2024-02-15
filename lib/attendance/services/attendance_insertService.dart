@@ -1,4 +1,4 @@
-import 'package:echno_attendance/attendance/services/attendance_Localdatabaseservice.dart';
+import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
 import 'package:logger/logger.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:intl/intl.dart';
@@ -29,10 +29,10 @@ class AttendanceService {
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
 
     String monthNumber = formattedDate.substring(3, 5);
-    String? Month = monthMap[monthNumber];
+    String Month = monthMap[monthNumber]!;
 
     String attendanceStatus = 'true';
-    await AttendanceLocalServices().insertIntoDatabase(
+    await AttendanceFirestoreService().insertIntoDatabase(
         employeeId: employeeId,
         employeeName: employeeName,
         attendanceDate: formattedDate,
