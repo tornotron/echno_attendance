@@ -49,7 +49,3 @@ local.*
 
 # FVM Version Cache
 .fvm/
-.fvmrc
-
-# vscode settings
-.vscode/
