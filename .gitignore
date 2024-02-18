@@ -46,4 +46,10 @@ app.*.map.json
 # Database files
 local.*
 /lib/temptest.dart
-.fvm
+
+# FVM Version Cache
+.fvm/
+.fvmrc
+
+# vscode settings
+.vscode/
