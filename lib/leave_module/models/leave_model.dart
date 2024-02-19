@@ -9,11 +9,11 @@ enum LeaveStatus {
 }
 
 enum LeaveType {
-  meternityLeave,
-  annualLeave,
-  casualLeave,
-  sickLeave,
-  peternityLeave,
+  ml,
+  al,
+  cl,
+  sl,
+  pl,
   unclassified,
 }
 
@@ -57,8 +57,12 @@ class Leave extends Equatable {
         appliedDate: data['applied_date'].toDate() ?? DateTime.now(),
         fromDate: data['from_date'].toDate() ?? DateTime.now(),
         toDate: data['to_date'].toDate() ?? DateTime.now(),
-        leaveType: data['leave_type'] ?? LeaveType.unclassified,
-        leaveStatus: data['leave_status'] ?? LeaveStatus.unclassified,
+        leaveType: data['leave_type'] != null
+            ? LeaveType.values[data['leave_type']]
+            : LeaveType.unclassified,
+        leaveStatus: data['leave_status'] != null
+            ? LeaveStatus.values[data['leave_status']]
+            : LeaveStatus.unclassified,
         siteOffice: data['site_office'] ?? '',
         isCancelled: data['is_cancelled'] ?? false,
         remarks: data['remarks'] ?? '',

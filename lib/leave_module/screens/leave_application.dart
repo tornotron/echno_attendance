@@ -1,12 +1,15 @@
 import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
+import 'package:echno_attendance/leave_module/widgets/date_selection_field.dart';
+import 'package:echno_attendance/leave_module/widgets/leave_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LeaveApplicationScreen extends StatefulWidget {
-  const LeaveApplicationScreen({Key? key}) : super(key: key);
+  const LeaveApplicationScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
@@ -22,16 +25,25 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
 
-  String?
-      selectedLeaveType; // Variable to store selected leave type using radio buttons
+  LeaveType?
+      _selectedLeaveType; // Variable to store selected leave type using radio buttons
 
-  // List of leave types to be displayed in radio buttons
-  List<String> leaveType = [
-    "Casual Leave",
-    "Medical Leave",
-    "Maternity Leave",
-    "Annual Leave",
-  ];
+  String getLeaveType(LeaveType type) {
+    switch (type) {
+      case LeaveType.ml:
+        return 'Maternity Leave';
+      case LeaveType.al:
+        return 'Annual Leave';
+      case LeaveType.cl:
+        return 'Casual Leave';
+      case LeaveType.sl:
+        return 'Sick Leave';
+      case LeaveType.pl:
+        return 'Paternity Leave';
+      case LeaveType.unclassified:
+        return 'Unclassified';
+    }
+  }
 
   // Function selects the start date of leave
   Future<void> _selectStartDate(BuildContext context) async {
@@ -155,56 +167,28 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                 const SizedBox(height: 10.0),
 
                 // The immediate supervisor of the employee
-                Text(
-                  coordinatorFieldLabel,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 5.0),
-                TextFormField(
-                  enabled: false,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    labelText: 'Alex Mercer', // This should be fetched from DB
-                    labelStyle: Theme.of(context).textTheme.titleMedium,
-                    border: const OutlineInputBorder(),
-                  ),
-                  onTap: () {},
+                const LeaveFormField(
+                  mainLabel: coordinatorFieldLabel,
+                  isReadOnly: true,
+                  hintText: 'Alex Mercer', // This should be fetched from DB
                 ),
                 const SizedBox(height: 10.0),
 
                 // Current Date
-                Text(
-                  currentDateFieldLabel,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 5.0),
-                TextField(
-                  readOnly: true,
-                  enabled: false,
-                  decoration: InputDecoration(
-                    labelText:
-                        '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
-                    labelStyle: Theme.of(context).textTheme.titleMedium,
-                    border: const OutlineInputBorder(),
-                  ),
+                LeaveFormField(
+                  mainLabel: currentDateFieldLabel,
+                  isReadOnly: true,
+                  hintText:
+                      '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
                 ),
                 const SizedBox(height: 10.0),
 
                 // Selection field the start date of leave
-                Text(
-                  startDateFieldLabel,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 5.0),
-                TextFormField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    hintText: startDate == null
-                        ? startDateFieldHint
-                        : "${startDate!.day}-${startDate!.month}-${startDate!.year}",
-                    hintStyle: Theme.of(context).textTheme.titleMedium,
-                    border: const OutlineInputBorder(),
-                  ),
+                CustomDateField(
+                  label: 'Start Date',
+                  hintText: startDate == null
+                      ? startDateFieldHint
+                      : "${startDate!.day}-${startDate!.month}-${startDate!.year}",
                   onTap: () {
                     _selectStartDate(context);
                   },
@@ -212,20 +196,11 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                 const SizedBox(height: 10.0),
 
                 // Selection field the end date of leave
-                Text(
-                  endDateFieldLabel,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 5.0),
-                TextFormField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    hintText: endDate == null
-                        ? endDateFieldHint
-                        : "${endDate!.day}-${endDate!.month}-${endDate!.year}",
-                    hintStyle: Theme.of(context).textTheme.titleMedium,
-                    border: const OutlineInputBorder(),
-                  ),
+                CustomDateField(
+                  label: 'End Date',
+                  hintText: endDate == null
+                      ? endDateFieldHint
+                      : "${endDate!.day}-${endDate!.month}-${endDate!.year}",
                   onTap: () {
                     _selectEndDate(context);
                   },
@@ -239,39 +214,29 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                 ),
                 const SizedBox(height: 10.0),
 
-                // Radio Buttons to select Leave Type
-                Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: echnoGreyColor,
-                      width: 1.50,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        leaveTypeFieldLabel,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 5.0),
-                      Column(
-                        children: leaveType.map((type) {
-                          return RadioListTile<String>(
-                            title: Text(type),
-                            value: type,
-                            groupValue: selectedLeaveType,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedLeaveType = value;
-                              });
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ],
+                // Dropdoen to select Leave Type
+                Text(
+                  leaveTypeFieldLabel,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 5.0),
+                DropdownButtonFormField<LeaveType>(
+                  value: _selectedLeaveType,
+                  onChanged: (LeaveType? newValue) {
+                    setState(() {
+                      _selectedLeaveType = newValue;
+                    });
+                  },
+                  items: LeaveType.values.map((LeaveType type) {
+                    String typeName = getLeaveType(type);
+                    return DropdownMenuItem<LeaveType>(
+                      value: type,
+                      child: Text(typeName),
+                    );
+                  }).toList(),
+                  decoration: const InputDecoration(
+                    hintText: 'Select Leave Type',
+                    border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 10.0),
@@ -282,7 +247,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
-                TextField(
+                TextFormField(
                   controller: _remarksController,
                   minLines: 5,
                   maxLines: null, // Allows for an adjustable number of lines
@@ -291,6 +256,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     border: OutlineInputBorder(),
                   ),
                 ),
+
                 const SizedBox(height: 15.0),
 
                 // Button to submit leave application
@@ -311,7 +277,8 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                             "${startDate!.day}-${startDate!.month}-${startDate!.year}",
                         toDate:
                             "${endDate!.day}-${endDate!.month}-${endDate!.year}",
-                        leaveType: selectedLeaveType,
+                        leaveType:
+                            _selectedLeaveType.toString().split('.').last,
                         remarks: _remarksController.text,
                       );
                       if (context.mounted) {
@@ -328,7 +295,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                         _remarksController.clear();
                         startDate = null;
                         endDate = null;
-                        selectedLeaveType = null;
+                        _selectedLeaveType = null;
                       });
                     },
                     child: const Text(
