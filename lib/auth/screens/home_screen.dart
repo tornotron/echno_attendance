@@ -106,6 +106,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const LeaveApplicationScreen();
+                      }));
+                    },
+                    child: const Text(
+                      'Leave Application',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const LeaveStatusScreen();
+                      }));
+                    },
+                    child: const Text(
+                      'Leave Status',
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
