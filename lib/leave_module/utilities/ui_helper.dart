@@ -1,4 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:flutter/material.dart';
 
 // UI Helper Functions for LeaveStatusScreen
@@ -84,5 +85,43 @@ String getLeaveType(String leaveType) {
       return "Annual Leave";
     default:
       return "Leave";
+  }
+}
+
+String getLeaveTypeName(LeaveType? type) {
+  switch (type) {
+    case LeaveType.ml:
+      return 'Maternity Leave';
+    case LeaveType.al:
+      return 'Annual Leave';
+    case LeaveType.cl:
+      return 'Casual Leave';
+    case LeaveType.sl:
+      return 'Sick Leave';
+    case LeaveType.pl:
+      return 'Paternity Leave';
+    case LeaveType.unclassified:
+      return 'Unclassified';
+    default:
+      return 'Unclassified';
+  }
+}
+
+LeaveType? getLeaveTypeFromString(String? type) {
+  switch (type) {
+    case 'Maternity Leave':
+      return LeaveType.ml;
+    case 'Annual Leave':
+      return LeaveType.al;
+    case 'Casual Leave':
+      return LeaveType.cl;
+    case 'Sick Leave':
+      return LeaveType.sl;
+    case 'Paternity Leave':
+      return LeaveType.pl;
+    case 'Unclassified':
+      return LeaveType.unclassified;
+    default:
+      return null;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/firestore_leave_provider.dart';
 import 'package:echno_attendance/leave_module/services/leave_provider.dart';
 
@@ -10,15 +11,16 @@ class LeaveService implements LeaveProvider {
   }
 
   @override
-  Future<void> applyForLeave({
+  Future<Leave> applyForLeave({
     required String uid,
     required String employeeID,
     required String employeeName,
-    required String appliedDate,
-    required String fromDate,
-    required String toDate,
+    required DateTime appliedDate,
+    required DateTime fromDate,
+    required DateTime toDate,
     required String? leaveType,
-    required String remarks,
+    required String siteOffice,
+    required String? remarks,
   }) {
     return _leaveProvider.applyForLeave(
       uid: uid,
@@ -28,6 +30,7 @@ class LeaveService implements LeaveProvider {
       fromDate: fromDate,
       toDate: toDate,
       leaveType: leaveType,
+      siteOffice: siteOffice,
       remarks: remarks,
     );
   }

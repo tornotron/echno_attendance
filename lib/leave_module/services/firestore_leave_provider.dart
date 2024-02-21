@@ -1,43 +1,90 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:echno_attendance/leave_module/services/leave_provider.dart';
 
 class FirestoreLeaveProvider implements LeaveProvider {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String initialLeaveStatus = 'pending';
+  final LeaveStatus initialLeaveStatus = LeaveStatus.pending;
 
-// Function for Leave Application
+  // Function for Leave Application
+
   @override
-  Future<void> applyForLeave({
-    required String uid,
-    required String employeeID,
-    required String employeeName,
-    required String appliedDate,
-    required String fromDate,
-    required String toDate,
-    required String? leaveType,
-    required String remarks,
-  }) async {
-    try {
-      await _firestore.collection('leaves').add({
-        'uid': uid,
-        'employee-id': employeeID,
-        'employeeName': employeeName,
-        'appliedDate': appliedDate,
-        'fromDate': fromDate,
-        'toDate': toDate,
-        'leaveType': leaveType,
-        'leaveStatus': initialLeaveStatus,
-        'isCancelled': false,
-        'remarks': remarks,
-      });
-      devtools.log('Leave application successful');
-    } catch (e) {
-      // Handle errors
-      devtools.log('Error applying for leave: $e');
-    }
+  Future<Leave> applyForLeave(
+      {required String uid,
+      required String employeeID,
+      required String employeeName,
+      required DateTime appliedDate,
+      required DateTime fromDate,
+      required DateTime toDate,
+      required String? leaveType,
+      required String siteOffice,
+      required String? remarks}) async {
+    final leave = await FirebaseFirestore.instance.collection('leaves').add({
+      'user-uid': uid,
+      'employee-id': employeeID,
+      'employee-name': employeeName,
+      'applied-date': appliedDate,
+      'from-date': fromDate,
+      'to-date': toDate,
+      'leave-type': leaveType,
+      'leave-status': initialLeaveStatus.toString().split('.').last,
+      'site-office': siteOffice,
+      'is-cancelled': false,
+      'remarks': remarks,
+    });
+    devtools.log('Leave application successful');
+    final fetchLeave = await leave.get();
+    return Leave(
+      id: fetchLeave.id,
+      uid: uid,
+      employeeID: employeeID,
+      employeeName: employeeName,
+      appliedDate: appliedDate,
+      fromDate: fromDate,
+      toDate: toDate,
+      leaveType:
+          leaveType != null ? getLeaveType(leaveType) : LeaveType.unclassified,
+      leaveStatus: initialLeaveStatus,
+      siteOffice: siteOffice,
+      isCancelled: false,
+      remarks: remarks ?? '',
+    );
   }
+
+  // @override
+  // Future<Leave> applyForLeave({
+  //   required String uid,
+  //   required String employeeID,
+  //   required String employeeName,
+  //   required DateTime appliedDate,
+  //   required DateTime fromDate,
+  //   required DateTime toDate,
+  //   required LeaveType? leaveType,
+  //   required String siteOffice,
+  //   required String? remarks,
+  // }) async {
+  //   try {
+  //     await _firestore.collection('leaves').add({
+  //       'uid': uid,
+  //       'employee-id': employeeID,
+  //       'employeeName': employeeName,
+  //       'appliedDate': appliedDate,
+  //       'fromDate': fromDate,
+  //       'toDate': toDate,
+  //       'leaveType': leaveType,
+  //       'leaveStatus': initialLeaveStatus,
+  //       'isCancelled': false,
+  //       'remarks': remarks,
+  //     });
+  //     devtools.log('Leave application successful');
+  //   } catch (e) {
+  //     // Handle errors
+  //     devtools.log('Error applying for leave: $e');
+  //     rethrow;
+  //   }
+  // }
 
   // Get this leave history of the currently logged in user
   @override

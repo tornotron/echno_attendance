@@ -1,13 +1,16 @@
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
+
 abstract class LeaveProvider {
-  Future<void> applyForLeave({
+  Future<Leave> applyForLeave({
     required String uid,
     required String employeeID,
     required String employeeName,
-    required String appliedDate,
-    required String fromDate,
-    required String toDate,
+    required DateTime appliedDate,
+    required DateTime fromDate,
+    required DateTime toDate,
     required String? leaveType,
-    required String remarks,
+    required String siteOffice,
+    required String? remarks,
   });
 
   Stream<List<Map<String, dynamic>>> streamLeaveHistory({
