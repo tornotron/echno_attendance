@@ -19,7 +19,7 @@ abstract class LeaveProvider {
 
   Future<void> cancelLeave({required String leaveId});
 
-  Stream<List<Map<String, dynamic>>> fetchLeaves();
+  Stream<List<Leave>> fetchLeaves();
 
   Future<void> updateLeaveStatus({
     required String leaveId,

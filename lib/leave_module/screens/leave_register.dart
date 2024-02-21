@@ -1,13 +1,15 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/screens/leave_approval_screen.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class LeaveRegisterScreen extends StatefulWidget {
-  const LeaveRegisterScreen({Key? key}) : super(key: key);
+  const LeaveRegisterScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
@@ -81,73 +83,76 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: StreamBuilder<List<Map<String, dynamic>>>(
-              stream: _leaveProvider.fetchLeaves(),
-              builder: (context, snapshot) {
-                List<Map<String, dynamic>> filteredLeaves = [];
-
-                if (snapshot.hasData) {
-                  filteredLeaves = snapshot.data!
-                      .where((leaveData) =>
-                          (leaveData['leaveType']?.toLowerCase()?.contains(
-                                  _searchController.text.toLowerCase()) ??
-                              false) ||
-                          (leaveData['employeeName']?.toLowerCase()?.contains(
-                                  _searchController.text.toLowerCase()) ??
-                              false) ||
-                          (leaveData['employeeId']?.toLowerCase()?.contains(
-                                  _searchController.text.toLowerCase()) ??
-                              false) ||
-                          (leaveData['leaveStatus']?.toLowerCase()?.contains(
-                                  _searchController.text.toLowerCase()) ??
-                              false))
-                      .toList();
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Column(
-                      children: [
-                        const Center(child: LinearProgressIndicator()),
-                        const SizedBox(height: 10),
-                        Text(
-                          leaveRegisterLoadingText,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (filteredLeaves.isEmpty) {
-                  return Center(
-                    child: Text(
-                      leaveRegisterNoLeaveData,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: filteredLeaves.length,
-                    itemExtent: 170.0,
-                    itemBuilder: (context, index) {
-                      final leaveData = filteredLeaves[index];
-                      return leaveRow(leaveData);
-                    },
-                  );
-                }
-              },
-            ),
-          ),
+          leaveCardStreamBuilder(),
         ],
       ),
     );
   }
 
-  Widget leaveRow(Map<String, dynamic> leaveData) {
+  Expanded leaveCardStreamBuilder() {
+    return Expanded(
+      child: StreamBuilder<List<Leave>>(
+        stream: _leaveProvider.fetchLeaves(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                leaveRegisterNoLeaveData,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+            );
+          } else {
+            // Order leaves by latest applied date
+            final orderedLeaves = snapshot.data!.toList()
+              ..sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+
+            // Filter leaves based on search query
+            final filteredLeaves = orderedLeaves.where((leave) {
+              final searchQuery = _searchController.text.toLowerCase();
+              return getLeaveTypeName(leave.leaveType)
+                      .toLowerCase()
+                      .contains(searchQuery) ||
+                  leave.employeeName.toLowerCase().contains(searchQuery) ||
+                  leave.employeeID.toLowerCase().contains(searchQuery) ||
+                  leave.leaveStatus!
+                      .toString()
+                      .toLowerCase()
+                      .contains(searchQuery);
+            }).toList();
+
+            if (filteredLeaves.isEmpty) {
+              return Center(
+                child: Text(
+                  'No leaves found matching the search criteria.',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: filteredLeaves.length,
+              itemBuilder: (context, index) {
+                final leave = filteredLeaves[index];
+                return leaveRow(leave);
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget leaveRow(Leave leave) {
     final leaveCard = Container(
       height: 200,
       margin: const EdgeInsets.only(left: 25.0, right: 25.0),
@@ -168,7 +173,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LeaveApprovalScreen(leaveData: leaveData),
+              builder: (context) => LeaveApprovalScreen(leave: leave),
             ),
           );
         },
@@ -180,7 +185,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text(
-                leaveData['employeeName'],
+                leave.employeeName,
                 style: const TextStyle(
                   color: echnoDarkColor,
                   fontFamily: 'TT Chocolates Bold',
@@ -190,7 +195,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               ),
               const SizedBox(height: 5.0),
               Text(
-                leaveData['leaveType'],
+                getLeaveTypeName(leave.leaveType),
                 style: const TextStyle(
                   color: echnoDarkColor,
                   fontFamily: 'TT Chocolates Bold',
@@ -200,7 +205,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               ),
               const SizedBox(height: 5.0),
               Text(
-                '$leaveRegisterDurationFieldLabel ${leaveData['fromDate']}  -  ${leaveData['toDate']}',
+                '$leaveRegisterDurationFieldLabel ${DateFormat('dd-MM-yyyy').format(leave.fromDate)}  -  ${DateFormat('dd-MM-yyyy').format(leave.toDate)}',
                 style: const TextStyle(
                   color: echnoDarkColor,
                   fontFamily: 'TT Chocolates Bold',
@@ -228,8 +233,8 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
                     ),
                   ),
                   Text(
-                    leaveData['isCancelled'] == false
-                        ? getStatus(leaveData['leaveStatus'])
+                    leave.isCancelled == false
+                        ? getLeaveStatusName(leave.leaveStatus)
                         : leaveRegisterCancelledStatus,
                     style: const TextStyle(
                       color: echnoDarkColor,
@@ -242,7 +247,7 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
               ),
               const SizedBox(height: 10.0),
               Text(
-                "$leaveRegisterAppliedFieldLabel ${leaveData['appliedDate']}",
+                "$leaveRegisterAppliedFieldLabel ${DateFormat('dd-MM-yyyy').format(leave.appliedDate)}",
                 style: const TextStyle(
                   color: echnoDarkColor,
                   fontFamily: 'TT Chocolates Bold',

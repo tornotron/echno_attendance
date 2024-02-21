@@ -41,7 +41,7 @@ class LeaveService implements LeaveProvider {
   }
 
   @override
-  Stream<List<Map<String, dynamic>>> fetchLeaves() {
+  Stream<List<Leave>> fetchLeaves() {
     return _leaveProvider.fetchLeaves();
   }
 

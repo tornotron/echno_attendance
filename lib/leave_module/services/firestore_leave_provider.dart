@@ -129,13 +129,17 @@ class FirestoreLeaveProvider implements LeaveProvider {
 
   // Get the leave history of all employees
   @override
-  Stream<List<Map<String, dynamic>>> fetchLeaves() {
-    return _firestore.collection('leaves').snapshots().map(
-      (QuerySnapshot<Map<String, dynamic>> querySnapshot) {
+  Stream<List<Leave>> fetchLeaves() {
+    return _firestore
+        .collection('leaves')
+        .where('is-cancelled',
+            isEqualTo: false) // Filtering for cancelled leaves
+        .snapshots()
+        .map(
+      (QuerySnapshot<Object?> querySnapshot) {
         return querySnapshot.docs.map((doc) {
-          var leaveData = doc.data();
-          leaveData['leave-id'] = doc.id; // Add the document ID to the map
-          return leaveData;
+          return Leave.fromDocument(
+              doc as QueryDocumentSnapshot<Map<String, dynamic>>);
         }).toList();
       },
     );
@@ -152,7 +156,7 @@ class FirestoreLeaveProvider implements LeaveProvider {
           .collection('leaves')
           .doc(leaveId)
           .update({
-        'leaveStatus': newStatus,
+        'leave-status': newStatus,
       });
     } catch (e) {
       // Handle errors
