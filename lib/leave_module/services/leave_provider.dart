@@ -13,7 +13,7 @@ abstract class LeaveProvider {
     required String? remarks,
   });
 
-  Stream<List<Map<String, dynamic>>> streamLeaveHistory({
+  Stream<List<Leave>> streamLeaveHistory({
     required String? uid,
   });
 

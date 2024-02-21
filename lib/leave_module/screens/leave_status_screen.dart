@@ -1,6 +1,7 @@
 import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_cancel_dialog.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LeaveStatusScreen extends StatefulWidget {
-  const LeaveStatusScreen({Key? key}) : super(key: key);
+  const LeaveStatusScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
@@ -60,7 +61,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
             ),
           ),
           Expanded(
-            child: StreamBuilder<List<Map<String, dynamic>>>(
+            child: StreamBuilder<List<Leave>>(
               stream: _leaveProvider.streamLeaveHistory(uid: currentUserId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -88,12 +89,14 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                     ),
                   );
                 } else {
+                  final orderedLeaves = snapshot.data!.toList()
+                    ..sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
                   return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemExtent: 170.0,
+                    itemCount: orderedLeaves.length,
+                    itemExtent: 180.0,
                     itemBuilder: (context, index) {
-                      final employeeLeaveData = snapshot.data![index];
-                      return leaveRow(employeeLeaveData);
+                      final leave = orderedLeaves[index];
+                      return leaveRow(leave);
                     },
                   );
                 }
@@ -105,25 +108,27 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
     );
   }
 
-  Widget leaveRow(Map<String, dynamic> employeeLeaveData) {
+  Widget leaveRow(Leave leave) {
+    final String formatedFromDate = formatDate(leave.fromDate);
+    final String formatedToDate = formatDate(leave.toDate);
+    final String appliedDate = formatDate(leave.appliedDate);
     final thumbnail = Container(
       alignment: const FractionalOffset(0.0, 0.5),
       margin: const EdgeInsets.only(left: 15.0),
       child: Hero(
-        tag: employeeLeaveData['leave-id'],
+        tag: leave.id,
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: echnoDarkColor,
             border: Border.all(
-                width: 5,
-                color: getColor(employeeLeaveData['leaveStatus'],
-                    employeeLeaveData['isCancelled'])),
+              width: 5,
+              color: getColor(leave.leaveStatus, leave.isCancelled),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: getIcon(employeeLeaveData['leaveStatus'],
-                employeeLeaveData['isCancelled']),
+            child: getIcon(leave.leaveStatus, leave.isCancelled),
           ),
         ),
       ),
@@ -136,13 +141,6 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
         color: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(8.0),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: isDarkMode ? echnoGreyColor : echnoLightColor,
-            blurRadius: 10.0,
-            offset: const Offset(0.0, 2.0),
-          ),
-        ],
       ),
       child: Container(
         margin: const EdgeInsets.only(top: 16.0, left: 72.0),
@@ -152,7 +150,8 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              employeeLeaveData['leaveType'],
+              getLeaveTypeName(
+                  leave.leaveType), // Assuming leaveType is an enum
               style: const TextStyle(
                 color: echnoDarkColor,
                 fontFamily: 'TT Chocolates Bold',
@@ -162,9 +161,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
             ),
             const SizedBox(height: 5.0),
             Text(
-              employeeLeaveData['fromDate'] +
-                  " - " +
-                  employeeLeaveData['toDate'],
+              '$formatedFromDate - $formatedToDate',
               style: const TextStyle(
                 color: echnoDarkColor,
                 fontFamily: 'TT Chocolates Bold',
@@ -185,9 +182,9 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                   ),
                 ),
                 Text(
-                  employeeLeaveData['isCancelled'] == false
-                      ? getStatus(employeeLeaveData['leaveStatus'])
-                      : 'Cancelled',
+                  leave.isCancelled
+                      ? 'Cancelled'
+                      : getLeaveStatusName(leave.leaveStatus),
                   style: const TextStyle(
                     color: echnoDarkColor,
                     fontFamily: 'TT Chocolates Bold',
@@ -196,9 +193,9 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                   ),
                 ),
                 Container(width: 70.0),
-                employeeLeaveData['leaveStatus'] == 'approved' ||
-                        employeeLeaveData['leaveStatus'] == 'rejected' ||
-                        employeeLeaveData['isCancelled'] == true
+                leave.leaveStatus == LeaveStatus.approved ||
+                        leave.leaveStatus == LeaveStatus.rejected ||
+                        leave.isCancelled
                     ? Container(
                         height: 35,
                       )
@@ -206,8 +203,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                         onTap: () async {
                           final shouldCancel = await showCancelDialog(context);
                           if (shouldCancel) {
-                            await _leaveProvider.cancelLeave(
-                                leaveId: employeeLeaveData['leave-id']);
+                            await _leaveProvider.cancelLeave(leaveId: leave.id);
                           }
                         },
                         child: Container(
@@ -241,7 +237,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
             ),
             const SizedBox(height: 5.0),
             Text(
-              "$leaveAppliedOnFieldLabel ${employeeLeaveData['appliedDate']}",
+              "$leaveAppliedOnFieldLabel $appliedDate",
               style: const TextStyle(
                 color: echnoDarkColor,
                 fontFamily: 'TT Chocolates Bold',
@@ -264,5 +260,12 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
         ],
       ),
     );
+  }
+
+  String formatDate(DateTime date) {
+    final day = date.day.toString().padLeft(2, '0');
+    final month = date.month.toString().padLeft(2, '0');
+    final year = date.year.toString();
+    return '$day-$month-$year';
   }
 }

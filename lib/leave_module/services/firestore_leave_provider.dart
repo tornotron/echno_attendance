@@ -88,7 +88,7 @@ class FirestoreLeaveProvider implements LeaveProvider {
 
   // Get this leave history of the currently logged in user
   @override
-  Stream<List<Map<String, dynamic>>> streamLeaveHistory({
+  Stream<List<Leave>> streamLeaveHistory({
     required String? uid,
   }) {
     if (uid == null || uid.isEmpty) {
@@ -99,18 +99,14 @@ class FirestoreLeaveProvider implements LeaveProvider {
 
     return _firestore
         .collection('leaves')
-        .where('uid', isEqualTo: uid)
+        .where('user-uid', isEqualTo: uid)
         .snapshots()
-        .map<List<Map<String, dynamic>>>(
-      (QuerySnapshot<Map<String, dynamic>> querySnapshot) {
-        return querySnapshot.docs.map(
-          (QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-            var leaveHistoryData = doc.data();
-            leaveHistoryData['leave-id'] =
-                doc.id; // Add the document ID to the map
-            return leaveHistoryData;
-          },
-        ).toList();
+        .map(
+      (QuerySnapshot<Object?> querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return Leave.fromDocument(
+              doc as QueryDocumentSnapshot<Map<String, dynamic>>);
+        }).toList();
       },
     );
   }
@@ -123,7 +119,7 @@ class FirestoreLeaveProvider implements LeaveProvider {
           .collection('leaves')
           .doc(leaveId)
           .update({
-        'isCancelled': true,
+        'is-cancelled': true,
       });
     } catch (e) {
       devtools.log('Error cancelling leave: $e');

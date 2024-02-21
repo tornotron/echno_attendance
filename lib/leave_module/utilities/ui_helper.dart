@@ -3,7 +3,7 @@ import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:flutter/material.dart';
 
 // UI Helper Functions for LeaveStatusScreen
-Icon getIcon(String leaveStatus, bool isCancelled) {
+Icon getIcon(LeaveStatus? leaveStatus, bool isCancelled) {
   if (isCancelled) {
     return const Icon(
       Icons.report_outlined,
@@ -12,19 +12,19 @@ Icon getIcon(String leaveStatus, bool isCancelled) {
     );
   }
   switch (leaveStatus) {
-    case 'approved':
+    case LeaveStatus.approved:
       return const Icon(
         Icons.check_circle_rounded,
         size: 60,
         color: echnoGreenColor,
       );
-    case 'pending':
+    case LeaveStatus.pending:
       return const Icon(
         Icons.hourglass_empty_rounded,
         size: 60,
         color: leaveStatusYellowColor,
       );
-    case 'rejected':
+    case LeaveStatus.rejected:
       return const Icon(
         Icons.cancel,
         size: 60,
@@ -39,52 +39,37 @@ Icon getIcon(String leaveStatus, bool isCancelled) {
   }
 }
 
-Color getColor(String leaveStatus, bool isCancelled) {
+Color getColor(LeaveStatus? leaveStatus, bool isCancelled) {
   if (isCancelled) {
     return leaveStatusOrangeColor;
   }
   switch (leaveStatus) {
-    case 'approved':
+    case LeaveStatus.approved:
       return echnoGreenColor;
-    case 'pending':
+    case LeaveStatus.pending:
       return leaveStatusYellowColor;
-    case 'rejected':
+    case LeaveStatus.rejected:
       return leaveStatusRedColor;
     default:
       return leaveStatusYellowColor;
   }
 }
 
-String getStatus(leaveStatus) {
+String getLeaveStatusName(LeaveStatus? leaveStatus) {
   switch (leaveStatus) {
-    case 'approved':
+    case LeaveStatus.approved:
       return "Approved";
 
-    case 'pending':
+    case LeaveStatus.pending:
       return "Pending";
 
-    case "rejected":
+    case LeaveStatus.rejected:
       return "Rejected";
 
-    case 'unclassified':
+    case LeaveStatus.unclassified:
       return "Pending";
     default:
       return "Pending";
-  }
-}
-
-String getLeaveType(String leaveType) {
-  switch (leaveType) {
-    case 'Casual Leave':
-      return "Casual Leave";
-    case 'medicalLeave':
-      return "Medical Leave";
-    case 'Maternity Leave':
-      return "Maternity Leave";
-    case 'Annual Leave':
-      return "Annual Leave";
-    default:
-      return "Leave";
   }
 }
 
