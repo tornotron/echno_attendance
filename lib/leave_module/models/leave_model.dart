@@ -17,6 +17,40 @@ enum LeaveType {
   unclassified,
 }
 
+LeaveType? getLeaveType(String? type) {
+  switch (type) {
+    case 'ml':
+      return LeaveType.ml;
+    case 'al':
+      return LeaveType.al;
+    case 'cl':
+      return LeaveType.cl;
+    case 'sl':
+      return LeaveType.sl;
+    case 'pl':
+      return LeaveType.pl;
+    case 'unclassified':
+      return LeaveType.unclassified;
+    default:
+      return null;
+  }
+}
+
+LeaveStatus? getLeaveStatus(String? status) {
+  switch (status) {
+    case 'approved':
+      return LeaveStatus.approved;
+    case 'pending':
+      return LeaveStatus.pending;
+    case 'rejected':
+      return LeaveStatus.rejected;
+    case 'unclassified':
+      return LeaveStatus.unclassified;
+    default:
+      return null;
+  }
+}
+
 class Leave extends Equatable {
   final String id;
   final String uid;
@@ -29,7 +63,7 @@ class Leave extends Equatable {
   final LeaveStatus? leaveStatus;
   final String siteOffice;
   final bool isCancelled;
-  final String remarks;
+  final String? remarks;
 
   const Leave({
     required this.id,
@@ -39,11 +73,11 @@ class Leave extends Equatable {
     required this.appliedDate,
     required this.fromDate,
     required this.toDate,
-    required this.leaveType,
-    required this.leaveStatus,
+    this.leaveType,
+    this.leaveStatus,
     required this.siteOffice,
     required this.isCancelled,
-    required this.remarks,
+    this.remarks,
   });
 
   factory Leave.fromDocument(QueryDocumentSnapshot doc) {
@@ -51,20 +85,20 @@ class Leave extends Equatable {
       final data = doc.data() as Map<String, dynamic>;
       return Leave(
         id: doc.id,
-        uid: data['user_uid'] ?? '',
-        employeeID: data['employee_id'] ?? '',
-        employeeName: data['employee_name'] ?? '',
-        appliedDate: data['applied_date'].toDate() ?? DateTime.now(),
-        fromDate: data['from_date'].toDate() ?? DateTime.now(),
-        toDate: data['to_date'].toDate() ?? DateTime.now(),
-        leaveType: data['leave_type'] != null
-            ? LeaveType.values[data['leave_type']]
+        uid: data['user-uid'] ?? '',
+        employeeID: data['employee-id'] ?? '',
+        employeeName: data['employee-name'] ?? '',
+        appliedDate: (data['applied-date'] as Timestamp).toDate(),
+        fromDate: (data['from-date'] as Timestamp).toDate(),
+        toDate: (data['to-date'] as Timestamp).toDate(),
+        leaveType: data['leave-type'] != null
+            ? getLeaveType(data['leave-type'])
             : LeaveType.unclassified,
-        leaveStatus: data['leave_status'] != null
-            ? LeaveStatus.values[data['leave_status']]
+        leaveStatus: data['leave-status'] != null
+            ? getLeaveStatus(data['leave-status'])
             : LeaveStatus.unclassified,
-        siteOffice: data['site_office'] ?? '',
-        isCancelled: data['is_cancelled'] ?? false,
+        siteOffice: data['site-office'] ?? '',
+        isCancelled: data['is-cancelled'] ?? false,
         remarks: data['remarks'] ?? '',
       );
     } catch (e) {
@@ -84,6 +118,5 @@ class Leave extends Equatable {
         leaveStatus,
         siteOffice,
         isCancelled,
-        remarks,
       ];
 }
