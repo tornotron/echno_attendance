@@ -80,7 +80,7 @@ class Leave extends Equatable {
     this.remarks,
   });
 
-  factory Leave.fromDocument(QueryDocumentSnapshot doc) {
+  factory Leave.fromFirestore(QueryDocumentSnapshot doc) {
     try {
       final data = doc.data() as Map<String, dynamic>;
       return Leave(
@@ -104,6 +104,44 @@ class Leave extends Equatable {
     } catch (e) {
       rethrow;
     }
+  }
+
+  factory Leave.fromJson(Map<String, dynamic> json) {
+    return Leave(
+      id: json['id'] ?? '',
+      uid: json['uid'] ?? '',
+      employeeID: json['employeeID'] ?? '',
+      employeeName: json['employeeName'] ?? '',
+      appliedDate: DateTime.parse(json['appliedDate']),
+      fromDate: DateTime.parse(json['fromDate']),
+      toDate: DateTime.parse(json['toDate']),
+      leaveType: json['leaveType'] != null
+          ? getLeaveType(json['leaveType'])
+          : LeaveType.unclassified,
+      leaveStatus: json['leaveStatus'] != null
+          ? getLeaveStatus(json['leaveStatus'])
+          : LeaveStatus.unclassified,
+      siteOffice: json['siteOffice'] ?? '',
+      isCancelled: json['isCancelled'] ?? false,
+      remarks: json['remarks'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'uid': uid,
+      'employeeID': employeeID,
+      'employeeName': employeeName,
+      'appliedDate': appliedDate.toIso8601String(),
+      'fromDate': fromDate.toIso8601String(),
+      'toDate': toDate.toIso8601String(),
+      'leaveType': leaveType?.toString(),
+      'leaveStatus': leaveStatus?.toString(),
+      'siteOffice': siteOffice,
+      'isCancelled': isCancelled,
+      'remarks': remarks,
+    };
   }
 
   @override

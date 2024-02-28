@@ -104,7 +104,7 @@ class FirestoreLeaveProvider implements LeaveProvider {
         .map(
       (QuerySnapshot<Object?> querySnapshot) {
         return querySnapshot.docs.map((doc) {
-          return Leave.fromDocument(
+          return Leave.fromFirestore(
               doc as QueryDocumentSnapshot<Map<String, dynamic>>);
         }).toList();
       },
@@ -138,7 +138,7 @@ class FirestoreLeaveProvider implements LeaveProvider {
         .map(
       (QuerySnapshot<Object?> querySnapshot) {
         return querySnapshot.docs.map((doc) {
-          return Leave.fromDocument(
+          return Leave.fromFirestore(
               doc as QueryDocumentSnapshot<Map<String, dynamic>>);
         }).toList();
       },
