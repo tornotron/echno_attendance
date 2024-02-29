@@ -22,7 +22,10 @@ class LeaveApplicationScreen extends StatefulWidget {
 class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _remarksController = TextEditingController();
+  final TextEditingController _startDateController = TextEditingController();
+  final TextEditingController _endDateController = TextEditingController();
   final leaveProvider = LeaveService.firestoreLeave(); // Leave related services
+  final GlobalKey<FormState> _leaveFormKey = GlobalKey<FormState>();
 
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
@@ -46,7 +49,9 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
       } else {
         setState(() {
           startDate = picked;
+          _startDateController.text = DateFormat('dd-MM-yyyy').format(picked);
           endDate = null; // Reset end date when start date changes
+          _endDateController.clear();
         });
       }
     }
@@ -66,6 +71,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
       } else {
         setState(() {
           endDate = picked;
+          _endDateController.text = DateFormat('dd-MM-yyyy').format(picked);
         });
       }
     }
@@ -128,162 +134,199 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          width: double.infinity,
-          padding: LeaveApplicationScreen.containerPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                leaveApplicationScreenTitle,
-                style: Theme.of(context).textTheme.displaySmall,
-                textAlign: TextAlign.left,
-              ),
-              Text(
-                leaveApplicationSubtitle,
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.left,
-              ),
-              const SizedBox(height: 10.0),
-              const Divider(height: 3.0),
-              const SizedBox(height: 10.0),
-
-              // The immediate supervisor of the employee
-              const LeaveFormField(
-                mainLabel: coordinatorFieldLabel,
-                isReadOnly: true,
-                hintText: 'Alex Mercer', // This should be fetched from DB
-              ),
-              const SizedBox(height: 10.0),
-
-              // Current Date
-              LeaveFormField(
-                mainLabel: currentDateFieldLabel,
-                isReadOnly: true,
-                hintText: DateFormat('dd-MM-yyyy').format(DateTime.now()),
-              ),
-              const SizedBox(height: 10.0),
-
-              // Selection field the start date of leave
-              CustomDateField(
-                label: 'Start Date',
-                hintText: startDate == null
-                    ? startDateFieldHint
-                    : DateFormat('dd-MM-yyyy').format(startDate!),
-                onTap: () {
-                  _selectStartDate(context);
-                },
-              ),
-              const SizedBox(height: 10.0),
-
-              // Selection field the end date of leave
-              CustomDateField(
-                label: 'End Date',
-                hintText: endDate == null
-                    ? endDateFieldHint
-                    : DateFormat('dd-MM-yyyy').format(endDate!),
-                onTap: () {
-                  _selectEndDate(context);
-                },
-              ),
-              const SizedBox(height: 10.0),
-
-              // Number of days on leave calculated from start and end date
-              Text(
-                "$calculateDaysFieldLabel ${calculateLeaveDays()}",
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 10.0),
-
-              // Dropdoen to select Leave Type
-              Text(
-                leaveTypeFieldLabel,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 5.0),
-              DropdownButtonFormField<String>(
-                value: _selectedLeaveType != null
-                    ? getLeaveTypeName(_selectedLeaveType!)
-                    : null,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedLeaveType = getLeaveTypeFromString(newValue);
-                  });
-                },
-                items: LeaveType.values.map((LeaveType type) {
-                  String typeName = getLeaveTypeName(type);
-                  return DropdownMenuItem<String>(
-                    value: typeName,
-                    child: Text(typeName),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  hintText: 'Select Leave Type',
-                  border: OutlineInputBorder(),
+        child: Form(
+          key: _leaveFormKey,
+          child: Container(
+            width: double.infinity,
+            padding: LeaveApplicationScreen.containerPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  leaveApplicationScreenTitle,
+                  style: Theme.of(context).textTheme.displaySmall,
+                  textAlign: TextAlign.left,
                 ),
-              ),
-              const SizedBox(height: 10.0),
-
-              // Text field to enter remarks
-              Text(
-                remarksFieldLabel,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 5.0),
-              TextFormField(
-                controller: _remarksController,
-                minLines: 5,
-                maxLines: null, // Allows for an adjustable number of lines
-                decoration: const InputDecoration(
-                  hintText: remarksFieldHint,
-                  border: OutlineInputBorder(),
+                Text(
+                  leaveApplicationSubtitle,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.left,
                 ),
-              ),
+                const SizedBox(height: 10.0),
+                const Divider(height: 3.0),
+                const SizedBox(height: 10.0),
 
-              const SizedBox(height: 15.0),
+                // The immediate supervisor of the employee
+                const LeaveFormField(
+                  mainLabel: coordinatorFieldLabel,
+                  isReadOnly: true,
+                  hintText: 'Alex Mercer', // This should be fetched from DB
+                ),
+                const SizedBox(height: 10.0),
 
-              // Button to submit leave application
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final currentUser =
-                        await AuthService.firebase().currentEmployee;
+                // Current Date
+                LeaveFormField(
+                  mainLabel: currentDateFieldLabel,
+                  isReadOnly: true,
+                  hintText: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                ),
+                const SizedBox(height: 10.0),
 
-                    await leaveProvider.applyForLeave(
-                      uid: currentUser!.uid!,
-                      employeeID: currentUser.employeeID!,
-                      employeeName: currentUser.employeeName!,
-                      appliedDate: DateTime.now(),
-                      fromDate: startDate ?? DateTime.now(),
-                      toDate: endDate ?? DateTime.now(),
-                      leaveType: _selectedLeaveType.toString().split('.').last,
-                      siteOffice: 'Site Office',
-                      remarks: _remarksController.text,
-                    );
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: successGreenColor,
-                          content: Text(leaveApplicationSuccessMessage),
-                        ),
-                      );
-                    }
-
-                    // Clear the fields on successful submission of leave
+                // Selection field the start date of leave
+                CustomDateField(
+                  controller: _startDateController,
+                  label: 'Start Date',
+                  hintText: startDate == null
+                      ? startDateFieldHint
+                      : DateFormat('dd-MM-yyyy').format(startDate!),
+                  onTap: () {
+                    _selectStartDate(context);
                     setState(() {
-                      _remarksController.clear();
-                      startDate = null;
-                      endDate = null;
-                      _selectedLeaveType = null;
+                      _startDateController.text =
+                          DateFormat('dd-MM-yyyy').format(startDate!);
                     });
                   },
-                  child: const Text(
-                    submitButtonLabel,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Start date is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10.0),
+
+                // Selection field the end date of leave
+                CustomDateField(
+                  controller: _endDateController,
+                  label: 'End Date',
+                  hintText: endDate == null
+                      ? endDateFieldHint
+                      : DateFormat('dd-MM-yyyy').format(endDate!),
+                  onTap: () {
+                    _selectEndDate(context);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'End date is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10.0),
+
+                // Number of days on leave calculated from start and end date
+                Text(
+                  "$calculateDaysFieldLabel ${calculateLeaveDays()}",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 10.0),
+
+                // Dropdoen to select Leave Type
+                Text(
+                  leaveTypeFieldLabel,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 5.0),
+                DropdownButtonFormField<String>(
+                  value: _selectedLeaveType != null
+                      ? getLeaveTypeName(_selectedLeaveType!)
+                      : null,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedLeaveType = getLeaveTypeFromString(newValue);
+                    });
+                  },
+                  items: LeaveType.values.map((LeaveType type) {
+                    String typeName = getLeaveTypeName(type);
+                    return DropdownMenuItem<String>(
+                      value: typeName,
+                      child: Text(typeName),
+                    );
+                  }).toList(),
+                  decoration: const InputDecoration(
+                    hintText: 'Select Leave Type',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select a leave type';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10.0),
+
+                // Text field to enter remarks
+                Text(
+                  remarksFieldLabel,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 5.0),
+                TextFormField(
+                  controller: _remarksController,
+                  minLines: 5,
+                  maxLines: null, // Allows for an adjustable number of lines
+                  decoration: const InputDecoration(
+                    hintText: remarksFieldHint,
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter remarks';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 15.0),
+
+                // Button to submit leave application
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_leaveFormKey.currentState!.validate()) {
+                        // Form is valid, submit the leave application
+                        final currentUser =
+                            await AuthService.firebase().currentEmployee;
+                        await leaveProvider.applyForLeave(
+                          uid: currentUser!.uid!,
+                          employeeID: currentUser.employeeID!,
+                          employeeName: currentUser.employeeName!,
+                          appliedDate: DateTime.now(),
+                          fromDate: startDate ?? DateTime.now(),
+                          toDate: endDate ?? DateTime.now(),
+                          leaveType:
+                              _selectedLeaveType.toString().split('.').last,
+                          siteOffice: 'Site Office',
+                          remarks: _remarksController.text,
+                        );
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: successGreenColor,
+                              content: Text(leaveApplicationSuccessMessage),
+                            ),
+                          );
+                        }
+                        // Clear the fields on successful submission of leave
+                        setState(() {
+                          _startDateController.clear();
+                          _endDateController.clear();
+                          _remarksController.clear();
+                          startDate = null;
+                          endDate = null;
+                          _selectedLeaveType = null;
+                        });
+                      }
+                    },
+                    child: const Text(
+                      submitButtonLabel,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

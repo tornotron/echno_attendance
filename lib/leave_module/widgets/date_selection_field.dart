@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 
 class CustomDateField extends StatelessWidget {
   final String label;
+  final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
   final String? initialValue;
   final void Function()? onTap;
+  final FormFieldValidator<String>? validator;
 
   const CustomDateField({
     super.key,
     required this.label,
+    this.controller,
     this.labelText,
     this.hintText,
     this.initialValue,
     this.onTap,
+    this.validator,
   });
 
   @override
@@ -27,6 +31,7 @@ class CustomDateField extends StatelessWidget {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
+          controller: controller,
           readOnly: true,
           initialValue: initialValue,
           decoration: InputDecoration(
@@ -38,6 +43,7 @@ class CustomDateField extends StatelessWidget {
             suffixIcon: const Icon(Icons.calendar_today),
           ),
           onTap: onTap,
+          validator: validator,
         ),
       ],
     );

@@ -10,6 +10,7 @@ class LeaveFormField extends StatelessWidget {
   final IconData? prefixIcon;
   final IconData? suffixIcon;
   final void Function()? onTap;
+  final FormFieldValidator<String>? validator;
 
   const LeaveFormField({
     required this.mainLabel,
@@ -21,6 +22,7 @@ class LeaveFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.onTap,
+    this.validator,
     super.key,
   });
 
@@ -47,6 +49,7 @@ class LeaveFormField extends StatelessWidget {
             suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
           ),
           onTap: onTap,
+          validator: validator,
         ),
         const SizedBox(height: 10.0),
       ],
