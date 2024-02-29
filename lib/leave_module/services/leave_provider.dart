@@ -1,7 +1,7 @@
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 
 abstract class LeaveProvider {
-  Future<Leave> applyForLeave({
+  Future<Leave?> applyForLeave({
     required String uid,
     required String employeeID,
     required String employeeName,

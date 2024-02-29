@@ -11,7 +11,7 @@ class LeaveService implements LeaveProvider {
   }
 
   @override
-  Future<Leave> applyForLeave({
+  Future<Leave?> applyForLeave({
     required String uid,
     required String employeeID,
     required String employeeName,
