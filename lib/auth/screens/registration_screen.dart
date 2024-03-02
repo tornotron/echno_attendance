@@ -23,6 +23,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> _registrationFormKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
@@ -118,165 +119,190 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Form(
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Employee ID TextField
-                            TextFormField(
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                prefixIcon:
-                                    const Icon(Icons.person_outline_outlined),
-                                labelText: 'Employee ID',
-                                hintText: 'EMP-000001',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    (15.0),
+                        child: Form(
+                          key: _registrationFormKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Employee ID TextField
+                              TextFormField(
+                                maxLines: 1,
+                                decoration: InputDecoration(
+                                  prefixIcon:
+                                      const Icon(Icons.person_outline_outlined),
+                                  labelText: 'Employee ID',
+                                  hintText: 'EMP-000001',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      (15.0),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 10.0),
-                            // // Full Name TextField
-                            // TextFormField(
-                            //   maxLines: 1,
-                            //   decoration: InputDecoration(
-                            //     prefixIcon:
-                            //         const Icon(Icons.person_outline_outlined),
-                            //     labelText: 'Full Name',
-                            //     hintText: 'Full Name',
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(
-                            //         (15.0),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(height: 10.0),
+                              const SizedBox(height: 10.0),
+                              // // Full Name TextField
+                              // TextFormField(
+                              //   maxLines: 1,
+                              //   decoration: InputDecoration(
+                              //     prefixIcon:
+                              //         const Icon(Icons.person_outline_outlined),
+                              //     labelText: 'Full Name',
+                              //     hintText: 'Full Name',
+                              //     border: OutlineInputBorder(
+                              //       borderRadius: BorderRadius.circular(
+                              //         (15.0),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 10.0),
 
-                            // Email TextField
-                            TextFormField(
-                              controller: _emailController,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              keyboardType: TextInputType.emailAddress,
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                // filled: true,
-                                // fillColor:
-                                // const Color.fromARGB(255, 214, 214, 214),
-                                prefixIcon:
-                                    const Icon(Icons.person_outline_outlined),
-                                labelText: 'Email ID',
-                                hintText: 'E-Mail',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                              // Email TextField
+                              TextFormField(
+                                controller: _emailController,
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                maxLines: 1,
+                                decoration: InputDecoration(
+                                  // filled: true,
+                                  // fillColor:
+                                  // const Color.fromARGB(255, 214, 214, 214),
+                                  prefixIcon:
+                                      const Icon(Icons.person_outline_outlined),
+                                  labelText: 'Email ID',
+                                  hintText: 'E-Mail',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(height: 10.0),
-
-                            // // Mobile Number TextField
-                            // TextFormField(
-                            //   controller: phoneController,
-                            //   onChanged: (value) {
-                            //     setState(() {
-                            //       phoneController.text = value;
-                            //     });
-                            //   },
-                            //   enableSuggestions: false,
-                            //   autocorrect: false,
-                            //   keyboardType: TextInputType.number,
-                            //   maxLines: 1,
-                            //   decoration: InputDecoration(
-                            //     labelText: 'Mobile Number',
-                            //     hintText: '1234 567 890',
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(15.0),
-                            //     ),
-                            //     prefixIcon: Container(
-                            //       padding: const EdgeInsets.all(13.5),
-                            //       child: InkWell(
-                            //         onTap: () {
-                            //           showCountryPicker(
-                            //             context: context,
-                            //             countryListTheme:
-                            //                 const CountryListThemeData(
-                            //               bottomSheetHeight: 550,
-                            //             ),
-                            //             onSelect: (value) {
-                            //               setState(() {
-                            //                 selectedCountry = value;
-                            //               });
-                            //             },
-                            //           );
-                            //         },
-                            //         child: Text(
-                            //           "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
-                            //           style:
-                            //               Theme.of(context).textTheme.titleMedium,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     suffixIcon: phoneController.text.length > 9
-                            //         ? Container(
-                            //             height: 30,
-                            //             width: 30,
-                            //             margin: const EdgeInsets.all(10.0),
-                            //             decoration: const BoxDecoration(
-                            //               shape: BoxShape.circle,
-                            //               color: Colors.green,
-                            //             ),
-                            //             child: const Icon(
-                            //               Icons.done,
-                            //               color: Colors.white,
-                            //               size: 20,
-                            //             ),
-                            //           )
-                            //         : null,
-                            //   ),
-                            // ),
-                            // const SizedBox(height: 10.0),
-
-                            // Password TextField
-                            PasswordTextField(
-                              controller: _passwordController,
-                              labelText: 'Password',
-                              hintText: 'Password',
-                            ),
-                            const SizedBox(height: 10.0),
-
-                            // // Re-Enter Password TextField
-                            // const PasswordTextField(
-                            //   labelText: 'Re-Enter Password',
-                            //   hintText: 'Re-Enter Password',
-                            // ),
-                            // const SizedBox(height: 30.0),
-
-                            // Register Button
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  final email = _emailController.text;
-                                  final password = _passwordController.text;
-
-                                  context.read<AuthBloc>().add(
-                                        AuthRegistrationEvent(
-                                          email: email,
-                                          password: password,
-                                        ),
-                                      );
-                                  verificationMailAltert(context);
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Email cannot be empty";
+                                  }
+                                  return RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)
+                                      ? null
+                                      : "Please enter a valid email";
                                 },
-                                child: const Text(
-                                  'REGISTER',
+                              ),
+                              const SizedBox(height: 10.0),
+
+                              // // Mobile Number TextField
+                              // TextFormField(
+                              //   controller: phoneController,
+                              //   onChanged: (value) {
+                              //     setState(() {
+                              //       phoneController.text = value;
+                              //     });
+                              //   },
+                              //   enableSuggestions: false,
+                              //   autocorrect: false,
+                              //   keyboardType: TextInputType.number,
+                              //   maxLines: 1,
+                              //   decoration: InputDecoration(
+                              //     labelText: 'Mobile Number',
+                              //     hintText: '1234 567 890',
+                              //     border: OutlineInputBorder(
+                              //       borderRadius: BorderRadius.circular(15.0),
+                              //     ),
+                              //     prefixIcon: Container(
+                              //       padding: const EdgeInsets.all(13.5),
+                              //       child: InkWell(
+                              //         onTap: () {
+                              //           showCountryPicker(
+                              //             context: context,
+                              //             countryListTheme:
+                              //                 const CountryListThemeData(
+                              //               bottomSheetHeight: 550,
+                              //             ),
+                              //             onSelect: (value) {
+                              //               setState(() {
+                              //                 selectedCountry = value;
+                              //               });
+                              //             },
+                              //           );
+                              //         },
+                              //         child: Text(
+                              //           "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
+                              //           style:
+                              //               Theme.of(context).textTheme.titleMedium,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     suffixIcon: phoneController.text.length > 9
+                              //         ? Container(
+                              //             height: 30,
+                              //             width: 30,
+                              //             margin: const EdgeInsets.all(10.0),
+                              //             decoration: const BoxDecoration(
+                              //               shape: BoxShape.circle,
+                              //               color: Colors.green,
+                              //             ),
+                              //             child: const Icon(
+                              //               Icons.done,
+                              //               color: Colors.white,
+                              //               size: 20,
+                              //             ),
+                              //           )
+                              //         : null,
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 10.0),
+
+                              // Password TextField
+                              PasswordTextField(
+                                controller: _passwordController,
+                                labelText: 'Password',
+                                hintText: 'Password',
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Password cannot be empty";
+                                  } else if (value.length < 6) {
+                                    return "Password must be at least 6 characters";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 10.0),
+
+                              // // Re-Enter Password TextField
+                              // const PasswordTextField(
+                              //   labelText: 'Re-Enter Password',
+                              //   hintText: 'Re-Enter Password',
+                              // ),
+                              // const SizedBox(height: 30.0),
+
+                              // Register Button
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (_registrationFormKey.currentState!
+                                        .validate()) {
+                                      final email = _emailController.text;
+                                      final password = _passwordController.text;
+
+                                      context.read<AuthBloc>().add(
+                                            AuthRegistrationEvent(
+                                              email: email,
+                                              password: password,
+                                            ),
+                                          );
+                                      verificationMailAltert(context);
+                                    }
+                                  },
+                                  child: const Text(
+                                    'REGISTER',
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            /*---------- Register Screen Form End ----------*/
-                          ],
+                              /*---------- Register Screen Form End ----------*/
+                            ],
+                          ),
                         ),
                       ),
                     ),
