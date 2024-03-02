@@ -22,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
@@ -94,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 50.0),
                         Form(
+                          key: _loginFormKey,
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 20.0),
                             child: Column(
@@ -117,12 +119,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                   ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Email cannot be empty";
+                                    }
+                                    return RegExp(
+                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                            .hasMatch(value)
+                                        ? null
+                                        : "Please enter a valid email";
+                                  },
                                 ),
                                 const SizedBox(height: 15.0),
                                 PasswordTextField(
                                   controller: _passwordController,
                                   labelText: 'Password',
                                   hintText: 'Password',
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Password cannot be empty";
+                                    } else if (value.length < 6) {
+                                      return "Password must be at least 6 characters";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 ),
 
                                 /*---------- Login Form End ----------*/
@@ -289,14 +310,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      final email = _emailController.text;
-                                      final password = _passwordController.text;
-                                      context.read<AuthBloc>().add(
-                                            AuthLogInEvent(
-                                              email: email,
-                                              password: password,
-                                            ),
-                                          );
+                                      if (_loginFormKey.currentState!
+                                          .validate()) {
+                                        final email = _emailController.text;
+                                        final password =
+                                            _passwordController.text;
+                                        context.read<AuthBloc>().add(
+                                              AuthLogInEvent(
+                                                email: email,
+                                                password: password,
+                                              ),
+                                            );
+                                      }
                                     },
                                     child: const Text(
                                       'LOGIN',

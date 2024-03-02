@@ -4,13 +4,15 @@ class PasswordTextField extends StatefulWidget {
   final String labelText;
   final String hintText;
   final TextEditingController? controller;
+  final FormFieldValidator<String>? validator;
 
   const PasswordTextField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.hintText,
     this.controller,
-  }) : super(key: key);
+    this.validator,
+  });
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -40,6 +42,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           ),
         ),
       ),
+      validator: widget.validator,
     );
   }
 }
