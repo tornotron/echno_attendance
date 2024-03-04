@@ -1,5 +1,5 @@
 import 'package:echno_attendance/auth/domain/firebase/auth_handler.dart';
-import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
+import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/auth/domain/firebase/firebase_auth_handler.dart';
 // import 'package:echno_attendance/employee/models/employee.dart';
 

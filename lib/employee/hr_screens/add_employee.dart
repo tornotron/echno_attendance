@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
-import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
+import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/employee/models/hr_employee.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';

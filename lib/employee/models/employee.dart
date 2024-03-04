@@ -1,7 +1,7 @@
 import 'package:echno_attendance/employee/domain/firestore/database_handler.dart';
 import 'package:echno_attendance/employee/domain/firestore/firestore_database_handler.dart';
 import 'package:echno_attendance/employee/services/crud/read_employee.dart';
-import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
+import 'package:echno_attendance/auth/models/auth_user.dart';
 
 class Employee implements IReadEmployee {
   Employee({
