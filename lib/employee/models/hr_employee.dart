@@ -1,4 +1,4 @@
-import 'package:echno_attendance/auth/models/employee.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/crud/create_employee.dart';
 import 'package:echno_attendance/employee/services/crud/delete_employee.dart';
 import 'package:echno_attendance/employee/services/crud/update_employee.dart';
