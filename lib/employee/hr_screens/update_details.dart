@@ -1,5 +1,5 @@
+import 'package:echno_attendance/auth/models/hr_employee.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/employee/hr_service.dart';
 import 'package:flutter/material.dart';
 
 class UpdateEmployeeDetails extends StatefulWidget {
@@ -22,7 +22,8 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   Map<String, dynamic>? _employeeData;
 
   void _searchEmployee(String employeeId) async {
-    final employeeData = await HrService().readUser(employeeId: employeeId);
+    final employeeData =
+        await HrEmployee(user: null).readEmployee(employeeId: employeeId);
     setState(() {
       _employeeData = employeeData;
 

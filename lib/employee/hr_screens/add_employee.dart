@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:echno_attendance/auth/models/hr_employee.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/employee/hr_service.dart';
 import 'package:flutter/material.dart';
 
 class AddNewEmployee extends StatefulWidget {
@@ -264,7 +264,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                 String phoneNumber =
                                     "+${selectedCountry.phoneCode}${_phoneController.text.trim()}";
 
-                                await HrService().createUser(
+                                await HrEmployee(user: null).createEmployee(
                                     employeeId: _idController.text.trim(),
                                     name: _nameController.text.trim(),
                                     email: _emailController.text.trim(),
