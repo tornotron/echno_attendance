@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 class UserFirestoreRepository implements UserHandlingInterface {
   final logs = logger(UserFirestoreRepository, Level.info);
   @override
-  Future createUser(
+  Future createEmployee(
       {required String employeeId,
       required String name,
       required String email,
@@ -42,7 +42,7 @@ class UserFirestoreRepository implements UserHandlingInterface {
   }
 
   @override
-  Future updateUser(
+  Future updateEmployee(
       {required String? employeeId,
       String? name,
       String? email,
@@ -84,7 +84,7 @@ class UserFirestoreRepository implements UserHandlingInterface {
   }
 
   @override
-  Future deleteUser({required String employeeId}) async {
+  Future deleteEmployee({required String employeeId}) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')
@@ -98,7 +98,7 @@ class UserFirestoreRepository implements UserHandlingInterface {
   }
 
   @override
-  Future<Map<String, dynamic>> readUser({
+  Future<Map<String, dynamic>> readEmployee({
     required String? employeeId,
   }) async {
     String? name, email, phoneNumber, userRole, id;

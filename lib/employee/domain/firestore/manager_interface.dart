@@ -1,18 +1,11 @@
-abstract class UserHandlingInterface {
-  Future createUser(
-      {required String employeeId,
-      required String name,
-      required String email,
-      required String phoneNumber,
-      required String userRole,
-      required bool isActiveUser});
-  Future updateUser(
-      {required String? employeeId,
-      String? name,
-      String? email,
-      String? phoneNumber,
-      String? userRole,
-      bool? isActiveUser});
-  Future deleteUser({required String employeeId});
-  Future<Map<String, dynamic>> readUser({required String employeeId});
-}
+import 'package:echno_attendance/employee/services/crud/create_employee.dart';
+import 'package:echno_attendance/employee/services/crud/delete_employee.dart';
+import 'package:echno_attendance/employee/services/crud/read_employee.dart';
+import 'package:echno_attendance/employee/services/crud/update_employee.dart';
+
+abstract class UserHandlingInterface
+    implements
+        ICreateEmployee,
+        IReadEmployee,
+        IUpdateEmployee,
+        IDeleteEmployee {}
