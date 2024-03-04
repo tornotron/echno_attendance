@@ -17,8 +17,8 @@ class Employee implements IReadEmployee {
   late final bool? employeeStatus;
   late final String? employeeRole;
 
-  final UserHandlingInterface firestoreUserImplementation =
-      UserFirestoreRepository();
+  final DatabaseHandler firestoreUserImplementation =
+      FirestoreDatabaseHandler();
 
   Future<void> fetchAndUpdateEmployeeDetails() async {
     Map<String, dynamic> employeeDetails =

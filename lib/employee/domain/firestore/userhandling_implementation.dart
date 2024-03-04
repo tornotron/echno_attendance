@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
 
-class UserFirestoreRepository implements UserHandlingInterface {
-  final logs = logger(UserFirestoreRepository, Level.info);
+class FirestoreDatabaseHandler implements DatabaseHandler {
+  final logs = logger(FirestoreDatabaseHandler, Level.info);
   @override
   Future createEmployee(
       {required String employeeId,

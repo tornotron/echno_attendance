@@ -3,7 +3,7 @@ import 'package:echno_attendance/employee/services/crud/delete_employee.dart';
 import 'package:echno_attendance/employee/services/crud/read_employee.dart';
 import 'package:echno_attendance/employee/services/crud/update_employee.dart';
 
-abstract class UserHandlingInterface
+abstract class DatabaseHandler
     implements
         ICreateEmployee,
         IReadEmployee,
