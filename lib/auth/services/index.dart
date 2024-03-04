@@ -1,4 +1,4 @@
-export 'auth_services/auth_provider.dart';
+export '../domain/firebase/auth_handler.dart';
 export 'auth_services/auth_service.dart';
 export 'auth_services/auth_user.dart';
-export 'auth_services/firebase_auth_provider.dart';
+export '../domain/firebase/firebase_auth_handler.dart';

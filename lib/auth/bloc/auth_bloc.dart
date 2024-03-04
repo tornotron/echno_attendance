@@ -1,4 +1,4 @@
-import 'package:echno_attendance/auth/services/auth_services/auth_provider.dart';
+import 'package:echno_attendance/auth/domain/firebase/auth_handler.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:bloc/bloc.dart';
