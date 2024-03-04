@@ -1,33 +1,24 @@
-import 'package:echno_attendance/attendance/services/attendance_controller.dart';
+import 'package:echno_attendance/attendance/services/attendance_interface.dart';
 import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
-class AttendanceCardMonthly extends StatefulWidget {
-  final String employeeId;
-  final String attendanceMonth;
-  final String attYear;
-  const AttendanceCardMonthly(
-      {Key? key,
-      required this.employeeId,
-      required this.attendanceMonth,
-      required this.attYear})
-      : super(key: key);
+class AttendanceCardDaily extends StatefulWidget {
+  final String siteName;
+  final String date;
+  const AttendanceCardDaily(
+      {super.key, required this.siteName, required this.date});
   @override
-  State<AttendanceCardMonthly> createState() => _AttendanceCardMonthlyState();
+  State<AttendanceCardDaily> createState() => _AttendanceCardDailyState();
 }
 
-class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
+class _AttendanceCardDailyState extends State<AttendanceCardDaily> {
+  AttendanceRepositoryInterface attendanceProvider =
+      AttendanceFirestoreRepository();
   Future<Map<String, dynamic>> getAttData(
-      {required String employeeId,
-      required String attendanceMonth,
-      required String attYear}) async {
-    final attendanceData =
-        await AttendanceController(AttendanceFirestoreService())
-            .fetchFromDatabase(
-                employeeId: employeeId,
-                attendanceMonth: attendanceMonth,
-                attYear: attYear);
+      {required String siteName, required String date}) async {
+    final attendanceData = await attendanceProvider.fetchFromDatabaseDaily(
+        siteName: siteName, date: date);
 
     if (attendanceData.isEmpty) {
       return {};
@@ -42,10 +33,7 @@ class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder(
-        future: getAttData(
-            employeeId: widget.employeeId,
-            attendanceMonth: widget.attendanceMonth,
-            attYear: widget.attYear),
+        future: getAttData(siteName: widget.siteName, date: widget.date),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -66,11 +54,12 @@ class _AttendanceCardMonthlyState extends State<AttendanceCardMonthly> {
               itemBuilder: (context, index) {
                 final Map<String, String> attendanceData =
                     attendanceMapList[index];
+
                 String varemployeeName =
                     attendanceData['employee_name'].toString();
                 String varattendanceDate =
                     attendanceData['attendance_date'].toString();
-                String varattendanceDay = varattendanceDate.substring(8, 10);
+                String varattendanceDay = varattendanceDate.substring(0, 2);
 
                 String varattendanceMonth =
                     attendanceData['attendance_month'].toString();

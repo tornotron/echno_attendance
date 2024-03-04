@@ -1,4 +1,4 @@
-abstract class UserHandleProvider {
+abstract class UserHandlingInterface {
   Future createUser(
       {required String employeeId,
       required String name,

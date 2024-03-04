@@ -3,8 +3,8 @@ import 'package:logger/logger.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:intl/intl.dart';
 
-class AttendanceService {
-  final logs = logger(AttendanceService, Level.info);
+class AttendanceInsertionService {
+  final logs = logger(AttendanceInsertionService, Level.info);
   final Map<String, String> monthMap = {
     '01': 'January',
     '02': 'February',
@@ -32,7 +32,7 @@ class AttendanceService {
     String Month = monthMap[monthNumber]!;
 
     String attendanceStatus = 'true';
-    await AttendanceFirestoreService().insertIntoDatabase(
+    await AttendanceFirestoreRepository().insertIntoDatabase(
         employeeId: employeeId,
         employeeName: employeeName,
         attendanceDate: formattedDate,

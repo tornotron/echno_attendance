@@ -1,5 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:echno_attendance/attendance/services/attendance_insertService.dart';
+import 'package:echno_attendance/attendance/services/attendance_insertservice.dart';
 import 'package:echno_attendance/camera/camera_provider.dart';
 import 'package:echno_attendance/camera/camera_screen.dart';
 import 'package:echno_attendance/user/widgets/texts.dart';
@@ -143,8 +143,8 @@ class _HomePageState extends State<HomePage> {
                     color: Color(0xFF004AAD),
                   ),
                   onSubmit: () async {
-                    await AttendanceService().attendanceTrigger(
-                        employeeId: "EMP_400",
+                    await AttendanceInsertionService().attendanceTrigger(
+                        employeeId: "EMP-400",
                         employeeName: "Just Kyle",
                         siteName: "pathanamthitta");
                     final frontCamera = await cameraObjectProvider();

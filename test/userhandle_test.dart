@@ -3,10 +3,10 @@ import 'package:echno_attendance/user/domain/firestore/userhandling_implementati
 
 void main() {
   group('FirestoreUserServices', () {
-    late FirestoreUserServices firestoreUserServices;
+    late UserFirestoreRepository firestoreUserServices;
 
     setUp(() {
-      firestoreUserServices = FirestoreUserServices();
+      firestoreUserServices = UserFirestoreRepository();
     });
 
     test('Create user should add a new user to Firestore', () async {

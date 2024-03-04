@@ -1,9 +1,9 @@
-import 'package:echno_attendance/attendance/services/attendance_abstarct.dart';
+import 'package:echno_attendance/attendance/services/attendance_interface.dart';
 
-class AttendanceController {
-  final AttendanceHandleProvider repository;
+class AttendanceDatabaseController {
+  final AttendanceRepositoryInterface repository;
 
-  AttendanceController(this.repository);
+  AttendanceDatabaseController(this.repository);
 
   Future<void> insertIntoDatabase(
       {required String employeeId,

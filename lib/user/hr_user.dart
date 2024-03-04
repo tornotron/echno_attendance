@@ -1,9 +1,9 @@
-import 'package:echno_attendance/user/domain/firestore/manager_abstract.dart';
+import 'package:echno_attendance/user/domain/firestore/manager_interface.dart';
 import 'package:echno_attendance/user/domain/firestore/userhandling_implementation.dart';
 
-class HrClass implements UserHandleProvider {
-  final UserHandleProvider firestoreUserImplementation =
-      FirestoreUserServices();
+class HrClass implements UserHandlingInterface {
+  final UserHandlingInterface firestoreUserImplementation =
+      UserFirestoreRepository();
 
   @override
   Future createUser(

@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:echno_attendance/attendance/services/attendance_abstarct.dart';
+import 'package:echno_attendance/attendance/services/attendance_interface.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
 
-class AttendanceFirestoreService implements AttendanceHandleProvider {
-  final logs = logger(AttendanceFirestoreService, Level.info);
+class AttendanceFirestoreRepository implements AttendanceRepositoryInterface {
+  final logs = logger(AttendanceFirestoreRepository, Level.info);
 
   @override
   Future<void> insertIntoDatabase({

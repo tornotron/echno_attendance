@@ -1,4 +1,4 @@
-abstract class AttendanceHandleProvider {
+abstract class AttendanceRepositoryInterface {
   Future<void> insertIntoDatabase(
       {required String employeeId,
       required String employeeName,

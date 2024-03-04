@@ -1,10 +1,10 @@
-import 'package:echno_attendance/user/domain/firestore/manager_abstract.dart';
+import 'package:echno_attendance/user/domain/firestore/manager_interface.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
 
-class FirestoreUserServices implements UserHandleProvider {
-  final logs = logger(FirestoreUserServices, Level.info);
+class UserFirestoreRepository implements UserHandlingInterface {
+  final logs = logger(UserFirestoreRepository, Level.info);
   @override
   Future createUser(
       {required String employeeId,

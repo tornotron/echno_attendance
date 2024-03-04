@@ -1,13 +1,12 @@
-import 'package:echno_attendance/attendance/services/attendance_abstarct.dart';
+import 'package:echno_attendance/attendance/services/attendance_interface.dart';
 import 'package:echno_attendance/attendance/services/attendance_databasepath.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
 
-class AttendanceLocalServices implements AttendanceHandleProvider {
-  final logs = logger(AttendanceLocalServices, Level.info);
+class AttendanceLocalRepository implements AttendanceRepositoryInterface {
+  final logs = logger(AttendanceLocalRepository, Level.info);
 
-  
   Future<void> openCreateDatabase() async {
     final path = await getAttendanceDatabasePath();
     try {
