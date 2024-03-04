@@ -1,4 +1,4 @@
-import 'package:echno_attendance/auth/services/employee.dart';
+import 'package:echno_attendance/auth/models/employee.dart';
 import 'package:echno_attendance/utilities/firebase_options.dart';
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 import 'package:echno_attendance/auth/services/auth_services/auth_provider.dart';

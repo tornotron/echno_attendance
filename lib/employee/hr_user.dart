@@ -1,4 +1,4 @@
-import 'package:echno_attendance/auth/services/employee.dart';
+import 'package:echno_attendance/auth/models/employee.dart';
 import 'package:echno_attendance/employee/domain/firestore/manager_interface.dart';
 import 'package:echno_attendance/employee/domain/firestore/userhandling_implementation.dart';
 
