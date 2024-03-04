@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/employee/hr_user.dart';
+import 'package:echno_attendance/employee/hr_service.dart';
 import 'package:flutter/material.dart';
 
 class AddNewEmployee extends StatefulWidget {
