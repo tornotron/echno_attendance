@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:echno_attendance/user/widgets/texts.dart';
+import 'package:echno_attendance/employee/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,5 +1,5 @@
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/user/hr_user.dart';
+import 'package:echno_attendance/employee/hr_user.dart';
 import 'package:flutter/material.dart';
 
 class UpdateEmployeeDetails extends StatefulWidget {

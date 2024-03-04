@@ -1,4 +1,4 @@
-import 'package:echno_attendance/user/domain/firestore/manager_interface.dart';
+import 'package:echno_attendance/employee/domain/firestore/manager_interface.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';

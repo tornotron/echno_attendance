@@ -2,10 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:echno_attendance/attendance/services/attendance_insertservice.dart';
 import 'package:echno_attendance/camera/camera_provider.dart';
 import 'package:echno_attendance/camera/camera_screen.dart';
-import 'package:echno_attendance/user/widgets/texts.dart';
+import 'package:echno_attendance/employee/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:echno_attendance/user/widgets/rounded_card.dart';
+import 'package:echno_attendance/employee/widgets/rounded_card.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class HomePage extends StatefulWidget {

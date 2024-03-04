@@ -1,9 +1,9 @@
 import 'package:echno_attendance/constants/colors_string.dart';
-import 'package:echno_attendance/user/hr_screens/add_employee.dart';
-import 'package:echno_attendance/user/hr_screens/employee_register.dart';
-import 'package:echno_attendance/user/hr_screens/update_details.dart';
+import 'package:echno_attendance/employee/hr_screens/add_employee.dart';
+import 'package:echno_attendance/employee/hr_screens/employee_register.dart';
+import 'package:echno_attendance/employee/hr_screens/update_details.dart';
 import 'package:flutter/material.dart';
-import 'package:echno_attendance/user/hr_screens/attendance_report/employee_attendancereport.dart';
+import 'package:echno_attendance/employee/hr_screens/attendance_report/employee_attendancereport.dart';
 
 class HRDashboardScreen extends StatefulWidget {
   const HRDashboardScreen({Key? key}) : super(key: key);
