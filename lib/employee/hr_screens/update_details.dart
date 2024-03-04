@@ -22,7 +22,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   Map<String, dynamic>? _employeeData;
 
   void _searchEmployee(String employeeId) async {
-    final employeeData = await HrClass().readUser(employeeId: employeeId);
+    final employeeData = await HrService().readUser(employeeId: employeeId);
     setState(() {
       _employeeData = employeeData;
 
@@ -232,7 +232,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
-                            await HrClass().updateUser(
+                            await HrService().updateUser(
                               employeeId: _employeeIdController.text,
                               name: _employeeData?['name'],
                               email: _employeeData?['email'],

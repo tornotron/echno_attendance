@@ -264,7 +264,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                 String phoneNumber =
                                     "+${selectedCountry.phoneCode}${_phoneController.text.trim()}";
 
-                                await HrClass().createUser(
+                                await HrService().createUser(
                                     employeeId: _idController.text.trim(),
                                     name: _nameController.text.trim(),
                                     email: _emailController.text.trim(),
