@@ -3,12 +3,12 @@ import 'package:echno_attendance/auth/services/auth_services/auth_user.dart';
 import 'package:echno_attendance/auth/services/auth_services/firebase_auth_provider.dart';
 // import 'package:echno_attendance/employee/models/employee.dart';
 
-class AuthService implements EchnoAuthProvider {
-  final EchnoAuthProvider _provider;
+class AuthService implements AuthHandler {
+  final AuthHandler _provider;
   const AuthService(this._provider);
 
   factory AuthService.firebase() {
-    return AuthService(FirebaseAuthProvider());
+    return AuthService(FirebaseAuthHandler());
   }
 
   @override

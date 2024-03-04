@@ -24,7 +24,7 @@ class EchnoTestApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(FirebaseAuthProvider()),
+        create: (context) => AuthBloc(FirebaseAuthHandler()),
         child: const NewEchnoHomePage(),
       ),
       theme: EchnoCustomTheme.lightTheme,

@@ -111,7 +111,7 @@ void main() {
 
 class NotInitializedException implements Exception {}
 
-class MockAuthProvider implements EchnoAuthProvider {
+class MockAuthProvider implements AuthHandler {
   AuthUser? _user;
   var _isInitialized = false;
   bool get isInitialized => _isInitialized;

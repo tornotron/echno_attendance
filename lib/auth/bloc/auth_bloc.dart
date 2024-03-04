@@ -4,7 +4,7 @@ import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:bloc/bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(EchnoAuthProvider provider)
+  AuthBloc(AuthHandler provider)
       : super(const AuthNotInitializedState(isLoading: true)) {
     // Initial State of App
     on<AuthInitializeEvent>((event, emit) async {
