@@ -1,5 +1,5 @@
-import 'package:echno_attendance/auth/services/auth_db_services/auth_database_provider.dart';
-import 'package:echno_attendance/auth/services/auth_db_services/firestore_auth_provider.dart';
+import 'package:echno_attendance/auth/services/database_services/database_handler.dart';
+import 'package:echno_attendance/auth/services/database_services/firestore_database_handler.dart';
 
 class DatabaseService implements DatabaseHandler {
   final DatabaseHandler _provider;

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:echno_attendance/auth/services/auth_db_services/auth_database_provider.dart';
+import 'package:echno_attendance/auth/services/database_services/database_handler.dart';
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 
 class FirestoreDatabaseHandler implements DatabaseHandler {
