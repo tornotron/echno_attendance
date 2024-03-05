@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/foundation.dart';
 import 'dart:developer' as devtools show log;
@@ -10,8 +11,10 @@ class AuthUser {
   final String uid;
   final String email;
   final bool isemailVerified;
+  final bool isHr;
 
-  const AuthUser({
+  const AuthUser(
+    this.isHr, {
     required this.uid,
     required this.email,
     required this.isemailVerified,
@@ -45,6 +48,7 @@ class AuthUser {
 
   factory AuthUser.fromFirebaseUser(User user) {
     return AuthUser(
+      false,
       uid: user.uid,
       email: user.email!,
       isemailVerified: user.emailVerified,
