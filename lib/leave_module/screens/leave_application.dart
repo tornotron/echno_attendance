@@ -1,6 +1,6 @@
-import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
@@ -287,12 +287,13 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     onPressed: () async {
                       if (_leaveFormKey.currentState!.validate()) {
                         // Form is valid, submit the leave application
-                        final currentUser =
-                            await AuthService.firebase().currentEmployee;
+                        final currentEmployee =
+                            await EmployeeService.firestore()
+                                .currentEmployee; // Get the current employee
                         await leaveProvider.applyForLeave(
-                          uid: currentUser!.uid!,
-                          employeeID: currentUser.employeeID!,
-                          employeeName: currentUser.employeeName!,
+                          uid: currentEmployee!.uid!,
+                          employeeID: currentEmployee.employeeID!,
+                          employeeName: currentEmployee.employeeName!,
                           appliedDate: DateTime.now(),
                           fromDate: startDate ?? DateTime.now(),
                           toDate: endDate ?? DateTime.now(),

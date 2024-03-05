@@ -1,7 +1,7 @@
 import 'package:echno_attendance/employee/models/employee.dart';
-import 'package:echno_attendance/employee/services/crud/create_employee.dart';
-import 'package:echno_attendance/employee/services/crud/delete_employee.dart';
-import 'package:echno_attendance/employee/services/crud/update_employee.dart';
+import 'package:echno_attendance/employee/services/crud_employee/create_employee.dart';
+import 'package:echno_attendance/employee/services/crud_employee/delete_employee.dart';
+import 'package:echno_attendance/employee/services/crud_employee/update_employee.dart';
 
 class HrEmployee extends Employee
     implements ICreateEmployee, IUpdateEmployee, IDeleteEmployee {
@@ -15,7 +15,7 @@ class HrEmployee extends Employee
       required String phoneNumber,
       required String userRole,
       required bool isActiveUser}) {
-    return firestoreUserImplementation.createEmployee(
+    return databaseService.createEmployee(
         employeeId: employeeId,
         name: name,
         email: email,
@@ -32,7 +32,7 @@ class HrEmployee extends Employee
       String? phoneNumber,
       String? userRole,
       bool? isActiveUser}) {
-    return firestoreUserImplementation.updateEmployee(
+    return databaseService.updateEmployee(
         employeeId: employeeId,
         name: name,
         email: email,
@@ -43,6 +43,6 @@ class HrEmployee extends Employee
 
   @override
   Future deleteEmployee({required String employeeId}) {
-    return firestoreUserImplementation.deleteEmployee(employeeId: employeeId);
+    return databaseService.deleteEmployee(employeeId: employeeId);
   }
 }
