@@ -2,8 +2,8 @@ import 'package:echno_attendance/auth/domain/firestore/database_handler.dart';
 import 'package:echno_attendance/auth/domain/firestore/firestore_database_handler.dart';
 
 class DatabaseService implements DatabaseHandler {
-  final DatabaseHandler _provider;
-  const DatabaseService(this._provider);
+  final DatabaseHandler _handler;
+  const DatabaseService(this._handler);
 
   factory DatabaseService.firestore() {
     return DatabaseService(FirestoreDatabaseHandler());
@@ -11,17 +11,17 @@ class DatabaseService implements DatabaseHandler {
 
   @override
   Future<Map<String, dynamic>> searchForEmployeeInDatabase(
-      {required String employeeID}) {
-    return _provider.searchForEmployeeInDatabase(employeeID: employeeID);
+      {required String employeeId}) {
+    return _handler.searchForEmployeeInDatabase(employeeId: employeeId);
   }
 
   @override
   Future<void> updateUserUIDToDatabase({
-    required String employeeID,
+    required String employeeId,
     required String? uid,
   }) {
-    return _provider.updateUserUIDToDatabase(
-      employeeID: employeeID,
+    return _handler.updateUserUIDToDatabase(
+      employeeId: employeeId,
       uid: uid,
     );
   }

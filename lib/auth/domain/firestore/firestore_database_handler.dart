@@ -5,7 +5,7 @@ import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 class FirestoreDatabaseHandler implements DatabaseHandler {
   @override
   Future<Map<String, dynamic>> searchForEmployeeInDatabase(
-      {required String employeeID}) async {
+      {required String employeeId}) async {
     String? name, email, phoneNumber, userRole;
     bool? isActiveUser;
     try {
@@ -13,7 +13,7 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
           FirebaseFirestore.instance.collection('users');
 
       DocumentSnapshot employeeDocument =
-          await employeesCollection.doc(employeeID).get();
+          await employeesCollection.doc(employeeId).get();
 
       if (employeeDocument.exists) {
         Map<String, dynamic> employeeData =
@@ -45,7 +45,7 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
 
   @override
   Future<void> updateUserUIDToDatabase({
-    required String employeeID,
+    required String employeeId,
     required String? uid,
   }) async {
     try {
@@ -53,10 +53,10 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
           FirebaseFirestore.instance.collection('users');
 
       DocumentSnapshot employeeDocument =
-          await employeesCollection.doc(employeeID).get();
+          await employeesCollection.doc(employeeId).get();
 
       if (employeeDocument.exists) {
-        await employeesCollection.doc(employeeID).update({
+        await employeesCollection.doc(employeeId).update({
           'uid': uid,
         });
       }
