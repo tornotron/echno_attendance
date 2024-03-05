@@ -3,7 +3,6 @@ import 'package:echno_attendance/auth/models/auth_user.dart';
 
 abstract class AuthHandler {
   AuthUser? get currentUser;
-  // Future<Employee?> get currentEmployee;
 
   Future<void> initialize();
 

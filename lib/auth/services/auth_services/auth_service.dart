@@ -22,11 +22,6 @@ class AuthService implements AuthHandler {
     return _handler.currentUser;
   }
 
-  // @override
-  // Future<Employee?> get currentEmployee {
-  //   return _provider.currentEmployee;
-  // }
-
   @override
   Future<AuthUser> logIn({required String email, required String password}) {
     return _handler.logIn(email: email, password: password);

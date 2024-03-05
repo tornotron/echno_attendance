@@ -73,19 +73,6 @@ class FirebaseAuthHandler implements AuthHandler {
     }
   }
 
-  // @override
-  // Future<Employee?> get currentEmployee async {
-  //   final user = FirebaseAuth.instance.currentUser;
-  //   if (user != null) {
-  //     Employee employee =
-  //         Employee.fromFirebaseUser(AuthUser.fromFirebaseUser(user));
-  //     await employee.fetchAndUpdateEmployeeDetails();
-  //     return employee;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
   @override
   Future<void> logOut() async {
     final user = currentUser;
