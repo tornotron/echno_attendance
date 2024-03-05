@@ -1,10 +1,15 @@
+import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/employee/domain/firestore/database_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/logger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
 class FirestoreDatabaseHandler implements DatabaseHandler {
   final logs = logger(FirestoreDatabaseHandler, Level.info);
+
+  get devtools => null;
   @override
   Future createEmployee(
       {required String employeeId,
@@ -135,5 +140,40 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
       'userRole': userRole,
       'isActiveUser': isActiveUser,
     };
+  }
+
+  @override
+  Future<Map<String, dynamic>> searchEmployeeByUid(
+      {required String? uid}) async {
+    try {
+      // Search user with reference to the uid in firestore
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: uid)
+          .get();
+
+      // Check if any documents match the query
+      if (querySnapshot.docs.isNotEmpty) {
+        // Get the first document
+        Map<String, dynamic> user =
+            querySnapshot.docs.first.data() as Map<String, dynamic>;
+        devtools.log('User found');
+        return user;
+      } else {
+        devtools.log('User not found');
+        return {}; // Return an empty map if no user is found
+      }
+    } catch (e) {
+      devtools.log('Error searching for user: $e');
+      return {}; // Return an empty map if an error occurs
+    }
+  }
+
+  @override
+  Future<Employee> get currentEmployee async {
+    final user = AuthService.firebase().currentUser!;
+    Employee employee = Employee.fromFirebaseUser(user);
+    await employee.fetchAndUpdateEmployeeDetails();
+    return employee;
   }
 }
