@@ -2,7 +2,21 @@ import 'package:echno_attendance/employee/services/crud_employee/read_employee.d
 import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 
-class Employee implements IReadEmployee {
+///
+/// `Employee` is a class that implements `IReadEmployeeService` interface.
+///
+/// It represents an employee with properties such as `uid`, `email`, `isEmailVerified`,
+/// `employeeID`, `employeeName`, `employeeStatus`, and `employeeRole`.
+///
+/// An instance of `Employee` is created either by passing an `AuthUser` object to the constructor
+/// or by using the factory constructor `fromFirebaseUser`.
+///
+/// It uses an instance of `EmployeeService` to interact with the Firestore database.
+///
+/// It provides methods to fetch and update employee details (`fetchAndUpdateEmployeeDetails`)
+/// and to read employee details (`readEmployee`).
+///
+class Employee implements IReadEmployeeService {
   Employee({
     required this.user,
   });
@@ -16,11 +30,11 @@ class Employee implements IReadEmployee {
   late final bool? employeeStatus;
   late final String? employeeRole;
 
-  final EmployeeService databaseService = EmployeeService.firestore();
+  final EmployeeService employeeService = EmployeeService.firestore();
 
   Future<void> fetchAndUpdateEmployeeDetails() async {
     Map<String, dynamic> employeeDetails =
-        await databaseService.searchEmployeeByUid(uid: user.uid);
+        await employeeService.searchEmployeeByUid(uid: user.uid);
     uid = user.uid;
     email = user.email;
     isemailVerified = user.isemailVerified;
@@ -32,7 +46,7 @@ class Employee implements IReadEmployee {
 
   @override
   Future<Map<String, dynamic>> readEmployee({required String employeeId}) {
-    return databaseService.readEmployee(employeeId: employeeId);
+    return employeeService.readEmployee(employeeId: employeeId);
   }
 
   factory Employee.fromFirebaseUser(AuthUser authUser) {

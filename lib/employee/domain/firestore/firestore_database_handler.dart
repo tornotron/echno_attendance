@@ -6,7 +6,7 @@ import 'package:echno_attendance/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
-class FirestoreDatabaseHandler implements DatabaseHandler {
+class FirestoreDatabaseHandler implements HrDatabaseHandler {
   final logs = logger(FirestoreDatabaseHandler, Level.info);
 
   get devtools => null;

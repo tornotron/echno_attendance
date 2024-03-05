@@ -1,4 +1,4 @@
-abstract class ICreateEmployee {
+abstract class ICreateEmployeeService {
   Future<void> createEmployee({
     required String employeeId,
     required String name,

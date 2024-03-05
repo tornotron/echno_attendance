@@ -1,4 +1,4 @@
-abstract class IUpdateEmployee {
+abstract class IUpdateEmployeeService {
   Future<void> updateEmployee({
     required String? employeeId,
     String? name,
