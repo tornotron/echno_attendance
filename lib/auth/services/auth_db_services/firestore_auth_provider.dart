@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/auth/services/auth_db_services/auth_database_provider.dart';
 import 'package:echno_attendance/auth/utilities/auth_exceptions.dart';
 
-class FirestoreAuthProvider implements AuthDatabaseProvider {
+class FirestoreDatabaseHandler implements DatabaseHandler {
   @override
   Future<Map<String, dynamic>> searchForEmployeeInDatabase(
       {required String employeeID}) async {

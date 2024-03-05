@@ -1,12 +1,12 @@
 import 'package:echno_attendance/auth/services/auth_db_services/auth_database_provider.dart';
 import 'package:echno_attendance/auth/services/auth_db_services/firestore_auth_provider.dart';
 
-class AuthDatabaseService implements AuthDatabaseProvider {
-  final AuthDatabaseProvider _provider;
-  const AuthDatabaseService(this._provider);
+class DatabaseService implements DatabaseHandler {
+  final DatabaseHandler _provider;
+  const DatabaseService(this._provider);
 
-  factory AuthDatabaseService.firestore() {
-    return AuthDatabaseService(FirestoreAuthProvider());
+  factory DatabaseService.firestore() {
+    return DatabaseService(FirestoreDatabaseHandler());
   }
 
   @override

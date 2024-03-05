@@ -1,4 +1,4 @@
-abstract class AuthDatabaseProvider {
+abstract class DatabaseHandler {
   Future<Map<String, dynamic>> searchForEmployeeInDatabase(
       {required String employeeID});
 
