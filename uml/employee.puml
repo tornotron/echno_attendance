@@ -1,0 +1,378 @@
+@startuml
+set namespaceSeparator ::
+
+abstract class "echno_attendance::employee::domain::firestore::database_handler.dart::BasicEmployeeDatabaseHandler" {
+  +dynamic currentEmployee
+  +dynamic searchEmployeeByUid()
+}
+
+"echno_attendance::employee::services::crud_employee::read_employee.dart::IReadEmployeeService" <|-- "echno_attendance::employee::domain::firestore::database_handler.dart::BasicEmployeeDatabaseHandler"
+
+abstract class "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler" {
+}
+
+"echno_attendance::employee::domain::firestore::database_handler.dart::BasicEmployeeDatabaseHandler" <|-- "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler"
+"echno_attendance::employee::services::crud_employee::create_employee.dart::ICreateEmployeeService" <|-- "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler"
+"echno_attendance::employee::services::crud_employee::update_employee.dart::IUpdateEmployeeService" <|-- "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler"
+"echno_attendance::employee::services::crud_employee::delete_employee.dart::IDeleteEmployeeService" <|-- "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler"
+
+class "echno_attendance::employee::domain::firestore::firestore_database_handler.dart::FirestoreDatabaseHandler" {
+  +dynamic logs
+  +dynamic devtools
+  +dynamic currentEmployee
+  +dynamic createEmployee()
+  +dynamic updateEmployee()
+  +dynamic deleteEmployee()
+  +dynamic readEmployee()
+  +dynamic searchEmployeeByUid()
+}
+
+"echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler" <|-- "echno_attendance::employee::domain::firestore::firestore_database_handler.dart::FirestoreDatabaseHandler"
+
+class "echno_attendance::employee::screens::homepage_screen.dart::HomePage" {
+  +String appbarUserName
+  +State<HomePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::screens::homepage_screen.dart::HomePage"
+
+class "echno_attendance::employee::screens::homepage_screen.dart::_HomePageState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::screens::homepage_screen.dart::_HomePageState"
+
+class "echno_attendance::employee::hr_screens::attendance_report::monthlyreport.dart::MonthlyReport" {
+  +TextEditingController employeeIdController
+  +TextEditingController yearController
+  +String employeeIdfromUI
+  +String attendanceMonthfromUI
+  +String attendanceYearfromUI
+  +State<MonthlyReport> createState()
+}
+
+"echno_attendance::employee::hr_screens::attendance_report::monthlyreport.dart::MonthlyReport" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::hr_screens::attendance_report::monthlyreport.dart::MonthlyReport"
+
+class "echno_attendance::employee::hr_screens::attendance_report::monthlyreport.dart::_MonthlyReportState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::hr_screens::attendance_report::monthlyreport.dart::_MonthlyReportState"
+
+class "echno_attendance::employee::hr_screens::attendance_report::employee_attendancereport.dart::AttendanceReportScreen" {
+  +State<AttendanceReportScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::hr_screens::attendance_report::employee_attendancereport.dart::AttendanceReportScreen"
+
+class "echno_attendance::employee::hr_screens::attendance_report::employee_attendancereport.dart::_AttendanceReportScreenState" {
+  +bool showMainContent
+  +TextEditingController employeeIdController
+  +TextEditingController monthController
+  +TextEditingController yearController
+  +String employeeIdfromUI
+  +String attendanceMonthfromUI
+  +String attendanceYearfromUI
+  +void dispose()
+  -void _showBottomSheet()
+  +Widget build()
+}
+
+"echno_attendance::employee::hr_screens::attendance_report::employee_attendancereport.dart::_AttendanceReportScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::hr_screens::attendance_report::employee_attendancereport.dart::_AttendanceReportScreenState"
+
+class "echno_attendance::employee::hr_screens::add_employee.dart::AddNewEmployee" {
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<AddNewEmployee> createState()
+}
+
+"echno_attendance::employee::hr_screens::add_employee.dart::AddNewEmployee" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::hr_screens::add_employee.dart::AddNewEmployee"
+
+class "echno_attendance::employee::hr_screens::add_employee.dart::_AddNewEmployeeState" {
+  -AuthUser _currentUser
+  -TextEditingController _idController
+  -TextEditingController _nameController
+  -TextEditingController _emailController
+  -TextEditingController _phoneController
+  -TextEditingController _roleController
+  +bool isActive
+  +Country selectedCountry
+  +dynamic isDarkMode
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"echno_attendance::employee::hr_screens::add_employee.dart::_AddNewEmployeeState" o-- "echno_attendance::auth::models::auth_user.dart::AuthUser"
+"echno_attendance::employee::hr_screens::add_employee.dart::_AddNewEmployeeState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"echno_attendance::employee::hr_screens::add_employee.dart::_AddNewEmployeeState" o-- "country_picker::src::country.dart::Country"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::hr_screens::add_employee.dart::_AddNewEmployeeState"
+
+class "echno_attendance::employee::hr_screens::update_details.dart::UpdateEmployeeDetails" {
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<UpdateEmployeeDetails> createState()
+}
+
+"echno_attendance::employee::hr_screens::update_details.dart::UpdateEmployeeDetails" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::hr_screens::update_details.dart::UpdateEmployeeDetails"
+
+class "echno_attendance::employee::hr_screens::update_details.dart::_UpdateEmployeeDetailsState" {
+  -AuthUser _currentUser
+  -TextEditingController _employeeIdController
+  -TextEditingController _nameController
+  -TextEditingController _emailController
+  -TextEditingController _phoneController
+  -TextEditingController _roleController
+  -Map<String, dynamic>? _employeeData
+  +dynamic isDarkMode
+  -void _searchEmployee()
+  -void _showErrorDialog()
+  +void dispose()
+  +Widget build()
+}
+
+"echno_attendance::employee::hr_screens::update_details.dart::_UpdateEmployeeDetailsState" o-- "echno_attendance::auth::models::auth_user.dart::AuthUser"
+"echno_attendance::employee::hr_screens::update_details.dart::_UpdateEmployeeDetailsState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::hr_screens::update_details.dart::_UpdateEmployeeDetailsState"
+
+class "echno_attendance::employee::hr_screens::dashboard.dart::HRDashboardScreen" {
+  +State<HRDashboardScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::hr_screens::dashboard.dart::HRDashboardScreen"
+
+class "echno_attendance::employee::hr_screens::dashboard.dart::_HRDashboardScreenState" {
+  +List<DashboardItem> gridData
+  +bool isDarkMode
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::hr_screens::dashboard.dart::_HRDashboardScreenState"
+
+class "echno_attendance::employee::hr_screens::dashboard.dart::DashboardItem" {
+  +IconData icon
+  +String text
+  +void Function() onTap
+}
+
+"echno_attendance::employee::hr_screens::dashboard.dart::DashboardItem" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"echno_attendance::employee::hr_screens::dashboard.dart::DashboardItem" o-- "dart::ui::void Function()"
+
+class "echno_attendance::employee::hr_screens::dashboard.dart::DashboardItemWidget" {
+  +DashboardItem item
+  +Widget build()
+}
+
+"echno_attendance::employee::hr_screens::dashboard.dart::DashboardItemWidget" o-- "echno_attendance::employee::hr_screens::dashboard.dart::DashboardItem"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::employee::hr_screens::dashboard.dart::DashboardItemWidget"
+
+class "echno_attendance::employee::hr_screens::employee_register.dart::EmployeeRegisterScreen" {
+  {static} +EdgeInsetsGeometry containerPadding
+  +State<EmployeeRegisterScreen> createState()
+}
+
+"echno_attendance::employee::hr_screens::employee_register.dart::EmployeeRegisterScreen" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::hr_screens::employee_register.dart::EmployeeRegisterScreen"
+
+class "echno_attendance::employee::hr_screens::employee_register.dart::_EmployeeRegisterScreenState" {
+  +CollectionReference<Object?> users
+  +TextEditingController searchController
+  +dynamic isDarkMode
+  +Widget build()
+}
+
+"echno_attendance::employee::hr_screens::employee_register.dart::_EmployeeRegisterScreenState" o-- "cloud_firestore::cloud_firestore.dart::CollectionReference<Object>"
+"echno_attendance::employee::hr_screens::employee_register.dart::_EmployeeRegisterScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::hr_screens::employee_register.dart::_EmployeeRegisterScreenState"
+
+class "echno_attendance::employee::models::sp_employee.dart::SpEmployee" {
+}
+
+"echno_attendance::employee::models::employee.dart::Employee" <|-- "echno_attendance::employee::models::sp_employee.dart::SpEmployee"
+
+class "echno_attendance::employee::models::hr_employee.dart::HrEmployee" {
+  +HrEmployeeService hrEmployeeService
+  +dynamic createEmployee()
+  +dynamic updateEmployee()
+  +dynamic deleteEmployee()
+}
+
+"echno_attendance::employee::models::hr_employee.dart::HrEmployee" o-- "echno_attendance::employee::services::hr_employee_service.dart::HrEmployeeService"
+"echno_attendance::employee::models::employee.dart::Employee" <|-- "echno_attendance::employee::models::hr_employee.dart::HrEmployee"
+"echno_attendance::employee::services::crud_employee::create_employee.dart::ICreateEmployeeService" <|-- "echno_attendance::employee::models::hr_employee.dart::HrEmployee"
+"echno_attendance::employee::services::crud_employee::update_employee.dart::IUpdateEmployeeService" <|-- "echno_attendance::employee::models::hr_employee.dart::HrEmployee"
+"echno_attendance::employee::services::crud_employee::delete_employee.dart::IDeleteEmployeeService" <|-- "echno_attendance::employee::models::hr_employee.dart::HrEmployee"
+
+class "echno_attendance::employee::models::tc_employee.dart::TcEmployee" {
+}
+
+"echno_attendance::employee::models::employee.dart::Employee" <|-- "echno_attendance::employee::models::tc_employee.dart::TcEmployee"
+
+class "echno_attendance::employee::models::employee.dart::Employee" {
+  +AuthUser user
+  +String? uid
+  +String? email
+  +bool? isemailVerified
+  +String? employeeID
+  +String? employeeName
+  +bool? employeeStatus
+  +String? employeeRole
+  +EmployeeService employeeService
+  +dynamic fetchAndUpdateEmployeeDetails()
+  +dynamic readEmployee()
+}
+
+"echno_attendance::employee::models::employee.dart::Employee" o-- "echno_attendance::auth::models::auth_user.dart::AuthUser"
+"echno_attendance::employee::models::employee.dart::Employee" o-- "echno_attendance::employee::services::employee_service.dart::EmployeeService"
+"echno_attendance::employee::services::crud_employee::read_employee.dart::IReadEmployeeService" <|-- "echno_attendance::employee::models::employee.dart::Employee"
+
+class "echno_attendance::employee::models::pm_employee.dart::PmEmployee" {
+}
+
+"echno_attendance::employee::models::employee.dart::Employee" <|-- "echno_attendance::employee::models::pm_employee.dart::PmEmployee"
+
+class "echno_attendance::employee::models::se_employee.dart::SeEmployee" {
+}
+
+"echno_attendance::employee::models::employee.dart::Employee" <|-- "echno_attendance::employee::models::se_employee.dart::SeEmployee"
+
+class "echno_attendance::employee::widgets::elevated_button.dart::LoginButton" {
+  +String buttonName
+  +double buttonWidth
+  +double buttonRadius
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::employee::widgets::elevated_button.dart::LoginButton"
+
+class "echno_attendance::employee::widgets::daily_report.dart::DailyReport" {
+  +State<DailyReport> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::widgets::daily_report.dart::DailyReport"
+
+class "echno_attendance::employee::widgets::daily_report.dart::_DailyState" {
+  +TextEditingController siteController
+  +DatePickerController datevisualController
+  +String siteNamefromUI
+  +String dateFromUI
+  -void _scrolltoday()
+  +Widget build()
+}
+
+"echno_attendance::employee::widgets::daily_report.dart::_DailyState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"echno_attendance::employee::widgets::daily_report.dart::_DailyState" o-- "date_picker_timeline::date_picker_widget.dart::DatePickerController"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::widgets::daily_report.dart::_DailyState"
+
+class "echno_attendance::employee::widgets::attcard_daily.dart::AttendanceCardDaily" {
+  +String siteName
+  +String date
+  +State<AttendanceCardDaily> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::widgets::attcard_daily.dart::AttendanceCardDaily"
+
+class "echno_attendance::employee::widgets::attcard_daily.dart::_AttendanceCardDailyState" {
+  +AttendanceRepositoryInterface attendanceProvider
+  +dynamic getAttData()
+  +Widget build()
+}
+
+"echno_attendance::employee::widgets::attcard_daily.dart::_AttendanceCardDailyState" o-- "echno_attendance::attendance::services::attendance_interface.dart::AttendanceRepositoryInterface"
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::widgets::attcard_daily.dart::_AttendanceCardDailyState"
+
+class "echno_attendance::employee::widgets::login_field.dart::LoginField" {
+  +String hint
+  +double width
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::employee::widgets::login_field.dart::LoginField"
+
+class "echno_attendance::employee::widgets::attcard_monthly.dart::AttendanceCardMonthly" {
+  +String employeeId
+  +String attendanceMonth
+  +String attYear
+  +State<AttendanceCardMonthly> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "echno_attendance::employee::widgets::attcard_monthly.dart::AttendanceCardMonthly"
+
+class "echno_attendance::employee::widgets::attcard_monthly.dart::_AttendanceCardMonthlyState" {
+  +dynamic getAttData()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "echno_attendance::employee::widgets::attcard_monthly.dart::_AttendanceCardMonthlyState"
+
+class "echno_attendance::employee::widgets::rounded_card.dart::RoundedCard" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::employee::widgets::rounded_card.dart::RoundedCard"
+
+class "echno_attendance::employee::widgets::texts.dart::Texts" {
+  +String textData
+  +double textFontSize
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::employee::widgets::texts.dart::Texts"
+
+class "echno_attendance::employee::user_main.dart::EchnoTestApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "echno_attendance::employee::user_main.dart::EchnoTestApp"
+
+class "echno_attendance::employee::services::hr_employee_service.dart::HrEmployeeService" {
+  -HrDatabaseHandler _handler
+  +dynamic createEmployee()
+  +dynamic deleteEmployee()
+  +dynamic updateEmployee()
+}
+
+"echno_attendance::employee::services::hr_employee_service.dart::HrEmployeeService" o-- "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler"
+"echno_attendance::employee::services::employee_service.dart::EmployeeService" <|-- "echno_attendance::employee::services::hr_employee_service.dart::HrEmployeeService"
+"echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler" <|-- "echno_attendance::employee::services::hr_employee_service.dart::HrEmployeeService"
+
+class "echno_attendance::employee::services::employee_service.dart::EmployeeService" {
+  -HrDatabaseHandler _handler
+  +dynamic currentEmployee
+  +dynamic readEmployee()
+  +dynamic searchEmployeeByUid()
+}
+
+"echno_attendance::employee::services::employee_service.dart::EmployeeService" o-- "echno_attendance::employee::domain::firestore::database_handler.dart::HrDatabaseHandler"
+"echno_attendance::employee::domain::firestore::database_handler.dart::BasicEmployeeDatabaseHandler" <|-- "echno_attendance::employee::services::employee_service.dart::EmployeeService"
+
+abstract class "echno_attendance::employee::services::crud_employee::update_employee.dart::IUpdateEmployeeService" {
+  +dynamic updateEmployee()
+}
+
+abstract class "echno_attendance::employee::services::crud_employee::read_employee.dart::IReadEmployeeService" {
+  +dynamic readEmployee()
+}
+
+abstract class "echno_attendance::employee::services::crud_employee::create_employee.dart::ICreateEmployeeService" {
+  +dynamic createEmployee()
+}
+
+abstract class "echno_attendance::employee::services::crud_employee::delete_employee.dart::IDeleteEmployeeService" {
+  +dynamic deleteEmployee()
+}
+
+class "echno_attendance::employee::enums::menu_action.dart::MenuActions" {
+  +int index
+  {static} +List<MenuActions> values
+  {static} +MenuActions logout
+}
+
+"echno_attendance::employee::enums::menu_action.dart::MenuActions" o-- "echno_attendance::employee::enums::menu_action.dart::MenuActions"
+"dart::core::Enum" <|-- "echno_attendance::employee::enums::menu_action.dart::MenuActions"
+
+
+@enduml
