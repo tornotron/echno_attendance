@@ -21,7 +21,8 @@ class EmployeeService implements BasicEmployeeDatabaseHandler {
   }
 
   @override
-  Future<Map<String, dynamic>> searchEmployeeByUid({required String? uid}) {
-    return _handler.searchEmployeeByUid(uid: uid);
+  Future<Map<String, dynamic>> searchEmployeeByAuthUserId(
+      {required String? uid}) {
+    return _handler.searchEmployeeByAuthUserId(uid: uid);
   }
 }

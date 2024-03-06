@@ -52,7 +52,7 @@ class BasicEmployeeFirestoreDatabaseHandler
   }
 
   @override
-  Future<Map<String, dynamic>> searchEmployeeByUid(
+  Future<Map<String, dynamic>> searchEmployeeByAuthUserId(
       {required String? uid}) async {
     try {
       // Search user with reference to the uid in firestore
@@ -81,8 +81,7 @@ class BasicEmployeeFirestoreDatabaseHandler
   @override
   Future<Employee> get currentEmployee async {
     final user = AuthService.firebase().currentUser!;
-    Employee employee = Employee.fromFirebaseUser(user);
-    await employee.fetchAndUpdateEmployeeDetails();
+    Employee employee = await Employee.fromFirebaseUser(user);
     return employee;
   }
 }

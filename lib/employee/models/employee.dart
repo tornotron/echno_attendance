@@ -2,51 +2,58 @@ import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
 
-///
-/// `Employee` is a class that implements `IReadEmployeeService` interface.
-///
-/// It represents an employee with properties such as `uid`, `email`, `isEmailVerified`,
-/// `employeeID`, `employeeName`, `employeeStatus`, and `employeeRole`.
-///
-/// An instance of `Employee` is created either by passing an `AuthUser` object to the constructor
-/// or by using the factory constructor `fromFirebaseUser`.
-///
-/// It uses an instance of `EmployeeService` to interact with the Firestore database.
-///
-/// It provides methods to fetch and update employee details (`fetchAndUpdateEmployeeDetails`)
-/// and to read employee details (`readEmployee`).
-///
 class Employee {
   Employee({
-    required this.user,
+    required this.authUser,
+    required this.uid,
+    required this.email,
+    required this.isemailVerified,
+    required this.employeeID,
+    required this.employeeName,
+    required this.employeeStatus,
+    required this.employeeRole,
   });
 
-  final AuthUser user;
-  late final String? uid;
-  late final String? email;
-  late final bool? isemailVerified;
-  late final String? employeeID;
-  late final String? employeeName;
-  late final bool? employeeStatus;
-  late final EmployeeRole? employeeRole;
+  final AuthUser authUser;
+  final String uid;
+  final String email;
+  final bool isemailVerified;
+  final String employeeID;
+  final String employeeName;
+  final bool employeeStatus;
+  final EmployeeRole employeeRole;
 
-  final EmployeeService employeeService = EmployeeService.firestore();
+  Employee._({
+    required this.authUser,
+    required this.uid,
+    required this.email,
+    required this.isemailVerified,
+    required this.employeeID,
+    required this.employeeName,
+    required this.employeeStatus,
+    required this.employeeRole,
+  });
 
-  Future<void> fetchAndUpdateEmployeeDetails() async {
+  static final EmployeeService employeeService = EmployeeService.firestore();
+
+  static Future<Employee> fromFirebaseUser(AuthUser authUser) async {
     Map<String, dynamic> employeeDetails =
-        await employeeService.searchEmployeeByUid(uid: user.uid);
-    uid = user.uid;
-    email = user.email;
-    isemailVerified = user.isemailVerified;
-    employeeID = employeeDetails['employee-id'];
-    employeeName = employeeDetails['full-name'];
-    employeeStatus = employeeDetails['employee-status'];
-    employeeRole = employeeDetails['employee-role'];
-  }
-
-  factory Employee.fromFirebaseUser(AuthUser authUser) {
-    return Employee(
-      user: authUser,
-    );
+        await employeeService.searchEmployeeByAuthUserId(uid: authUser.uid);
+    final uid = authUser.uid;
+    final email = authUser.email;
+    final isemailVerified = authUser.isemailVerified;
+    final employeeID = employeeDetails['employee-id'];
+    final employeeName = employeeDetails['full-name'];
+    final employeeStatus = employeeDetails['employee-status'];
+    final employeeRole = employeeDetails['employee-role'];
+    return Employee._(
+        authUser: authUser,
+        uid: uid,
+        email: email,
+        isemailVerified: isemailVerified,
+        employeeID: employeeID,
+        employeeName: employeeName,
+        employeeStatus: employeeStatus,
+        employeeRole: employeeRole);
   }
 }

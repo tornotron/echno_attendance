@@ -5,7 +5,8 @@ import 'package:echno_attendance/employee/domain/firestore/crud_employee/read_em
 import 'package:echno_attendance/employee/domain/firestore/crud_employee/update_employee.dart';
 
 abstract class BasicEmployeeDatabaseHandler implements IReadEmployee {
-  Future<Map<String, dynamic>> searchEmployeeByUid({required String? uid});
+  Future<Map<String, dynamic>> searchEmployeeByAuthUserId(
+      {required String? uid});
   Future<Employee> get currentEmployee;
 }
 
