@@ -59,14 +59,14 @@ void main() {
         password: 'password',
       );
       expect(provider.currentUser, user);
-      expect(user.isemailVerified, false);
+      expect(user.isEmailVerified, false);
     });
 
     test('Logged in user should be able to get verified', () {
       provider.sendEmailVerification();
       final user = provider.currentUser;
       expect(user, isNotNull);
-      expect(user!.isemailVerified, true);
+      expect(user!.isEmailVerified, true);
     });
 
     test('Should be able to logout and login again', () async {
@@ -151,7 +151,7 @@ class MockAuthProvider implements AuthHandler {
       return throw WrongPasswordAuthException();
     }
     const user = AuthUser(
-      isemailVerified: false,
+      isEmailVerified: false,
       uid: '',
       email: '',
     );
@@ -172,7 +172,7 @@ class MockAuthProvider implements AuthHandler {
     if (!_isInitialized) throw NotInitializedException();
     if (_user == null) throw UserNotFoundAuthException();
     const newUser = AuthUser(
-      isemailVerified: true,
+      isEmailVerified: true,
       uid: 'currentuseruid',
       email: 'currentiseremail',
     );
@@ -196,7 +196,7 @@ class MockAuthProvider implements AuthHandler {
     // Here, we'll just update the password in-memory for simplicity
     if (_user != null) {
       _user = const AuthUser(
-        isemailVerified: true,
+        isEmailVerified: true,
         uid: 'currentuseruid',
         email: 'currentuseremail',
       );

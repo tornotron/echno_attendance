@@ -5,14 +5,14 @@ import 'package:flutter/foundation.dart';
 class AuthUser {
   final String uid;
   final String email;
-  final bool isemailVerified;
+  final bool isEmailVerified;
   final bool isHr;
 
   const AuthUser(
     this.isHr, {
     required this.uid,
     required this.email,
-    required this.isemailVerified,
+    required this.isEmailVerified,
   });
 
   factory AuthUser.fromFirebaseUser(User user) {
@@ -20,7 +20,7 @@ class AuthUser {
       false,
       uid: user.uid,
       email: user.email!,
-      isemailVerified: user.emailVerified,
+      isEmailVerified: user.emailVerified,
     );
   }
 }
