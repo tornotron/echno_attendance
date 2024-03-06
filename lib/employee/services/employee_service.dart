@@ -3,11 +3,11 @@ import 'package:echno_attendance/employee/domain/firestore/firestore_database_ha
 import 'package:echno_attendance/employee/models/employee.dart';
 
 class EmployeeService implements BasicEmployeeDatabaseHandler {
-  final HrDatabaseHandler _handler;
+  final BasicEmployeeDatabaseHandler _handler;
   const EmployeeService(this._handler);
 
   factory EmployeeService.firestore() {
-    return EmployeeService(FirestoreDatabaseHandler());
+    return EmployeeService(BasicEmployeeFirestoreDatabaseHandler());
   }
 
   @override

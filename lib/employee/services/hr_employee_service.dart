@@ -7,7 +7,7 @@ class HrEmployeeService extends EmployeeService implements HrDatabaseHandler {
   const HrEmployeeService(this._handler) : super(_handler);
 
   factory HrEmployeeService.firestore() {
-    return HrEmployeeService(FirestoreDatabaseHandler());
+    return HrEmployeeService(HrFirestoreDatabaseHandler());
   }
 
   @override

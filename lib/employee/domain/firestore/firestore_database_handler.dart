@@ -6,10 +6,92 @@ import 'package:echno_attendance/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
-class FirestoreDatabaseHandler implements HrDatabaseHandler {
-  final logs = logger(FirestoreDatabaseHandler, Level.info);
-
+class BasicEmployeeFirestoreDatabaseHandler
+    implements BasicEmployeeDatabaseHandler {
+  final logs = logger(BasicEmployeeFirestoreDatabaseHandler, Level.info);
   get devtools => null;
+
+  @override
+  Future<Map<String, dynamic>> readEmployee({
+    required String? employeeId,
+  }) async {
+    String? name, email, phoneNumber, userRole, id;
+    bool? isActiveUser;
+    try {
+      CollectionReference employeesCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      DocumentSnapshot employeeDocument =
+          await employeesCollection.doc(employeeId).get();
+
+      if (employeeDocument.exists) {
+        Map<String, dynamic> employeeData =
+            employeeDocument.data() as Map<String, dynamic>;
+        id = employeeData['employee-id'];
+        name = employeeData['full-name'];
+        email = employeeData['email-id'];
+        phoneNumber = employeeData['phone'];
+        userRole = employeeData['employee-role'];
+        isActiveUser = employeeData['employee-status'];
+      } else {
+        logs.i("employee doesn't exist");
+      }
+    } on FirebaseException catch (error) {
+      logs.e('Firebase Exception: ${error.message}');
+    } catch (e) {
+      logs.e('Other Exception: $e');
+    }
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'userRole': userRole,
+      'isActiveUser': isActiveUser,
+    };
+  }
+
+  @override
+  Future<Map<String, dynamic>> searchEmployeeByUid(
+      {required String? uid}) async {
+    try {
+      // Search user with reference to the uid in firestore
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: uid)
+          .get();
+
+      // Check if any documents match the query
+      if (querySnapshot.docs.isNotEmpty) {
+        // Get the first document
+        Map<String, dynamic> user =
+            querySnapshot.docs.first.data() as Map<String, dynamic>;
+        devtools.log('User found');
+        return user;
+      } else {
+        devtools.log('User not found');
+        return {}; // Return an empty map if no user is found
+      }
+    } catch (e) {
+      devtools.log('Error searching for user: $e');
+      return {}; // Return an empty map if an error occurs
+    }
+  }
+
+  @override
+  Future<Employee> get currentEmployee async {
+    final user = AuthService.firebase().currentUser!;
+    Employee employee = Employee.fromFirebaseUser(user);
+    await employee.fetchAndUpdateEmployeeDetails();
+    return employee;
+  }
+}
+
+class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
+    implements HrDatabaseHandler {
+  @override
+  final logs = logger(HrFirestoreDatabaseHandler, Level.info);
+
   @override
   Future createEmployee(
       {required String employeeId,
@@ -100,80 +182,5 @@ class FirestoreDatabaseHandler implements HrDatabaseHandler {
     } catch (e) {
       logs.e('Other Exception: $e');
     }
-  }
-
-  @override
-  Future<Map<String, dynamic>> readEmployee({
-    required String? employeeId,
-  }) async {
-    String? name, email, phoneNumber, userRole, id;
-    bool? isActiveUser;
-    try {
-      CollectionReference employeesCollection =
-          FirebaseFirestore.instance.collection('users');
-
-      DocumentSnapshot employeeDocument =
-          await employeesCollection.doc(employeeId).get();
-
-      if (employeeDocument.exists) {
-        Map<String, dynamic> employeeData =
-            employeeDocument.data() as Map<String, dynamic>;
-        id = employeeData['employee-id'];
-        name = employeeData['full-name'];
-        email = employeeData['email-id'];
-        phoneNumber = employeeData['phone'];
-        userRole = employeeData['employee-role'];
-        isActiveUser = employeeData['employee-status'];
-      } else {
-        logs.i("employee doesn't exist");
-      }
-    } on FirebaseException catch (error) {
-      logs.e('Firebase Exception: ${error.message}');
-    } catch (e) {
-      logs.e('Other Exception: $e');
-    }
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'phoneNumber': phoneNumber,
-      'userRole': userRole,
-      'isActiveUser': isActiveUser,
-    };
-  }
-
-  @override
-  Future<Map<String, dynamic>> searchEmployeeByUid(
-      {required String? uid}) async {
-    try {
-      // Search user with reference to the uid in firestore
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .where('uid', isEqualTo: uid)
-          .get();
-
-      // Check if any documents match the query
-      if (querySnapshot.docs.isNotEmpty) {
-        // Get the first document
-        Map<String, dynamic> user =
-            querySnapshot.docs.first.data() as Map<String, dynamic>;
-        devtools.log('User found');
-        return user;
-      } else {
-        devtools.log('User not found');
-        return {}; // Return an empty map if no user is found
-      }
-    } catch (e) {
-      devtools.log('Error searching for user: $e');
-      return {}; // Return an empty map if an error occurs
-    }
-  }
-
-  @override
-  Future<Employee> get currentEmployee async {
-    final user = AuthService.firebase().currentUser!;
-    Employee employee = Employee.fromFirebaseUser(user);
-    await employee.fetchAndUpdateEmployeeDetails();
-    return employee;
   }
 }
