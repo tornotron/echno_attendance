@@ -18,7 +18,7 @@ class BasicEmployeeFirestoreDatabaseHandler
     bool? isActiveUser;
     try {
       CollectionReference employeesCollection =
-          FirebaseFirestore.instance.collection('users');
+          FirebaseFirestore.instance.collection('employees');
 
       DocumentSnapshot employeeDocument =
           await employeesCollection.doc(employeeId).get();
@@ -56,7 +56,7 @@ class BasicEmployeeFirestoreDatabaseHandler
     try {
       // Search user with reference to the uid in firestore
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
+          .collection('employees')
           .where('uid', isEqualTo: authUserId)
           .get();
 
@@ -100,13 +100,13 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
       required bool isActiveUser}) async {
     try {
       CollectionReference userCollection =
-          FirebaseFirestore.instance.collection('users');
+          FirebaseFirestore.instance.collection('employees');
 
       DocumentSnapshot useridCheck = await userCollection.doc(employeeId).get();
 
       if (!useridCheck.exists) {
         await FirebaseFirestore.instance
-            .collection('users')
+            .collection('employees')
             .doc(employeeId)
             .set({
           'employee-id': employeeId,
@@ -136,7 +136,7 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
       bool? isActiveUser}) async {
     try {
       final docRef =
-          FirebaseFirestore.instance.collection('users').doc(employeeId);
+          FirebaseFirestore.instance.collection('employees').doc(employeeId);
 
       final updateData = <String, dynamic>{};
 
@@ -172,7 +172,7 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
   Future deleteEmployee({required String employeeId}) async {
     try {
       await FirebaseFirestore.instance
-          .collection('users')
+          .collection('employees')
           .doc(employeeId)
           .delete();
     } on FirebaseException catch (error) {
