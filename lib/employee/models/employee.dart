@@ -1,5 +1,6 @@
 import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
 
 ///
 /// `Employee` is a class that implements `IReadEmployeeService` interface.
@@ -27,7 +28,7 @@ class Employee {
   late final String? employeeID;
   late final String? employeeName;
   late final bool? employeeStatus;
-  late final String? employeeRole;
+  late final EmployeeRole? employeeRole;
 
   final EmployeeService employeeService = EmployeeService.firestore();
 
