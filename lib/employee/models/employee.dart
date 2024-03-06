@@ -1,4 +1,4 @@
-import 'package:echno_attendance/employee/services/crud_employee/read_employee.dart';
+import 'package:echno_attendance/employee/domain/firestore/crud_employee/read_employee.dart';
 import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 

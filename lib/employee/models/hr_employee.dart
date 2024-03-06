@@ -1,7 +1,7 @@
 import 'package:echno_attendance/employee/models/employee.dart';
-import 'package:echno_attendance/employee/services/crud_employee/create_employee.dart';
-import 'package:echno_attendance/employee/services/crud_employee/delete_employee.dart';
-import 'package:echno_attendance/employee/services/crud_employee/update_employee.dart';
+import 'package:echno_attendance/employee/domain/firestore/crud_employee/create_employee.dart';
+import 'package:echno_attendance/employee/domain/firestore/crud_employee/delete_employee.dart';
+import 'package:echno_attendance/employee/domain/firestore/crud_employee/update_employee.dart';
 import 'package:echno_attendance/employee/services/hr_employee_service.dart';
 
 class HrEmployee extends Employee
