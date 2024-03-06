@@ -23,4 +23,13 @@ class AuthUser {
       isEmailVerified: user.emailVerified,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'email': email,
+      'isEmailVerified': isEmailVerified,
+      'isHr': isHr,
+    };
+  }
 }

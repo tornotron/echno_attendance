@@ -4,22 +4,30 @@ import 'package:echno_attendance/employee/utilities/employee_role.dart';
 
 class Employee {
   Employee({
-    required this.authUser,
+    this.authUser,
     required this.employeeID,
     required this.employeeName,
     required this.employeeStatus,
     required this.employeeRole,
   });
 
-  final AuthUser authUser;
+  final AuthUser? authUser;
   final String employeeID;
   final String employeeName;
   final bool employeeStatus;
   final EmployeeRole employeeRole;
 
-  get uid => authUser.uid;
-  get email => authUser.email;
-  get isEmailVerified => authUser.isEmailVerified;
+  dynamic authUserProperty(String property) {
+    if (authUser == null) {
+      throw Exception(
+          'This employee object has no authenticated user associated with it.');
+    }
+    return authUser?.toJson()[property];
+  }
+
+  String get uid => authUserProperty('uid');
+  String get email => authUserProperty('email');
+  String get isEmailVerified => authUserProperty('isEmailVerified');
 
   Employee._({
     required this.authUser,
