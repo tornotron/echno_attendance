@@ -1,7 +1,16 @@
-abstract class DatabaseHandler {
-  Future<void> updateUserUIDToDatabase(
-      {required String employeeId, required String? uid});
+import 'package:echno_attendance/auth/models/auth_user.dart';
 
-  Future<Map<String, dynamic>> searchForEmployeeInDatabase(
-      {required String employeeId});
+abstract class DatabaseHandler {
+  Future<void> updateAuthUserToDatabase({
+    String? employeeId,
+    required AuthUser authUser,
+  });
+
+  Future<Map<String, dynamic>> searchForEmployeeInDatabase({
+    required String employeeId,
+  });
+
+  Future<AuthUser?> searchForUserInDatabase({
+    required String authUserId,
+  });
 }

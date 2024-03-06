@@ -1,5 +1,6 @@
 import 'package:echno_attendance/auth/domain/firestore/database_handler.dart';
 import 'package:echno_attendance/auth/domain/firestore/firestore_database_handler.dart';
+import 'package:echno_attendance/auth/models/auth_user.dart';
 
 class DatabaseService implements DatabaseHandler {
   final DatabaseHandler _handler;
@@ -16,13 +17,18 @@ class DatabaseService implements DatabaseHandler {
   }
 
   @override
-  Future<void> updateUserUIDToDatabase({
-    required String employeeId,
-    required String? uid,
+  Future<AuthUser?> searchForUserInDatabase({required String authUserId}) {
+    return _handler.searchForUserInDatabase(authUserId: authUserId);
+  }
+
+  @override
+  Future<void> updateAuthUserToDatabase({
+    String? employeeId,
+    required AuthUser authUser,
   }) {
-    return _handler.updateUserUIDToDatabase(
+    return _handler.updateAuthUserToDatabase(
       employeeId: employeeId,
-      uid: uid,
+      authUser: authUser,
     );
   }
 }

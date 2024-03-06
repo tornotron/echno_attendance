@@ -2,6 +2,9 @@ import 'package:echno_attendance/auth/domain/firebase/auth_handler.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:echno_attendance/auth/models/auth_user.dart';
+import 'package:echno_attendance/auth/services/database_services/database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthHandler authHandler)
@@ -10,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInitializeEvent>((event, emit) async {
       await authHandler.initialize();
       final user = authHandler.currentUser;
+      final databaseService = DatabaseService.firestore();
 
       if (user == null) {
         emit(const AuthLoggedOutState(
@@ -20,10 +24,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthEmailNotVerifiedState(
             isLoading: false)); // user is logged in but not verified
       } else {
-        emit(AuthLoggedInState(
-          user: user,
-          isLoading: false,
-        )); // user is logged in and verified
+        emit(const AuthLoggedOutState(
+          exception: null,
+          isLoading: true,
+          loadingMessage: 'Updating User...',
+        ));
+        try {
+          AuthUser? authUser = await databaseService.searchForUserInDatabase(
+              authUserId: user.uid);
+
+          if (authUser == null) {
+            databaseService.updateAuthUserToDatabase(authUser: user);
+          }
+          emit(AuthLoggedInState(
+            user: user,
+            isLoading: false,
+          )); // user is logged in and verified
+        } on Exception catch (e) {
+          emit(AuthLoggedOutState(
+            exception: e,
+            isLoading: false,
+          ));
+        }
       }
     });
     // User Registration
@@ -31,11 +53,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         final email = event.email;
         final password = event.password;
+        final databaseService = DatabaseService.firestore();
         try {
-          await authHandler.createUser(
+          final authUser = await authHandler.createUser(
             email: email,
             password: password,
           );
+          emit(const AuthLoggedOutState(
+            exception: null,
+            isLoading: true,
+            loadingMessage: 'Updating User...',
+          ));
+          try {
+            AuthUser? newAuthUser = await databaseService
+                .searchForUserInDatabase(authUserId: authUser.uid);
+
+            if (newAuthUser == null) {
+              databaseService.updateAuthUserToDatabase(authUser: authUser);
+            }
+          } on Exception catch (e) {
+            emit(AuthLoggedOutState(
+              exception: e,
+              isLoading: false,
+            ));
+          }
           await authHandler.sendEmailVerification();
           emit(const AuthEmailNotVerifiedState(
               isLoading: false)); // user registration completed
