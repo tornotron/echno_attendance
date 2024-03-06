@@ -94,7 +94,7 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
   Future createEmployee(
       {required String employeeId,
       required String name,
-      required String email,
+      required String companyEmail,
       required String phoneNumber,
       required String userRole,
       required bool isActiveUser}) async {
@@ -111,7 +111,7 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
             .set({
           'employee-id': employeeId,
           'full-name': name,
-          'email-id': email,
+          'email-id': companyEmail,
           'phone': phoneNumber,
           'employee-role': userRole,
           'employee-status': isActiveUser,

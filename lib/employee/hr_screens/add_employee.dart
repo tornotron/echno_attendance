@@ -268,7 +268,8 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                     .createEmployee(
                                         employeeId: _idController.text.trim(),
                                         name: _nameController.text.trim(),
-                                        email: _emailController.text.trim(),
+                                        companyEmail:
+                                            _emailController.text.trim(),
                                         phoneNumber: phoneNumber,
                                         userRole: _roleController.text.trim(),
                                         isActiveUser: isActive);

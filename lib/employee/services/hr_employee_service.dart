@@ -14,7 +14,7 @@ class HrEmployeeService extends EmployeeService implements HrDatabaseHandler {
   Future<void> createEmployee({
     required String employeeId,
     required String name,
-    required String email,
+    required String companyEmail,
     required String phoneNumber,
     required String userRole,
     required bool isActiveUser,
@@ -22,7 +22,7 @@ class HrEmployeeService extends EmployeeService implements HrDatabaseHandler {
     return _handler.createEmployee(
       employeeId: employeeId,
       name: name,
-      email: email,
+      companyEmail: companyEmail,
       phoneNumber: phoneNumber,
       userRole: userRole,
       isActiveUser: isActiveUser,
