@@ -1,7 +1,7 @@
 enum EmployeeRole {
-  HR,
-  PM,
-  SE,
-  SP,
-  TC,
+  hr,
+  pm,
+  se,
+  sp,
+  tc,
 }
