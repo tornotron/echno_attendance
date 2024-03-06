@@ -1,7 +1,5 @@
-import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
-import 'package:echno_attendance/auth/models/auth_user.dart';
-import 'package:echno_attendance/employee/models/hr_employee.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/employee/services/hr_employee_service.dart';
 import 'package:flutter/material.dart';
 
 class UpdateEmployeeDetails extends StatefulWidget {
@@ -14,7 +12,6 @@ class UpdateEmployeeDetails extends StatefulWidget {
 }
 
 class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
-  final AuthUser _currentUser = AuthService.firebase().currentUser!;
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _employeeIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -25,7 +22,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   Map<String, dynamic>? _employeeData;
 
   void _searchEmployee(String employeeId) async {
-    final employeeData = await HrEmployee(user: _currentUser)
+    final employeeData = await HrEmployeeService.firestore()
         .readEmployee(employeeId: employeeId);
     setState(() {
       _employeeData = employeeData;
@@ -236,7 +233,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
-                            await HrEmployee(user: _currentUser).updateEmployee(
+                            await HrEmployeeService.firestore().updateEmployee(
                               employeeId: _employeeIdController.text,
                               name: _employeeData?['name'],
                               email: _employeeData?['email'],

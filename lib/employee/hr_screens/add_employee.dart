@@ -1,8 +1,6 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
-import 'package:echno_attendance/auth/models/auth_user.dart';
-import 'package:echno_attendance/employee/models/hr_employee.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/employee/services/hr_employee_service.dart';
 import 'package:flutter/material.dart';
 
 class AddNewEmployee extends StatefulWidget {
@@ -15,7 +13,6 @@ class AddNewEmployee extends StatefulWidget {
 }
 
 class _AddNewEmployeeState extends State<AddNewEmployee> {
-  final AuthUser _currentUser = AuthService.firebase().currentUser!;
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   late final TextEditingController _idController;
   late final TextEditingController _nameController;
@@ -267,7 +264,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                 String phoneNumber =
                                     "+${selectedCountry.phoneCode}${_phoneController.text.trim()}";
 
-                                await HrEmployee(user: _currentUser)
+                                await HrEmployeeService.firestore()
                                     .createEmployee(
                                         employeeId: _idController.text.trim(),
                                         name: _nameController.text.trim(),
