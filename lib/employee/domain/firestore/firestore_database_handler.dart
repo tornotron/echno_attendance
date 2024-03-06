@@ -3,7 +3,6 @@ import 'package:echno_attendance/employee/domain/firestore/database_handler.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/logger.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
 class BasicEmployeeFirestoreDatabaseHandler
