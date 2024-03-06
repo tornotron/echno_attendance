@@ -1,4 +1,3 @@
-import 'package:echno_attendance/employee/domain/firestore/crud_employee/read_employee.dart';
 import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 
@@ -16,7 +15,7 @@ import 'package:echno_attendance/employee/services/employee_service.dart';
 /// It provides methods to fetch and update employee details (`fetchAndUpdateEmployeeDetails`)
 /// and to read employee details (`readEmployee`).
 ///
-class Employee implements IReadEmployee {
+class Employee {
   Employee({
     required this.user,
   });
@@ -42,11 +41,6 @@ class Employee implements IReadEmployee {
     employeeName = employeeDetails['full-name'];
     employeeStatus = employeeDetails['employee-status'];
     employeeRole = employeeDetails['employee-role'];
-  }
-
-  @override
-  Future<Map<String, dynamic>> readEmployee({required String employeeId}) {
-    return employeeService.readEmployee(employeeId: employeeId);
   }
 
   factory Employee.fromFirebaseUser(AuthUser authUser) {
