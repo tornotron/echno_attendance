@@ -4,12 +4,12 @@ import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:bloc/bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(AuthHandler provider)
+  AuthBloc(AuthHandler authHandler)
       : super(const AuthNotInitializedState(isLoading: true)) {
     // Initial State of App
     on<AuthInitializeEvent>((event, emit) async {
-      await provider.initialize();
-      final user = provider.currentUser;
+      await authHandler.initialize();
+      final user = authHandler.currentUser;
 
       if (user == null) {
         emit(const AuthLoggedOutState(
@@ -32,11 +32,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final email = event.email;
         final password = event.password;
         try {
-          await provider.createUser(
+          await authHandler.createUser(
             email: email,
             password: password,
           );
-          await provider.sendEmailVerification();
+          await authHandler.sendEmailVerification();
           emit(const AuthEmailNotVerifiedState(
               isLoading: false)); // user registration completed
         } on Exception catch (e) {
@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     // Email Verification
     on<AuthVerifyEmailEvent>((event, emit) async {
-      await provider.sendEmailVerification();
+      await authHandler.sendEmailVerification();
       emit(state);
     });
 
@@ -62,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final email = event.email;
       final password = event.password;
       try {
-        final user = await provider.logIn(
+        final user = await authHandler.logIn(
           email: email,
           password: password,
         );
@@ -111,7 +111,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       bool didSendEmail;
       Exception? exception;
       try {
-        await provider.resetPassword(toEmail: email);
+        await authHandler.resetPassword(toEmail: email);
         exception = null;
         didSendEmail = true;
       } on Exception catch (e) {
@@ -128,7 +128,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // User Logout
     on<AuthLogOutEvent>((event, emit) async {
       try {
-        await provider.logOut();
+        await authHandler.logOut();
         emit(const AuthLoggedOutState(
           exception: null,
           isLoading: false,
