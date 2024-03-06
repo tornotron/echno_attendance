@@ -4,13 +4,10 @@ import 'package:echno_attendance/employee/domain/firestore/crud_employee/delete_
 import 'package:echno_attendance/employee/domain/firestore/crud_employee/read_employee.dart';
 import 'package:echno_attendance/employee/domain/firestore/crud_employee/update_employee.dart';
 
-abstract class BasicEmployeeDatabaseHandler implements IReadEmployeeService {
+abstract class BasicEmployeeDatabaseHandler implements IReadEmployee {
   Future<Map<String, dynamic>> searchEmployeeByUid({required String? uid});
   Future<Employee> get currentEmployee;
 }
 
 abstract class HrDatabaseHandler extends BasicEmployeeDatabaseHandler
-    implements
-        ICreateEmployeeService,
-        IUpdateEmployeeService,
-        IDeleteEmployeeService {}
+    implements ICreateEmployee, IUpdateEmployee, IDeleteEmployee {}

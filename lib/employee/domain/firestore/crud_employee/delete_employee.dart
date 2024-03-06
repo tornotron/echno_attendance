@@ -1,3 +1,3 @@
-abstract class IDeleteEmployeeService {
+abstract class IDeleteEmployee {
   Future<void> deleteEmployee({required String employeeId});
 }

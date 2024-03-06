@@ -16,7 +16,7 @@ import 'package:echno_attendance/employee/services/employee_service.dart';
 /// It provides methods to fetch and update employee details (`fetchAndUpdateEmployeeDetails`)
 /// and to read employee details (`readEmployee`).
 ///
-class Employee implements IReadEmployeeService {
+class Employee implements IReadEmployee {
   Employee({
     required this.user,
   });

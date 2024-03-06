@@ -5,10 +5,7 @@ import 'package:echno_attendance/employee/domain/firestore/crud_employee/update_
 import 'package:echno_attendance/employee/services/hr_employee_service.dart';
 
 class HrEmployee extends Employee
-    implements
-        ICreateEmployeeService,
-        IUpdateEmployeeService,
-        IDeleteEmployeeService {
+    implements ICreateEmployee, IUpdateEmployee, IDeleteEmployee {
   HrEmployee({required super.user});
 
   final HrEmployeeService hrEmployeeService = HrEmployeeService.firestore();
