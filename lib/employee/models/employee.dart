@@ -5,9 +5,6 @@ import 'package:echno_attendance/employee/utilities/employee_role.dart';
 class Employee {
   Employee({
     required this.authUser,
-    required this.uid,
-    required this.email,
-    required this.isemailVerified,
     required this.employeeID,
     required this.employeeName,
     required this.employeeStatus,
@@ -15,19 +12,17 @@ class Employee {
   });
 
   final AuthUser authUser;
-  final String uid;
-  final String email;
-  final bool isemailVerified;
   final String employeeID;
   final String employeeName;
   final bool employeeStatus;
   final EmployeeRole employeeRole;
 
+  get uid => authUser.uid;
+  get email => authUser.email;
+  get isEmailVerified => authUser.isEmailVerified;
+
   Employee._({
     required this.authUser,
-    required this.uid,
-    required this.email,
-    required this.isemailVerified,
     required this.employeeID,
     required this.employeeName,
     required this.employeeStatus,
@@ -39,18 +34,12 @@ class Employee {
   static Future<Employee> fromFirebaseUser(AuthUser authUser) async {
     Map<String, dynamic> employeeDetails = await employeeService
         .searchEmployeeByAuthUserId(authUserId: authUser.uid);
-    final uid = authUser.uid;
-    final email = authUser.email;
-    final isemailVerified = authUser.isemailVerified;
     final employeeID = employeeDetails['employee-id'];
     final employeeName = employeeDetails['full-name'];
     final employeeStatus = employeeDetails['employee-status'];
     final employeeRole = employeeDetails['employee-role'];
     return Employee._(
         authUser: authUser,
-        uid: uid,
-        email: email,
-        isemailVerified: isemailVerified,
         employeeID: employeeID,
         employeeName: employeeName,
         employeeStatus: employeeStatus,
