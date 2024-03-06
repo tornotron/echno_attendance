@@ -291,9 +291,9 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                             await EmployeeService.firestore()
                                 .currentEmployee; // Get the current employee
                         await leaveProvider.applyForLeave(
-                          uid: currentEmployee!.uid!,
-                          employeeID: currentEmployee.employeeID!,
-                          employeeName: currentEmployee.employeeName!,
+                          uid: currentEmployee.uid,
+                          employeeID: currentEmployee.employeeID,
+                          employeeName: currentEmployee.employeeName,
                           appliedDate: DateTime.now(),
                           fromDate: startDate ?? DateTime.now(),
                           toDate: endDate ?? DateTime.now(),
