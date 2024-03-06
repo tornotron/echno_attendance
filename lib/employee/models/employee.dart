@@ -20,7 +20,7 @@ class Employee {
   dynamic authUserProperty(String property) {
     if (authUser == null) {
       throw Exception(
-          'This employee object has no authenticated user associated with it.');
+          'This employee instance has no authenticated user associated with it.');
     }
     return authUser?.toJson()[property];
   }
