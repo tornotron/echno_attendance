@@ -53,12 +53,12 @@ class BasicEmployeeFirestoreDatabaseHandler
 
   @override
   Future<Map<String, dynamic>> searchEmployeeByAuthUserId(
-      {required String? uid}) async {
+      {required String? authUserId}) async {
     try {
       // Search user with reference to the uid in firestore
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .where('uid', isEqualTo: uid)
+          .where('uid', isEqualTo: authUserId)
           .get();
 
       // Check if any documents match the query

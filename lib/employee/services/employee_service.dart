@@ -22,7 +22,7 @@ class EmployeeService implements BasicEmployeeDatabaseHandler {
 
   @override
   Future<Map<String, dynamic>> searchEmployeeByAuthUserId(
-      {required String? uid}) {
-    return _handler.searchEmployeeByAuthUserId(uid: uid);
+      {required String? authUserId}) {
+    return _handler.searchEmployeeByAuthUserId(authUserId: authUserId);
   }
 }

@@ -6,7 +6,7 @@ import 'package:echno_attendance/employee/domain/firestore/crud_employee/update_
 
 abstract class BasicEmployeeDatabaseHandler implements IReadEmployee {
   Future<Map<String, dynamic>> searchEmployeeByAuthUserId(
-      {required String? uid});
+      {required String? authUserId});
   Future<Employee> get currentEmployee;
 }
 

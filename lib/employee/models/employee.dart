@@ -37,8 +37,8 @@ class Employee {
   static final EmployeeService employeeService = EmployeeService.firestore();
 
   static Future<Employee> fromFirebaseUser(AuthUser authUser) async {
-    Map<String, dynamic> employeeDetails =
-        await employeeService.searchEmployeeByAuthUserId(uid: authUser.uid);
+    Map<String, dynamic> employeeDetails = await employeeService
+        .searchEmployeeByAuthUserId(authUserId: authUser.uid);
     final uid = authUser.uid;
     final email = authUser.email;
     final isemailVerified = authUser.isemailVerified;
