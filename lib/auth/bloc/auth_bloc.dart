@@ -53,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         final email = event.email;
         final password = event.password;
+        final employeeId = event.emplyeeId;
         final databaseService = DatabaseService.firestore();
         try {
           final authUser = await authHandler.createUser(
@@ -69,7 +70,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .searchForUserInDatabase(authUserId: authUser.uid);
 
             if (newAuthUser == null) {
-              databaseService.updateAuthUserToDatabase(authUser: authUser);
+              databaseService.updateAuthUserToDatabase(
+                  employeeId: employeeId, authUser: authUser);
             }
           } on Exception catch (e) {
             emit(AuthLoggedOutState(

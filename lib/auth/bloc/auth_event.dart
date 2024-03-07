@@ -16,7 +16,9 @@ class AuthNeedToRegisterEvent extends AuthEvent {
 class AuthRegistrationEvent extends AuthEvent {
   final String email;
   final String password;
-  const AuthRegistrationEvent({
+  final String? emplyeeId;
+  const AuthRegistrationEvent(
+    this.emplyeeId, {
     required this.email,
     required this.password,
   });

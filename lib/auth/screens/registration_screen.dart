@@ -26,11 +26,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<FormState> _registrationFormKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late final TextEditingController _employeeIdController;
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _employeeIdController = TextEditingController();
     super.initState();
   }
 
@@ -38,6 +40,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _employeeIdController.dispose();
     super.dispose();
   }
 
@@ -126,6 +129,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             children: [
                               // Employee ID TextField
                               TextFormField(
+                                controller: _employeeIdController,
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   prefixIcon:
@@ -284,9 +288,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         .validate()) {
                                       final email = _emailController.text;
                                       final password = _passwordController.text;
+                                      final String? employeeId =
+                                          _employeeIdController.text.isEmpty
+                                              ? null
+                                              : _employeeIdController.text;
 
                                       context.read<AuthBloc>().add(
                                             AuthRegistrationEvent(
+                                              employeeId,
                                               email: email,
                                               password: password,
                                             ),
