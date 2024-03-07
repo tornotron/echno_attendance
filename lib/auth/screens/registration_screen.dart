@@ -286,8 +286,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   onPressed: () async {
                                     if (_registrationFormKey.currentState!
                                         .validate()) {
-                                      final email = _emailController.text;
-                                      final password = _passwordController.text;
+                                      final String email =
+                                          _emailController.text;
+                                      final String password =
+                                          _passwordController.text;
                                       final String? employeeId =
                                           _employeeIdController.text.isEmpty
                                               ? null

@@ -51,9 +51,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // User Registration
     on<AuthRegistrationEvent>(
       (event, emit) async {
-        final email = event.email;
-        final password = event.password;
-        final employeeId = event.emplyeeId;
+        final String email = event.email;
+        final String password = event.password;
+        final String? employeeId = event.emplyeeId;
         final databaseService = DatabaseService.firestore();
         try {
           final authUser = await authHandler.createUser(
