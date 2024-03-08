@@ -4,7 +4,6 @@ import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:echno_attendance/auth/models/auth_user.dart';
 import 'package:echno_attendance/auth/services/database_services/database_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthHandler authHandler)
@@ -30,10 +29,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           loadingMessage: 'Updating User...',
         ));
         try {
-          AuthUser? authUser = await databaseService.searchForUserInDatabase(
-              authUserId: user.uid);
+          AuthUser? authUserInDatabase = await databaseService
+              .searchForUserInDatabase(authUserId: user.uid);
 
-          if (authUser!.isEmailVerified == false) {
+          if (authUserInDatabase!.isEmailVerified == false) {
             databaseService.updateAuthUserToDatabase(authUser: user);
           }
           emit(AuthLoggedInState(
