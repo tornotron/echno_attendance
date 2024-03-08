@@ -54,14 +54,14 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
     AuthUser? authUser;
 
     try {
-      CollectionReference employeesCollection = _firestore.collection('users');
+      CollectionReference userCollection = _firestore.collection('users');
 
-      DocumentSnapshot employeeDocument =
-          await employeesCollection.doc(authUserId).get();
+      DocumentSnapshot userDocument =
+          await userCollection.doc(authUserId).get();
 
-      if (employeeDocument.exists) {
+      if (userDocument.exists) {
         Map<String, dynamic> authUserData =
-            employeeDocument.data() as Map<String, dynamic>;
+            userDocument.data() as Map<String, dynamic>;
         email = authUserData['authUserEmail'];
         isEmailVerified = authUserData['isEmailVerified'];
 

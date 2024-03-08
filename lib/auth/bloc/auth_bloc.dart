@@ -33,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthUser? authUser = await databaseService.searchForUserInDatabase(
               authUserId: user.uid);
 
-          if (authUser == null) {
+          if (authUser!.isEmailVerified == false) {
             databaseService.updateAuthUserToDatabase(authUser: user);
           }
           emit(AuthLoggedInState(
