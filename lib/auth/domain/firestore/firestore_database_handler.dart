@@ -13,7 +13,7 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
     bool? isActiveUser;
     try {
       CollectionReference employeesCollection =
-          FirebaseFirestore.instance.collection('users');
+          FirebaseFirestore.instance.collection('employees');
 
       DocumentSnapshot employeeDocument =
           await employeesCollection.doc(employeeId).get();
