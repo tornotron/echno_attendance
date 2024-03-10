@@ -1,7 +1,7 @@
 import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
-import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
+import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:echno_attendance/leave_module/widgets/leave_register_card.dart';
 import 'package:flutter/material.dart';
 

@@ -4,7 +4,8 @@ import 'dart:developer' as devtools show log;
 
 import 'package:echno_attendance/leave_module/services/leave_provider.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_exceptions.dart';
-import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
+import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
+import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 
 class FirestoreLeaveProvider implements LeaveProvider {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

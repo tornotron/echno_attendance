@@ -1,22 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
+import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
+import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:equatable/equatable.dart';
-
-enum LeaveStatus {
-  approved,
-  pending,
-  rejected,
-  unclassified,
-}
-
-enum LeaveType {
-  ml,
-  al,
-  cl,
-  sl,
-  pl,
-  unclassified,
-}
 
 class Leave extends Equatable {
   final String id;
