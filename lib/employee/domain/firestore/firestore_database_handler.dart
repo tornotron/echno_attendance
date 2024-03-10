@@ -70,16 +70,16 @@ class BasicEmployeeFirestoreDatabaseHandler
       // Check if any documents match the query
       if (querySnapshot.docs.isNotEmpty) {
         // Get the first document
-        Map<String, dynamic> user =
+        Map<String, dynamic> employeeData =
             querySnapshot.docs.first.data() as Map<String, dynamic>;
-        devtools.log('User found');
-        return user;
+        devtools.log('Employee found');
+        return employeeData;
       } else {
-        devtools.log('User not found');
-        return {}; // Return an empty map if no user is found
+        devtools.log('Employee not found');
+        return {}; // Return an empty map if no employee is found
       }
     } catch (e) {
-      devtools.log('Error searching for user: $e');
+      devtools.log('Error searching for employee: $e');
       return {}; // Return an empty map if an error occurs
     }
   }
