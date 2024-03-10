@@ -34,7 +34,7 @@ class BasicEmployeeFirestoreDatabaseHandler
         employeeName = employeeData['full-name'];
         employeeEmail = employeeData['email-id'];
         phoneNumber = employeeData['phone'];
-        employeeRole = employeeData['employee-role'];
+        employeeRole = getEmployeeRole(employeeData['employee-role']);
         employeeStatus = employeeData['employee-status'];
 
         Employee employee = Employee(
@@ -191,7 +191,7 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
         companyEmail: oldEmployeeData['email-id'],
         phoneNumber: oldEmployeeData['phone'],
         employeeStatus: oldEmployeeData['employee-status'],
-        employeeRole: oldEmployeeData['employee-role'],
+        employeeRole: getEmployeeRole(oldEmployeeData['employee-role']),
       );
       return employee;
     } on FirebaseException catch (error) {

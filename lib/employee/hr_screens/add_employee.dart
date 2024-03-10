@@ -223,11 +223,10 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                               });
                             },
                             items: EmployeeRole.values.map((EmployeeRole role) {
+                              String roleName = getEmloyeeRoleName(role);
                               return DropdownMenuItem<EmployeeRole>(
                                   value: role, // Use enum value here
-                                  child: Text(
-                                    role.toString().split('.').last,
-                                  ));
+                                  child: Text(roleName));
                             }).toList(),
                             decoration: const InputDecoration(
                               hintText: 'Select Employee Role',

@@ -54,7 +54,7 @@ class Employee {
     final companyEmail = employeeDetails['company-email-id'];
     final phoneNumber = employeeDetails['phone-number'];
     final employeeStatus = employeeDetails['employee-status'];
-    final employeeRole = employeeDetails['employee-role'];
+    final employeeRole = getEmployeeRole(employeeDetails['employee-role']);
     return Employee._(
         authUser: authUser,
         employeeId: employeeID,
