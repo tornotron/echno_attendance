@@ -32,6 +32,8 @@ class Employee {
   String get email => authUserProperty('email');
   String get isEmailVerified => authUserProperty('isEmailVerified');
 
+  String get employeeRoleString => employeeRole.toString().split('.').last;
+
   Employee._({
     required this.authUser,
     required this.employeeId,
