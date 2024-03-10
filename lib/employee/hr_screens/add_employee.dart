@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/employee/services/hr_employee_service.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:flutter/material.dart';
 
 class AddNewEmployee extends StatefulWidget {
@@ -18,8 +19,8 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
-  late final TextEditingController _roleController;
-  bool isActive = true; // employee account status
+  EmployeeRole _employeeRole = EmployeeRole.tc;
+  bool employeeStatus = true;
 
   Country selectedCountry = Country(
     phoneCode: "91",
@@ -40,7 +41,6 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _phoneController = TextEditingController();
-    _roleController = TextEditingController();
 
     super.initState();
   }
@@ -51,7 +51,6 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _roleController.dispose();
 
     super.dispose();
   }
@@ -216,18 +215,23 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          TextFormField(
-                            controller: _roleController,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.cases_rounded),
-                              labelText: 'Employee Role',
-                              hintText: 'Employee Role',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                  (15.0),
-                                ),
-                              ),
+                          DropdownButtonFormField<EmployeeRole>(
+                            value: _employeeRole,
+                            onChanged: (EmployeeRole? newValue) {
+                              setState(() {
+                                _employeeRole = newValue ?? EmployeeRole.tc;
+                              });
+                            },
+                            items: EmployeeRole.values.map((EmployeeRole role) {
+                              return DropdownMenuItem<EmployeeRole>(
+                                  value: role, // Use enum value here
+                                  child: Text(
+                                    role.toString().split('.').last,
+                                  ));
+                            }).toList(),
+                            decoration: const InputDecoration(
+                              hintText: 'Select Employee Role',
+                              border: OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 10.0),
@@ -247,10 +251,10 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               trailing: Switch(
-                                value: isActive,
+                                value: employeeStatus,
                                 onChanged: (value) {
                                   setState(() {
-                                    isActive = value;
+                                    employeeStatus = value;
                                   });
                                 },
                               ),
@@ -267,19 +271,19 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                 await HrEmployeeService.firestore()
                                     .createEmployee(
                                         employeeId: _idController.text.trim(),
-                                        name: _nameController.text.trim(),
+                                        employeeName:
+                                            _nameController.text.trim(),
                                         companyEmail:
                                             _emailController.text.trim(),
                                         phoneNumber: phoneNumber,
-                                        userRole: _roleController.text.trim(),
-                                        isActiveUser: isActive);
+                                        employeeStatus: employeeStatus,
+                                        employeeRole: _employeeRole);
 
                                 // Clear the controllers after form submission
                                 _idController.clear();
                                 _nameController.clear();
                                 _emailController.clear();
                                 _phoneController.clear();
-                                _roleController.clear();
                               },
                               child: const Text(
                                 'Add Employee',

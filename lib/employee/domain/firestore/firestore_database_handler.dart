@@ -98,13 +98,13 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
   final logs = logger(HrFirestoreDatabaseHandler, Level.info);
 
   @override
-  Future createEmployee(
+  Future<Employee?> createEmployee(
       {required String employeeId,
-      required String name,
+      required String employeeName,
       required String companyEmail,
       required String phoneNumber,
-      required String userRole,
-      required bool isActiveUser}) async {
+      required EmployeeRole employeeRole,
+      required bool employeeStatus}) async {
     try {
       CollectionReference userCollection =
           FirebaseFirestore.instance.collection('employees');
@@ -117,12 +117,21 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
             .doc(employeeId)
             .set({
           'employee-id': employeeId,
-          'full-name': name,
+          'full-name': employeeName,
           'email-id': companyEmail,
           'phone': phoneNumber,
-          'employee-role': userRole,
-          'employee-status': isActiveUser,
+          'employee-role': employeeRole.toString().split('.').last,
+          'employee-status': employeeStatus,
         });
+        Employee employee = Employee(
+          employeeId: employeeId,
+          employeeName: employeeName,
+          companyEmail: companyEmail,
+          phoneNumber: phoneNumber,
+          employeeStatus: employeeStatus,
+          employeeRole: employeeRole,
+        );
+        return employee;
       } else {
         logs.i('user already exits');
       }
@@ -131,6 +140,7 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
     } catch (e) {
       logs.e('Other Exception: $e');
     }
+    return null;
   }
 
   @override
