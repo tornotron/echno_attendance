@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'dart:developer' as devtools show log;
 
-import 'package:echno_attendance/leave_module/services/leave_provider.dart';
+import 'package:echno_attendance/leave_module/domain/firestore/leave_handler.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_exceptions.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 
-class FirestoreLeaveProvider implements LeaveProvider {
+class FirestoreLeaveHandler implements LeaveHandler {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final LeaveStatus initialLeaveStatus = LeaveStatus.pending;
 

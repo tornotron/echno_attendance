@@ -1,13 +1,13 @@
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
-import 'package:echno_attendance/leave_module/services/firestore_leave_provider.dart';
-import 'package:echno_attendance/leave_module/services/leave_provider.dart';
+import 'package:echno_attendance/leave_module/domain/firestore/firestore_leave_handler.dart';
+import 'package:echno_attendance/leave_module/domain/firestore/leave_handler.dart';
 
-class LeaveService implements LeaveProvider {
-  final LeaveProvider _leaveProvider;
-  const LeaveService(this._leaveProvider);
+class LeaveService implements LeaveHandler {
+  final LeaveHandler _leaveHanler;
+  const LeaveService(this._leaveHanler);
 
   factory LeaveService.firestoreLeave() {
-    return LeaveService(FirestoreLeaveProvider());
+    return LeaveService(FirestoreLeaveHandler());
   }
 
   @override
@@ -22,7 +22,7 @@ class LeaveService implements LeaveProvider {
     required String siteOffice,
     required String? remarks,
   }) {
-    return _leaveProvider.applyForLeave(
+    return _leaveHanler.applyForLeave(
       uid: uid,
       employeeID: employeeID,
       employeeName: employeeName,
@@ -37,17 +37,17 @@ class LeaveService implements LeaveProvider {
 
   @override
   Future<void> cancelLeave({required String leaveId}) {
-    return _leaveProvider.cancelLeave(leaveId: leaveId);
+    return _leaveHanler.cancelLeave(leaveId: leaveId);
   }
 
   @override
   Stream<List<Leave>> fetchLeaves() {
-    return _leaveProvider.fetchLeaves();
+    return _leaveHanler.fetchLeaves();
   }
 
   @override
   Stream<List<Leave>> streamLeaveHistory({required String? uid}) {
-    return _leaveProvider.streamLeaveHistory(uid: uid);
+    return _leaveHanler.streamLeaveHistory(uid: uid);
   }
 
   @override
@@ -55,7 +55,7 @@ class LeaveService implements LeaveProvider {
     required String leaveId,
     required String newStatus,
   }) {
-    return _leaveProvider.updateLeaveStatus(
+    return _leaveHanler.updateLeaveStatus(
       leaveId: leaveId,
       newStatus: newStatus,
     );
