@@ -37,20 +37,21 @@ class HrEmployeeService extends EmployeeService implements HrDatabaseHandler {
   }
 
   @override
-  Future<void> updateEmployee(
-      {required String? employeeId,
-      String? name,
-      String? email,
-      String? phoneNumber,
-      String? userRole,
-      bool? isActiveUser}) {
+  Future<Employee?> updateEmployee({
+    required String? employeeId,
+    String? employeeName,
+    String? companyEmail,
+    String? phoneNumber,
+    EmployeeRole? employeeRole,
+    bool? employeeStatus,
+  }) {
     return _handler.updateEmployee(
       employeeId: employeeId,
-      name: name,
-      email: email,
+      employeeName: employeeName,
+      companyEmail: companyEmail,
       phoneNumber: phoneNumber,
-      userRole: userRole,
-      isActiveUser: isActiveUser,
+      employeeRole: employeeRole,
+      employeeStatus: employeeStatus,
     );
   }
 }

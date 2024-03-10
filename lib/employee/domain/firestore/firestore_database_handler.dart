@@ -144,45 +144,62 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
   }
 
   @override
-  Future updateEmployee(
-      {required String? employeeId,
-      String? name,
-      String? email,
-      String? phoneNumber,
-      String? userRole,
-      bool? isActiveUser}) async {
+  Future<Employee?> updateEmployee({
+    required String? employeeId,
+    String? employeeName,
+    String? companyEmail,
+    String? phoneNumber,
+    EmployeeRole? employeeRole,
+    bool? employeeStatus,
+  }) async {
     try {
-      final docRef =
+      final employeeDocument =
           FirebaseFirestore.instance.collection('employees').doc(employeeId);
+      final employeeDataSnapshot = await employeeDocument.get();
 
-      final updateData = <String, dynamic>{};
+      final Map<String, dynamic> oldEmployeeData =
+          employeeDataSnapshot.data() as Map<String, dynamic>;
 
-      if (name != null) {
-        updateData['full-name'] = name;
+      final newEmployeeData = <String, dynamic>{};
+
+      if (employeeName != null) {
+        newEmployeeData['full-name'] = employeeName;
       }
 
-      if (email != null) {
-        updateData['email-id'] = email;
+      if (companyEmail != null) {
+        newEmployeeData['email-id'] = companyEmail;
       }
 
       if (phoneNumber != null) {
-        updateData['phone'] = phoneNumber;
+        newEmployeeData['phone'] = phoneNumber;
       }
 
-      if (userRole != null) {
-        updateData['employee-role'] = userRole;
+      if (employeeRole != null) {
+        newEmployeeData['employee-role'] =
+            employeeRole.toString().split('.').last;
       }
 
-      if (isActiveUser != null) {
-        updateData['employee-status'] = isActiveUser;
+      if (employeeStatus != null) {
+        newEmployeeData['employee-status'] = employeeStatus;
       }
 
-      await docRef.update(updateData);
+      await employeeDocument.update(newEmployeeData);
+
+      Employee employee = Employee(
+        employeeId: employeeId ?? oldEmployeeData['employee-id'],
+        employeeName: oldEmployeeData['full-name'],
+        companyEmail: oldEmployeeData['email-id'],
+        phoneNumber: oldEmployeeData['phone'],
+        employeeStatus: oldEmployeeData['employee-status'],
+        employeeRole: oldEmployeeData['employee-role'],
+      );
+      return employee;
     } on FirebaseException catch (error) {
       logs.e('Firebase Exception: ${error.message}');
     } catch (e) {
       logs.e('Other Exception: $e');
     }
+    return null;
   }
 
   @override

@@ -1,10 +1,13 @@
+import 'package:echno_attendance/employee/models/employee.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
+
 abstract class IUpdateEmployee {
-  Future<void> updateEmployee({
+  Future<Employee?> updateEmployee({
     required String? employeeId,
-    String? name,
-    String? email,
+    String? employeeName,
+    String? companyEmail,
     String? phoneNumber,
-    String? userRole,
-    bool? isActiveUser,
+    EmployeeRole? employeeRole,
+    bool? employeeStatus,
   });
 }

@@ -21,28 +21,28 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   final TextEditingController _phoneController = TextEditingController();
 
   Employee? _employee;
-  late String _employeeName;
-  late String _companyEmail;
-  late String _phoneNumber;
-  late bool _employeeStatus;
-  late EmployeeRole _employeeRole;
+  String? _employeeName;
+  String? _companyEmail;
+  String? _phoneNumber;
+  bool? _employeeStatus;
+  EmployeeRole? _employeeRole;
 
   void _searchEmployee(String employeeId) async {
     final employee = await HrEmployeeService.firestore()
         .readEmployee(employeeId: employeeId);
 
-    _employeeName = employee?.employeeName ?? '';
-    _companyEmail = employee?.companyEmail ?? '';
-    _phoneNumber = employee?.phoneNumber ?? '';
-    _employeeStatus = employee?.employeeStatus ?? false;
-    _employeeRole = employee?.employeeRole ?? EmployeeRole.tc;
+    _employeeName = employee?.employeeName;
+    _companyEmail = employee?.companyEmail;
+    _phoneNumber = employee?.phoneNumber;
+    _employeeStatus = employee?.employeeStatus;
+    _employeeRole = employee?.employeeRole;
 
     setState(() {
       _employee = employee;
 
-      _nameController.text = _employeeName;
-      _emailController.text = _companyEmail;
-      _phoneController.text = _phoneNumber;
+      _nameController.text = _employeeName ?? '';
+      _emailController.text = _companyEmail ?? '';
+      _phoneController.text = _phoneNumber ?? '';
     });
 
     // Show error dialog if employee not found
@@ -230,7 +230,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           trailing: Switch(
-                            value: _employeeStatus,
+                            value: _employeeStatus ?? false,
                             onChanged: (bool value) {
                               setState(() {
                                 _employeeStatus = value;
@@ -246,12 +246,11 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           onPressed: () async {
                             await HrEmployeeService.firestore().updateEmployee(
                               employeeId: _employeeIdController.text,
-                              name: _employeeName,
-                              email: _companyEmail,
+                              employeeName: _employeeName,
+                              companyEmail: _companyEmail,
                               phoneNumber: _phoneNumber,
-                              userRole:
-                                  _employeeRole.toString().split('.').last,
-                              isActiveUser: _employeeStatus,
+                              employeeRole: _employeeRole,
+                              employeeStatus: _employeeStatus,
                             );
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
