@@ -62,8 +62,8 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
       if (userDocument.exists) {
         Map<String, dynamic> authUserData =
             userDocument.data() as Map<String, dynamic>;
-        email = authUserData['authUserEmail'];
-        isEmailVerified = authUserData['isEmailVerified'];
+        email = authUserData['auth-user-email'];
+        isEmailVerified = authUserData['is-email-verified'];
 
         authUser = AuthUser(
           false,
@@ -94,9 +94,9 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
       CollectionReference userCollection = _firestore.collection('users');
 
       await userCollection.doc(authUser.uid).set({
-        'authUserId': authUser.uid,
-        'authUserEmail': authUser.email,
-        'isEmailVerified': authUser.isEmailVerified,
+        'auth-user-id': authUser.uid,
+        'auth-user-email': authUser.email,
+        'is-email-verified': authUser.isEmailVerified,
       });
 
       if (employeeId != null) {
@@ -107,9 +107,9 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
 
         if (employeeDocument.exists) {
           await employeesCollection.doc(employeeId).update({
-            'authUserId': authUser.uid,
-            'authUserEmail': authUser.email,
-            'isEmailVerified': authUser.isEmailVerified,
+            'auth-user-id': authUser.uid,
+            'auth-user-email': authUser.email,
+            'is-email-verified': authUser.isEmailVerified,
           });
         }
       }
