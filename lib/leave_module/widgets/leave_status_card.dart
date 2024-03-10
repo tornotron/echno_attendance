@@ -14,7 +14,7 @@ Widget leaveStatusCard(
   bool isDarkMode,
   BuildContext context,
 ) {
-  final leaveProvider = LeaveService.firestoreLeave();
+  final leaveHandler = LeaveService.firestoreLeave();
   final String formatedFromDate =
       DateFormat('dd-MM-yyyy').format(leave.fromDate);
   final String formatedToDate = DateFormat('dd-MM-yyyy').format(leave.toDate);
@@ -116,7 +116,7 @@ Widget leaveStatusCard(
                       onTap: () async {
                         final shouldCancel = await showCancelDialog(context);
                         if (shouldCancel) {
-                          await leaveProvider.cancelLeave(leaveId: leave.id);
+                          await leaveHandler.cancelLeave(leaveId: leave.id);
                         }
                       },
                       child: Container(

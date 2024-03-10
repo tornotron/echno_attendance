@@ -23,7 +23,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   final TextEditingController _remarksController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final leaveProvider = LeaveService.firestoreLeave(); // Leave related services
+  final _leaveHandler = LeaveService.firestoreLeave(); // Leave related services
   final GlobalKey<FormState> _leaveFormKey = GlobalKey<FormState>();
 
   DateTime? startDate; // Starting date of leave
@@ -287,7 +287,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                         final currentEmployee =
                             await EmployeeService.firestore()
                                 .currentEmployee; // Get the current employee
-                        await leaveProvider.applyForLeave(
+                        await _leaveHandler.applyForLeave(
                           uid: currentEmployee.uid,
                           employeeID: currentEmployee.employeeId,
                           employeeName: currentEmployee.employeeName,

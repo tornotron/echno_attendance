@@ -23,7 +23,7 @@ class LeaveApprovalScreen extends StatefulWidget {
 
 class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
-  final _leaveProvider = LeaveService.firestoreLeave();
+  final _leaveHandler = LeaveService.firestoreLeave();
   late Leave leave;
   LeaveStatus? selectedLeaveStatus;
 
@@ -173,7 +173,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await _leaveProvider.updateLeaveStatus(
+                    await _leaveHandler.updateLeaveStatus(
                         leaveId: leave.id,
                         newStatus:
                             selectedLeaveStatus.toString().split('.').last);

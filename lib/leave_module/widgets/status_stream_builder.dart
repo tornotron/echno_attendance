@@ -10,10 +10,10 @@ Widget leaveStatusStreamBuilder({
   required BuildContext context,
 }) {
   final currentUserId = AuthService.firebase().currentUser?.uid;
-  final leaveProvider = LeaveService.firestoreLeave();
+  final leaveHandler = LeaveService.firestoreLeave();
   return Expanded(
     child: StreamBuilder<List<Leave>>(
-      stream: leaveProvider.streamLeaveHistory(uid: currentUserId),
+      stream: leaveHandler.streamLeaveHistory(uid: currentUserId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

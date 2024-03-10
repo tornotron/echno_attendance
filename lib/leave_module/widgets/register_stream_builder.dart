@@ -10,10 +10,10 @@ Widget leaveRegisterStreamBuilder({
   required TextEditingController searchController,
   required BuildContext context,
 }) {
-  final leaveProvider = LeaveService.firestoreLeave();
+  final leaveHandler = LeaveService.firestoreLeave();
   return Expanded(
     child: StreamBuilder<List<Leave>>(
-      stream: leaveProvider.fetchLeaves(),
+      stream: leaveHandler.fetchLeaves(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
