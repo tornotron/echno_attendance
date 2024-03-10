@@ -292,7 +292,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                                 .currentEmployee; // Get the current employee
                         await leaveProvider.applyForLeave(
                           uid: currentEmployee.uid,
-                          employeeID: currentEmployee.employeeID,
+                          employeeID: currentEmployee.employeeId,
                           employeeName: currentEmployee.employeeName,
                           appliedDate: DateTime.now(),
                           fromDate: startDate ?? DateTime.now(),

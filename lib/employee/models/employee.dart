@@ -5,15 +5,18 @@ import 'package:echno_attendance/employee/utilities/employee_role.dart';
 class Employee {
   Employee({
     this.authUser,
-    required this.employeeID,
+    required this.employeeId,
     required this.employeeName,
+    required this.companyEmail,
+    required this.phoneNumber,
     required this.employeeStatus,
     required this.employeeRole,
   });
-
   final AuthUser? authUser;
-  final String employeeID;
+  final String employeeId;
   final String employeeName;
+  final String companyEmail;
+  final String phoneNumber;
   final bool employeeStatus;
   final EmployeeRole employeeRole;
 
@@ -31,8 +34,10 @@ class Employee {
 
   Employee._({
     required this.authUser,
-    required this.employeeID,
+    required this.employeeId,
     required this.employeeName,
+    required this.companyEmail,
+    required this.phoneNumber,
     required this.employeeStatus,
     required this.employeeRole,
   });
@@ -44,12 +49,16 @@ class Employee {
         .searchEmployeeByAuthUserId(authUserId: authUser.uid);
     final employeeID = employeeDetails['employee-id'];
     final employeeName = employeeDetails['full-name'];
+    final companyEmail = employeeDetails['company-email-id'];
+    final phoneNumber = employeeDetails['phone-number'];
     final employeeStatus = employeeDetails['employee-status'];
     final employeeRole = employeeDetails['employee-role'];
     return Employee._(
         authUser: authUser,
-        employeeID: employeeID,
+        employeeId: employeeID,
         employeeName: employeeName,
+        companyEmail: companyEmail,
+        phoneNumber: phoneNumber,
         employeeStatus: employeeStatus,
         employeeRole: employeeRole);
   }
