@@ -227,19 +227,17 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5.0),
-                DropdownButtonFormField<String>(
-                  value: _selectedLeaveType != null
-                      ? getLeaveTypeName(_selectedLeaveType!)
-                      : null,
-                  onChanged: (String? newValue) {
+                DropdownButtonFormField<LeaveType>(
+                  value: _selectedLeaveType,
+                  onChanged: (LeaveType? newValue) {
                     setState(() {
-                      _selectedLeaveType = getLeaveTypeFromString(newValue);
+                      _selectedLeaveType = newValue;
                     });
                   },
                   items: LeaveType.values.map((LeaveType type) {
                     String typeName = getLeaveTypeName(type);
-                    return DropdownMenuItem<String>(
-                      value: typeName,
+                    return DropdownMenuItem<LeaveType>(
+                      value: type,
                       child: Text(typeName),
                     );
                   }).toList(),
@@ -248,7 +246,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null) {
                       return 'Please select a leave type';
                     }
                     return null;

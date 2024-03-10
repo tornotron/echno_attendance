@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
 import 'package:equatable/equatable.dart';
 
 enum LeaveStatus {
@@ -15,40 +16,6 @@ enum LeaveType {
   sl,
   pl,
   unclassified,
-}
-
-LeaveType? getLeaveType(String? type) {
-  switch (type) {
-    case 'ml':
-      return LeaveType.ml;
-    case 'al':
-      return LeaveType.al;
-    case 'cl':
-      return LeaveType.cl;
-    case 'sl':
-      return LeaveType.sl;
-    case 'pl':
-      return LeaveType.pl;
-    case 'unclassified':
-      return LeaveType.unclassified;
-    default:
-      return null;
-  }
-}
-
-LeaveStatus? getLeaveStatus(String? status) {
-  switch (status) {
-    case 'approved':
-      return LeaveStatus.approved;
-    case 'pending':
-      return LeaveStatus.pending;
-    case 'rejected':
-      return LeaveStatus.rejected;
-    case 'unclassified':
-      return LeaveStatus.unclassified;
-    default:
-      return null;
-  }
 }
 
 class Leave extends Equatable {

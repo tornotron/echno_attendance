@@ -55,6 +55,21 @@ Color getColor(LeaveStatus? leaveStatus, bool isCancelled) {
   }
 }
 
+LeaveStatus? getLeaveStatus(String? status) {
+  switch (status) {
+    case 'approved':
+      return LeaveStatus.approved;
+    case 'pending':
+      return LeaveStatus.pending;
+    case 'rejected':
+      return LeaveStatus.rejected;
+    case 'unclassified':
+      return LeaveStatus.unclassified;
+    default:
+      throw Exception('Invalid leave status');
+  }
+}
+
 String getLeaveStatusName(LeaveStatus? leaveStatus) {
   switch (leaveStatus) {
     case LeaveStatus.approved:
@@ -69,7 +84,26 @@ String getLeaveStatusName(LeaveStatus? leaveStatus) {
     case LeaveStatus.unclassified:
       return "Pending";
     default:
-      return "Pending";
+      throw Exception('Invalid leave status');
+  }
+}
+
+LeaveType? getLeaveType(String? type) {
+  switch (type) {
+    case 'ml':
+      return LeaveType.ml;
+    case 'al':
+      return LeaveType.al;
+    case 'cl':
+      return LeaveType.cl;
+    case 'sl':
+      return LeaveType.sl;
+    case 'pl':
+      return LeaveType.pl;
+    case 'unclassified':
+      return LeaveType.unclassified;
+    default:
+      throw Exception('Invalid leave type');
   }
 }
 
@@ -88,25 +122,6 @@ String getLeaveTypeName(LeaveType? type) {
     case LeaveType.unclassified:
       return 'Unclassified';
     default:
-      return 'Unclassified';
-  }
-}
-
-LeaveType? getLeaveTypeFromString(String? type) {
-  switch (type) {
-    case 'Maternity Leave':
-      return LeaveType.ml;
-    case 'Annual Leave':
-      return LeaveType.al;
-    case 'Casual Leave':
-      return LeaveType.cl;
-    case 'Sick Leave':
-      return LeaveType.sl;
-    case 'Paternity Leave':
-      return LeaveType.pl;
-    case 'Unclassified':
-      return LeaveType.unclassified;
-    default:
-      return null;
+      throw Exception('Invalid leave type');
   }
 }
