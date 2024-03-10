@@ -1,3 +1,5 @@
+import 'package:echno_attendance/employee/models/employee.dart';
+
 abstract class IReadEmployee {
-  Future<Map<String, dynamic>> readEmployee({required String employeeId});
+  Future<Employee?> readEmployee({required String employeeId});
 }

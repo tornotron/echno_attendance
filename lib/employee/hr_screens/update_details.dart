@@ -1,5 +1,7 @@
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/hr_employee_service.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:flutter/material.dart';
 
 class UpdateEmployeeDetails extends StatefulWidget {
@@ -17,26 +19,34 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _roleController = TextEditingController();
 
-  Map<String, dynamic>? _employeeData;
+  Employee? _employee;
+  late String _employeeName;
+  late String _companyEmail;
+  late String _phoneNumber;
+  late bool _employeeStatus;
+  late EmployeeRole _employeeRole;
 
   void _searchEmployee(String employeeId) async {
-    final employeeData = await HrEmployeeService.firestore()
+    final employee = await HrEmployeeService.firestore()
         .readEmployee(employeeId: employeeId);
-    setState(() {
-      _employeeData = employeeData;
 
-      if (employeeData.isNotEmpty) {
-        _nameController.text = employeeData['name'] ?? '';
-        _emailController.text = employeeData['email'] ?? '';
-        _phoneController.text = employeeData['phoneNumber'] ?? '';
-        _roleController.text = employeeData['userRole'] ?? '';
-      }
+    _employeeName = employee?.employeeName ?? '';
+    _companyEmail = employee?.companyEmail ?? '';
+    _phoneNumber = employee?.phoneNumber ?? '';
+    _employeeStatus = employee?.employeeStatus ?? false;
+    _employeeRole = employee?.employeeRole ?? EmployeeRole.tc;
+
+    setState(() {
+      _employee = employee;
+
+      _nameController.text = _employeeName;
+      _emailController.text = _companyEmail;
+      _phoneController.text = _phoneNumber;
     });
 
     // Show error dialog if employee not found
-    if (employeeData['id'] == null) {
+    if (employee == null) {
       _showErrorDialog();
     }
   }
@@ -68,7 +78,6 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _roleController.dispose();
     super.dispose();
   }
 
@@ -131,7 +140,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                 const SizedBox(height: 10.0),
                 const Divider(height: 2.0),
                 const SizedBox(height: 10.0),
-                if (_employeeData?['id'] != null)
+                if (_employee != null)
                   Column(
                     children: [
                       TextFormField(
@@ -146,7 +155,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData?['name'] = _nameController.text;
+                            _employeeName = _nameController.text;
                           });
                         },
                       ),
@@ -163,7 +172,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData?['email'] = _emailController.text;
+                            _companyEmail = _emailController.text;
                           });
                         },
                       ),
@@ -180,27 +189,29 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _employeeData?['phoneNumber'] =
-                                _phoneController.text;
+                            _phoneNumber = _phoneController.text;
                           });
                         },
                       ),
                       const SizedBox(height: 15.0),
-                      TextFormField(
-                        controller: _roleController,
-                        decoration: InputDecoration(
-                          labelText: 'Role',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              (15.0),
-                            ),
-                          ),
-                        ),
-                        onChanged: (value) {
+                      DropdownButtonFormField<EmployeeRole>(
+                        value: _employeeRole,
+                        onChanged: (EmployeeRole? newValue) {
                           setState(() {
-                            _employeeData?['userRole'] = _roleController.text;
+                            _employeeRole = newValue ?? EmployeeRole.tc;
                           });
                         },
+                        items: EmployeeRole.values.map((EmployeeRole role) {
+                          return DropdownMenuItem<EmployeeRole>(
+                              value: role, // Use enum value here
+                              child: Text(
+                                role.toString().split('.').last,
+                              ));
+                        }).toList(),
+                        decoration: const InputDecoration(
+                          hintText: 'Select Employee Role',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                       const SizedBox(height: 15.0),
                       Container(
@@ -219,10 +230,10 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           trailing: Switch(
-                            value: _employeeData?['isActiveUser'] ?? false,
-                            onChanged: (value) {
+                            value: _employeeStatus,
+                            onChanged: (bool value) {
                               setState(() {
-                                _employeeData?['isActiveUser'] = value;
+                                _employeeStatus = value;
                               });
                             },
                           ),
@@ -235,11 +246,12 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           onPressed: () async {
                             await HrEmployeeService.firestore().updateEmployee(
                               employeeId: _employeeIdController.text,
-                              name: _employeeData?['name'],
-                              email: _employeeData?['email'],
-                              phoneNumber: _employeeData?['phoneNumber'],
-                              userRole: _employeeData?['userRole'],
-                              isActiveUser: _employeeData?['isActiveUser'],
+                              name: _employeeName,
+                              email: _companyEmail,
+                              phoneNumber: _phoneNumber,
+                              userRole:
+                                  _employeeRole.toString().split('.').last,
+                              isActiveUser: _employeeStatus,
                             );
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -251,12 +263,11 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                               );
                               // Clear the fields once the details are updated successfully
                               setState(() {
-                                _employeeData = null;
+                                _employee = null;
                                 _employeeIdController.clear();
                                 _nameController.clear();
                                 _emailController.clear();
                                 _phoneController.clear();
-                                _roleController.clear();
                               });
                             }
                           },

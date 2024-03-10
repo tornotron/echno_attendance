@@ -16,7 +16,7 @@ class EmployeeService implements BasicEmployeeDatabaseHandler {
   }
 
   @override
-  Future<Map<String, dynamic>> readEmployee({required String employeeId}) {
+  Future<Employee?> readEmployee({required String employeeId}) {
     return _handler.readEmployee(employeeId: employeeId);
   }
 

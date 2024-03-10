@@ -2,6 +2,7 @@ import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/employee/domain/firestore/database_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:logger/logger.dart';
 
@@ -11,11 +12,14 @@ class BasicEmployeeFirestoreDatabaseHandler
   get devtools => null;
 
   @override
-  Future<Map<String, dynamic>> readEmployee({
-    required String? employeeId,
+  Future<Employee?> readEmployee({
+    required String employeeId,
   }) async {
-    String? name, email, phoneNumber, userRole, id;
-    bool? isActiveUser;
+    String employeeName;
+    String employeeEmail;
+    String phoneNumber;
+    bool employeeStatus;
+    EmployeeRole employeeRole;
     try {
       CollectionReference employeesCollection =
           FirebaseFirestore.instance.collection('employees');
@@ -26,12 +30,22 @@ class BasicEmployeeFirestoreDatabaseHandler
       if (employeeDocument.exists) {
         Map<String, dynamic> employeeData =
             employeeDocument.data() as Map<String, dynamic>;
-        id = employeeData['employee-id'];
-        name = employeeData['full-name'];
-        email = employeeData['email-id'];
+
+        employeeName = employeeData['full-name'];
+        employeeEmail = employeeData['email-id'];
         phoneNumber = employeeData['phone'];
-        userRole = employeeData['employee-role'];
-        isActiveUser = employeeData['employee-status'];
+        employeeRole = employeeData['employee-role'];
+        employeeStatus = employeeData['employee-status'];
+
+        Employee employee = Employee(
+          employeeId: employeeId,
+          employeeName: employeeName,
+          companyEmail: employeeEmail,
+          phoneNumber: phoneNumber,
+          employeeStatus: employeeStatus,
+          employeeRole: employeeRole,
+        );
+        return employee;
       } else {
         logs.i("employee doesn't exist");
       }
@@ -40,14 +54,7 @@ class BasicEmployeeFirestoreDatabaseHandler
     } catch (e) {
       logs.e('Other Exception: $e');
     }
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'phoneNumber': phoneNumber,
-      'userRole': userRole,
-      'isActiveUser': isActiveUser,
-    };
+    return null;
   }
 
   @override
