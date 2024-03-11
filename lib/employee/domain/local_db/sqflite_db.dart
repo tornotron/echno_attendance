@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
+import 'package:echno_attendance/employee/utilities/crud_exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -66,7 +66,7 @@ class DatabaseUserService {
       throw UserAlreadyExists();
     }
 
-    final userId = await database.insert(employeeTable, {
+    final id = await database.insert(employeeTable, {
       companyEmailColumn: companyEmail.toLowerCase(),
       employeeNameColumn: employeeName,
       phoneNumberColumn: phoneNumber,
@@ -76,7 +76,7 @@ class DatabaseUserService {
     });
 
     return DbEmployee(
-      id: userId,
+      id: id,
       employeeName: employeeName,
       companyEmail: companyEmail,
       phoneNumber: phoneNumber,
@@ -170,7 +170,7 @@ class DbEmployee {
 
   @override
   String toString() =>
-      'Person, ID = $id, companyEmail = $companyEmail, name = $employeeName, phoneNumber = $phoneNumber, employeeId = $employeeId, employeeRole = $employeeRole, employeeStatus = $employeeStatus,';
+      'Employee, ID = $id, companyEmail = $companyEmail, employeeName = $employeeName, phoneNumber = $phoneNumber, employeeId = $employeeId, employeeRole = $employeeRole, employeeStatus = $employeeStatus,';
 
   @override
   bool operator ==(covariant DbEmployee other) => id == other.id;

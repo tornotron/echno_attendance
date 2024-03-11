@@ -1,5 +1,5 @@
-import 'package:echno_attendance/crud/services/db_user_services.dart';
-import 'package:echno_attendance/crud/utilities/crud_exceptions.dart';
+import 'package:echno_attendance/local_db/sqflite_db.dart';
+import 'package:echno_attendance/employee/utilities/crud_exceptions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
