@@ -38,8 +38,8 @@ class LoadingScreen {
     streamText.add(text);
 
     final state = Overlay.of(context);
-    final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
+    // final renderBox = context.findRenderObject() as RenderBox;
+    // final size = renderBox.size;
 
     final overlay = OverlayEntry(
       builder: (context) {
@@ -47,44 +47,50 @@ class LoadingScreen {
         return Material(
           color: echnoLightColor.withOpacity(0.5),
           child: Center(
-            child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: size.width * 0.8,
-                  maxHeight: size.height * 0.8,
-                  minWidth: size.width * 0.5,
-                ),
-                decoration: BoxDecoration(
-                  color: isDarkMode ? echnoGreyColor : echnoDarkColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 10),
-                        const LinearProgressIndicator(),
-                        const SizedBox(height: 20),
-                        StreamBuilder(
-                          stream: streamText.stream,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Text(
-                                snapshot.data as String,
-                                style: Theme.of(context).textTheme.titleMedium,
-                                textAlign: TextAlign.center,
-                              );
-                            } else {
-                              return Container();
-                            }
-                          },
-                        ),
-                      ],
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Container(
+                  constraints: BoxConstraints(
+                    maxWidth: constraints.maxWidth * 0.8,
+                    maxHeight: constraints.maxHeight * 0.8,
+                    minWidth: constraints.minWidth * 0.5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? echnoGreyColor : echnoDarkColor,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 10),
+                          const LinearProgressIndicator(),
+                          const SizedBox(height: 20),
+                          StreamBuilder(
+                            stream: streamText.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  snapshot.data as String,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                  textAlign: TextAlign.center,
+                                );
+                              } else {
+                                return Container();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                )),
+                );
+              },
+            ),
           ),
         );
       },
