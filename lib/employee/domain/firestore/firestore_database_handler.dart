@@ -9,7 +9,6 @@ import 'package:logger/logger.dart';
 class BasicEmployeeFirestoreDatabaseHandler
     implements BasicEmployeeDatabaseHandler {
   final logs = logger(BasicEmployeeFirestoreDatabaseHandler, Level.info);
-  get devtools => null;
 
   @override
   Future<Employee?> readEmployee({
@@ -72,15 +71,15 @@ class BasicEmployeeFirestoreDatabaseHandler
         // Get the first document
         Map<String, dynamic> employeeData =
             querySnapshot.docs.first.data() as Map<String, dynamic>;
-        devtools.log('Employee found');
+        logs.i('Employee found');
         return employeeData;
       } else {
-        devtools.log('Employee not found');
-        return {}; // Return an empty map if no employee is found
+        logs.i('Employee not found');
+        throw Exception('Employee Not Added to Employee Collection');
       }
     } catch (e) {
-      devtools.log('Error searching for employee: $e');
-      return {}; // Return an empty map if an error occurs
+      logs.e('Error searching for employee: $e');
+      throw Exception('Error searching for employee: $e');
     }
   }
 
@@ -94,9 +93,6 @@ class BasicEmployeeFirestoreDatabaseHandler
 
 class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
     implements HrDatabaseHandler {
-  @override
-  final logs = logger(HrFirestoreDatabaseHandler, Level.info);
-
   @override
   Future<Employee?> createEmployee(
       {required String employeeId,

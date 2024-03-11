@@ -28,9 +28,9 @@ class Employee {
     return authUser?.toJson()[property];
   }
 
-  String get uid => authUserProperty('uid');
-  String get email => authUserProperty('email');
-  String get isEmailVerified => authUserProperty('isEmailVerified');
+  String get authUserId => authUserProperty('auth-user-id');
+  String get authUserEmail => authUserProperty('auth-user-email');
+  String get isEmailVerified => authUserProperty('is-email-verified');
 
   String get employeeRoleString => employeeRole.toString().split('.').last;
 
