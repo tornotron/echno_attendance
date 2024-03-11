@@ -51,20 +51,20 @@ void main() {
     test('test create user and delete user from databsae', () async {
       await mockDatabaseUserService.open();
       // Create the user
-      DBUser mockUser = await mockDatabaseUserService.createUser(
-          name: 'John Doe',
-          email: 'john.doe@example.com',
+      DbEmployee mockUser = await mockDatabaseUserService.createEmployee(
+          employeeName: 'John Doe',
+          companyEmail: 'john.doe@example.com',
           phoneNumber: 1234567890,
-          employeeID: '1234567890',
+          employeeId: '1234567890',
           employeeRole: 'Software Engineer',
-          isActiveEmployee: true);
+          employeeStatus: true);
 
       // Check that the user was created successfully
-      expect(mockUser.email == 'john.doe@example.com', true);
+      expect(mockUser.companyEmail == 'john.doe@example.com', true);
 
       // Delete the user
-      final success =
-          await mockDatabaseUserService.deleteUser(employeeID: '1234567890');
+      final success = await mockDatabaseUserService.deleteEmployee(
+          employeeID: '1234567890');
 
       // Check that the user was deleted successfully
       expect(success, 1);
@@ -77,20 +77,20 @@ void main() {
         () async {
       await mockDatabaseUserService.open();
       // Create the user
-      DBUser mockUser = await mockDatabaseUserService.createUser(
-          name: 'John Doe',
-          email: 'john.doe@example.com',
+      DbEmployee mockUser = await mockDatabaseUserService.createEmployee(
+          employeeName: 'John Doe',
+          companyEmail: 'john.doe@example.com',
           phoneNumber: 1234567890,
-          employeeID: '1234567890',
+          employeeId: '1234567890',
           employeeRole: 'Software Engineer',
-          isActiveEmployee: true);
+          employeeStatus: true);
 
 // Get the user
-      final DBUser retrievedUser =
-          await mockDatabaseUserService.getUser(employeeID: '1234567890');
+      final DbEmployee retrievedUser =
+          await mockDatabaseUserService.getEmployee(employeeId: '1234567890');
 
 // Delete the user
-      await mockDatabaseUserService.deleteUser(employeeID: '1234567890');
+      await mockDatabaseUserService.deleteEmployee(employeeID: '1234567890');
 
 // Check that the retrieved user is the same as the created user
       expect(retrievedUser.id, mockUser.id);
@@ -102,28 +102,28 @@ void main() {
         () async {
       await mockDatabaseUserService.open();
       // Create the user
-      DBUser mockUser = await mockDatabaseUserService.createUser(
-          name: 'John Doe II',
-          email: 'john.doe-2@example.com',
+      DbEmployee mockUser = await mockDatabaseUserService.createEmployee(
+          employeeName: 'John Doe II',
+          companyEmail: 'john.doe-2@example.com',
           phoneNumber: 2345678901,
-          employeeID: '2345678901',
+          employeeId: '2345678901',
           employeeRole: 'Software Engineer',
-          isActiveEmployee: true);
+          employeeStatus: true);
 
       // Update the user
-      await mockDatabaseUserService.updateUser(
+      await mockDatabaseUserService.updateEmployee(
         mockUser,
-        mockUser.employeeID,
+        mockUser.employeeId,
         'Site Engineer',
-        mockUser.isActiveEmployee,
       );
 
       // Get the updated user
-      final updatedUser = await mockDatabaseUserService.getUser(
-          employeeID: mockUser.employeeID);
+      final updatedUser = await mockDatabaseUserService.getEmployee(
+          employeeId: mockUser.employeeId);
 
 // Delete the user
-      await mockDatabaseUserService.deleteUser(employeeID: mockUser.employeeID);
+      await mockDatabaseUserService.deleteEmployee(
+          employeeID: mockUser.employeeId);
       // Check that the updated user has the new employee role
       expect(updatedUser.employeeRole, 'Site Engineer');
       await mockDatabaseUserService.close();

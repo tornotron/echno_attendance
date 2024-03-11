@@ -8,11 +8,13 @@ import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseAuthHandler implements AuthHandler {
   @override
-  Future<AuthUser> createUser(
-      {required String email, required String password}) async {
+  Future<AuthUser> createUser({
+    required String authUserEmail,
+    required String password,
+  }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
+        email: authUserEmail,
         password: password,
       );
       final user = currentUser;
@@ -37,11 +39,13 @@ class FirebaseAuthHandler implements AuthHandler {
   }
 
   @override
-  Future<AuthUser> logIn(
-      {required String email, required String password}) async {
+  Future<AuthUser> logIn({
+    required String authUserEmail,
+    required String password,
+  }) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
+        email: authUserEmail,
         password: password,
       );
       final user = currentUser;
@@ -94,9 +98,9 @@ class FirebaseAuthHandler implements AuthHandler {
   }
 
   @override
-  Future<void> resetPassword({required String toEmail}) async {
+  Future<void> resetPassword({required String authUserEmail}) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: toEmail);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: authUserEmail);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'firebase_auth/invalid-email':

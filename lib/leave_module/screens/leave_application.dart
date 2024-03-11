@@ -1,6 +1,8 @@
+import 'package:echno_attendance/auth/models/auth_user.dart';
+import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
-import 'package:echno_attendance/employee/services/employee_service.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:echno_attendance/leave_module/widgets/date_selection_field.dart';
@@ -25,6 +27,8 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   final TextEditingController _endDateController = TextEditingController();
   final _leaveHandler = LeaveService.firestoreLeave(); // Leave related services
   final GlobalKey<FormState> _leaveFormKey = GlobalKey<FormState>();
+
+  final AuthUser? currentUser = AuthService.firebase().currentUser;
 
   DateTime? startDate; // Starting date of leave
   DateTime? endDate; // Ending date of leave
@@ -180,10 +184,6 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       : DateFormat('dd-MM-yyyy').format(startDate!),
                   onTap: () {
                     _selectStartDate(context);
-                    setState(() {
-                      _startDateController.text =
-                          DateFormat('dd-MM-yyyy').format(startDate!);
-                    });
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -285,8 +285,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       if (_leaveFormKey.currentState!.validate()) {
                         // Form is valid, submit the leave application
                         final currentEmployee =
-                            await EmployeeService.firestore()
-                                .currentEmployee; // Get the current employee
+                            await Employee.fromFirebaseUser(currentUser!);
                         await _leaveHandler.applyForLeave(
                           uid: currentEmployee.uid,
                           employeeID: currentEmployee.employeeId,

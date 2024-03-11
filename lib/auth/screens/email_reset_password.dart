@@ -133,7 +133,7 @@ class _MailPasswordResetScreenState extends State<MailPasswordResetScreen> {
                               final email = _controller.text.trim();
                               context.read<AuthBloc>().add(
                                     AuthForgotPasswordEvent(
-                                      email: email,
+                                      authUserEmail: email,
                                     ),
                                   );
                             }

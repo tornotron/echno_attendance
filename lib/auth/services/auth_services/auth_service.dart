@@ -12,9 +12,14 @@ class AuthService implements AuthHandler {
   }
 
   @override
-  Future<AuthUser> createUser(
-      {required String email, required String password}) {
-    return _handler.createUser(email: email, password: password);
+  Future<AuthUser> createUser({
+    required String authUserEmail,
+    required String password,
+  }) {
+    return _handler.createUser(
+      authUserEmail: authUserEmail,
+      password: password,
+    );
   }
 
   @override
@@ -23,8 +28,12 @@ class AuthService implements AuthHandler {
   }
 
   @override
-  Future<AuthUser> logIn({required String email, required String password}) {
-    return _handler.logIn(email: email, password: password);
+  Future<AuthUser> logIn(
+      {required String authUserEmail, required String password}) {
+    return _handler.logIn(
+      authUserEmail: authUserEmail,
+      password: password,
+    );
   }
 
   @override
@@ -38,8 +47,8 @@ class AuthService implements AuthHandler {
   }
 
   @override
-  Future<void> resetPassword({required String toEmail}) {
-    return _handler.resetPassword(toEmail: toEmail);
+  Future<void> resetPassword({required String authUserEmail}) {
+    return _handler.resetPassword(authUserEmail: authUserEmail);
   }
 
   @override

@@ -9,8 +9,11 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
   @override
   Future<Map<String, dynamic>> searchForEmployeeInDatabase(
       {required String employeeId}) async {
-    String? name, email, phoneNumber, userRole;
-    bool? isActiveUser;
+    String? employeeName;
+    String? companyEmail;
+    String? phoneNumber;
+    String? employeeRole;
+    bool? employeeStatus;
     try {
       CollectionReference employeesCollection =
           FirebaseFirestore.instance.collection('employees');
@@ -21,11 +24,11 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
       if (employeeDocument.exists) {
         Map<String, dynamic> employeeData =
             employeeDocument.data() as Map<String, dynamic>;
-        name = employeeData['full-name'];
-        email = employeeData['email-id'];
-        phoneNumber = employeeData['phone'];
-        userRole = employeeData['employee-role'];
-        isActiveUser = employeeData['employee-status'];
+        employeeName = employeeData['employee-name'];
+        companyEmail = employeeData['company-email'];
+        phoneNumber = employeeData['phone-number'];
+        employeeRole = employeeData['employee-role'];
+        employeeStatus = employeeData['employee-status'];
       }
     } on FirebaseException catch (error) {
       switch (error.code) {
@@ -38,18 +41,18 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
       throw GenericAuthException('Other Exception: $e');
     }
     return {
-      'name': name,
-      'email': email,
-      'phoneNumber': phoneNumber,
-      'userRole': userRole,
-      'isActiveUser': isActiveUser,
+      'employee-name': employeeName,
+      'company-email': companyEmail,
+      'phone-number': phoneNumber,
+      'employee-role': employeeRole,
+      'employee-status': employeeStatus,
     };
   }
 
   @override
   Future<AuthUser?> searchForUserInDatabase(
       {required String authUserId}) async {
-    final String email;
+    final String authUserEmail;
     final bool isEmailVerified;
     AuthUser? authUser;
 
@@ -62,13 +65,13 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
       if (userDocument.exists) {
         Map<String, dynamic> authUserData =
             userDocument.data() as Map<String, dynamic>;
-        email = authUserData['auth-user-email'];
+        authUserEmail = authUserData['auth-user-email'];
         isEmailVerified = authUserData['is-email-verified'];
 
         authUser = AuthUser(
           false,
-          uid: authUserId,
-          email: email,
+          authUserId: authUserId,
+          authUserEmail: authUserEmail,
           isEmailVerified: isEmailVerified,
         );
       }
@@ -93,9 +96,9 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
     try {
       CollectionReference userCollection = _firestore.collection('users');
 
-      await userCollection.doc(authUser.uid).set({
-        'auth-user-id': authUser.uid,
-        'auth-user-email': authUser.email,
+      await userCollection.doc(authUser.authUserId).set({
+        'auth-user-id': authUser.authUserId,
+        'auth-user-email': authUser.authUserEmail,
         'is-email-verified': authUser.isEmailVerified,
       });
 
@@ -107,8 +110,8 @@ class FirestoreDatabaseHandler implements DatabaseHandler {
 
         if (employeeDocument.exists) {
           await employeesCollection.doc(employeeId).update({
-            'auth-user-id': authUser.uid,
-            'auth-user-email': authUser.email,
+            'auth-user-id': authUser.authUserId,
+            'auth-user-email': authUser.authUserEmail,
             'is-email-verified': authUser.isEmailVerified,
           });
         }

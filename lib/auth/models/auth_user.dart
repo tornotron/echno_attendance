@@ -3,33 +3,33 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class AuthUser {
-  final String uid;
-  final String email;
+  final String authUserId;
+  final String authUserEmail;
   final bool isEmailVerified;
   final bool isHr;
 
   const AuthUser(
     this.isHr, {
-    required this.uid,
-    required this.email,
+    required this.authUserId,
+    required this.authUserEmail,
     required this.isEmailVerified,
   });
 
   factory AuthUser.fromFirebaseUser(User user) {
     return AuthUser(
       false,
-      uid: user.uid,
-      email: user.email!,
+      authUserId: user.uid,
+      authUserEmail: user.email!,
       isEmailVerified: user.emailVerified,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'uid': uid,
-      'email': email,
-      'isEmailVerified': isEmailVerified,
-      'isHr': isHr,
+      'auth-user-id': authUserId,
+      'auth-user-email': authUserEmail,
+      'is-email-verified': isEmailVerified,
+      'is-hr': isHr,
     };
   }
 }

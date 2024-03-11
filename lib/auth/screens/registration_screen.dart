@@ -298,7 +298,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       context.read<AuthBloc>().add(
                                             AuthRegistrationEvent(
                                               employeeId,
-                                              email: email,
+                                              authUserEmail: email,
                                               password: password,
                                             ),
                                           );

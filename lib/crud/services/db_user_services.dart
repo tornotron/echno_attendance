@@ -29,7 +29,8 @@ class DatabaseUserService {
       final Database database = await openDatabase(dbPath);
       _database = database;
 
-      await database.execute(createUserTable); // Database 'user' table creation
+      await database
+          .execute(createEmployeeTable); // Database 'user' table creation
     } on MissingPlatformDirectoryException {
       throw Unabletogetdocumentsdirectory();
     }
@@ -46,49 +47,49 @@ class DatabaseUserService {
     return _database;
   }
 
-  Future<DBUser> createUser({
-    required String name,
-    required String email,
+  Future<DbEmployee> createEmployee({
+    required String employeeName,
+    required String companyEmail,
     required int phoneNumber,
-    required String employeeID,
+    required String employeeId,
     required String employeeRole,
-    required bool isActiveEmployee,
+    required bool employeeStatus,
   }) async {
     final database = getDatabase();
     final results = await database.query(
-      userTable,
+      employeeTable,
       limit: 1,
-      where: '$emailColumn = ?',
-      whereArgs: [email.toLowerCase()],
+      where: '$companyEmailColumn = ?',
+      whereArgs: [companyEmail.toLowerCase()],
     );
     if (results.isNotEmpty) {
       throw UserAlreadyExists();
     }
 
-    final userId = await database.insert(userTable, {
-      emailColumn: email.toLowerCase(),
-      nameColumn: name,
+    final userId = await database.insert(employeeTable, {
+      companyEmailColumn: companyEmail.toLowerCase(),
+      employeeNameColumn: employeeName,
       phoneNumberColumn: phoneNumber,
-      employeeIdColumn: employeeID,
+      employeeIdColumn: employeeId,
       employeeRoleColumn: employeeRole,
-      isActiveEmployeeColumn: isActiveEmployee ? 1 : 0,
+      employeeStatusColumn: employeeStatus ? 1 : 0,
     });
 
-    return DBUser(
+    return DbEmployee(
       id: userId,
-      name: name,
-      email: email,
+      employeeName: employeeName,
+      companyEmail: companyEmail,
       phoneNumber: phoneNumber,
-      employeeID: employeeID,
+      employeeId: employeeId,
       employeeRole: employeeRole,
-      isActiveEmployee: isActiveEmployee,
+      employeeStatus: employeeStatus,
     );
   }
 
-  Future<int> deleteUser({required String employeeID}) async {
+  Future<int> deleteEmployee({required String employeeID}) async {
     final database = getDatabase();
     final deleteStatus = await database.delete(
-      userTable,
+      employeeTable,
       where: '$employeeIdColumn = ?',
       whereArgs: [employeeID],
     );
@@ -98,78 +99,81 @@ class DatabaseUserService {
     return deleteStatus;
   }
 
-  Future<DBUser> getUser({required String employeeID}) async {
+  Future<DbEmployee> getEmployee({required String employeeId}) async {
     final database = getDatabase();
     final results = await database.query(
-      userTable,
+      employeeTable,
       limit: 1,
       where: '$employeeIdColumn = ?',
-      whereArgs: [employeeID],
+      whereArgs: [employeeId],
     );
     if (results.isEmpty) {
       throw CouldNotFindUser();
     } else {
-      return DBUser.fromRow(results.first);
+      return DbEmployee.fromRow(results.first);
     }
   }
 
-  Future<DBUser> updateUser(
-    DBUser user,
-    String employeeID,
+  Future<DbEmployee> updateEmployee(
+    DbEmployee dbUser,
+    String employeeId,
+    String? employeeName,
+    String? companyEmail,
     String? employeeRole,
-    bool? isActiveEmployee,
+    bool? employeeStatus,
   ) async {
     final db = getDatabase();
-    await getUser(employeeID: employeeID);
+    await getEmployee(employeeId: employeeId);
 
-    final updatesCount = await db.update(userTable, {
-      employeeIdColumn: employeeID,
+    final updatesCount = await db.update(employeeTable, {
+      employeeIdColumn: employeeId,
+      if (employeeName != null) employeeNameColumn: employeeName,
+      if (companyEmail != null) companyEmailColumn: companyEmail.toLowerCase(),
       if (employeeRole != null) employeeRoleColumn: employeeRole,
-      if (isActiveEmployee != null)
-        isActiveEmployeeColumn: isActiveEmployee ? 1 : 0,
+      if (employeeStatus != null) employeeStatusColumn: employeeStatus ? 1 : 0,
     });
     if (updatesCount == 0) {
       throw CouldNotUpdateUser();
     } else {
-      return await getUser(employeeID: employeeID);
+      return await getEmployee(employeeId: employeeId);
     }
   }
 }
 
-class DBUser {
+class DbEmployee {
   int id;
-  String name;
-  String email;
+  String employeeName;
+  String companyEmail;
   int phoneNumber;
-  String employeeID;
+  String employeeId;
   String employeeRole;
-  bool isActiveEmployee;
+  bool employeeStatus;
 
-  DBUser({
+  DbEmployee({
     required this.id,
-    required this.name,
-    required this.email,
+    required this.employeeName,
+    required this.companyEmail,
     required this.phoneNumber,
-    required this.employeeID,
+    required this.employeeId,
     required this.employeeRole,
-    required this.isActiveEmployee,
+    required this.employeeStatus,
   });
 
-  DBUser.fromRow(Map<String, Object?> map)
+  DbEmployee.fromRow(Map<String, Object?> map)
       : id = map[idColumn] as int,
-        name = map[nameColumn] as String,
-        email = map[emailColumn] as String,
+        employeeName = map[employeeNameColumn] as String,
+        companyEmail = map[companyEmailColumn] as String,
         phoneNumber = map[phoneNumberColumn] as int,
-        employeeID = map[employeeIdColumn] as String,
+        employeeId = map[employeeIdColumn] as String,
         employeeRole = map[employeeRoleColumn] as String,
-        isActiveEmployee = (map[isActiveEmployeeColumn] as int) == 1;
+        employeeStatus = (map[employeeStatusColumn] as int) == 1;
 
   @override
   String toString() =>
-      'Person, ID = $id, email = $email, name = $name, phoneNumber = $phoneNumber, employeeID = $employeeID, employeeRole = $employeeRole, isActiveEmployee = $isActiveEmployee,';
+      'Person, ID = $id, companyEmail = $companyEmail, name = $employeeName, phoneNumber = $phoneNumber, employeeId = $employeeId, employeeRole = $employeeRole, employeeStatus = $employeeStatus,';
 
   @override
-  bool operator ==(covariant DBUser other) => id == other.id;
+  bool operator ==(covariant DbEmployee other) => id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -178,29 +182,29 @@ class DBUser {
 // Database 'user' table
 
 const idColumn = 'id';
-const emailColumn = 'email';
+const companyEmailColumn = 'company_email';
 const employeeIdColumn = 'employee_id';
-const nameColumn = 'name';
+const employeeNameColumn = 'employee_name';
 const phoneNumberColumn = 'phone_number';
 const employeeRoleColumn = 'employee_role';
-const isActiveEmployeeColumn = 'is_active_employee';
+const employeeStatusColumn = 'employee_status';
 
 // General Database constants
 
 const dbName = 'echno_attendance.db';
-const userTable = 'user';
+const employeeTable = 'employees';
 
 // Database 'user' table creation
 
-const createUserTable = ''' CREATE TABLE IF NOT EXISTS "user" (
-              "id"	INTEGER NOT NULL,
-              "email"	TEXT NOT NULL UNIQUE,
-              "name"	TEXT NOT NULL,
-              "phone_number"	NUMERIC NOT NULL UNIQUE,
-              "employee_id"	TEXT NOT NULL UNIQUE,
-              "employee_role"	TEXT NOT NULL,
-              "is_active_employee"	INTEGER NOT NULL DEFAULT 1,
-              PRIMARY KEY("id" AUTOINCREMENT),
-              FOREIGN KEY("employee_role") REFERENCES "roles"("role_name")
+const createEmployeeTable = ''' CREATE TABLE IF NOT EXISTS $employeeTable (
+              $idColumn INTEGER NOT NULL,
+              $companyEmailColumn TEXT NOT NULL UNIQUE,
+              $employeeNameColumn TEXT NOT NULL,
+              $phoneNumberColumn NUMERIC NOT NULL UNIQUE,
+              $employeeIdColumn TEXT NOT NULL UNIQUE,
+              $employeeRoleColumn TEXT NOT NULL,
+              $employeeStatusColumn INTEGER NOT NULL DEFAULT 1,
+              PRIMARY KEY($idColumn AUTOINCREMENT),
+              FOREIGN KEY($employeeRoleColumn) REFERENCES roles(role_name)
             );
             ''';

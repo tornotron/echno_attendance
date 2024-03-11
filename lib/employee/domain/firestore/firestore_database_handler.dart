@@ -16,7 +16,7 @@ class BasicEmployeeFirestoreDatabaseHandler
     required String employeeId,
   }) async {
     String employeeName;
-    String employeeEmail;
+    String companyEmail;
     String phoneNumber;
     bool employeeStatus;
     EmployeeRole employeeRole;
@@ -31,16 +31,16 @@ class BasicEmployeeFirestoreDatabaseHandler
         Map<String, dynamic> employeeData =
             employeeDocument.data() as Map<String, dynamic>;
 
-        employeeName = employeeData['full-name'];
-        employeeEmail = employeeData['email-id'];
-        phoneNumber = employeeData['phone'];
+        employeeName = employeeData['employee-name'];
+        companyEmail = employeeData['comapany-email'];
+        phoneNumber = employeeData['phone-number'];
         employeeRole = getEmployeeRole(employeeData['employee-role']);
         employeeStatus = employeeData['employee-status'];
 
         Employee employee = Employee(
           employeeId: employeeId,
           employeeName: employeeName,
-          companyEmail: employeeEmail,
+          companyEmail: companyEmail,
           phoneNumber: phoneNumber,
           employeeStatus: employeeStatus,
           employeeRole: employeeRole,
@@ -64,7 +64,7 @@ class BasicEmployeeFirestoreDatabaseHandler
       // Search user with reference to the uid in firestore
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('employees')
-          .where('uid', isEqualTo: authUserId)
+          .where('auth-user-id', isEqualTo: authUserId)
           .get();
 
       // Check if any documents match the query
@@ -117,9 +117,9 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
             .doc(employeeId)
             .set({
           'employee-id': employeeId,
-          'full-name': employeeName,
-          'email-id': companyEmail,
-          'phone': phoneNumber,
+          'employee-name': employeeName,
+          'company-email': companyEmail,
+          'phone-number': phoneNumber,
           'employee-role': employeeRole.toString().split('.').last,
           'employee-status': employeeStatus,
         });
@@ -163,15 +163,15 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
       final newEmployeeData = <String, dynamic>{};
 
       if (employeeName != null) {
-        newEmployeeData['full-name'] = employeeName;
+        newEmployeeData['employee-name'] = employeeName;
       }
 
       if (companyEmail != null) {
-        newEmployeeData['email-id'] = companyEmail;
+        newEmployeeData['company-email'] = companyEmail;
       }
 
       if (phoneNumber != null) {
-        newEmployeeData['phone'] = phoneNumber;
+        newEmployeeData['phone-number'] = phoneNumber;
       }
 
       if (employeeRole != null) {
@@ -187,9 +187,9 @@ class HrFirestoreDatabaseHandler extends BasicEmployeeFirestoreDatabaseHandler
 
       Employee employee = Employee(
         employeeId: employeeId ?? oldEmployeeData['employee-id'],
-        employeeName: oldEmployeeData['full-name'],
-        companyEmail: oldEmployeeData['email-id'],
-        phoneNumber: oldEmployeeData['phone'],
+        employeeName: oldEmployeeData['employee-name'],
+        companyEmail: oldEmployeeData['company-email'],
+        phoneNumber: oldEmployeeData['phone-number'],
         employeeStatus: oldEmployeeData['employee-status'],
         employeeRole: getEmployeeRole(oldEmployeeData['employee-role']),
       );

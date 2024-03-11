@@ -7,14 +7,14 @@ abstract class AuthHandler {
   Future<void> initialize();
 
   Future<AuthUser> logIn({
-    required String email,
+    required String authUserEmail,
     required String password,
   });
   Future<AuthUser> createUser({
-    required String email,
+    required String authUserEmail,
     required String password,
   });
   Future<void> logOut();
   Future<void> sendEmailVerification();
-  Future<void> resetPassword({required String toEmail});
+  Future<void> resetPassword({required String authUserEmail});
 }

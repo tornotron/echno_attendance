@@ -48,10 +48,10 @@ class Employee {
 
   static Future<Employee> fromFirebaseUser(AuthUser authUser) async {
     Map<String, dynamic> employeeDetails = await employeeService
-        .searchEmployeeByAuthUserId(authUserId: authUser.uid);
+        .searchEmployeeByAuthUserId(authUserId: authUser.authUserId);
     final employeeID = employeeDetails['employee-id'];
-    final employeeName = employeeDetails['full-name'];
-    final companyEmail = employeeDetails['company-email-id'];
+    final employeeName = employeeDetails['employee-name'];
+    final companyEmail = employeeDetails['company-email'];
     final phoneNumber = employeeDetails['phone-number'];
     final employeeStatus = employeeDetails['employee-status'];
     final employeeRole = getEmployeeRole(employeeDetails['employee-role']);

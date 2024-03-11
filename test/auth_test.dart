@@ -36,7 +36,7 @@ void main() {
 
     test('createUser should delegate to logIn function', () async {
       final badEmailUser = provider.createUser(
-        email: 'wrongemail@echno.com',
+        authUserEmail: 'wrongemail@echno.com',
         password: 'password',
       );
       expect(
@@ -45,7 +45,7 @@ void main() {
       );
 
       final badPasswordUser = provider.createUser(
-        email: 'email@echno.com',
+        authUserEmail: 'email@echno.com',
         password: 'wrongpassword',
       );
 
@@ -55,7 +55,7 @@ void main() {
       );
 
       final user = await provider.createUser(
-        email: 'email@echo.com',
+        authUserEmail: 'email@echo.com',
         password: 'password',
       );
       expect(provider.currentUser, user);
@@ -73,7 +73,7 @@ void main() {
       await provider.logOut();
       expect(provider.currentUser, null);
       final user = await provider.logIn(
-        email: 'email@echno.com',
+        authUserEmail: 'email@echno.com',
         password: 'password',
       );
       expect(provider.currentUser, user);
@@ -83,12 +83,12 @@ void main() {
 
       // Create a user
       await provider.createUser(
-        email: 'existinguser@echno.com',
+        authUserEmail: 'existinguser@echno.com',
         password: 'oldpassword',
       );
 
       // Reset the password
-      await provider.resetPassword(toEmail: 'existinguser@echotech.com');
+      await provider.resetPassword(authUserEmail: 'existinguser@echotech.com');
 
       // Simulate the user receiving the reset email and setting a new password
       // This is where you would typically send an email to the user with a link to reset the password
@@ -100,7 +100,7 @@ void main() {
 
       // Log in with the new password
       final user = await provider.logIn(
-        email: 'existinguser@echno.com',
+        authUserEmail: 'existinguser@echno.com',
         password: 'newpassword',
       );
 
@@ -118,13 +118,13 @@ class MockAuthProvider implements AuthHandler {
 
   @override
   Future<AuthUser> createUser({
-    required String email,
+    required String authUserEmail,
     required String password,
   }) async {
     if (!_isInitialized) throw NotInitializedException();
     await Future.delayed(const Duration(seconds: 1));
     return logIn(
-      email: email,
+      authUserEmail: authUserEmail,
       password: password,
     );
   }
@@ -140,11 +140,11 @@ class MockAuthProvider implements AuthHandler {
 
   @override
   Future<AuthUser> logIn({
-    required String email,
+    required String authUserEmail,
     required String password,
   }) {
     if (!_isInitialized) throw NotInitializedException();
-    if (email == 'wrongemail@echno.com') {
+    if (authUserEmail == 'wrongemail@echno.com') {
       return throw UserNotFoundAuthException();
     }
     if (password == 'wrongpassword') {
@@ -152,8 +152,8 @@ class MockAuthProvider implements AuthHandler {
     }
     const user = AuthUser(
       isEmailVerified: false,
-      uid: '',
-      email: '',
+      authUserId: '',
+      authUserEmail: '',
     );
     _user = user;
     return Future.value(user);
@@ -173,14 +173,14 @@ class MockAuthProvider implements AuthHandler {
     if (_user == null) throw UserNotFoundAuthException();
     const newUser = AuthUser(
       isEmailVerified: true,
-      uid: 'currentuseruid',
-      email: 'currentiseremail',
+      authUserId: 'currentuseruid',
+      authUserEmail: 'currentiseremail',
     );
     _user = newUser;
   }
 
   @override
-  Future<void> resetPassword({required String toEmail}) async {
+  Future<void> resetPassword({required String authUserEmail}) async {
     if (!_isInitialized) throw NotInitializedException();
     if (_user != null) {
       // Simulate the reset email being sent successfully
@@ -197,8 +197,8 @@ class MockAuthProvider implements AuthHandler {
     if (_user != null) {
       _user = const AuthUser(
         isEmailVerified: true,
-        uid: 'currentuseruid',
-        email: 'currentuseremail',
+        authUserId: 'currentuseruid',
+        authUserEmail: 'currentuseremail',
       );
     }
   }

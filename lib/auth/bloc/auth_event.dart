@@ -14,12 +14,12 @@ class AuthNeedToRegisterEvent extends AuthEvent {
 }
 
 class AuthRegistrationEvent extends AuthEvent {
-  final String email;
+  final String authUserEmail;
   final String password;
   final String? emplyeeId;
   const AuthRegistrationEvent(
     this.emplyeeId, {
-    required this.email,
+    required this.authUserEmail,
     required this.password,
   });
 }
@@ -29,18 +29,18 @@ class AuthVerifyEmailEvent extends AuthEvent {
 }
 
 class AuthLogInEvent extends AuthEvent {
-  final String email;
+  final String authUserEmail;
   final String password;
   const AuthLogInEvent({
-    required this.email,
+    required this.authUserEmail,
     required this.password,
   });
 }
 
 class AuthForgotPasswordEvent extends AuthEvent {
-  final String? email;
+  final String? authUserEmail;
   const AuthForgotPasswordEvent({
-    this.email,
+    this.authUserEmail,
   });
 }
 

@@ -317,7 +317,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             _passwordController.text;
                                         context.read<AuthBloc>().add(
                                               AuthLogInEvent(
-                                                email: email,
+                                                authUserEmail: email,
                                                 password: password,
                                               ),
                                             );

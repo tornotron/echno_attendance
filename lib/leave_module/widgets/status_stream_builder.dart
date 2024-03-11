@@ -9,7 +9,7 @@ Widget leaveStatusStreamBuilder({
   required bool isDarkMode,
   required BuildContext context,
 }) {
-  final currentUserId = AuthService.firebase().currentUser?.uid;
+  final currentUserId = AuthService.firebase().currentUser?.authUserId;
   final leaveHandler = LeaveService.firestoreLeave();
   return Expanded(
     child: StreamBuilder<List<Leave>>(

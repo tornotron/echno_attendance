@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
         try {
           AuthUser? authUserInDatabase = await databaseService
-              .searchForUserInDatabase(authUserId: user.uid);
+              .searchForUserInDatabase(authUserId: user.authUserId);
 
           if (authUserInDatabase!.isEmailVerified == false) {
             databaseService.updateAuthUserToDatabase(authUser: user);
@@ -50,13 +50,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // User Registration
     on<AuthRegistrationEvent>(
       (event, emit) async {
-        final String email = event.email;
+        final String authUserEmail = event.authUserEmail;
         final String password = event.password;
         final String? employeeId = event.emplyeeId;
         final databaseService = DatabaseService.firestore();
         try {
           final authUser = await authHandler.createUser(
-            email: email,
+            authUserEmail: authUserEmail,
             password: password,
           );
           emit(const AuthLoggedOutState(
@@ -66,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ));
           try {
             AuthUser? newAuthUser = await databaseService
-                .searchForUserInDatabase(authUserId: authUser.uid);
+                .searchForUserInDatabase(authUserId: authUser.authUserId);
 
             if (newAuthUser == null) {
               databaseService.updateAuthUserToDatabase(
@@ -101,11 +101,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           exception: null,
           isLoading: true,
           loadingMessage: 'Logging In...')); // user login started
-      final email = event.email;
+      final authUserEmail = event.authUserEmail;
       final password = event.password;
       try {
         final user = await authHandler.logIn(
-          email: email,
+          authUserEmail: authUserEmail,
           password: password,
         );
         if (!user.isEmailVerified) {
@@ -139,8 +139,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         hasSentEmail: false,
         isLoading: false,
       ));
-      final email = event.email;
-      if (email == null) {
+      final authUserEmail = event.authUserEmail;
+      if (authUserEmail == null) {
         return;
       }
       // User Request for Password Reset
@@ -153,7 +153,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       bool didSendEmail;
       Exception? exception;
       try {
-        await authHandler.resetPassword(toEmail: email);
+        await authHandler.resetPassword(authUserEmail: authUserEmail);
         exception = null;
         didSendEmail = true;
       } on Exception catch (e) {
