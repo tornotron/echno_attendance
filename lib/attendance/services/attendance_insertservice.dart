@@ -26,17 +26,17 @@ class AttendanceInsertionService {
       required String siteName}) async {
     DateTime now = DateTime.now();
     String formattedTime = DateFormat('HH:mm:ss').format(now);
-    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
-    String monthNumber = formattedDate.substring(3, 5);
-    String Month = monthMap[monthNumber]!;
+    String monthNumber = formattedDate.substring(5, 7);
+    String month = monthMap[monthNumber]!;
 
     String attendanceStatus = 'true';
     await AttendanceFirestoreRepository().insertIntoDatabase(
         employeeId: employeeId,
         employeeName: employeeName,
         attendanceDate: formattedDate,
-        attendanceMonth: Month,
+        attendanceMonth: month,
         attendanceTime: formattedTime,
         attendanceStatus: attendanceStatus,
         siteName: siteName);
