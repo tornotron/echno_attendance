@@ -1,11 +1,17 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:echno_attendance/attendance/services/attendance_insertservice.dart';
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/camera/camera_provider.dart';
 import 'package:echno_attendance/camera/camera_screen.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
+import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:echno_attendance/employee/widgets/rounded_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +22,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final Employee currentEmployee;
+
+  Future<void> _fetchCurrentEmployee() async {
+    final employee = await EmployeeService.firestore().currentEmployee;
+    setState(() {
+      currentEmployee = employee;
+    });
+  }
+
+  @override
+  void initState() {
+    _fetchCurrentEmployee();
+    super.initState();
+  }
+ 
   @override
   Widget build(context) {
     return MaterialApp(
@@ -25,9 +46,19 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           systemOverlayStyle:
               const SystemUiOverlayStyle(statusBarColor: Color(0xFF004AAD)),
-          leading: const Icon(
-            Icons.account_circle_rounded,
-            size: 35,
+          leading: IconButton(
+            onPressed: () async {
+              final authBloc = context.read<AuthBloc>();
+              final shouldLogout = await showLogOutDialog(context);
+              if (shouldLogout) {
+                authBloc.add(const AuthLogOutEvent());
+              }
+            },
+            icon: const Icon(
+              Icons.account_circle_rounded,
+              size: 35,
+            ),
+            // size: 35,
           ),
           actions: [
             Center(
@@ -144,9 +175,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onSubmit: () async {
                     await AttendanceInsertionService().attendanceTrigger(
-                        employeeId: "EMP-400",
-                        employeeName: "Just Kyle",
-                        siteName: "pathanamthitta");
+                        employeeId: currentEmployee.employeeId,
+                        employeeName: currentEmployee.employeeName,
+                        siteName: "delhi");
                     final frontCamera = await cameraObjectProvider();
                     await Navigator.of(context).push(
                       MaterialPageRoute(
