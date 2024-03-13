@@ -1,4 +1,4 @@
-import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
+import 'package:echno_attendance/attendance/domain/firestore/attendance_firestore_handler.dart';
 import 'package:logger/logger.dart';
 import 'package:echno_attendance/logger.dart';
 import 'package:intl/intl.dart';

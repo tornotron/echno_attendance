@@ -1,5 +1,5 @@
 import 'package:echno_attendance/attendance/services/attendance_controller.dart';
-import 'package:echno_attendance/attendance/services/attendance_firestoreservice.dart';
+import 'package:echno_attendance/attendance/domain/firestore/attendance_firestore_handler.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
