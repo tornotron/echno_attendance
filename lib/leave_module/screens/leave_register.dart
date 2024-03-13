@@ -1,5 +1,8 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
+import 'package:echno_attendance/employee/services/employee_service.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/leave_module/widgets/register_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,10 +19,24 @@ class LeaveRegisterScreen extends StatefulWidget {
 class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _searchController = TextEditingController();
+  late final Employee currentEmployee;
+
+  Future<void> _fetchCurrentEmployee() async {
+    final employee = await EmployeeService.firestore().currentEmployee;
+    setState(() {
+      currentEmployee = employee;
+    });
+  }
+
+  @override
+  void initState() {
+    _fetchCurrentEmployee();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Widget content = Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor),
@@ -86,5 +103,16 @@ class LeaveRegisterScreenState extends State<LeaveRegisterScreen> {
         ],
       ),
     );
+    if (currentEmployee.employeeRole != EmployeeRole.hr) {
+      content = Scaffold(
+        body: Center(
+          child: Text(
+            'You are not authorized to access this Page. Please contact HR',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+      );
+    }
+    return content;
   }
 }

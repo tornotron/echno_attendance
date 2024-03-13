@@ -297,8 +297,8 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                       if (_leaveFormKey.currentState!.validate()) {
                         // Form is valid, submit the leave application
                         await _leaveHandler.applyForLeave(
-                          uid: currentEmployee.authUserId,
-                          employeeID: currentEmployee.employeeId,
+                          authUserId: currentEmployee.authUserId,
+                          employeeId: currentEmployee.employeeId,
                           employeeName: currentEmployee.employeeName,
                           appliedDate: DateTime.now(),
                           fromDate: startDate ?? DateTime.now(),

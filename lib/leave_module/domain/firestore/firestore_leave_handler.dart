@@ -15,8 +15,8 @@ class FirestoreLeaveHandler implements LeaveHandler {
 
   @override
   Future<Leave?> applyForLeave(
-      {required String uid,
-      required String employeeID,
+      {required String authUserId,
+      required String employeeId,
       required String employeeName,
       required DateTime appliedDate,
       required DateTime fromDate,
@@ -26,8 +26,8 @@ class FirestoreLeaveHandler implements LeaveHandler {
       required String? remarks}) async {
     try {
       final leave = await FirebaseFirestore.instance.collection('leaves').add({
-        'user-uid': uid,
-        'employee-id': employeeID,
+        'user-uid': authUserId,
+        'employee-id': employeeId,
         'employee-name': employeeName,
         'applied-date': appliedDate,
         'from-date': fromDate,
@@ -42,8 +42,8 @@ class FirestoreLeaveHandler implements LeaveHandler {
       final fetchLeave = await leave.get();
       return Leave(
         id: fetchLeave.id,
-        uid: uid,
-        employeeID: employeeID,
+        uid: authUserId,
+        employeeID: employeeId,
         employeeName: employeeName,
         appliedDate: appliedDate,
         fromDate: fromDate,
@@ -78,18 +78,12 @@ class FirestoreLeaveHandler implements LeaveHandler {
   // Get this leave history of the currently logged in user
   @override
   Stream<List<Leave>> streamLeaveHistory({
-    required String? uid,
+    required String? authUserId,
   }) {
-    if (uid == null || uid.isEmpty) {
-      // Return an empty stream if the uid is null or empty
-      devtools.log('No User Logged In or User ID is Empty');
-      return Stream.value([]);
-    }
-
     try {
       return _firestore
           .collection('leaves')
-          .where('user-uid', isEqualTo: uid)
+          .where('user-uid', isEqualTo: authUserId)
           .snapshots()
           .map(
         (QuerySnapshot<Object?> querySnapshot) {

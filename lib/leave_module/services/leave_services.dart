@@ -12,8 +12,8 @@ class LeaveService implements LeaveHandler {
 
   @override
   Future<Leave?> applyForLeave({
-    required String uid,
-    required String employeeID,
+    required String authUserId,
+    required String employeeId,
     required String employeeName,
     required DateTime appliedDate,
     required DateTime fromDate,
@@ -23,8 +23,8 @@ class LeaveService implements LeaveHandler {
     required String? remarks,
   }) {
     return _leaveHanler.applyForLeave(
-      uid: uid,
-      employeeID: employeeID,
+      authUserId: authUserId,
+      employeeId: employeeId,
       employeeName: employeeName,
       appliedDate: appliedDate,
       fromDate: fromDate,
@@ -46,8 +46,8 @@ class LeaveService implements LeaveHandler {
   }
 
   @override
-  Stream<List<Leave>> streamLeaveHistory({required String? uid}) {
-    return _leaveHanler.streamLeaveHistory(uid: uid);
+  Stream<List<Leave>> streamLeaveHistory({required String? authUserId}) {
+    return _leaveHanler.streamLeaveHistory(authUserId: authUserId);
   }
 
   @override

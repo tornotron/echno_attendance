@@ -2,8 +2,8 @@ import 'package:echno_attendance/leave_module/models/leave_model.dart';
 
 abstract class LeaveHandler {
   Future<Leave?> applyForLeave({
-    required String uid,
-    required String employeeID,
+    required String authUserId,
+    required String employeeId,
     required String employeeName,
     required DateTime appliedDate,
     required DateTime fromDate,
@@ -14,7 +14,7 @@ abstract class LeaveHandler {
   });
 
   Stream<List<Leave>> streamLeaveHistory({
-    required String? uid,
+    required String? authUserId,
   });
 
   Future<void> cancelLeave({required String leaveId});

@@ -54,10 +54,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
               ],
             ),
           ),
-          leaveStatusStreamBuilder(
-            isDarkMode: isDarkMode,
-            context: context,
-          ),
+          const LeaveStatusStreamWidget(),
         ],
       ),
     );

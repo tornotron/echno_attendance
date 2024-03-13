@@ -1,5 +1,8 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/employee/models/employee.dart';
+import 'package:echno_attendance/employee/services/employee_service.dart';
+import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
@@ -27,16 +30,26 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
   late Leave leave;
   LeaveStatus? selectedLeaveStatus;
 
+  late final Employee currentEmployee;
+
+  Future<void> _fetchCurrentEmployee() async {
+    final employee = await EmployeeService.firestore().currentEmployee;
+    setState(() {
+      currentEmployee = employee;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     leave = widget.leave;
     selectedLeaveStatus = leave.leaveStatus;
+    _fetchCurrentEmployee();
   }
 
   @override
   Widget build(context) {
-    return Scaffold(
+    Widget content = Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor),
@@ -197,5 +210,12 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
         ),
       ),
     );
+    if (currentEmployee.employeeRole != EmployeeRole.hr) {
+      content = Text(
+        'You are not authorized to access this Page. Please contact HR',
+        style: Theme.of(context).textTheme.titleMedium,
+      );
+    }
+    return content;
   }
 }
