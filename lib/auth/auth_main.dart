@@ -1,4 +1,5 @@
 import 'package:echno_attendance/common_widgets/loading_screen.dart';
+import 'package:echno_attendance/employee/screens/index.dart';
 import 'package:echno_attendance/global_theme/custom_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
@@ -55,7 +56,7 @@ class _NewEchnoHomePageState extends State<NewEchnoHomePage> {
       }
     }, builder: (context, state) {
       if (state is AuthLoggedInState) {
-        return const HomeScreen();
+        return const HomePage();
       } else if (state is AuthEmailNotVerifiedState) {
         return const EmailVerification();
       } else if (state is AuthLoggedOutState) {
