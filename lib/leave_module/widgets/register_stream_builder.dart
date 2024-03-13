@@ -43,7 +43,7 @@ Widget leaveRegisterStreamBuilder({
                     .toLowerCase()
                     .contains(searchQuery) ||
                 leave.employeeName.toLowerCase().contains(searchQuery) ||
-                leave.employeeID.toLowerCase().contains(searchQuery) ||
+                leave.employeeId.toLowerCase().contains(searchQuery) ||
                 leave.leaveStatus!
                     .toString()
                     .toLowerCase()

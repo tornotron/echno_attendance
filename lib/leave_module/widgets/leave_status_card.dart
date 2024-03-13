@@ -23,7 +23,7 @@ Widget leaveStatusCard(
     alignment: const FractionalOffset(0.0, 0.5),
     margin: const EdgeInsets.only(left: 15.0),
     child: Hero(
-      tag: leave.id,
+      tag: leave.leaveId,
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -116,7 +116,8 @@ Widget leaveStatusCard(
                       onTap: () async {
                         final shouldCancel = await showCancelDialog(context);
                         if (shouldCancel) {
-                          await leaveHandler.cancelLeave(leaveId: leave.id);
+                          await leaveHandler.cancelLeave(
+                              leaveId: leave.leaveId);
                         }
                       },
                       child: Container(

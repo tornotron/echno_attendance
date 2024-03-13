@@ -106,7 +106,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 enabled: false,
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: leave.employeeID,
+                  labelText: leave.employeeId,
                   labelStyle: Theme.of(context).textTheme.titleMedium,
                   border: const OutlineInputBorder(),
                 ),
@@ -187,7 +187,7 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                 child: ElevatedButton(
                   onPressed: () async {
                     await _leaveHandler.updateLeaveStatus(
-                        leaveId: leave.id,
+                        leaveId: leave.leaveId,
                         newStatus:
                             selectedLeaveStatus.toString().split('.').last);
                     if (context.mounted) {

@@ -26,7 +26,7 @@ class FirestoreLeaveHandler implements LeaveHandler {
       required String? remarks}) async {
     try {
       final leave = await FirebaseFirestore.instance.collection('leaves').add({
-        'user-uid': authUserId,
+        'auth-user-uid': authUserId,
         'employee-id': employeeId,
         'employee-name': employeeName,
         'applied-date': appliedDate,
@@ -41,9 +41,9 @@ class FirestoreLeaveHandler implements LeaveHandler {
       devtools.log('Leave application successful');
       final fetchLeave = await leave.get();
       return Leave(
-        id: fetchLeave.id,
-        uid: authUserId,
-        employeeID: employeeId,
+        leaveId: fetchLeave.id,
+        authUserId: authUserId,
+        employeeId: employeeId,
         employeeName: employeeName,
         appliedDate: appliedDate,
         fromDate: fromDate,
@@ -83,7 +83,7 @@ class FirestoreLeaveHandler implements LeaveHandler {
     try {
       return _firestore
           .collection('leaves')
-          .where('user-uid', isEqualTo: authUserId)
+          .where('auth-user-uid', isEqualTo: authUserId)
           .snapshots()
           .map(
         (QuerySnapshot<Object?> querySnapshot) {

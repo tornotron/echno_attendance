@@ -4,9 +4,9 @@ import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:equatable/equatable.dart';
 
 class Leave extends Equatable {
-  final String id;
-  final String uid;
-  final String employeeID;
+  final String leaveId;
+  final String authUserId;
+  final String employeeId;
   final String employeeName;
   final DateTime appliedDate;
   final DateTime fromDate;
@@ -18,9 +18,9 @@ class Leave extends Equatable {
   final String? remarks;
 
   const Leave({
-    required this.id,
-    required this.uid,
-    required this.employeeID,
+    required this.leaveId,
+    required this.authUserId,
+    required this.employeeId,
     required this.employeeName,
     required this.appliedDate,
     required this.fromDate,
@@ -36,9 +36,9 @@ class Leave extends Equatable {
     try {
       final data = doc.data() as Map<String, dynamic>;
       return Leave(
-        id: doc.id,
-        uid: data['user-uid'] ?? '',
-        employeeID: data['employee-id'] ?? '',
+        leaveId: doc.id,
+        authUserId: data['auth-user-uid'] ?? '',
+        employeeId: data['employee-id'] ?? '',
         employeeName: data['employee-name'] ?? '',
         appliedDate: (data['applied-date'] as Timestamp).toDate(),
         fromDate: (data['from-date'] as Timestamp).toDate(),
@@ -60,46 +60,48 @@ class Leave extends Equatable {
 
   factory Leave.fromJson(Map<String, dynamic> json) {
     return Leave(
-      id: json['id'] ?? '',
-      uid: json['uid'] ?? '',
-      employeeID: json['employeeID'] ?? '',
-      employeeName: json['employeeName'] ?? '',
-      appliedDate: DateTime.parse(json['appliedDate']),
-      fromDate: DateTime.parse(json['fromDate']),
-      toDate: DateTime.parse(json['toDate']),
-      leaveType: json['leaveType'] != null
-          ? getLeaveType(json['leaveType'])
+      leaveId: json['id'] ?? '',
+      authUserId: json['auth-user-id'] ?? '',
+      employeeId: json['employee-id'] ?? '',
+      employeeName: json['employee-name'] ?? '',
+      appliedDate: DateTime.parse(json['applied-date']),
+      fromDate: DateTime.parse(json['from-date']),
+      toDate: DateTime.parse(json['to-date']),
+      leaveType: json['leave-type'] != null
+          ? getLeaveType(json['leave-type'])
           : LeaveType.unclassified,
-      leaveStatus: json['leaveStatus'] != null
-          ? getLeaveStatus(json['leaveStatus'])
+      leaveStatus: json['leave-status'] != null
+          ? getLeaveStatus(json['leave-status'])
           : LeaveStatus.unclassified,
-      siteOffice: json['siteOffice'] ?? '',
-      isCancelled: json['isCancelled'] ?? false,
+      siteOffice: json['site-office'] ?? '',
+      isCancelled: json['is-cancelled'] ?? false,
       remarks: json['remarks'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'uid': uid,
-      'employeeID': employeeID,
-      'employeeName': employeeName,
-      'appliedDate': appliedDate.toIso8601String(),
-      'fromDate': fromDate.toIso8601String(),
-      'toDate': toDate.toIso8601String(),
-      'leaveType': leaveType?.toString(),
-      'leaveStatus': leaveStatus?.toString(),
-      'siteOffice': siteOffice,
-      'isCancelled': isCancelled,
+      'id': leaveId,
+      'auth-user-id': authUserId,
+      'employee-id': employeeId,
+      'employee-name': employeeName,
+      'applied-date': appliedDate.toIso8601String(),
+      'from-date': fromDate.toIso8601String(),
+      'to-date': toDate.toIso8601String(),
+      'leave-type':
+          leaveType != null ? leaveType!.toString().split('.').last : '',
+      'leave-status':
+          leaveStatus != null ? leaveStatus!.toString().split('.').last : '',
+      'site-office': siteOffice,
+      'is-cancelled': isCancelled,
       'remarks': remarks,
     };
   }
 
   @override
   List<Object?> get props => [
-        uid,
-        employeeID,
+        authUserId,
+        employeeId,
         employeeName,
         appliedDate,
         fromDate,
