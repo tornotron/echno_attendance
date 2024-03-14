@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:echno_attendance/auth/services/auth_services/auth_service.dart';
 import 'package:echno_attendance/employee/domain/firestore/database_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/logger.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 
 class BasicEmployeeFirestoreDatabaseHandler
@@ -88,6 +92,27 @@ class BasicEmployeeFirestoreDatabaseHandler
     final user = AuthService.firebase().currentUser!;
     Employee employee = await Employee.fromFirebaseUser(user);
     return employee;
+  }
+
+  @override
+  Future<void> uploadImage({
+    required String imagePath,
+    required String employeeId,
+    required XFile image,
+  }) async {
+    try {
+      final reference =
+          FirebaseStorage.instance.ref(imagePath).child(employeeId);
+      await reference.putFile(File(image.path));
+      final imageUrl = await reference.getDownloadURL();
+      await FirebaseFirestore.instance
+          .collection('employees')
+          .doc(employeeId)
+          .update({'photo-url': imageUrl});
+    } catch (e) {
+      logs.e('Error uploading image: $e');
+      throw Exception('Error uploading image: $e');
+    }
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:echno_attendance/employee/widgets/profile_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -23,6 +24,23 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late final Employee currentEmployee;
+
+  updateProfilePhoto() async {
+    final imagePicker = ImagePicker();
+    final XFile? image = await imagePicker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 70,
+        maxHeight: 512.0,
+        maxWidth: 512.0);
+    if (image != null) {
+      final employeeService = EmployeeService.firestore();
+      await employeeService.uploadImage(
+          imagePath: 'Profile/',
+          employeeId: currentEmployee.employeeId,
+          image: image);
+      _fetchCurrentEmployee();
+    }
+  }
 
   Future<void> _fetchCurrentEmployee() async {
     final employee = await EmployeeService.firestore().currentEmployee;
@@ -67,13 +85,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                   child: Stack(
                     children: [
+                      // Visibility(
+                      //   visible: currentEmployee.photoUrl != null,
+                      //   child: SizedBox(
+                      //     height: 120.0,
+                      //     width: 120.0,
+                      //     child: ClipRRect(
+                      //       borderRadius: BorderRadius.circular(100.00),
+                      //       child: const Image(
+                      //         image: AssetImage(profilePlaceholder),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 120.0,
                         width: 120.0,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.00),
-                          child: const Image(
-                            image: AssetImage(profilePlaceholder),
+                          child: Image(
+                            image: NetworkImage(
+                                currentEmployee.photoUrl ?? profilePlaceholder),
                           ),
                         ),
                       ),
@@ -93,7 +125,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.white,
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            updateProfilePhoto();
+                          },
                         ),
                       ),
                     ],
