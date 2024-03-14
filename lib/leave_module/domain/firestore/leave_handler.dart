@@ -4,6 +4,7 @@ abstract class LeaveHandler {
   Future<Leave?> applyForLeave({
     required String authUserId,
     required String employeeId,
+    required String profilePhoto,
     required String employeeName,
     required DateTime appliedDate,
     required DateTime fromDate,

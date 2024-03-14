@@ -299,6 +299,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                         await _leaveHandler.applyForLeave(
                           authUserId: currentEmployee.authUserId,
                           employeeId: currentEmployee.employeeId,
+                          profilePhoto: currentEmployee.photoUrl ?? '',
                           employeeName: currentEmployee.employeeName,
                           appliedDate: DateTime.now(),
                           fromDate: startDate ?? DateTime.now(),
