@@ -1,17 +1,14 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:echno_attendance/attendance/services/attendance_insertservice.dart';
-import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
-import 'package:echno_attendance/auth/bloc/auth_event.dart';
-import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/camera/camera_provider.dart';
 import 'package:echno_attendance/camera/camera_screen.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
+import 'package:echno_attendance/employee/screens/profile_screen.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:echno_attendance/employee/widgets/rounded_card.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,11 +44,14 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () async {
-              final authBloc = context.read<AuthBloc>();
-              final shouldLogout = await showLogOutDialog(context);
-              if (shouldLogout) {
-                authBloc.add(const AuthLogOutEvent());
-              }
+              // final authBloc = context.read<AuthBloc>();
+              // final shouldLogout = await showLogOutDialog(context);
+              // if (shouldLogout) {
+              //   authBloc.add(const AuthLogOutEvent());
+              // }
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const ProfileScreen();
+              }));
             },
             icon: const Icon(
               Icons.account_circle_rounded,
