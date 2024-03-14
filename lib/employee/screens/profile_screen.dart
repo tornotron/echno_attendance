@@ -2,6 +2,7 @@ import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
@@ -63,6 +64,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Center(
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        height: 120.0,
+                        width: 120.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.00),
+                          child: const Image(
+                            image: AssetImage(profilePlaceholder),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          child: Container(
+                            height: 30.0,
+                            width: 30.0,
+                            decoration: BoxDecoration(
+                              color: echnoBlueColor,
+                              borderRadius: BorderRadius.circular(100.00),
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt_outlined,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 ProfileFieldsWidget(
                     title: 'Employee Name',
                     value: currentEmployee.employeeName,
