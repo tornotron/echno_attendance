@@ -8,6 +8,7 @@ class Leave extends Equatable {
   final String authUserId;
   final String employeeId;
   final String employeeName;
+  final String profilePhoto;
   final DateTime appliedDate;
   final DateTime fromDate;
   final DateTime toDate;
@@ -21,6 +22,7 @@ class Leave extends Equatable {
     required this.leaveId,
     required this.authUserId,
     required this.employeeId,
+    required this.profilePhoto,
     required this.employeeName,
     required this.appliedDate,
     required this.fromDate,
@@ -39,6 +41,7 @@ class Leave extends Equatable {
         leaveId: doc.id,
         authUserId: data['auth-user-uid'] ?? '',
         employeeId: data['employee-id'] ?? '',
+        profilePhoto: data['profile-photo'] ?? '',
         employeeName: data['employee-name'] ?? '',
         appliedDate: (data['applied-date'] as Timestamp).toDate(),
         fromDate: (data['from-date'] as Timestamp).toDate(),
@@ -63,6 +66,7 @@ class Leave extends Equatable {
       leaveId: json['id'] ?? '',
       authUserId: json['auth-user-id'] ?? '',
       employeeId: json['employee-id'] ?? '',
+      profilePhoto: json['profile-photo'] ?? '',
       employeeName: json['employee-name'] ?? '',
       appliedDate: DateTime.parse(json['applied-date']),
       fromDate: DateTime.parse(json['from-date']),
@@ -84,6 +88,7 @@ class Leave extends Equatable {
       'id': leaveId,
       'auth-user-id': authUserId,
       'employee-id': employeeId,
+      'profile-photo': profilePhoto,
       'employee-name': employeeName,
       'applied-date': appliedDate.toIso8601String(),
       'from-date': fromDate.toIso8601String(),

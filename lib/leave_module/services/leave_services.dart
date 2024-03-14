@@ -14,6 +14,7 @@ class LeaveService implements LeaveHandler {
   Future<Leave?> applyForLeave({
     required String authUserId,
     required String employeeId,
+    required String profilePhoto,
     required String employeeName,
     required DateTime appliedDate,
     required DateTime fromDate,
@@ -25,6 +26,7 @@ class LeaveService implements LeaveHandler {
     return _leaveHanler.applyForLeave(
       authUserId: authUserId,
       employeeId: employeeId,
+      profilePhoto: profilePhoto,
       employeeName: employeeName,
       appliedDate: appliedDate,
       fromDate: fromDate,

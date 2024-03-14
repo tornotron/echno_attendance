@@ -17,6 +17,7 @@ class FirestoreLeaveHandler implements LeaveHandler {
   Future<Leave?> applyForLeave(
       {required String authUserId,
       required String employeeId,
+      required String profilePhoto,
       required String employeeName,
       required DateTime appliedDate,
       required DateTime fromDate,
@@ -28,6 +29,7 @@ class FirestoreLeaveHandler implements LeaveHandler {
       final leave = await FirebaseFirestore.instance.collection('leaves').add({
         'auth-user-uid': authUserId,
         'employee-id': employeeId,
+        'profile-photo': profilePhoto,
         'employee-name': employeeName,
         'applied-date': appliedDate,
         'from-date': fromDate,
@@ -44,6 +46,7 @@ class FirestoreLeaveHandler implements LeaveHandler {
         leaveId: fetchLeave.id,
         authUserId: authUserId,
         employeeId: employeeId,
+        profilePhoto: profilePhoto,
         employeeName: employeeName,
         appliedDate: appliedDate,
         fromDate: fromDate,
