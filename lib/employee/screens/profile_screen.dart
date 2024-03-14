@@ -3,11 +3,13 @@ import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/employee/hr_screens/dashboard.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/employee/widgets/profile_field_widget.dart';
 import 'package:echno_attendance/employee/widgets/profile_menu_widget.dart';
+import 'package:echno_attendance/leave_module/screens/leave_status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -165,6 +167,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ProfileMenuWidget(
                   icon: Icons.leak_add_outlined,
                   title: 'Leaves',
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const LeaveStatusScreen();
+                    }));
+                  },
+                ),
+                ProfileMenuWidget(
+                  icon: Icons.task_outlined,
+                  title: 'Tasks',
                   onPressed: () {},
                 ),
                 Visibility(
@@ -172,7 +184,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: ProfileMenuWidget(
                     icon: Icons.dashboard_outlined,
                     title: 'HR Dashboard',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HRDashboardScreen(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 ProfileMenuWidget(

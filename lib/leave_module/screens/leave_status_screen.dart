@@ -1,8 +1,10 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/leave_module/screens/leave_application.dart';
 import 'package:echno_attendance/leave_module/widgets/status_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class LeaveStatusScreen extends StatefulWidget {
   const LeaveStatusScreen({super.key});
@@ -39,6 +41,40 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          DateFormat.yMMMMd().format(DateTime.now()),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text('Today',
+                            style: Theme.of(context).textTheme.titleLarge),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 120.00,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const LeaveApplicationScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          '+ Apply Leave',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20.0),
                 Text(
                   leaveStatusScreenTitle,
                   style: Theme.of(context).textTheme.displaySmall,
