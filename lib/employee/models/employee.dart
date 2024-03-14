@@ -5,6 +5,7 @@ import 'package:echno_attendance/employee/utilities/employee_role.dart';
 class Employee {
   Employee({
     this.authUser,
+    this.photoUrl,
     required this.employeeId,
     required this.employeeName,
     required this.companyEmail,
@@ -13,6 +14,7 @@ class Employee {
     required this.employeeRole,
   });
   final AuthUser? authUser;
+  final String? photoUrl;
   final String employeeId;
   final String employeeName;
   final String companyEmail;
@@ -36,6 +38,7 @@ class Employee {
 
   Employee._({
     required this.authUser,
+    required this.photoUrl,
     required this.employeeId,
     required this.employeeName,
     required this.companyEmail,
@@ -49,7 +52,8 @@ class Employee {
   static Future<Employee> fromFirebaseUser(AuthUser authUser) async {
     Map<String, dynamic> employeeDetails = await employeeService
         .searchEmployeeByAuthUserId(authUserId: authUser.authUserId);
-    final employeeID = employeeDetails['employee-id'];
+    final employeePhotoUrl = employeeDetails['photo-url'];
+    final employeeId = employeeDetails['employee-id'];
     final employeeName = employeeDetails['employee-name'];
     final companyEmail = employeeDetails['company-email'];
     final phoneNumber = employeeDetails['phone-number'];
@@ -57,7 +61,8 @@ class Employee {
     final employeeRole = getEmployeeRole(employeeDetails['employee-role']);
     return Employee._(
         authUser: authUser,
-        employeeId: employeeID,
+        photoUrl: employeePhotoUrl,
+        employeeId: employeeId,
         employeeName: employeeName,
         companyEmail: companyEmail,
         phoneNumber: phoneNumber,
