@@ -85,28 +85,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                   child: Stack(
                     children: [
-                      // Visibility(
-                      //   visible: currentEmployee.photoUrl != null,
-                      //   child: SizedBox(
-                      //     height: 120.0,
-                      //     width: 120.0,
-                      //     child: ClipRRect(
-                      //       borderRadius: BorderRadius.circular(100.00),
-                      //       child: const Image(
-                      //         image: AssetImage(profilePlaceholder),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Visibility(
+                        visible: currentEmployee.photoUrl == null,
+                        child: SizedBox(
+                          height: 120.0,
+                          width: 120.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.00),
+                            child: const Image(
+                              image: AssetImage(profilePlaceholder),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: 120.0,
                         width: 120.0,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.00),
                           child: Image(
-                            image: NetworkImage(
-                                currentEmployee.photoUrl ?? profilePlaceholder),
-                          ),
+                              image: NetworkImage(currentEmployee.photoUrl!),
+                              fit: BoxFit.cover),
                         ),
                       ),
                       Positioned(
