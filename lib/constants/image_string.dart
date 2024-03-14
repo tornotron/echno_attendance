@@ -13,3 +13,5 @@ const String echnoSignIn = 'assets/images/signin.svg';
 const String echnoEmailVerification = 'assets/images/email-verification.svg';
 
 const String googleIcon = 'assets/icons/google.svg';
+
+const String profilePlaceholder = 'assets/images/profile_placeholder.png';
