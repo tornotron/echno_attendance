@@ -1,10 +1,15 @@
+import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
+import 'package:echno_attendance/auth/bloc/auth_event.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/employee/widgets/profile_field_widget.dart';
+import 'package:echno_attendance/employee/widgets/profile_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -83,6 +88,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     value: getEmloyeeRoleName(currentEmployee.employeeRole),
                     icon: Icons.work_outline),
                 const Divider(),
+                ProfileMenuWidget(
+                  icon: Icons.settings,
+                  title: 'Settings',
+                  onPressed: () {},
+                ),
+                ProfileMenuWidget(
+                  icon: Icons.leak_add_outlined,
+                  title: 'Leaves',
+                  onPressed: () {},
+                ),
+                Visibility(
+                  visible: currentEmployee.employeeRole == EmployeeRole.hr,
+                  child: ProfileMenuWidget(
+                    icon: Icons.dashboard_outlined,
+                    title: 'HR Dashboard',
+                    onPressed: () {},
+                  ),
+                ),
+                ProfileMenuWidget(
+                    title: 'Log Out',
+                    textColor: errorRedColor,
+                    icon: Icons.logout_rounded,
+                    onPressed: () async {
+                      final authBloc = context.read<AuthBloc>();
+                      final shouldLogout = await showLogOutDialog(context);
+                      if (shouldLogout) {
+                        authBloc.add(const AuthLogOutEvent());
+                      }
+                    })
               ],
             ),
           ),
