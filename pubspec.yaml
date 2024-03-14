@@ -57,6 +57,8 @@ dependencies:
   camera: ^0.10.5+7
   firebase_storage: ^11.6.10
   geolocator: ^11.0.0
+  image_picker: ^1.0.7
+  firebase_storage: ^11.6.10
 
 
 dev_dependencies:
