@@ -12,7 +12,7 @@ Widget leaveRow(
   bool isDarkMode,
   BuildContext context,
 ) {
-  final leaveCard = Container(
+  final leaveRegisterCard = Container(
     height: 200,
     margin: const EdgeInsets.only(left: 25.0, right: 25.0),
     decoration: BoxDecoration(
@@ -118,7 +118,7 @@ Widget leaveRow(
     margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
     child: Stack(
       children: <Widget>[
-        leaveCard,
+        leaveRegisterCard,
       ],
     ),
   );
