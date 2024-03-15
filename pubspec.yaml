@@ -55,6 +55,7 @@ dependencies:
   date_picker_timeline: ^1.2.5
   slide_to_act: ^2.0.2
   camera: ^0.10.5+7
+  firebase_storage: ^11.6.10
   geolocator: ^11.0.0
 
 
