@@ -2,6 +2,7 @@ import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/employee/hr_screens/add_employee.dart';
 import 'package:echno_attendance/employee/hr_screens/employee_register.dart';
 import 'package:echno_attendance/employee/hr_screens/update_details.dart';
+import 'package:echno_attendance/leave_module/screens/leave_register.dart';
 import 'package:flutter/material.dart';
 import 'package:echno_attendance/employee/hr_screens/attendance_report/employee_attendancereport.dart';
 
@@ -59,7 +60,11 @@ class _HRDashboardScreenState extends State<HRDashboardScreen> {
       DashboardItem(
         icon: Icons.app_registration_rounded,
         text: 'Leave Register',
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const LeaveRegisterScreen();
+          }));
+        },
       ),
       DashboardItem(
         icon: Icons.settings_rounded,
