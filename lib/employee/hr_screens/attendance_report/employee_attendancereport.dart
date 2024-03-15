@@ -1,6 +1,6 @@
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/employee/hr_screens/attendance_report/monthlyreport.dart';
-import 'package:echno_attendance/employee/widgets/daily_report.dart';
+import 'package:echno_attendance/employee/hr_screens/attendance_report/daily_report.dart';
 import 'package:echno_attendance/employee/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
