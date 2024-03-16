@@ -85,9 +85,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100.00),
                               child: currentEmployee.photoUrl != null
-                                  ? Image.network(currentEmployee.photoUrl!)
+                                  ? Image.network(currentEmployee.photoUrl!,
+                                      fit: BoxFit.cover)
                                   : const Image(
                                       image: AssetImage(profilePlaceholder),
+                                      fit: BoxFit.cover,
                                     ),
                             ),
                           ),
