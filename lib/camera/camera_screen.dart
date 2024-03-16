@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:echno_attendance/common_widgets/loading_screen.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/screens/index.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/widgets/texts.dart';
+import 'package:echno_attendance/utilities/loading_screen_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,35 +129,38 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     }
   }
 
-  Future<UploadTask> uploadImage(File imageFile) async {
+  Future<String> uploadImage(File imageFile) async {
     try {
       final employeeid = currentEmployee.employeeId;
       Reference firebaseStorageRef =
           FirebaseStorage.instance.ref().child('attendance/$employeeid');
       UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
-      // TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
-      //   () => {
-      //     showDialog(
-      //         context: context,
-      //         builder: (BuildContext context) {
-      //           return AlertDialog(
-      //             title: const Text('Image Uploaded'),
-      //             content: const Text('Your attendance has been marked'),
-      //             actions: <Widget>[
-      //               TextButton(
-      //                   onPressed: () {
-      //                     Navigator.pushReplacement(
-      //                         context,
-      //                         MaterialPageRoute(
-      //                             builder: (context) => const HomePage()));
-      //                   },
-      //                   child: const Text('OK'))
-      //             ],
-      //           );
-      //         })
-      //   },
-      // );
-      return uploadTask;
+      LoadingScreen().show(context: context, text: "Uploading Image");
+      TaskSnapshot taskSnapshot = await uploadTask
+          .whenComplete(() => {LoadingScreen().hide()})
+          .whenComplete(
+        () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Image Uploaded'),
+                  content: const Text('Your attendance has been marked'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()));
+                        },
+                        child: const Text('OK'))
+                  ],
+                );
+              });
+        },
+      );
+      return await taskSnapshot.ref.getDownloadURL();
     } catch (e) {
       print(e);
       throw Exception(e);
@@ -170,7 +175,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Widget content = Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -198,51 +203,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      // final imgUrl = await uploadImage(File(widget.imagePath));
-                      // saveImageUrlToFirestore(imgUrl);
-                      FutureBuilder<UploadTask>(
-                        future:
-                            uploadImage(widget.imagePath), // pass the File here
-                        builder: (BuildContext context,
-                            AsyncSnapshot<UploadTask> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator(); // Show loading screen
-                          } else if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            }
-                            // The upload is complete, show your dialog here
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Image Uploaded'),
-                                  content: const Text(
-                                      'Your attendance has been marked.'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomePage()),
-                                        );
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                            return Container();
-                          } else {
-                            return Container(); // Return an empty container to avoid build errors
-                          }
-                        },
-                      );
+                      final imgUrl = await uploadImage(widget.imagePath);
+                      saveImageUrlToFirestore(imgUrl);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: echnoBlueColor,
@@ -291,5 +253,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         ],
       ),
     );
+    return content;
   }
 }
