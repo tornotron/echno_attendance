@@ -24,3 +24,10 @@ class EmployeeProfileEvent extends EmployeeEvent {
     required this.currentEmployee,
   });
 }
+
+class EmployeeUpdatePhotoEvent extends EmployeeEvent {
+  final String employeeId;
+  const EmployeeUpdatePhotoEvent({
+    required this.employeeId,
+  });
+}

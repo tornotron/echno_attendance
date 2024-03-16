@@ -8,7 +8,6 @@ import 'package:echno_attendance/employee/bloc/employee_event.dart';
 import 'package:echno_attendance/employee/bloc/employee_state.dart';
 import 'package:echno_attendance/employee/hr_screens/dashboard.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
-import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
 import 'package:echno_attendance/employee/widgets/profile_field_widget.dart';
 import 'package:echno_attendance/employee/widgets/profile_menu_widget.dart';
@@ -16,7 +15,6 @@ import 'package:echno_attendance/leave_module/screens/leave_status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -110,21 +108,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               onTap: () async {
-                                final imagePicker = ImagePicker();
-                                final XFile? image =
-                                    await imagePicker.pickImage(
-                                        source: ImageSource.camera,
-                                        imageQuality: 70,
-                                        maxHeight: 512.0,
-                                        maxWidth: 512.0);
-                                if (image != null) {
-                                  final employeeService =
-                                      EmployeeService.firestore();
-                                  await employeeService.uploadImage(
-                                      imagePath: 'Profile/',
-                                      employeeId: currentEmployee.employeeId,
-                                      image: image);
-                                }
+                                context.read<EmployeeBloc>().add(
+                                      EmployeeUpdatePhotoEvent(
+                                        employeeId: currentEmployee.employeeId,
+                                      ),
+                                    );
                               },
                             ),
                           ),
