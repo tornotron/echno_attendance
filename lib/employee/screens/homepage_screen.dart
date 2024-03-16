@@ -8,7 +8,6 @@ import 'package:echno_attendance/employee/bloc/employee_state.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:echno_attendance/employee/widgets/rounded_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -38,8 +37,6 @@ class _HomePageState extends State<HomePage> {
         extendBody: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          systemOverlayStyle:
-              const SystemUiOverlayStyle(statusBarColor: Color(0xFF004AAD)),
           leading: IconButton(
             onPressed: () async {
               final employee = currentEmployee;
