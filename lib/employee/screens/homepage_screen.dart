@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     _fetchCurrentEmployee();
     super.initState();
   }
- 
+
   @override
   Widget build(context) {
     return MaterialApp(
@@ -44,8 +44,6 @@ class _HomePageState extends State<HomePage> {
         extendBody: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          systemOverlayStyle:
-              const SystemUiOverlayStyle(statusBarColor: Color(0xFF004AAD)),
           leading: IconButton(
             onPressed: () async {
               final authBloc = context.read<AuthBloc>();
