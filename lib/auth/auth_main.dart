@@ -1,5 +1,7 @@
 import 'package:echno_attendance/common_widgets/loading_screen.dart';
-import 'package:echno_attendance/employee/screens/index.dart';
+import 'package:echno_attendance/employee/bloc/employee_bloc.dart';
+import 'package:echno_attendance/employee/bloc/employee_state_management.dart';
+import 'package:echno_attendance/employee/domain/firestore/firestore_database_handler.dart';
 import 'package:echno_attendance/global_theme/custom_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
@@ -18,13 +20,13 @@ void main() async {
 }
 
 class EchnoTestApp extends StatelessWidget {
-  const EchnoTestApp({Key? key}) : super(key: key);
+  const EchnoTestApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BlocProvider<AuthBloc>(
+      home: BlocProvider(
         create: (context) => AuthBloc(FirebaseAuthHandler()),
         child: const NewEchnoHomePage(),
       ),
@@ -56,7 +58,11 @@ class _NewEchnoHomePageState extends State<NewEchnoHomePage> {
       }
     }, builder: (context, state) {
       if (state is AuthLoggedInState) {
-        return const HomePage();
+        return BlocProvider(
+          create: (context) =>
+              EmployeeBloc(BasicEmployeeFirestoreDatabaseHandler()),
+          child: const EmployeeStateManagementWidget(),
+        );
       } else if (state is AuthEmailNotVerifiedState) {
         return const EmailVerification();
       } else if (state is AuthLoggedOutState) {
