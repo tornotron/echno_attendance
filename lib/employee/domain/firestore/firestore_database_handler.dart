@@ -31,7 +31,7 @@ class BasicEmployeeFirestoreDatabaseHandler
             employeeDocument.data() as Map<String, dynamic>;
 
         employeeName = employeeData['employee-name'];
-        companyEmail = employeeData['comapany-email'];
+        companyEmail = employeeData['company-email'];
         phoneNumber = employeeData['phone-number'];
         employeeRole = getEmployeeRole(employeeData['employee-role']);
         employeeStatus = employeeData['employee-status'];
