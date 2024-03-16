@@ -80,7 +80,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(
-                  imagePath: image.path,
+                  imagePath: File(image.path),
                 ),
               ),
             );
@@ -95,7 +95,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 }
 
 class DisplayPictureScreen extends StatefulWidget {
-  final String imagePath;
+  final File imagePath;
   const DisplayPictureScreen({super.key, required this.imagePath});
 
   @override
@@ -127,38 +127,38 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     }
   }
 
-  Future<String> uploadImage(File imageFile) async {
+  Future<UploadTask> uploadImage(File imageFile) async {
     try {
       final employeeid = currentEmployee.employeeId;
       Reference firebaseStorageRef =
           FirebaseStorage.instance.ref().child('attendance/$employeeid');
       UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
-        () => {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Image Uploaded'),
-                  content: const Text('Your attendance has been marked'),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
-                        },
-                        child: const Text('OK'))
-                  ],
-                );
-              })
-        },
-      );
-      return await taskSnapshot.ref.getDownloadURL();
+      // TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
+      //   () => {
+      //     showDialog(
+      //         context: context,
+      //         builder: (BuildContext context) {
+      //           return AlertDialog(
+      //             title: const Text('Image Uploaded'),
+      //             content: const Text('Your attendance has been marked'),
+      //             actions: <Widget>[
+      //               TextButton(
+      //                   onPressed: () {
+      //                     Navigator.pushReplacement(
+      //                         context,
+      //                         MaterialPageRoute(
+      //                             builder: (context) => const HomePage()));
+      //                   },
+      //                   child: const Text('OK'))
+      //             ],
+      //           );
+      //         })
+      //   },
+      // );
+      return uploadTask;
     } catch (e) {
       print(e);
-      return '';
+      throw Exception(e);
     }
   }
 
@@ -184,7 +184,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       ),
       body: Stack(
         children: [
-          Image.file(File(widget.imagePath)),
+          Image.file(widget.imagePath),
           Positioned(
             left: 0,
             right: 0,
@@ -198,8 +198,51 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      final imgUrl = await uploadImage(File(widget.imagePath));
-                      saveImageUrlToFirestore(imgUrl);
+                      // final imgUrl = await uploadImage(File(widget.imagePath));
+                      // saveImageUrlToFirestore(imgUrl);
+                      FutureBuilder<UploadTask>(
+                        future:
+                            uploadImage(widget.imagePath), // pass the File here
+                        builder: (BuildContext context,
+                            AsyncSnapshot<UploadTask> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator(); // Show loading screen
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            }
+                            // The upload is complete, show your dialog here
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Image Uploaded'),
+                                  content: const Text(
+                                      'Your attendance has been marked.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomePage()),
+                                        );
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            return Container();
+                          } else {
+                            return Container(); // Return an empty container to avoid build errors
+                          }
+                        },
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: echnoBlueColor,
