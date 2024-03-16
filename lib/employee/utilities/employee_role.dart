@@ -4,6 +4,7 @@ enum EmployeeRole {
   se,
   sp,
   tc,
+  emp,
 }
 
 EmployeeRole getEmployeeRole(String role) {
@@ -18,6 +19,8 @@ EmployeeRole getEmployeeRole(String role) {
       return EmployeeRole.sp;
     case 'tc':
       return EmployeeRole.tc;
+    case 'emp':
+      return EmployeeRole.emp;
     default:
       throw Exception('Invalid employee role');
   }
@@ -35,6 +38,8 @@ String getEmloyeeRoleName(EmployeeRole? role) {
       return 'Supervisor';
     case EmployeeRole.tc:
       return 'Technical Co-ordinator';
+    case EmployeeRole.emp:
+      return 'Employee';
     default:
       throw Exception('Invalid employee role');
   }

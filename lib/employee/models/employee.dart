@@ -69,4 +69,17 @@ class Employee {
         employeeStatus: employeeStatus,
         employeeRole: employeeRole);
   }
+
+  // This method is used to create an empty employee instance
+  factory Employee.isEmpty() {
+    return Employee(
+      photoUrl: '',
+      employeeId: '',
+      employeeName: '',
+      companyEmail: '',
+      phoneNumber: '',
+      employeeStatus: false,
+      employeeRole: EmployeeRole.emp,
+    );
+  }
 }
