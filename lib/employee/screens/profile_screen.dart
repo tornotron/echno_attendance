@@ -26,177 +26,180 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late final Employee currentEmployee;
+
+  @override
+  void initState() {
+    currentEmployee = context.read<EmployeeBloc>().state.currentEmployee ??
+        Employee.isEmpty();
+    Employee.isEmpty();
+    super.initState();
+  }
+
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EmployeeBloc, EmployeeState>(
-      builder: (context, state) {
-        final Employee currentEmployee =
-            state.currentEmployee ?? Employee.isEmpty();
-
-        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-        return Directionality(
-          textDirection: TextDirection.ltr,
-          child: Scaffold(
-            appBar: AppBar(
-              systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor:
-                      isDarkMode ? echnoLightBlueColor : echnoBlueColor),
-              backgroundColor:
-                  isDarkMode ? echnoLightBlueColor : echnoBlueColor,
-              title: const Text('Profile'),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new),
-                onPressed: () {
-                  context
-                      .read<EmployeeBloc>()
-                      .add(EmployeeHomeEvent(currentEmployee: currentEmployee));
-                },
-              ),
+    return BlocListener<EmployeeBloc, EmployeeState>(
+      listener: (context, state) {},
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Scaffold(
+          appBar: AppBar(
+            systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor:
+                    isDarkMode ? echnoLightBlueColor : echnoBlueColor),
+            backgroundColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
+            title: const Text('Profile'),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new),
+              onPressed: () {
+                context
+                    .read<EmployeeBloc>()
+                    .add(EmployeeHomeEvent(currentEmployee: currentEmployee));
+              },
             ),
-            body: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                padding: ProfileScreen.containerPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Stack(
-                        children: [
-                          Visibility(
-                            visible: currentEmployee.photoUrl == null,
-                            child: SizedBox(
-                              height: 120.0,
-                              width: 120.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100.00),
-                                child: const Image(
-                                  image: AssetImage(profilePlaceholder),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              padding: ProfileScreen.containerPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Stack(
+                      children: [
+                        Visibility(
+                          visible: currentEmployee.photoUrl == null,
+                          child: SizedBox(
                             height: 120.0,
                             width: 120.0,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100.00),
-                              child: currentEmployee.photoUrl != null
-                                  ? Image.network(currentEmployee.photoUrl!,
-                                      fit: BoxFit.cover)
-                                  : const Image(
-                                      image: AssetImage(profilePlaceholder),
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: InkWell(
-                              child: Container(
-                                height: 30.0,
-                                width: 30.0,
-                                decoration: BoxDecoration(
-                                  color: echnoBlueColor,
-                                  borderRadius: BorderRadius.circular(100.00),
-                                ),
-                                child: const Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: Colors.white,
-                                ),
+                              child: const Image(
+                                image: AssetImage(profilePlaceholder),
                               ),
-                              onTap: () async {
-                                context.read<EmployeeBloc>().add(
-                                      EmployeeUpdatePhotoEvent(
-                                        employeeId: currentEmployee.employeeId,
-                                      ),
-                                    );
-                              },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 120.0,
+                          width: 120.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.00),
+                            child: currentEmployee.photoUrl != null
+                                ? Image.network(currentEmployee.photoUrl!,
+                                    fit: BoxFit.cover)
+                                : const Image(
+                                    image: AssetImage(profilePlaceholder),
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: InkWell(
+                            child: Container(
+                              height: 30.0,
+                              width: 30.0,
+                              decoration: BoxDecoration(
+                                color: echnoBlueColor,
+                                borderRadius: BorderRadius.circular(100.00),
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt_outlined,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onTap: () async {
+                              context.read<EmployeeBloc>().add(
+                                    EmployeeUpdatePhotoEvent(
+                                      employeeId: currentEmployee.employeeId,
+                                    ),
+                                  );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    ProfileFieldsWidget(
-                        title: 'Employee Name',
-                        value: currentEmployee.employeeName,
-                        icon: Icons.person_outlined),
-                    const Divider(),
-                    ProfileFieldsWidget(
-                        title: 'Employee ID',
-                        value: currentEmployee.employeeId,
-                        icon: Icons.tag),
-                    const Divider(),
-                    ProfileFieldsWidget(
-                        title: 'Email',
-                        value: currentEmployee.companyEmail,
-                        icon: Icons.email_outlined),
-                    const Divider(),
-                    ProfileFieldsWidget(
-                        title: 'Phone',
-                        value: currentEmployee.phoneNumber,
-                        icon: Icons.phone_outlined),
-                    const Divider(),
-                    ProfileFieldsWidget(
-                        title: 'Designation',
-                        value: getEmloyeeRoleName(currentEmployee.employeeRole),
-                        icon: Icons.work_outline),
-                    const Divider(),
-                    ProfileMenuWidget(
-                        icon: Icons.settings,
-                        title: 'Settings',
-                        onPressed: () {}),
-                    ProfileMenuWidget(
-                      icon: Icons.leak_add_outlined,
-                      title: 'Leaves',
+                  ),
+                  ProfileFieldsWidget(
+                      title: 'Employee Name',
+                      value: currentEmployee.employeeName,
+                      icon: Icons.person_outlined),
+                  const Divider(),
+                  ProfileFieldsWidget(
+                      title: 'Employee ID',
+                      value: currentEmployee.employeeId,
+                      icon: Icons.tag),
+                  const Divider(),
+                  ProfileFieldsWidget(
+                      title: 'Email',
+                      value: currentEmployee.companyEmail,
+                      icon: Icons.email_outlined),
+                  const Divider(),
+                  ProfileFieldsWidget(
+                      title: 'Phone',
+                      value: currentEmployee.phoneNumber,
+                      icon: Icons.phone_outlined),
+                  const Divider(),
+                  ProfileFieldsWidget(
+                      title: 'Designation',
+                      value: getEmloyeeRoleName(currentEmployee.employeeRole),
+                      icon: Icons.work_outline),
+                  const Divider(),
+                  ProfileMenuWidget(
+                      icon: Icons.settings,
+                      title: 'Settings',
+                      onPressed: () {}),
+                  ProfileMenuWidget(
+                    icon: Icons.leak_add_outlined,
+                    title: 'Leaves',
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const LeaveStatusScreen();
+                      }));
+                    },
+                  ),
+                  ProfileMenuWidget(
+                      icon: Icons.task_outlined,
+                      title: 'Tasks',
+                      onPressed: () {}),
+                  Visibility(
+                    visible: currentEmployee.employeeRole == EmployeeRole.hr,
+                    child: ProfileMenuWidget(
+                      icon: Icons.dashboard_outlined,
+                      title: 'HR Dashboard',
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const LeaveStatusScreen();
-                        }));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HRDashboardScreen(),
+                          ),
+                        );
                       },
                     ),
-                    ProfileMenuWidget(
-                        icon: Icons.task_outlined,
-                        title: 'Tasks',
-                        onPressed: () {}),
-                    Visibility(
-                      visible: currentEmployee.employeeRole == EmployeeRole.hr,
-                      child: ProfileMenuWidget(
-                        icon: Icons.dashboard_outlined,
-                        title: 'HR Dashboard',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HRDashboardScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    ProfileMenuWidget(
-                        title: 'Log Out',
-                        textColor: errorRedColor,
-                        icon: Icons.logout_rounded,
-                        onPressed: () async {
-                          final authBloc = context.read<AuthBloc>();
-                          final shouldLogout = await showLogOutDialog(context);
-                          if (shouldLogout) {
-                            authBloc.add(const AuthLogOutEvent());
-                          }
-                        }),
-                  ],
-                ),
+                  ),
+                  ProfileMenuWidget(
+                      title: 'Log Out',
+                      textColor: errorRedColor,
+                      icon: Icons.logout_rounded,
+                      onPressed: () async {
+                        final authBloc = context.read<AuthBloc>();
+                        final shouldLogout = await showLogOutDialog(context);
+                        if (shouldLogout) {
+                          authBloc.add(const AuthLogOutEvent());
+                        }
+                      }),
+                ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
