@@ -30,6 +30,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       maxLines: 1,
       keyboardType: TextInputType.text,
       obscureText: _obscureText,
+      obscuringCharacter: '*',
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.fingerprint),
         labelText: widget.labelText,
