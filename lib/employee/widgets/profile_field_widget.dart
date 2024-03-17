@@ -19,17 +19,11 @@ class ProfileFieldsWidget extends StatelessWidget {
           leading: Icon(icon),
           title: Text(
             title,
-            style: const TextStyle(
-                fontFamily: 'TT Chocolates',
-                fontSize: 17.0,
-                fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           trailing: Text(
             value,
-            style: const TextStyle(
-                fontFamily: 'TT Chocolates',
-                fontSize: 17.0,
-                fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
       ],

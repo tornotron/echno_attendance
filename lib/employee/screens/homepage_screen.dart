@@ -187,11 +187,13 @@ class _HomePageState extends State<HomePage> {
           height: 60,
           backgroundColor: Colors.transparent,
           color: isDark ? EchnoColors.secondary : EchnoColors.primary,
-          items: [
+          items: <Widget>[
             SizedBox(
-              child: Image.asset(
-                'assets/icons/Calendar.png',
-                scale: 50,
+              child: InkWell(
+                child: Image.asset(
+                  'assets/icons/Calendar.png',
+                  scale: 50,
+                ),
               ),
             ),
             SizedBox(
