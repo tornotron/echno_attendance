@@ -1,4 +1,7 @@
 import 'package:echno_attendance/common_widgets/loading_screen.dart';
+import 'package:echno_attendance/employee/bloc/employee_bloc.dart';
+import 'package:echno_attendance/employee/bloc/employee_state_management.dart';
+import 'package:echno_attendance/employee/domain/firestore/firestore_database_handler.dart';
 import 'package:echno_attendance/global_theme/custom_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
@@ -18,7 +21,7 @@ class EchnoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(FirebaseAuthHandler()),
-        child: const EchnoHomePage(),
+        child: const AuthStateManagementWidget(),
       ),
       theme: EchnoCustomTheme.lightTheme,
       darkTheme: EchnoCustomTheme.darkTheme,
@@ -27,14 +30,15 @@ class EchnoApp extends StatelessWidget {
   }
 }
 
-class EchnoHomePage extends StatefulWidget {
-  const EchnoHomePage({super.key});
+class AuthStateManagementWidget extends StatefulWidget {
+  const AuthStateManagementWidget({super.key});
 
   @override
-  State<EchnoHomePage> createState() => _EchnoHomePageState();
+  State<AuthStateManagementWidget> createState() =>
+      _AuthStateManagementWidgetState();
 }
 
-class _EchnoHomePageState extends State<EchnoHomePage> {
+class _AuthStateManagementWidgetState extends State<AuthStateManagementWidget> {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthInitializeEvent());
@@ -48,7 +52,11 @@ class _EchnoHomePageState extends State<EchnoHomePage> {
       }
     }, builder: (context, state) {
       if (state is AuthLoggedInState) {
-        return const HomeScreen();
+        return BlocProvider(
+          create: (context) =>
+              EmployeeBloc(BasicEmployeeFirestoreDatabaseHandler()),
+          child: const EmployeeStateManagementWidget(),
+        );
       } else if (state is AuthEmailNotVerifiedState) {
         return const EmailVerification();
       } else if (state is AuthLoggedOutState) {
