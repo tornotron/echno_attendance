@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class EchnoColors {
   // App theme colors
   static const Color primary = Color(0xFF0057E7);
+  static const Color primaryLight = Color(0xFF0DC0FF);
   static const Color secondary = Color(0xFFE4C1F9);
-  static const Color accent = Color(0xFFb0c7ff);
+  static const Color secondaryDark = Color(0xFF6D498E);
+  static const Color accent = Color(0xFFB0C7FF);
 
   // Text colors
   static const Color textPrimary = Color(0xFF333333);

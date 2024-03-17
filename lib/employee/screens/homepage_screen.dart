@@ -2,11 +2,14 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:echno_attendance/attendance/services/attendance_insertservice.dart';
 import 'package:echno_attendance/camera/camera_provider.dart';
 import 'package:echno_attendance/camera/camera_screen.dart';
+import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/employee/bloc/employee_bloc.dart';
 import 'package:echno_attendance/employee/bloc/employee_event.dart';
 import 'package:echno_attendance/employee/bloc/employee_state.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/widgets/texts.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:echno_attendance/employee/widgets/rounded_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,57 +34,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return BlocListener<EmployeeBloc, EmployeeState>(
       listener: (context, state) {},
       child: Scaffold(
         extendBody: true,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () async {
-              final employee = currentEmployee;
-              context
-                  .read<EmployeeBloc>()
-                  .add(EmployeeProfileEvent(currentEmployee: employee));
-            },
-            icon: const Icon(
-              Icons.account_circle_rounded,
-              size: 35,
-            ),
-            // size: 35,
-          ),
-          actions: [
-            Center(
-              child: Text(
-                currentEmployee.employeeName,
-                style: const TextStyle(
-                    fontFamily: 'TT Chocolates',
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700),
+        appBar: EchnoAppBar(
+          leadingIcon: Icons.menu,
+          leadingOnPressed: () {
+            final employee = currentEmployee;
+            context
+                .read<EmployeeBloc>()
+                .add(EmployeeProfileEvent(currentEmployee: employee));
+          },
+          title: Column(
+            children: [
+              Text(
+                EchnoHelperFunctions.greetEmployeeBasedOnTime(),
+                style: Theme.of(context).textTheme.bodySmall?.apply(
+                      color: isDark ? EchnoColors.black : EchnoColors.white,
+                    ),
               ),
-            ),
-            const SizedBox(
-              width: 10,
-            )
-          ],
-          backgroundColor: const Color(0xFF004AAD),
+              Text(
+                currentEmployee.employeeName,
+                style: Theme.of(context).textTheme.headlineSmall?.apply(
+                      color: isDark ? EchnoColors.black : EchnoColors.white,
+                    ),
+              ),
+            ],
+          ),
         ),
         body: Stack(
           children: [
             CustomScrollView(
               slivers: [
-                const SliverAppBar(
-                    backgroundColor: Color(0xFF38B6FF),
+                SliverAppBar(
+                    backgroundColor: isDark
+                        ? EchnoColors.secondaryDark
+                        : EchnoColors.primaryLight,
                     expandedHeight: 200,
                     floating: true,
                     pinned: true,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
                     ),
-                    flexibleSpace: FlexibleSpaceBar(
+                    flexibleSpace: const FlexibleSpaceBar(
                       background: Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
@@ -151,17 +151,19 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.fromLTRB(15.0, 0, 15.0, 85),
                 child: SlideAction(
                   elevation: 0,
-                  outerColor: const Color(0xFF004AAD),
+                  innerColor: EchnoColors.white,
+                  outerColor:
+                      isDark ? EchnoColors.secondary : EchnoColors.primary,
                   text: 'Slide to mark attendance',
-                  textStyle: const TextStyle(
-                      fontFamily: 'TT Chocolates',
-                      fontSize: 20,
-                      color: Colors.white),
+                  textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isDark ? EchnoColors.black : EchnoColors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600),
                   sliderRotate: false,
                   borderRadius: 20,
                   sliderButtonIcon: const Icon(
                     Icons.camera_alt,
-                    color: Color(0xFF004AAD),
+                    color: EchnoColors.black,
                   ),
                   onSubmit: () async {
                     await AttendanceInsertionService().attendanceTrigger(
@@ -184,7 +186,7 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: CurvedNavigationBar(
           height: 60,
           backgroundColor: Colors.transparent,
-          color: const Color(0xFF004AAD),
+          color: isDark ? EchnoColors.secondary : EchnoColors.primary,
           items: [
             SizedBox(
               child: Image.asset(

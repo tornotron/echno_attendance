@@ -1,3 +1,5 @@
+import 'package:echno_attendance/constants/colors.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 // import 'package:echno_attendance/reusable widgets/texts.dart';
 
@@ -10,6 +12,7 @@ class RoundedCard extends StatelessWidget {
     final screenSize = mediaQuery.size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return SizedBox(
       height: screenHeight / 4,
       width: screenWidth,
@@ -18,7 +21,7 @@ class RoundedCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         elevation: 0,
-        color: const Color(0xFF38B6FF),
+        color: isDark ? EchnoColors.secondaryDark : EchnoColors.primaryLight,
         child: const Padding(
           padding: EdgeInsets.only(left: 20, top: 20),
           child: Column(
