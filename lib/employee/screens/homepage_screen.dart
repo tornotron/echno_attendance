@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
                 .add(EmployeeProfileEvent(currentEmployee: employee));
           },
           title: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 EchnoHelperFunctions.greetEmployeeBasedOnTime(),
