@@ -1,73 +1,123 @@
-import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class EchnoTextTheme {
   EchnoTextTheme._(); // Private constructor
 
 /*-- Light Theme Text Style --*/
-  static TextTheme lightTextTheme = const TextTheme(
-    displayMedium: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 38,
+  static TextTheme lightTextTheme = TextTheme(
+    headlineLarge: const TextStyle().copyWith(
+      fontSize: 32.0,
+      fontWeight: FontWeight.bold,
+      color: EchnoColors.dark,
+    ),
+    headlineMedium: const TextStyle().copyWith(
+      fontSize: 24.0,
       fontWeight: FontWeight.w600,
-      color: echnoLightColor,
+      color: EchnoColors.dark,
     ),
-    displaySmall: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 30,
+    headlineSmall: const TextStyle().copyWith(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w600,
+      color: EchnoColors.dark,
+    ),
+    titleLarge: const TextStyle().copyWith(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+      color: EchnoColors.dark,
+    ),
+    titleMedium: const TextStyle().copyWith(
+      fontSize: 16.0,
       fontWeight: FontWeight.w500,
-      color: echnoLightColor,
+      color: EchnoColors.dark,
     ),
-    titleLarge: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 22,
-      fontWeight: FontWeight.bold,
-      color: echnoLightColor,
+    titleSmall: const TextStyle().copyWith(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: EchnoColors.dark,
     ),
-    titleMedium: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 17,
-      color: echnoLightColor,
+    bodyLarge: const TextStyle().copyWith(
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      color: EchnoColors.dark,
     ),
-    bodyLarge: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: echnoLightColor,
+    bodyMedium: const TextStyle().copyWith(
+      fontSize: 14.0,
+      fontWeight: FontWeight.normal,
+      color: EchnoColors.dark,
+    ),
+    bodySmall: const TextStyle().copyWith(
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      color: EchnoColors.dark.withOpacity(0.5),
+    ),
+    labelLarge: const TextStyle().copyWith(
+      fontSize: 12.0,
+      fontWeight: FontWeight.normal,
+      color: EchnoColors.dark,
+    ),
+    labelMedium: const TextStyle().copyWith(
+      fontSize: 12.0,
+      fontWeight: FontWeight.normal,
+      color: EchnoColors.dark.withOpacity(0.5),
     ),
   );
 
-/*-- Dark Theme Text Style --*/
-
-  static TextTheme darkTextTheme = const TextTheme(
-    displayMedium: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 38,
+  /*-- Dark Theme Text Style --*/
+  static TextTheme darkTextTheme = TextTheme(
+    headlineLarge: const TextStyle().copyWith(
+      fontSize: 32.0,
+      fontWeight: FontWeight.bold,
+      color: EchnoColors.light,
+    ),
+    headlineMedium: const TextStyle().copyWith(
+      fontSize: 24.0,
       fontWeight: FontWeight.w600,
-      color: whiteColor,
+      color: EchnoColors.light,
     ),
-    displaySmall: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 34,
+    headlineSmall: const TextStyle().copyWith(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w600,
+      color: EchnoColors.light,
+    ),
+    titleLarge: const TextStyle().copyWith(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+      color: EchnoColors.light,
+    ),
+    titleMedium: const TextStyle().copyWith(
+      fontSize: 16.0,
       fontWeight: FontWeight.w500,
-      color: whiteColor,
+      color: EchnoColors.light,
     ),
-    titleLarge: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 22,
-      fontWeight: FontWeight.bold,
-      color: whiteColor,
+    titleSmall: const TextStyle().copyWith(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: EchnoColors.light,
     ),
-    titleMedium: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 17,
-      color: whiteColor,
+    bodyLarge: const TextStyle().copyWith(
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      color: EchnoColors.light,
     ),
-    bodyLarge: TextStyle(
-      fontFamily: 'TT Chocolates',
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: whiteColor,
+    bodyMedium: const TextStyle().copyWith(
+      fontSize: 14.0,
+      fontWeight: FontWeight.normal,
+      color: EchnoColors.light,
+    ),
+    bodySmall: const TextStyle().copyWith(
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      color: EchnoColors.light.withOpacity(0.5),
+    ),
+    labelLarge: const TextStyle().copyWith(
+        fontSize: 12.0,
+        fontWeight: FontWeight.normal,
+        color: EchnoColors.light),
+    labelMedium: const TextStyle().copyWith(
+      fontSize: 12.0,
+      fontWeight: FontWeight.normal,
+      color: EchnoColors.light.withOpacity(0.5),
     ),
   );
 }

@@ -1,38 +1,39 @@
-import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/colors.dart';
+
+import 'package:echno_attendance/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class EchnoOutlinedButtonTheme {
   EchnoOutlinedButtonTheme._();
 
-//Light
+  /* -- Light Theme -- */
   static final lightOutlinedButtonTheme = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      minimumSize: const Size(300, 50),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      foregroundColor: echnoLogoColor,
-      side: const BorderSide(color: echnoLogoColor),
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      elevation: 0,
+      foregroundColor: EchnoColors.dark,
+      side: const BorderSide(color: EchnoColors.borderPrimary),
       textStyle: const TextStyle(
-        fontSize: 17.0,
-        fontFamily: 'TT Chocolates',
-      ),
+          fontSize: 16, color: EchnoColors.black, fontWeight: FontWeight.w600),
+      padding: const EdgeInsets.symmetric(
+          vertical: EchnoSize.buttonHeight, horizontal: 20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(EchnoSize.buttonRadius)),
     ),
   );
+
+  /* -- Dark Theme -- */
   static final darkOutlinedButtonTheme = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      minimumSize: const Size(300, 50),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      foregroundColor: whiteColor,
-      side: const BorderSide(color: whiteColor),
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      foregroundColor: EchnoColors.light,
+      side: const BorderSide(color: EchnoColors.borderPrimary),
       textStyle: const TextStyle(
-        fontSize: 17.0,
-        fontFamily: 'TT Chocolates',
-      ),
+          fontSize: 16,
+          color: EchnoColors.textWhite,
+          fontWeight: FontWeight.w600),
+      padding: const EdgeInsets.symmetric(
+          vertical: EchnoSize.buttonHeight, horizontal: 20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(EchnoSize.buttonRadius)),
     ),
   );
 }
@@ -40,37 +41,41 @@ class EchnoOutlinedButtonTheme {
 class EchnoElevatedButtonTheme {
   EchnoElevatedButtonTheme._();
 
-//Light
+/* -- Light Theme -- */
   static final lightElevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      minimumSize: const Size(300, 50),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      foregroundColor: whiteColor,
-      side: const BorderSide(color: echnoLogoColor),
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      foregroundColor: EchnoColors.light,
+      backgroundColor: EchnoColors.primary,
+      disabledForegroundColor: EchnoColors.darkGrey,
+      disabledBackgroundColor: EchnoColors.buttonDisabled,
+      side: const BorderSide(color: EchnoColors.primary),
+      padding: const EdgeInsets.symmetric(vertical: EchnoSize.buttonHeight),
       textStyle: const TextStyle(
-        fontSize: 17.0,
-        fontFamily: 'TT Chocolates',
-      ),
+          fontSize: 16,
+          color: EchnoColors.textWhite,
+          fontWeight: FontWeight.w600),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(EchnoSize.buttonRadius)),
     ),
   );
 
+  /* -- Dark Theme -- */
   static final darkElevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      minimumSize: const Size(300, 50),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      foregroundColor: whiteColor,
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      foregroundColor: EchnoColors.light,
+      backgroundColor: EchnoColors.secondary,
+      disabledForegroundColor: EchnoColors.darkGrey,
+      disabledBackgroundColor: EchnoColors.darkerGrey,
+      side: const BorderSide(color: EchnoColors.secondary),
+      padding: const EdgeInsets.symmetric(vertical: EchnoSize.buttonHeight),
       textStyle: const TextStyle(
-        fontSize: 17.0,
-        fontFamily: 'TT Chocolates',
-      ),
+          fontSize: 16,
+          color: EchnoColors.textWhite,
+          fontWeight: FontWeight.w600),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(EchnoSize.buttonRadius)),
     ),
   );
 }
