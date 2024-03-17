@@ -1,5 +1,4 @@
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
 class ProfileMenuWidget extends StatelessWidget {
@@ -23,14 +22,15 @@ class ProfileMenuWidget extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-            color: textColor ?? Theme.of(context).textTheme.bodyMedium?.color),
+            color: textColor ??
+                Theme.of(context).textTheme.titleSmall?.copyWith().color),
       ),
       leading: Icon(icon,
           color: isDark ? EchnoColors.secondary : EchnoColors.primary),
       trailing: endIcon
-          ? const Icon(
+          ? Icon(
               Icons.arrow_forward_ios,
-              color: echnoBlueColor,
+              color: isDark ? EchnoColors.secondary : EchnoColors.primary,
               size: 15.0,
             )
           : const SizedBox(

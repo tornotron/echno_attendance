@@ -3,7 +3,6 @@ import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/image_string.dart';
 import 'package:echno_attendance/employee/bloc/employee_bloc.dart';
 import 'package:echno_attendance/employee/bloc/employee_event.dart';
@@ -196,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ProfileMenuWidget(
                       isDark: isDark,
                       title: 'Log Out',
-                      textColor: errorRedColor,
+                      textColor: EchnoColors.error,
                       icon: Icons.logout_rounded,
                       onPressed: () async {
                         final authBloc = context.read<AuthBloc>();
