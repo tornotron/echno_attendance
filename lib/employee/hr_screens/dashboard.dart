@@ -1,20 +1,21 @@
-import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/employee/hr_screens/add_employee.dart';
 import 'package:echno_attendance/employee/hr_screens/employee_register.dart';
 import 'package:echno_attendance/employee/hr_screens/update_details.dart';
 import 'package:echno_attendance/leave_module/screens/leave_register.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:echno_attendance/employee/hr_screens/attendance_report/employee_attendancereport.dart';
 
 class HRDashboardScreen extends StatefulWidget {
-  const HRDashboardScreen({Key? key}) : super(key: key);
+  const HRDashboardScreen({super.key});
 
   @override
   State<HRDashboardScreen> createState() => _HRDashboardScreenState();
 }
 
 class _HRDashboardScreenState extends State<HRDashboardScreen> {
-  bool get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   late List<DashboardItem> gridData;
 
   @override
@@ -76,13 +77,19 @@ class _HRDashboardScreenState extends State<HRDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: isDarkMode
-            ? echnoLightBlueColor
-            : echnoLogoColor, // Use your actual colors here
-        title: const Text('HR Dashboard'),
-        centerTitle: true,
+      appBar: EchnoAppBar(
+        leadingIcon: Icons.arrow_back_ios_new,
+        leadingOnPressed: () {
+          Navigator.pop(context);
+        },
+        title: Text(
+          'HR Dashboard',
+          style: Theme.of(context).textTheme.headlineSmall?.apply(
+                color: isDark ? EchnoColors.black : EchnoColors.white,
+              ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -117,16 +124,15 @@ class DashboardItem {
 class DashboardItemWidget extends StatelessWidget {
   final DashboardItem item;
 
-  const DashboardItemWidget({Key? key, required this.item}) : super(key: key);
+  const DashboardItemWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return InkWell(
       onTap: item.onTap,
       child: Card(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? echnoLightBlueColor
-            : echnoLogoColor, // Use your actual colors here
+        color: isDark ? EchnoColors.secondary : EchnoColors.primary,
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Column(
@@ -135,17 +141,16 @@ class DashboardItemWidget extends StatelessWidget {
               Icon(
                 item.icon,
                 size: 48.0,
-                color: echnoDarkColor, // Customize the icon color if needed
+                color: isDark ? EchnoColors.black : EchnoColors.white,
               ),
               const SizedBox(height: 8.0),
               Text(
                 item.text,
-                style: const TextStyle(
-                  fontFamily: 'TT Chocolates Bold',
-                  fontSize: 15.0,
-                  color: echnoDarkColor, // Customize the text color if needed
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w600,
+                      color: isDark ? EchnoColors.black : EchnoColors.white,
+                    ),
                 textAlign: TextAlign.center,
               ),
             ],
