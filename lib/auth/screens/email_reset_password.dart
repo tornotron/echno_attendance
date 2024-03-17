@@ -66,7 +66,7 @@ class _MailPasswordResetScreenState extends State<MailPasswordResetScreen> {
             body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: CustomPaddingStyle.defaultPadding,
+              padding: CustomPaddingStyle.defaultPaddingWithoutAppbar,
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 SvgPicture.asset(
