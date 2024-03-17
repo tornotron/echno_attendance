@@ -1,3 +1,4 @@
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
@@ -11,7 +12,7 @@ import 'package:intl/intl.dart';
 
 Widget leaveStatusCard(
   Leave leave,
-  bool isDarkMode,
+  bool isDark,
   BuildContext context,
 ) {
   final leaveHandler = LeaveService.firestoreLeave();
@@ -45,12 +46,12 @@ Widget leaveStatusCard(
     height: 200,
     margin: const EdgeInsets.only(left: 45.0, right: 20.0),
     decoration: BoxDecoration(
-      color: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
+      color: isDark ? EchnoColors.darkLeaveCard : EchnoColors.lightLeaveCard,
       shape: BoxShape.rectangle,
       borderRadius: BorderRadius.circular(8.0),
       boxShadow: <BoxShadow>[
         BoxShadow(
-          color: isDarkMode ? echnoGreyColor : echnoLightColor,
+          color: isDark ? EchnoColors.darkerGrey : EchnoColors.black,
           blurRadius: 5.0,
           offset: const Offset(0.5, 3.0),
         ),
@@ -65,45 +66,50 @@ Widget leaveStatusCard(
         children: <Widget>[
           Text(
             getLeaveTypeName(leave.leaveType),
-            style: const TextStyle(
-              color: echnoDarkColor,
-              fontFamily: 'TT Chocolates Bold',
-              fontWeight: FontWeight.w600,
-              fontSize: 20.0,
-            ),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                  color: isDark
+                      ? EchnoColors.leaveDarkText
+                      : EchnoColors.leaveLightText,
+                ),
           ),
           const SizedBox(height: 5.0),
           Text(
-            '$formatedFromDate - $formatedToDate',
-            style: const TextStyle(
-              color: echnoDarkColor,
-              fontFamily: 'TT Chocolates Bold',
-              fontWeight: FontWeight.w300,
-              fontSize: 15.0,
-            ),
+            '$formatedFromDate -- $formatedToDate',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w400,
+                  color: isDark
+                      ? EchnoColors.leaveDarkText
+                      : EchnoColors.leaveLightText,
+                ),
           ),
           const SizedBox(height: 5.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(2.0),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
                 child: Icon(
                   Icons.calendar_today,
                   size: 14.0,
-                  color: echnoDarkColor,
+                  color: isDark
+                      ? EchnoColors.leaveDarkText
+                      : EchnoColors.leaveLightText,
                 ),
               ),
               Text(
                 leave.isCancelled
                     ? 'Cancelled'
                     : getLeaveStatusName(leave.leaveStatus),
-                style: const TextStyle(
-                  color: echnoDarkColor,
-                  fontFamily: 'TT Chocolates Bold',
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14.0,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w300,
+                      color: isDark
+                          ? EchnoColors.leaveDarkText
+                          : EchnoColors.leaveLightText,
+                    ),
               ),
               Container(width: 70.0),
               leave.leaveStatus == LeaveStatus.approved ||
@@ -125,23 +131,25 @@ Widget leaveStatusCard(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5.0),
-                          color: leaveCancelButtonColor,
+                          color: EchnoColors.leaveCancelButton,
                         ),
-                        child: const Column(
+                        child: Column(
                           children: <Widget>[
-                            Icon(
+                            const Icon(
                               Icons.arrow_upward,
                               size: 20.0,
-                              color: echnoDarkColor,
+                              color: EchnoColors.leaveLightText,
                             ),
                             Text(
                               leaveStatusCancelButtonLabel,
-                              style: TextStyle(
-                                color: echnoDarkColor,
-                                fontFamily: 'TT Chocolates Bold',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10.0,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: EchnoColors.leaveLightText,
+                                  ),
                             ),
                           ],
                         ),
@@ -152,13 +160,14 @@ Widget leaveStatusCard(
           const SizedBox(height: 5.0),
           Text(
             "$leaveAppliedOnFieldLabel $appliedDate",
-            style: const TextStyle(
-              color: echnoDarkColor,
-              fontFamily: 'TT Chocolates Bold',
-              fontWeight: FontWeight.w600,
-              fontSize: 12.0,
-              letterSpacing: 0.5,
-            ),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                  color: isDark
+                      ? EchnoColors.leaveDarkText
+                      : EchnoColors.leaveLightText,
+                ),
           ),
         ],
       ),

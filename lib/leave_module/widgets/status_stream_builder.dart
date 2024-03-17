@@ -4,6 +4,7 @@ import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/widgets/leave_status_card.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 class LeaveStatusStreamWidget extends StatefulWidget {
@@ -17,8 +18,6 @@ class LeaveStatusStreamWidget extends StatefulWidget {
 }
 
 class _LeaveStatusStreamWidgetState extends State<LeaveStatusStreamWidget> {
-  get isDarkMode => Theme.of(context).brightness == Brightness.dark;
-
   Employee? _currentEmployee;
   final leaveService = LeaveService.firestoreLeave();
 
@@ -36,6 +35,7 @@ class _LeaveStatusStreamWidgetState extends State<LeaveStatusStreamWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return Expanded(
       child: StreamBuilder<List<Leave>>(
         stream: leaveService.streamLeaveHistory(
@@ -76,7 +76,7 @@ class _LeaveStatusStreamWidgetState extends State<LeaveStatusStreamWidget> {
                 final leave = orderedLeaves[index];
                 return leaveStatusCard(
                   leave,
-                  isDarkMode,
+                  isDark,
                   context,
                 );
               },

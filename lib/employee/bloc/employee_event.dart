@@ -31,3 +31,12 @@ class EmployeeUpdatePhotoEvent extends EmployeeEvent {
     required this.employeeId,
   });
 }
+
+class EmployeeAttendanceEvent extends EmployeeEvent {
+  final String employeeId;
+  final String employeeName;
+  const EmployeeAttendanceEvent({
+    required this.employeeId,
+    required this.employeeName,
+  });
+}

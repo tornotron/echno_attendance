@@ -1,9 +1,11 @@
-import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/constants/sizes.dart';
 import 'package:echno_attendance/leave_module/screens/leave_application.dart';
 import 'package:echno_attendance/leave_module/widgets/status_stream_builder.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class LeaveStatusScreen extends StatefulWidget {
@@ -16,21 +18,20 @@ class LeaveStatusScreen extends StatefulWidget {
 }
 
 class LeaveStatusScreenState extends State<LeaveStatusScreen> {
-  get isDarkMode => Theme.of(context).brightness == Brightness.dark;
-
   @override
   Widget build(BuildContext context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor),
-        backgroundColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
-        title: const Text(leaveStatusAppBarTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      appBar: EchnoAppBar(
+        leadingIcon: Icons.arrow_back_ios_new,
+        leadingOnPressed: () {
+          Navigator.pop(context);
+        },
+        title: Text(
+          'Profile',
+          style: Theme.of(context).textTheme.headlineSmall?.apply(
+                color: isDark ? EchnoColors.black : EchnoColors.white,
+              ),
         ),
       ),
       body: Column(
@@ -49,15 +50,21 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                       children: [
                         Text(
                           DateFormat.yMMMMd().format(DateTime.now()),
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text('Today',
-                            style: Theme.of(context).textTheme.titleLarge),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 20.0,
+                                )),
                       ],
                     ),
                     SizedBox(
-                      width: 120.00,
-                      child: OutlinedButton(
+                      width: 130.0,
+                      child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -74,7 +81,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: EchnoSize.spaceBtwSections),
                 Text(
                   leaveStatusScreenTitle,
                   style: Theme.of(context).textTheme.displaySmall,
@@ -85,8 +92,8 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.left,
                 ),
-                const SizedBox(height: 10.0),
-                const Divider(height: 3.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
+                const Divider(height: EchnoSize.dividerHeight),
               ],
             ),
           ),

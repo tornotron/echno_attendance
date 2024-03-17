@@ -1,3 +1,4 @@
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ Icon getIcon(LeaveStatus? leaveStatus, bool isCancelled) {
     return const Icon(
       Icons.report_outlined,
       size: 60,
-      color: leaveStatusOrangeColor,
+      color: EchnoColors.leaveStatusCancelled,
     );
   }
   switch (leaveStatus) {
@@ -18,25 +19,25 @@ Icon getIcon(LeaveStatus? leaveStatus, bool isCancelled) {
       return const Icon(
         Icons.check_circle_rounded,
         size: 60,
-        color: echnoGreenColor,
+        color: EchnoColors.leaveStatusApproved,
       );
     case LeaveStatus.pending:
       return const Icon(
         Icons.hourglass_empty_rounded,
         size: 60,
-        color: leaveStatusYellowColor,
+        color: EchnoColors.leaveStatusPending,
       );
     case LeaveStatus.rejected:
       return const Icon(
         Icons.cancel,
         size: 60,
-        color: leaveStatusRedColor,
+        color: EchnoColors.leaveStatusRejected,
       );
     default:
       return const Icon(
         Icons.hourglass_empty_rounded,
         size: 60,
-        color: leaveStatusYellowColor,
+        color: EchnoColors.leaveStatusPending,
       );
   }
 }
@@ -48,12 +49,12 @@ Color getColor(LeaveStatus? leaveStatus, bool isCancelled) {
   }
   switch (leaveStatus) {
     case LeaveStatus.approved:
-      return echnoGreenColor;
+      return EchnoColors.leaveStatusApproved;
     case LeaveStatus.pending:
-      return leaveStatusYellowColor;
+      return EchnoColors.leaveStatusPending;
     case LeaveStatus.rejected:
-      return leaveStatusRedColor;
+      return EchnoColors.leaveStatusRejected;
     default:
-      return leaveStatusYellowColor;
+      return EchnoColors.leaveStatusPending;
   }
 }
