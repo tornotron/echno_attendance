@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       echnoSignIn,
                       height: 140.0,
                     ),
-                    const SizedBox(height: 15.0),
+                    const SizedBox(height: EchnoSize.spaceBtwItems),
                     Text('Welcome Back,',
                         style: Theme.of(context).textTheme.displaySmall),
                     Text(
