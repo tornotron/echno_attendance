@@ -1,13 +1,15 @@
-import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
+import 'package:echno_attendance/constants/sizes.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/employee_service.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:echno_attendance/leave_module/widgets/date_selection_field.dart';
 import 'package:echno_attendance/leave_module/widgets/leave_form_field.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class LeaveApplicationScreen extends StatefulWidget {
@@ -20,7 +22,6 @@ class LeaveApplicationScreen extends StatefulWidget {
 }
 
 class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
-  get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _remarksController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
@@ -96,7 +97,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
         return AlertDialog(
           title: const Row(
             children: [
-              Icon(Icons.error, color: errorRedColor),
+              Icon(Icons.error, color: EchnoColors.error),
               Text('Error'),
             ],
           ),
@@ -135,17 +136,18 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
 
   @override
   Widget build(context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor),
-        backgroundColor: isDarkMode ? echnoLightBlueColor : echnoBlueColor,
-        title: const Text(leaveApplicationAppBarTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      appBar: EchnoAppBar(
+        leadingIcon: Icons.arrow_back_ios_new,
+        leadingOnPressed: () {
+          Navigator.pop(context);
+        },
+        title: Text(
+          'Leave Application',
+          style: Theme.of(context).textTheme.headlineSmall?.apply(
+                color: isDark ? EchnoColors.black : EchnoColors.white,
+              ),
         ),
       ),
       body: SingleChildScrollView(
@@ -167,9 +169,9 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.left,
                 ),
-                const SizedBox(height: 10.0),
-                const Divider(height: 3.0),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
+                const Divider(height: EchnoSize.dividerHeight),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // The immediate supervisor of the employee
                 const LeaveFormField(
@@ -177,7 +179,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   isReadOnly: true,
                   hintText: 'Alex Mercer', // This should be fetched from DB
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Current Date
                 LeaveFormField(
@@ -185,7 +187,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   isReadOnly: true,
                   hintText: DateFormat('dd-MM-yyyy').format(DateTime.now()),
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Selection field the start date of leave
                 CustomDateField(
@@ -204,7 +206,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Selection field the end date of leave
                 CustomDateField(
@@ -223,14 +225,14 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Number of days on leave calculated from start and end date
                 Text(
                   "$calculateDaysFieldLabel ${calculateLeaveDays()}",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Dropdoen to select Leave Type
                 Text(
@@ -263,7 +265,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Text field to enter remarks
                 Text(
@@ -287,7 +289,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                   },
                 ),
 
-                const SizedBox(height: 15.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
 
                 // Button to submit leave application
                 SizedBox(
@@ -313,7 +315,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              backgroundColor: successGreenColor,
+                              backgroundColor: EchnoColors.success,
                               content: Text(leaveApplicationSuccessMessage),
                             ),
                           );
