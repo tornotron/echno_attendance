@@ -1,21 +1,20 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
-import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/bloc/auth_state.dart';
-import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
-import 'package:echno_attendance/constants/image_string.dart';
-import 'package:echno_attendance/auth/widgets/password_form_field.dart';
+import 'package:echno_attendance/auth/widgets/registration_widgets/registration_footer.dart';
+import 'package:echno_attendance/auth/widgets/registration_widgets/registration_form.dart';
+import 'package:echno_attendance/auth/widgets/registration_widgets/registration_header.dart';
+import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:echno_attendance/utilities/index.dart';
+import 'package:echno_attendance/utilities/styles/padding_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'dart:developer' as devtools show log;
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
-  static const EdgeInsetsGeometry containerPadding =
-      EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -58,8 +57,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   );
   @override
   Widget build(context) {
-    final mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height;
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     phoneController.selection = TextSelection.fromPosition(
       TextPosition(
         offset: phoneController.text.length,
@@ -89,283 +87,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Scaffold(
           body: SafeArea(
             child: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                padding: RegistrationScreen.containerPadding,
+              child: Padding(
+                padding: CustomPaddingStyle.defaultPadding,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /*---------- Register Screen Header Start ----------*/
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(
-                          echnoRegister,
-                          height: height * 0.15,
-                        ),
-                        const SizedBox(height: 15.0),
-                        Text('Get On Board!',
-                            style: Theme.of(context).textTheme.displaySmall),
-                        Text(
-                          'Create an account to start your Journey ...',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ],
+                    // Header Section Widget
+                    const RegistrationScreenHeader(),
+                    const SizedBox(height: EchnoSize.spaceBtwSections),
+                    // Form Section Widget
+                    RegistrationForm(
+                      registrationFormKey: _registrationFormKey,
+                      employeeIdController: _employeeIdController,
+                      emailController: _emailController,
+                      passwordController: _passwordController,
                     ),
-
-                    /*---------- Register Screen Header End ----------*/
-
-                    /*---------- Register Screen Form Start ----------*/
-
-                    Form(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Form(
-                          key: _registrationFormKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Employee ID TextField
-                              TextFormField(
-                                controller: _employeeIdController,
-                                maxLines: 1,
-                                decoration: InputDecoration(
-                                  prefixIcon:
-                                      const Icon(Icons.person_outline_outlined),
-                                  labelText: 'Employee ID',
-                                  hintText: 'EMP-000001',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      (15.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              // // Full Name TextField
-                              // TextFormField(
-                              //   maxLines: 1,
-                              //   decoration: InputDecoration(
-                              //     prefixIcon:
-                              //         const Icon(Icons.person_outline_outlined),
-                              //     labelText: 'Full Name',
-                              //     hintText: 'Full Name',
-                              //     border: OutlineInputBorder(
-                              //       borderRadius: BorderRadius.circular(
-                              //         (15.0),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 10.0),
-
-                              // Email TextField
-                              TextFormField(
-                                controller: _emailController,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                keyboardType: TextInputType.emailAddress,
-                                maxLines: 1,
-                                decoration: InputDecoration(
-                                  // filled: true,
-                                  // fillColor:
-                                  // const Color.fromARGB(255, 214, 214, 214),
-                                  prefixIcon:
-                                      const Icon(Icons.person_outline_outlined),
-                                  labelText: 'Email ID',
-                                  hintText: 'E-Mail',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Email cannot be empty";
-                                  }
-                                  return RegExp(
-                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                          .hasMatch(value)
-                                      ? null
-                                      : "Please enter a valid email";
-                                },
-                              ),
-                              const SizedBox(height: 10.0),
-
-                              // // Mobile Number TextField
-                              // TextFormField(
-                              //   controller: phoneController,
-                              //   onChanged: (value) {
-                              //     setState(() {
-                              //       phoneController.text = value;
-                              //     });
-                              //   },
-                              //   enableSuggestions: false,
-                              //   autocorrect: false,
-                              //   keyboardType: TextInputType.number,
-                              //   maxLines: 1,
-                              //   decoration: InputDecoration(
-                              //     labelText: 'Mobile Number',
-                              //     hintText: '1234 567 890',
-                              //     border: OutlineInputBorder(
-                              //       borderRadius: BorderRadius.circular(15.0),
-                              //     ),
-                              //     prefixIcon: Container(
-                              //       padding: const EdgeInsets.all(13.5),
-                              //       child: InkWell(
-                              //         onTap: () {
-                              //           showCountryPicker(
-                              //             context: context,
-                              //             countryListTheme:
-                              //                 const CountryListThemeData(
-                              //               bottomSheetHeight: 550,
-                              //             ),
-                              //             onSelect: (value) {
-                              //               setState(() {
-                              //                 selectedCountry = value;
-                              //               });
-                              //             },
-                              //           );
-                              //         },
-                              //         child: Text(
-                              //           "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
-                              //           style:
-                              //               Theme.of(context).textTheme.titleMedium,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     suffixIcon: phoneController.text.length > 9
-                              //         ? Container(
-                              //             height: 30,
-                              //             width: 30,
-                              //             margin: const EdgeInsets.all(10.0),
-                              //             decoration: const BoxDecoration(
-                              //               shape: BoxShape.circle,
-                              //               color: Colors.green,
-                              //             ),
-                              //             child: const Icon(
-                              //               Icons.done,
-                              //               color: Colors.white,
-                              //               size: 20,
-                              //             ),
-                              //           )
-                              //         : null,
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 10.0),
-
-                              // Password TextField
-                              PasswordTextField(
-                                controller: _passwordController,
-                                labelText: 'Password',
-                                hintText: 'Password',
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Password cannot be empty";
-                                  } else if (value.length < 6) {
-                                    return "Password must be at least 6 characters";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 10.0),
-
-                              // // Re-Enter Password TextField
-                              // const PasswordTextField(
-                              //   labelText: 'Re-Enter Password',
-                              //   hintText: 'Re-Enter Password',
-                              // ),
-                              // const SizedBox(height: 30.0),
-
-                              // Register Button
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (_registrationFormKey.currentState!
-                                        .validate()) {
-                                      final String email =
-                                          _emailController.text;
-                                      final String password =
-                                          _passwordController.text;
-                                      final String? employeeId =
-                                          _employeeIdController.text.isEmpty
-                                              ? null
-                                              : _employeeIdController.text;
-
-                                      context.read<AuthBloc>().add(
-                                            AuthRegistrationEvent(
-                                              employeeId,
-                                              authUserEmail: email,
-                                              password: password,
-                                            ),
-                                          );
-                                      verificationMailAltert(context);
-                                    }
-                                  },
-                                  child: const Text(
-                                    'REGISTER',
-                                  ),
-                                ),
-                              ),
-
-                              /*---------- Register Screen Form End ----------*/
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    /*---------- Register Screen Footer Start ----------*/
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text('OR'),
-                        const SizedBox(height: 10.0),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton.icon(
-                              icon: SvgPicture.asset(
-                                googleIcon,
-                                width: 20.0,
-                              ),
-                              onPressed: () async {
-                                await genericAlertDialog(context,
-                                    'Sorry this feature is currently disabled...');
-                              },
-                              label: const Text(
-                                'Sign-In with Google',
-                              )),
-                        ),
-                        const SizedBox(height: 10.0),
-                        TextButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(
-                                  const AuthLogOutEvent(),
-                                );
-                          },
-                          child: Text.rich(
-                            TextSpan(
-                              text: 'Already have an account ? ',
-                              style: Theme.of(context).textTheme.titleMedium,
-                              children: const [
-                                TextSpan(
-                                  text: 'Login',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    /*---------- Register Screen Footer End ----------*/
+                    const SizedBox(height: EchnoSize.spaceBtwSections),
+                    // Footer Section Widget
+                    RegistrationScreenFooter(isDark: isDark),
                   ],
                 ),
               ),
