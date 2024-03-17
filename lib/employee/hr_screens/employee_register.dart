@@ -3,7 +3,7 @@ import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeRegisterScreen extends StatefulWidget {
-  const EmployeeRegisterScreen({Key? key}) : super(key: key);
+  const EmployeeRegisterScreen({super.key});
   static const EdgeInsetsGeometry containerPadding =
       EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
 
@@ -12,8 +12,8 @@ class EmployeeRegisterScreen extends StatefulWidget {
 }
 
 class _EmployeeRegisterScreenState extends State<EmployeeRegisterScreen> {
-  final CollectionReference users =
-      FirebaseFirestore.instance.collection('users');
+  final CollectionReference employees =
+      FirebaseFirestore.instance.collection('employees');
   TextEditingController searchController = TextEditingController();
 
   get isDarkMode => Theme.of(context).brightness == Brightness.dark;
@@ -65,7 +65,7 @@ class _EmployeeRegisterScreenState extends State<EmployeeRegisterScreen> {
               const SizedBox(height: 15.0),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: users.snapshots(),
+                  stream: employees.snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(
@@ -77,10 +77,10 @@ class _EmployeeRegisterScreenState extends State<EmployeeRegisterScreen> {
                     List<Widget> employeeWidgets = [];
 
                     for (var employee in employees) {
-                      var name = employee['full-name'];
+                      var name = employee['employee-name'];
                       var employeeId = employee['employee-id'];
-                      var email = employee['email-id'];
-                      var phone = employee['phone'];
+                      var email = employee['company-email'];
+                      var phone = employee['phone-number'];
                       var status = employee['employee-status'];
 
                       if (name
