@@ -11,7 +11,7 @@ Icon getIcon(LeaveStatus? leaveStatus, bool isCancelled) {
     return const Icon(
       Icons.report_outlined,
       size: 60,
-      color: EchnoColors.leaveStatusCancelled,
+      color: EchnoColors.leaveCancelled,
     );
   }
   switch (leaveStatus) {
@@ -19,25 +19,25 @@ Icon getIcon(LeaveStatus? leaveStatus, bool isCancelled) {
       return const Icon(
         Icons.check_circle_rounded,
         size: 60,
-        color: EchnoColors.leaveStatusApproved,
+        color: EchnoColors.leaveApproved,
       );
     case LeaveStatus.pending:
       return const Icon(
         Icons.hourglass_empty_rounded,
         size: 60,
-        color: EchnoColors.leaveStatusPending,
+        color: EchnoColors.leavePending,
       );
     case LeaveStatus.rejected:
       return const Icon(
         Icons.cancel,
         size: 60,
-        color: EchnoColors.leaveStatusRejected,
+        color: EchnoColors.leaveRejected,
       );
     default:
       return const Icon(
         Icons.hourglass_empty_rounded,
         size: 60,
-        color: EchnoColors.leaveStatusPending,
+        color: EchnoColors.leavePending,
       );
   }
 }
@@ -49,12 +49,12 @@ Color getColor(LeaveStatus? leaveStatus, bool isCancelled) {
   }
   switch (leaveStatus) {
     case LeaveStatus.approved:
-      return EchnoColors.leaveStatusApproved;
+      return EchnoColors.leaveApproved;
     case LeaveStatus.pending:
-      return EchnoColors.leaveStatusPending;
+      return EchnoColors.leavePending;
     case LeaveStatus.rejected:
-      return EchnoColors.leaveStatusRejected;
+      return EchnoColors.leaveRejected;
     default:
-      return EchnoColors.leaveStatusPending;
+      return EchnoColors.leavePending;
   }
 }

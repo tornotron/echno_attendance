@@ -22,6 +22,8 @@ class EchnoColors {
   // Background Container colors
   static const Color lightContainer = Color(0xFFF6F6F6);
   static Color darkContainer = EchnoColors.white.withOpacity(0.1);
+  static const Color lightCard = Color(0xFF0057E7);
+  static const Color darkCard = Color(0xFF424242);
 
   // Button colors
   static const Color buttonPrimary = Color(0xFF004AAD);
@@ -49,15 +51,13 @@ class EchnoColors {
 
   // Box Shadow Colors
   static const Color lightShadow = Color(0x66000000);
-  static const Color darkShow = Color(0x8A000000);
+  static const Color darkShadow = Color(0x8A000000);
 
   // Leave status colors
-  static const Color leaveStatusApproved = Color(0xFF45A834);
-  static const Color leaveStatusPending = Color(0xFFFDD835);
-  static const Color leaveStatusCancelled = Color(0xFFFB8C00);
-  static const Color leaveStatusRejected = Color(0xFFE53935);
-  static const Color lightLeaveCard = Color(0xFF0057E7);
-  static const Color darkLeaveCard = Color(0xFF424242);
+  static const Color leaveApproved = Color(0xFF45A834);
+  static const Color leavePending = Color(0xFFFDD835);
+  static const Color leaveCancelled = Color(0xFFFB8C00);
+  static const Color leaveRejected = Color(0xFFE53935);
   static const Color leaveText = Colors.white;
   static const Color leaveCancelButton = Color(0xFFAB47BC);
 }
