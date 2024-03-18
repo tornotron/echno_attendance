@@ -1,7 +1,8 @@
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/global_theme/button_style.dart';
-import 'package:echno_attendance/global_theme/custom_app_bar.dart';
-import 'package:echno_attendance/global_theme/text_style.dart';
+import 'package:echno_attendance/global_theme/elevated_button_theme.dart';
+import 'package:echno_attendance/global_theme/outline_button_theme.dart';
+import 'package:echno_attendance/global_theme/app_bar_theme.dart';
+import 'package:echno_attendance/global_theme/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
