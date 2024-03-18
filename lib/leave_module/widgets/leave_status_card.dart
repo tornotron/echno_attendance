@@ -50,9 +50,7 @@ Widget leaveStatusCard(
       borderRadius: BorderRadius.circular(8.0),
       boxShadow: <BoxShadow>[
         BoxShadow(
-          color: isDark
-              ? EchnoColors.leaveShadowDark
-              : EchnoColors.leaveShadowLight,
+          color: isDark ? EchnoColors.darkShow : EchnoColors.lightShadow,
           blurRadius: 5.0,
           offset: const Offset(0.5, 3.0),
         ),
@@ -70,9 +68,7 @@ Widget leaveStatusCard(
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
-                  color: isDark
-                      ? EchnoColors.leaveDarkText
-                      : EchnoColors.leaveLightText,
+                  color: isDark ? EchnoColors.leaveText : EchnoColors.leaveText,
                 ),
           ),
           const SizedBox(height: 5.0),
@@ -81,9 +77,7 @@ Widget leaveStatusCard(
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontSize: 15.0,
                   fontWeight: FontWeight.w400,
-                  color: isDark
-                      ? EchnoColors.leaveDarkText
-                      : EchnoColors.leaveLightText,
+                  color: isDark ? EchnoColors.leaveText : EchnoColors.leaveText,
                 ),
           ),
           const SizedBox(height: 5.0),
@@ -95,9 +89,7 @@ Widget leaveStatusCard(
                 child: Icon(
                   Icons.calendar_today,
                   size: 14.0,
-                  color: isDark
-                      ? EchnoColors.leaveDarkText
-                      : EchnoColors.leaveLightText,
+                  color: isDark ? EchnoColors.leaveText : EchnoColors.leaveText,
                 ),
               ),
               Text(
@@ -108,8 +100,8 @@ Widget leaveStatusCard(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w300,
                       color: isDark
-                          ? EchnoColors.leaveDarkText
-                          : EchnoColors.leaveLightText,
+                          ? EchnoColors.leaveText
+                          : EchnoColors.leaveText,
                     ),
               ),
               Container(width: 70.0),
@@ -139,7 +131,7 @@ Widget leaveStatusCard(
                             const Icon(
                               Icons.arrow_upward,
                               size: 20.0,
-                              color: EchnoColors.leaveLightText,
+                              color: EchnoColors.leaveText,
                             ),
                             Text(
                               leaveStatusCancelButtonLabel,
@@ -149,7 +141,7 @@ Widget leaveStatusCard(
                                   ?.copyWith(
                                     fontSize: 11.0,
                                     fontWeight: FontWeight.w600,
-                                    color: EchnoColors.leaveLightText,
+                                    color: EchnoColors.leaveText,
                                   ),
                             ),
                           ],
@@ -165,9 +157,7 @@ Widget leaveStatusCard(
                   fontSize: 13.0,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1.0,
-                  color: isDark
-                      ? EchnoColors.leaveDarkText
-                      : EchnoColors.leaveLightText,
+                  color: isDark ? EchnoColors.leaveText : EchnoColors.leaveText,
                 ),
           ),
         ],
