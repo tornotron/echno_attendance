@@ -53,8 +53,10 @@ class EchnoColors {
   static const Color leaveStatusCancelled = Color(0xFFFB8C00);
   static const Color leaveStatusRejected = Color(0xFFE53935);
   static const Color lightLeaveCard = Color(0xFF0057E7);
-  static const Color darkLeaveCard = Color(0xFFE4C1F9);
+  static const Color darkLeaveCard = Color(0xFF424242);
   static const Color leaveLightText = Colors.white;
-  static const Color leaveDarkText = Colors.black;
+  static const Color leaveDarkText = Colors.white;
   static const Color leaveCancelButton = Color(0xFFAB47BC);
+  static const Color leaveShadowLight = Color(0x66000000);
+  static const Color leaveShadowDark = Color(0x8A000000);
 }

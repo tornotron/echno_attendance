@@ -1,5 +1,4 @@
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/leave_module/models/leave_model.dart';
 import 'package:echno_attendance/leave_module/services/leave_services.dart';
@@ -28,7 +27,7 @@ Widget leaveStatusCard(
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: echnoDarkColor,
+          color: EchnoColors.white,
           border: Border.all(
             width: 5,
             color: getColor(leave.leaveStatus, leave.isCancelled),
@@ -51,7 +50,9 @@ Widget leaveStatusCard(
       borderRadius: BorderRadius.circular(8.0),
       boxShadow: <BoxShadow>[
         BoxShadow(
-          color: isDark ? EchnoColors.darkerGrey : EchnoColors.black,
+          color: isDark
+              ? EchnoColors.leaveShadowDark
+              : EchnoColors.leaveShadowLight,
           blurRadius: 5.0,
           offset: const Offset(0.5, 3.0),
         ),
