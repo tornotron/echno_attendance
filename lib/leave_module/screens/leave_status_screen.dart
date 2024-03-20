@@ -28,7 +28,7 @@ class LeaveStatusScreenState extends State<LeaveStatusScreen> {
           Navigator.pop(context);
         },
         title: Text(
-          'Profile',
+          'Leave Status',
           style: Theme.of(context).textTheme.headlineSmall?.apply(
                 color: isDark ? EchnoColors.black : EchnoColors.white,
               ),

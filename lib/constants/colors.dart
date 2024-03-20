@@ -23,7 +23,7 @@ class EchnoColors {
   static const Color lightContainer = Color(0xFFF6F6F6);
   static Color darkContainer = EchnoColors.white.withOpacity(0.1);
   static const Color lightCard = Color(0xFF0057E7);
-  static const Color darkCard = Color(0xFF424242);
+  static const Color darkCard = Color(0xFF212121);
 
   // Button colors
   static const Color buttonPrimary = Color(0xFF004AAD);

@@ -45,14 +45,16 @@ Widget leaveStatusCard(
     height: 200,
     margin: const EdgeInsets.only(left: 45.0, right: 20.0),
     decoration: BoxDecoration(
-      color: isDark ? EchnoColors.darkCard : EchnoColors.lightCard,
+      color:
+          isDark ? EchnoColors.black.withOpacity(0.9) : EchnoColors.lightCard,
       shape: BoxShape.rectangle,
       borderRadius: BorderRadius.circular(8.0),
       boxShadow: <BoxShadow>[
         BoxShadow(
           color: isDark ? EchnoColors.darkShadow : EchnoColors.lightShadow,
-          blurRadius: 5.0,
-          offset: const Offset(0.5, 3.0),
+          blurRadius: 10.0,
+          spreadRadius: 2.0,
+          offset: const Offset(0, 5),
         ),
       ],
     ),
@@ -104,7 +106,7 @@ Widget leaveStatusCard(
                           : EchnoColors.leaveText,
                     ),
               ),
-              Container(width: 70.0),
+              Container(width: 40.0),
               leave.leaveStatus == LeaveStatus.approved ||
                       leave.leaveStatus == LeaveStatus.rejected ||
                       leave.isCancelled
@@ -120,10 +122,10 @@ Widget leaveStatusCard(
                         }
                       },
                       child: Container(
-                        width: 60.0,
+                        width: 90.0,
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           color: EchnoColors.leaveCancelButton,
                         ),
                         child: Column(
