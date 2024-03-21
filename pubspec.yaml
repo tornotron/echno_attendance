@@ -33,34 +33,51 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
+  # iOS icon style
   cupertino_icons: ^1.0.2
+
+  # Firebase Back-end Dependencies
   firebase_core: ^2.13.1
   firebase_auth: ^4.6.2
   cloud_firestore: ^4.8.0
   firebase_analytics: ^10.4.2
+  firebase_storage: ^11.6.10
+
+  # SQLite local database
   sqflite: ^2.2.8+4
+
+  # File system path handling
   path: ^1.8.3
   path_provider: ^2.1.1
+
+  # UI and utilities libraries
   curved_navigation_bar: ^1.0.3
   flutter_svg: ^2.0.6
   flutter_otp_text_field: ^1.1.1
   country_picker: ^2.0.21
-  mocktail: ^1.0.0
-  logger: ^2.0.2+1
-  intl: ^0.18.1
-  bloc: ^8.1.2
-  flutter_bloc: ^8.1.3
-  equatable: ^2.0.5
   dropdown_search: ^5.0.6
   date_picker_timeline: ^1.2.5
   slide_to_act: ^2.0.2
   camera: ^0.10.5+7
-  firebase_storage: ^11.6.10
   geolocator: ^11.0.0
   image_picker: ^1.0.7
   google_fonts: ^6.2.0
+  intl: ^0.18.1
 
+  # Mocking library for testing
+  mocktail: ^1.0.0
 
+  # Logging library
+  logger: ^2.0.2+1
+  
+  # State management libraries
+  bloc: ^8.1.2
+  flutter_bloc: ^8.1.3
+  equatable: ^2.0.5
+  
+  
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter
