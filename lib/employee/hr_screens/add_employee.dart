@@ -86,23 +86,17 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
+            child: Padding(
               padding: CustomPaddingStyle.defaultPaddingWithAppbar,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Add New Employee',
-                          style: Theme.of(context).textTheme.displaySmall),
-                      Text(
-                        'Create an account for the new employee...',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
+                  Text('Add New Employee',
+                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    'Create an account for the new employee...',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: EchnoSize.spaceBtwSections),
                   Form(
@@ -119,7 +113,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                             hintText: 'EMP-1234',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                (15.0),
+                                (EchnoSize.borderRadiusLg),
                               ),
                             ),
                           ),
@@ -137,7 +131,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                             hintText: 'Full Name',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                (15.0),
+                                (EchnoSize.borderRadiusLg),
                               ),
                             ),
                           ),
@@ -156,7 +150,8 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                             labelText: 'Email ID',
                             hintText: 'E-Mail',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(
+                                  EchnoSize.borderRadiusLg),
                             ),
                           ),
                           validator: (value) =>
@@ -178,7 +173,8 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                             labelText: 'Mobile Number',
                             hintText: '1234 567 890',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(
+                                  EchnoSize.borderRadiusLg),
                             ),
                             prefixIcon: Container(
                               padding: const EdgeInsets.all(13.5),
@@ -239,7 +235,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                                   child: Text(roleName));
                             }).toList(),
                             decoration: const InputDecoration(
-                              hintText: 'Select Employee Role',
+                              labelText: 'Select Employee Role',
                               border: OutlineInputBorder(),
                             ),
                             validator: (value) =>
@@ -253,8 +249,8 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                               color: echnoGreyColor,
                               width: 1.50,
                             ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15.0)),
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(EchnoSize.borderRadiusLg)),
                           ),
                           child: ListTile(
                             title: Text(
