@@ -1,13 +1,16 @@
+import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/sizes.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/hr_employee_service.dart';
 import 'package:echno_attendance/employee/utilities/employee_role.dart';
+import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
+import 'package:echno_attendance/utilities/styles/padding_style.dart';
 import 'package:flutter/material.dart';
 
 class UpdateEmployeeDetails extends StatefulWidget {
-  const UpdateEmployeeDetails({Key? key}) : super(key: key);
-  static const EdgeInsetsGeometry containerPadding =
-      EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0);
+  const UpdateEmployeeDetails({super.key});
 
   @override
   State<UpdateEmployeeDetails> createState() => _UpdateEmployeeDetailsState();
@@ -83,51 +86,48 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
 
   @override
   Widget build(context) {
+    final isDark = EchnoHelperFunctions.isDarkMode(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: isDarkMode ? echnoLightBlueColor : echnoLogoColor,
-          title: const Text('Update Details'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        appBar: EchnoAppBar(
+          leadingIcon: Icons.arrow_back_ios_new,
+          leadingOnPressed: () {
+            Navigator.pop(context);
+          },
+          title: Text(
+            'Update Details',
+            style: Theme.of(context).textTheme.headlineSmall?.apply(
+                  color: isDark ? EchnoColors.black : EchnoColors.white,
+                ),
           ),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            padding: UpdateEmployeeDetails.containerPadding,
+          child: Padding(
+            padding: CustomPaddingStyle.defaultPaddingWithAppbar,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 15.0),
-                    Text('Update Details',
-                        style: Theme.of(context).textTheme.displaySmall),
-                    Text(
-                      'Update the account details the employee...',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 15.0),
+                Text('Update Details',
+                    style: Theme.of(context).textTheme.displaySmall),
+                Text(
+                  'Update the personal details the employee...',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: EchnoSize.spaceBtwSections),
                 TextField(
                   controller: _employeeIdController,
                   decoration: InputDecoration(
                     labelText: 'Employee ID',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        (15.0),
+                        (EchnoSize.borderRadiusLg),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 15.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -137,9 +137,9 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                     child: const Text('Search'),
                   ),
                 ),
-                const SizedBox(height: 10.0),
-                const Divider(height: 2.0),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
+                const Divider(height: EchnoSize.dividerHeight),
+                const SizedBox(height: EchnoSize.spaceBtwItems),
                 if (_employee != null)
                   Column(
                     children: [
@@ -149,7 +149,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           labelText: 'Name',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
-                              (15.0),
+                              (EchnoSize.borderRadiusLg),
                             ),
                           ),
                         ),
@@ -159,14 +159,14 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           });
                         },
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: EchnoSize.spaceBtwInputFields),
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
                           labelText: 'Email-ID',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
-                              (15.0),
+                              (EchnoSize.borderRadiusLg),
                             ),
                           ),
                         ),
@@ -176,14 +176,14 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           });
                         },
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: EchnoSize.spaceBtwInputFields),
                       TextFormField(
                         controller: _phoneController,
                         decoration: InputDecoration(
                           labelText: 'Mobie Number',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
-                              (15.0),
+                              (EchnoSize.borderRadiusLg),
                             ),
                           ),
                         ),
@@ -193,7 +193,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           });
                         },
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: EchnoSize.spaceBtwInputFields),
                       DropdownButtonFormField<EmployeeRole>(
                         value: _employeeRole,
                         onChanged: (EmployeeRole? newValue) {
@@ -208,11 +208,11 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                               child: Text(roleName));
                         }).toList(),
                         decoration: const InputDecoration(
-                          hintText: 'Select Employee Role',
+                          labelText: 'Select Employee Role',
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: EchnoSize.spaceBtwItems),
                       Container(
                         padding: const EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
@@ -220,8 +220,8 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                             color: echnoGreyColor,
                             width: 1.50,
                           ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(EchnoSize.borderRadiusLg)),
                         ),
                         child: ListTile(
                           title: Text(
@@ -238,7 +238,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: EchnoSize.spaceBtwItems),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -253,10 +253,10 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                             );
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.green.shade600,
-                                  content: const Text(
-                                      'Details updated successfully!'),
+                                const SnackBar(
+                                  backgroundColor: EchnoColors.success,
+                                  content:
+                                      Text('Details updated successfully!'),
                                 ),
                               );
                               // Clear the fields once the details are updated successfully
