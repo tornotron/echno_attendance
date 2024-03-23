@@ -46,8 +46,9 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   Future<String> uploadImage(File imageFile) async {
     try {
       final employeeid = currentEmployee.employeeId;
+      DateTime attdate = DateTime.now();
       Reference firebaseStorageRef =
-          FirebaseStorage.instance.ref().child('attendance/$employeeid');
+          FirebaseStorage.instance.ref().child('attendance/$employeeid/$attdate');
       UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
       LoadingScreen().show(context: context, text: "Uploading Image");
       TaskSnapshot taskSnapshot = await uploadTask
