@@ -8,4 +8,10 @@ class CustomPaddingStyle {
     left: EchnoSize.defaultSpace,
     right: EchnoSize.defaultSpace,
   );
+
+  static const EdgeInsetsGeometry defaultPaddingWithAppbar =
+      EdgeInsets.symmetric(
+    vertical: EchnoSize.lg,
+    horizontal: EchnoSize.lg,
+  );
 }

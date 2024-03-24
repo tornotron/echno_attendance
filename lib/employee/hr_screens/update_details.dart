@@ -17,7 +17,6 @@ class UpdateEmployeeDetails extends StatefulWidget {
 }
 
 class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
-  get isDarkMode => Theme.of(context).brightness == Brightness.dark;
   final TextEditingController _employeeIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
