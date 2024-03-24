@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:echno_attendance/constants/colors_string.dart';
+import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/utilities/loading_screen_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +45,7 @@ class LoadingScreen {
       builder: (context) {
         bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
         return Material(
-          color: echnoLightColor.withOpacity(0.5),
+          color: EchnoColors.black.withOpacity(0.5),
           child: Center(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -56,7 +56,7 @@ class LoadingScreen {
                     minWidth: constraints.minWidth * 0.5,
                   ),
                   decoration: BoxDecoration(
-                    color: isDarkMode ? echnoGreyColor : echnoDarkColor,
+                    color: isDarkMode ? EchnoColors.grey : EchnoColors.white,
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   child: Padding(

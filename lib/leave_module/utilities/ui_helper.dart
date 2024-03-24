@@ -1,5 +1,4 @@
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +44,7 @@ Icon getIcon(LeaveStatus? leaveStatus, bool isCancelled) {
 // Returns the color based on the leave status and isCancelled
 Color getColor(LeaveStatus? leaveStatus, bool isCancelled) {
   if (isCancelled) {
-    return leaveStatusOrangeColor;
+    return EchnoColors.leavePending;
   }
   switch (leaveStatus) {
     case LeaveStatus.approved:

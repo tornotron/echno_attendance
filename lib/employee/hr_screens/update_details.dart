@@ -1,6 +1,5 @@
 import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/sizes.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
 import 'package:echno_attendance/employee/services/hr_employee_service.dart';
@@ -216,7 +215,7 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
                         padding: const EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: echnoGreyColor,
+                            color: EchnoColors.grey,
                             width: 1.50,
                           ),
                           borderRadius: const BorderRadius.all(
