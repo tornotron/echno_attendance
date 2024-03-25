@@ -106,7 +106,6 @@ class _UpdateEmployeeDetailsState extends State<UpdateEmployeeDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 15.0),
                 Text('Update Details',
                     style: Theme.of(context).textTheme.displaySmall),
                 Text(
