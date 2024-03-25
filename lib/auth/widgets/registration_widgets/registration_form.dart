@@ -3,6 +3,8 @@ import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/auth/widgets/password_form_field.dart';
 import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/constants/static_text.dart';
+import 'package:echno_attendance/utilities/helpers/form_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +42,7 @@ class RegistrationForm extends StatelessWidget {
               hintText: 'EMP-000001',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
-                  (15.0),
+                  (EchnoSize.borderRadiusLg),
                 ),
               ),
             ),
@@ -59,19 +61,10 @@ class RegistrationForm extends StatelessWidget {
               labelText: 'Email ID',
               hintText: 'E-Mail',
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(EchnoSize.borderRadiusLg),
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Email cannot be empty";
-              }
-              return RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value)
-                  ? null
-                  : "Please enter a valid email";
-            },
+            validator: (value) => EchnoValidator.validateEmail(value),
           ),
           const SizedBox(height: EchnoSize.spaceBtwInputFields),
 
@@ -80,15 +73,7 @@ class RegistrationForm extends StatelessWidget {
             controller: _passwordController,
             labelText: 'Password',
             hintText: 'Password',
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Password cannot be empty";
-              } else if (value.length < 6) {
-                return "Password must be at least 6 characters";
-              } else {
-                return null;
-              }
-            },
+            validator: (value) => EchnoValidator.validatePassword(value),
           ),
           const SizedBox(height: EchnoSize.spaceBtwItems),
 
@@ -122,12 +107,10 @@ class RegistrationForm extends StatelessWidget {
                 }
               },
               child: const Text(
-                'REGISTER',
+                EchnoText.registerbutton,
               ),
             ),
           ),
-
-          /*---------- Register Screen Form End ----------*/
         ],
       ),
     );

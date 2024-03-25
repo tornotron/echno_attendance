@@ -1,5 +1,6 @@
-import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/constants/image_strings.dart';
 import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/constants/static_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -14,13 +15,14 @@ class RegistrationScreenHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SvgPicture.asset(
-          echnoRegister,
-          height: 140.0,
+          EchnoImages.register,
+          height: EchnoSize.imageHeaderHeight,
         ),
         const SizedBox(height: EchnoSize.spaceBtwItems),
-        Text('Get On Board!', style: Theme.of(context).textTheme.displaySmall),
+        Text(EchnoText.registerTitle,
+            style: Theme.of(context).textTheme.displaySmall),
         Text(
-          'Create an account to start your Journey ...',
+          EchnoText.registerSubtitle,
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],

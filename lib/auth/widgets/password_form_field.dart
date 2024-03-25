@@ -1,3 +1,4 @@
+import 'package:echno_attendance/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class PasswordTextField extends StatefulWidget {
@@ -35,7 +36,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         prefixIcon: const Icon(Icons.fingerprint),
         labelText: widget.labelText,
         hintText: widget.hintText,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(EchnoSize.borderRadiusLg)),
         suffixIcon: IconButton(
           onPressed: () => setState(() => _obscureText = !_obscureText),
           icon: Icon(

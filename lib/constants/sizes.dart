@@ -28,6 +28,8 @@ class EchnoSize {
 
   // Image sizes
   static const double imageThumbSize = 80.0;
+  static const double imageHeaderHeight = 140.0;
+  static const double imageButtonWidth = 20.0;
 
   // Default spacing between sections
   static const double defaultSpace = 24.0;

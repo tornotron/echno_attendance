@@ -2,8 +2,9 @@ import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/constants/image_strings.dart';
 import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/constants/static_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,15 +49,14 @@ class RegistrationScreenFooter extends StatelessWidget {
           width: double.infinity,
           child: OutlinedButton.icon(
               icon: SvgPicture.asset(
-                googleIcon,
-                width: 20.0,
+                EchnoImages.googleIcon,
+                width: EchnoSize.imageButtonWidth,
               ),
               onPressed: () async {
-                await genericAlertDialog(
-                    context, 'Sorry this feature is currently disabled...');
+                await genericAlertDialog(context, EchnoText.featureDisabled);
               },
               label: const Text(
-                'Sign-In with Google',
+                EchnoText.googleButton,
               )),
         ),
         const SizedBox(height: EchnoSize.spaceBtwItems),
@@ -68,7 +68,7 @@ class RegistrationScreenFooter extends StatelessWidget {
           },
           child: Text.rich(
             TextSpan(
-              text: 'Already have an account ? ',
+              text: EchnoText.registerFooter,
               style: Theme.of(context).textTheme.titleMedium,
               children: [
                 TextSpan(
