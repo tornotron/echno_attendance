@@ -3,7 +3,7 @@ import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/constants/image_strings.dart';
 import 'package:echno_attendance/employee/bloc/employee_bloc.dart';
 import 'package:echno_attendance/employee/bloc/employee_event.dart';
 import 'package:echno_attendance/employee/bloc/employee_state.dart';
@@ -79,7 +79,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100.00),
                               child: const Image(
-                                image: AssetImage(profilePlaceholder),
+                                image:
+                                    AssetImage(EchnoImages.profilePlaceholder),
                               ),
                             ),
                           ),
@@ -93,7 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ? Image.network(currentEmployee.photoUrl!,
                                     fit: BoxFit.cover)
                                 : const Image(
-                                    image: AssetImage(profilePlaceholder),
+                                    image: AssetImage(
+                                        EchnoImages.profilePlaceholder),
                                     fit: BoxFit.cover,
                                   ),
                           ),

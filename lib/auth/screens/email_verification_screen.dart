@@ -27,13 +27,9 @@ class EmailVerification extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(50.0),
-                child: SvgPicture.asset(
-                  EchnoImages.emailVerification,
-                  height: EchnoSize.imageHeaderHeightLg,
-                ),
+              SvgPicture.asset(
+                EchnoImages.emailVerification,
+                height: EchnoSize.imageHeaderHeightLg,
               ),
               const SizedBox(height: EchnoSize.spaceBtwSections),
               Text(
