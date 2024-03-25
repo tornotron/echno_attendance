@@ -16,7 +16,7 @@ class RegistrationScreenHeader extends StatelessWidget {
       children: [
         SvgPicture.asset(
           EchnoImages.register,
-          height: EchnoSize.imageHeaderHeight,
+          height: EchnoSize.imageHeaderHeightMd,
         ),
         const SizedBox(height: EchnoSize.spaceBtwItems),
         Text(EchnoText.registerTitle,

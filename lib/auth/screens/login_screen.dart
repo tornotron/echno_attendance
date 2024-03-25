@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Header Section
                   SvgPicture.asset(
                     EchnoImages.signIn,
-                    height: EchnoSize.imageHeaderHeight,
+                    height: EchnoSize.imageHeaderHeightMd,
                   ),
                   const SizedBox(height: EchnoSize.spaceBtwItems),
                   Text(EchnoText.loginTitle,
