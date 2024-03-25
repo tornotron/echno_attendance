@@ -3,8 +3,9 @@ import 'package:echno_attendance/auth/bloc/auth_state.dart';
 import 'package:echno_attendance/auth/utilities/index.dart';
 import 'package:echno_attendance/auth/widgets/login_widgets/login_form.dart';
 import 'package:echno_attendance/auth/widgets/login_widgets/login_screen_footer.dart';
-import 'package:echno_attendance/constants/image_string.dart';
+import 'package:echno_attendance/constants/image_strings.dart';
 import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/constants/static_text.dart';
 import 'package:echno_attendance/utilities/index.dart';
 import 'package:echno_attendance/utilities/styles/padding_style.dart';
 import 'package:flutter/material.dart';
@@ -58,38 +59,36 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         child: Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: CustomPaddingStyle.defaultPaddingWithoutAppbar,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header Section
-                    SvgPicture.asset(
-                      echnoSignIn,
-                      height: 140.0,
-                    ),
-                    const SizedBox(height: EchnoSize.spaceBtwItems),
-                    Text('Welcome Back,',
-                        style: Theme.of(context).textTheme.displaySmall),
-                    Text(
-                      'Login to streamline your workday...',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: EchnoSize.spaceBtwSections),
-                    // Login Form Widget
-                    LoginFormWidget(
-                      loginFormKey: _loginFormKey,
-                      emailController: _emailController,
-                      passwordController: _passwordController,
-                    ),
-                    const SizedBox(height: EchnoSize.spaceBtwSections),
-                    // Footer Section Widget
-                    const LoginScreenFooter(),
-                  ],
-                ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: CustomPaddingStyle.defaultPaddingWithoutAppbar,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header Section
+                  SvgPicture.asset(
+                    EchnoImages.signIn,
+                    height: EchnoSize.imageHeaderHeight,
+                  ),
+                  const SizedBox(height: EchnoSize.spaceBtwItems),
+                  Text(EchnoText.loginTitle,
+                      style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    EchnoText.loginSubtitle,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: EchnoSize.spaceBtwSections),
+                  // Login Form Widget
+                  LoginFormWidget(
+                    loginFormKey: _loginFormKey,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                  ),
+                  const SizedBox(height: EchnoSize.spaceBtwSections),
+                  // Footer Section Widget
+                  const LoginScreenFooter(),
+                ],
               ),
             ),
           ),

@@ -85,29 +85,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           }
         },
         child: Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: CustomPaddingStyle.defaultPaddingWithoutAppbar,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header Section Widget
-                    const RegistrationScreenHeader(),
-                    const SizedBox(height: EchnoSize.spaceBtwSections),
-                    // Form Section Widget
-                    RegistrationForm(
-                      registrationFormKey: _registrationFormKey,
-                      employeeIdController: _employeeIdController,
-                      emailController: _emailController,
-                      passwordController: _passwordController,
-                    ),
-                    const SizedBox(height: EchnoSize.spaceBtwSections),
-                    // Footer Section Widget
-                    RegistrationScreenFooter(isDark: isDark),
-                  ],
-                ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: CustomPaddingStyle.defaultPaddingWithoutAppbar,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header Section Widget
+                  const RegistrationScreenHeader(),
+                  const SizedBox(height: EchnoSize.spaceBtwSections),
+                  // Form Section Widget
+                  RegistrationForm(
+                    registrationFormKey: _registrationFormKey,
+                    employeeIdController: _employeeIdController,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                  ),
+                  const SizedBox(height: EchnoSize.spaceBtwSections),
+                  // Footer Section Widget
+                  RegistrationScreenFooter(isDark: isDark),
+                ],
               ),
             ),
           ),

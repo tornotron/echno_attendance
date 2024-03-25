@@ -1,6 +1,9 @@
 import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
+import 'package:echno_attendance/auth/utilities/alert_dialogue.dart';
 import 'package:echno_attendance/constants/colors.dart';
+import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/constants/static_text.dart';
 import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,31 +20,27 @@ class ForgotPasswordWidget extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () {
-          /*---------- Forgot Password BottomSheet Start ----------*/
-
           showModalBottomSheet(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
+                borderRadius: BorderRadius.circular(EchnoSize.borderRadiusLg)),
             context: context,
             builder: (builderContext) => SingleChildScrollView(
-              child: Container(
+              child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Reset Password!',
+                      EchnoText.resetTitle,
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     Text(
-                      'Choose an option to reset your password...',
+                      EchnoText.resetSubtitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    // Email Password Reset
+                    const SizedBox(height: EchnoSize.spaceBtwSections),
 
+                    // Email Password Reset
                     GestureDetector(
                       onTap: () {
                         context.read<AuthBloc>().add(
@@ -52,7 +51,8 @@ class ForgotPasswordWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius:
+                              BorderRadius.circular(EchnoSize.borderRadiusLg),
                           color: EchnoColors.darkGrey,
                         ),
                         child: Row(
@@ -68,11 +68,11 @@ class ForgotPasswordWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'E-Mail',
+                                  EchnoText.resetViaEmail,
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
                                 Text(
-                                  'Reset via E-Mail Verification',
+                                  EchnoText.resetViaEmailSub,
                                   style: Theme.of(context).textTheme.titleSmall,
                                 )
                               ],
@@ -81,55 +81,47 @@ class ForgotPasswordWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20.0),
-                    // Phone Password Reset
+                    const SizedBox(height: EchnoSize.spaceBtwItems),
 
-                    // GestureDetector(
-                    //   onTap: () {},
-                    //   child: Container(
-                    //     padding: const EdgeInsets.all(
-                    //         20.0),
-                    //     decoration: BoxDecoration(
-                    //       borderRadius:
-                    //           BorderRadius.circular(
-                    //               15.0),
-                    //       color: echnoGreyColor,
-                    //     ),
-                    //     child: Row(
-                    //       children: [
-                    //         const Icon(
-                    //           Icons
-                    //               .mobile_friendly_rounded,
-                    //           size: 60.0,
-                    //         ),
-                    //         const SizedBox(
-                    //           width: 10.0,
-                    //         ),
-                    //         Column(
-                    //           crossAxisAlignment:
-                    //               CrossAxisAlignment
-                    //                   .start,
-                    //           children: [
-                    //             Text(
-                    //               'Phone Number',
-                    //               style: Theme.of(
-                    //                       context)
-                    //                   .textTheme
-                    //                   .titleLarge,
-                    //             ),
-                    //             Text(
-                    //               'Reset via Phone Verification',
-                    //               style: Theme.of(
-                    //                       context)
-                    //                   .textTheme
-                    //                   .titleSmall,
-                    //             )
-                    //           ],
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                    // Phone Password Reset
+                    GestureDetector(
+                      onTap: () async {
+                        await genericAlertDialog(
+                            context, EchnoText.featureDisabled);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(EchnoSize.borderRadiusLg),
+                          color: EchnoColors.darkGrey,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.mobile_friendly_rounded,
+                              size: 60.0,
+                            ),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  EchnoText.resetViaPhone,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                Text(
+                                  EchnoText.resetViaPhoneSub,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -137,7 +129,7 @@ class ForgotPasswordWidget extends StatelessWidget {
           );
         },
         child: Text(
-          'Forgot Password ?',
+          EchnoText.forgotPasswordButton,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontSize: 14.5,
               color: isDark ? EchnoColors.secondary : EchnoColors.primary),
