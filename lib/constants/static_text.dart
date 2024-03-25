@@ -14,6 +14,7 @@ class EchnoText {
   static const String forgotPasswordButton = 'Forgot Password ?';
   static const String loginFooter = 'Don\'t have an account? ';
   static const String phoneButton = 'Sign-In with Phone';
+  static const String emailButton = 'Login with Email';
 
   // Forgot Password Bottom Sheet
   static const String resetTitle = 'Reset Password.!';
