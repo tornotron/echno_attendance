@@ -24,6 +24,13 @@ class EchnoText {
   static const String resetViaPhone = 'Phone Number';
   static const String resetViaPhoneSub = 'Reset via Phone Verification';
 
+  // Email Reset Password Screen
+  static const String emailResetTitle = 'Forgot Password!';
+  static const String emailResetSubtitle =
+      'Please confirm your email address to reset your password...';
+  static const String emailResetButton = 'Reset Password';
+  static const String backToLogin = 'Back to Login';
+
   // Feature Disabled
   static const String featureDisabled =
       'Sorry this feature is currently disabled...';

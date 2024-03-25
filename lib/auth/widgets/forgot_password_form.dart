@@ -2,6 +2,8 @@ import 'package:echno_attendance/auth/bloc/auth_bloc.dart';
 import 'package:echno_attendance/auth/bloc/auth_event.dart';
 import 'package:echno_attendance/constants/colors.dart';
 import 'package:echno_attendance/constants/sizes.dart';
+import 'package:echno_attendance/constants/static_text.dart';
+import 'package:echno_attendance/utilities/helpers/form_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,16 +43,7 @@ class ForgotPasswordForm extends StatelessWidget {
                 ),
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Email cannot be empty";
-              }
-              return RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value)
-                  ? null
-                  : "Please enter a valid email";
-            },
+            validator: (value) => EchnoValidator.validateEmail(value),
           ),
           const SizedBox(height: EchnoSize.spaceBtwItems),
           SizedBox(
@@ -67,7 +60,7 @@ class ForgotPasswordForm extends StatelessWidget {
                 }
               },
               child: const Text(
-                'Reset Password',
+                EchnoText.emailResetButton,
               ),
             ),
           ),
@@ -78,7 +71,7 @@ class ForgotPasswordForm extends StatelessWidget {
                     const AuthLogOutEvent(),
                   );
             },
-            child: Text('Back to Login',
+            child: Text(EchnoText.backToLogin,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color:
                           isDark ? EchnoColors.secondary : EchnoColors.primary,
