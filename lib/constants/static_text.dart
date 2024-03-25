@@ -32,6 +32,12 @@ class EchnoText {
   static const String emailResetButton = 'Reset Password';
   static const String backToLogin = 'Back to Login';
 
+  // Email Verification Screen
+  static const String emailVerificationTitle = 'Email Verification';
+  static const String emailVerificationSubtitle =
+      'Please click on the link you\'ve received via your email...';
+  static const String emailVerificationButton = 'Resent Verification Mail';
+
   // Feature Disabled
   static const String featureDisabled =
       'Sorry this feature is currently disabled...';
