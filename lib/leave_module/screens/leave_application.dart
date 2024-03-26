@@ -9,6 +9,7 @@ import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:echno_attendance/leave_module/widgets/date_selection_field.dart';
 import 'package:echno_attendance/leave_module/widgets/leave_form_field.dart';
 import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
+import 'package:echno_attendance/utilities/popups/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -313,12 +314,11 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                         );
 
                         if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: EchnoColors.success,
-                              content: Text(leaveApplicationSuccessMessage),
-                            ),
-                          );
+                          EchnoSnackBar.successSnackBar(
+                              context: context,
+                              title: 'Success...',
+                              message:
+                                  'Your leave application has been submitted successfully...');
                         }
                         // Clear the fields on successful submission of leave
                         setState(() {

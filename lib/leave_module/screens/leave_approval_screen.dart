@@ -1,6 +1,5 @@
 import 'package:echno_attendance/common_widgets/custom_app_bar.dart';
 import 'package:echno_attendance/constants/colors.dart';
-import 'package:echno_attendance/constants/colors_string.dart';
 import 'package:echno_attendance/constants/leave_module_strings.dart';
 import 'package:echno_attendance/constants/sizes.dart';
 import 'package:echno_attendance/employee/models/employee.dart';
@@ -12,6 +11,7 @@ import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:echno_attendance/leave_module/widgets/leave_form_field.dart';
 import 'package:echno_attendance/utilities/helpers/helper_functions.dart';
+import 'package:echno_attendance/utilities/popups/custom_snackbar.dart';
 import 'package:echno_attendance/utilities/styles/padding_style.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -142,12 +142,11 @@ class _LeaveApprovalScreenState extends State<LeaveApprovalScreen> {
                   leaveId: leave.leaveId,
                   newStatus: selectedLeaveStatus.toString().split('.').last);
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: successGreenColor,
-                    content: Text(leaveApprovalSuccessMessage),
-                  ),
-                );
+                EchnoSnackBar.successSnackBar(
+                    context: context,
+                    title: 'Success...',
+                    message:
+                        'The Leave Status has been updated successfully...');
                 Navigator.pop(context);
               }
             },

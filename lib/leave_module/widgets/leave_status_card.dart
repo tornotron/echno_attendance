@@ -6,6 +6,7 @@ import 'package:echno_attendance/leave_module/utilities/leave_cancel_dialog.dart
 import 'package:echno_attendance/leave_module/utilities/leave_status.dart';
 import 'package:echno_attendance/leave_module/utilities/leave_type.dart';
 import 'package:echno_attendance/leave_module/utilities/ui_helper.dart';
+import 'package:echno_attendance/utilities/popups/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -119,6 +120,13 @@ Widget leaveStatusCard(
                         if (shouldCancel) {
                           await leaveHandler.cancelLeave(
                               leaveId: leave.leaveId);
+                          if (context.mounted) {
+                            EchnoSnackBar.successSnackBar(
+                                context: context,
+                                title: 'Success...',
+                                message:
+                                    'Your Leave has been cancelled successfully...');
+                          }
                         }
                       },
                       child: Container(
